@@ -4,9 +4,9 @@
 - Valentino
 
 ## Enunciado General
-El sistema de Bus Ticket es una plataforma digital que permite a los usuarios comprar, utilizar y gestionar boletos de autobús para el transporte urbano de la ciudad de Rosario. A través de esta aplicación, los pasajeros pueden adquirir sus pasajes de forma anticipada o en el momento, consultar horarios, monitorear el saldo de su cuenta y aprovechar beneficios exclusivos como descuentos, viajes gratuitos acumulables o promociones según la frecuencia de uso.
+El sistema de gestión de boletos para colectivos de larga distancia en Argentina es una plataforma integral diseñada para facilitar la compra, uso y administración de pasajes en rutas interurbanas, como por ejemplo el trayecto Buenos Aires – Rosario. Los usuarios pueden consultar horarios, seleccionar servicios según categorías (común, semicama, cama, ejecutivo), reservar o adquirir sus boletos de manera anticipada y recibir confirmación digital inmediata.
 
-La solución está pensada para simplificar la experiencia del usuario y optimizar el control operativo de la empresa de transporte, ofreciendo también funcionalidades para validar tickets a bordo, gestión de rutas y administración de promociones especiales o abonos para grupos específicos (estudiantes, jubilados, etc.).
+Además, el sistema contempla la aplicación automática de beneficios sociales para públicos específicos: descuentos para jubilados, estudiantes, personas con discapacidad, o beneficiarios de planes sociales, conforme a la normativa vigente. Esta solución busca agilizar la experiencia del pasajero, reducir trámites presenciales y optimizar el control por parte de empresas y organismos regulatorios, asegurando transparencia y equidad en el acceso a servicios de transporte de larga distancia en el país.
 
 
 ## Lista del NOMBRE de los Casos de Uso/User Stories de cada requerimiento funcional para la AP DIRECTA.
