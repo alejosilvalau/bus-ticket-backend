@@ -10,15 +10,19 @@ La solución está pensada para simplificar la experiencia del usuario y optimiz
 
 
 ## Lista del NOMBRE de los Casos de Uso/User Stories de cada requerimiento funcional para la AP DIRECTA.
-
 | Requerimiento | Detalle/Listado de casos incluidos |
 | --- | --- |
-| ABMC | |
+| ABMC |  |
 | CU "Complejo"(nivel resumen) | |
 | Listado complejo | |
 | Nivel de acceso | |
 |Manejo de errores| |
 | publicar el sitio | No obligatorio por falta de host gratuito |
-| | prueba|
 
-
+### Requerimientos extra - AD
+| Requerimiento | Detalle/Listado de casos incluidos |
+| --- | --- |
+| Manejo de archivos |  |
+| Custom exceptions |  |
+| Log de errores |  |
+| Envio de emails |  |
