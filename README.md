@@ -31,7 +31,7 @@ Además, el sistema contempla la aplicación automática de beneficios sociales 
 ### Requerimientos extra - AD
 | Requerimiento | Detalle/Listado de casos incluidos |
 | --- | --- |
-| Manejo de archivos |  | Si se llega, se pueden agregar archivos para cada clase, como por ejemplo una imagen del bus, o un pdf con el boleto. |
+| Manejo de archivos |  Si se llega, se pueden agregar archivos para cada clase, como por ejemplo una imagen del bus, o un pdf con el boleto. |
 | Custom exceptions |  |
 | Log de errores |  |
 | Envio de emails |  |
