@@ -13,7 +13,7 @@ Incorpora perfiles de usuario y administrador, manejo de errores con mensajes cl
 | Requerimiento | Detalle/Listado de casos incluidos |
 | --- | --- |
 | ABMC | User, Driver, Bus, Trip, Ticket, Discount, Destination, Seat |
-| CU "Complejo"(nivel resumen) | Reserva de ticket, que incluye la verificación de la disponibilidad de asiento y de descuentos por beneficios sociales, e impresión de boleto en formato pdf |
+| CU "Complejo"(nivel resumen) | Reserva de ticket (que incluye la verificación de la disponibilidad de asiento y de descuentos por beneficios sociales, e impresión de boleto en formato pdf), Cambio de horario de pasaje y Administración de devolución |
 | Listado complejo | Listado de viajes disponibles, pudiendose filtrar por atributos como el destino, el punto de partida, el precio o fecha y hora de salida  |
 | Nivel de acceso | User y Admin |
 |Manejo de errores| Mensajes en la UI de retorno en API |
