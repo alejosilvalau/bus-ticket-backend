@@ -18,11 +18,3 @@ Además, el sistema contempla la aplicación automática de beneficios sociales 
 | Nivel de acceso | |
 |Manejo de errores| |
 | publicar el sitio | No obligatorio por falta de host gratuito |
-
-### Requerimientos extra - AD
-| Requerimiento | Detalle/Listado de casos incluidos |
-| --- | --- |
-| Manejo de archivos |  |
-| Custom exceptions |  |
-| Log de errores |  |
-| Envio de emails |  |
