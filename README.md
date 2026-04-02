@@ -4,9 +4,9 @@
 - Valentino
 
 ## Enunciado General
-El sistema de gestión de boletos para colectivos de larga distancia en Argentina es una plataforma integral diseñada para facilitar la compra, uso y administración de pasajes en rutas interurbanas, como por ejemplo el trayecto Buenos Aires – Rosario. Los usuarios pueden consultar horarios, seleccionar servicios según categorías (común, semicama, cama, ejecutivo), reservar o adquirir sus boletos de manera anticipada y recibir confirmación digital inmediata.
+El sistema permite gestionar integralmente la compra, reserva y administración de boletos para colectivos de larga distancia en Argentina, incluyendo la consulta de horarios, listado de viajes filtrable por atributos como destino, fecha, hora y precio, manejo de asientos libres, verificación automática de beneficios sociales en la reserva y emisión del pasaje en formato digital o PDF. 
 
-Además, el sistema contempla la aplicación automática de beneficios sociales para públicos específicos: descuentos para jubilados, estudiantes, personas con discapacidad, o beneficiarios de planes sociales, conforme a la normativa vigente. Esta solución busca agilizar la experiencia del pasajero, reducir trámites presenciales y optimizar el control por parte de empresas y organismos regulatorios, asegurando transparencia y equidad en el acceso a servicios de transporte de larga distancia en el país.
+Incorpora perfiles de usuario y administrador, manejo de errores con mensajes claros en la interfaz, y excepciones personalizadas, asegurando eficiencia, accesibilidad y control para pasajeros, empresas y entes reguladores.
 
 
 ## Casos de Uso para la AP DIRECTA
