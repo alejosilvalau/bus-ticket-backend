@@ -15,7 +15,7 @@ Además, el sistema contempla la aplicación automática de beneficios sociales 
 | ABMC | User, Driver, Bus, Trip, Ticket, Discount, Destination, Seat |
 | CU "Complejo"(nivel resumen) | En un sistema de venta de pasajes verificar que el asiento del viaje esté libre, que descuentos y beneficios tiene el pasajero y aplicar los necesarios variando el sub-total. Esto se realiza en la compra del pasaje. Despés en otra instancia, se imprime. Entonces queda: 1. Compra pasaje, 2. Verificacion beneficios, 3. Impresion de boleto () |
 | Listado complejo | Listado de viajes disponibles, pudiendose filtrar por atributos como el destino, el punto de partida, el precio,  |
-| Nivel de acceso | Usuario y administrador |
+| Nivel de acceso | User y Admin |
 |Manejo de errores| Mensajes en la UI de retorno en API |
 | publicar el sitio | No obligatorio, hacerlo con AWS |
 
@@ -26,5 +26,3 @@ Además, el sistema contempla la aplicación automática de beneficios sociales 
 | Custom exceptions | Excepciones personalizadas mediante subclases, validando las reglas de negocio |
 | Log de errores |  |
 | Envio de emails |  |
-
-user, driver, bus, trip, ticket, discount, destination, seat 
