@@ -12,29 +12,19 @@ Además, el sistema contempla la aplicación automática de beneficios sociales 
 ## Casos de Uso para la AP DIRECTA
 | Requerimiento | Detalle/Listado de casos incluidos |
 | --- | --- |
-| ABMC | Todas las clases (A definir clases todavía) |
+| ABMC | User, Driver, Bus, Trip, Ticket, Discount, Destination, Seat |
 | CU "Complejo"(nivel resumen) | En un sistema de venta de pasajes verificar que el asiento del viaje esté libre, que descuentos y beneficios tiene el pasajero y aplicar los necesarios variando el sub-total. Esto se realiza en la compra del pasaje. Despés en otra instancia, se imprime. Entonces queda: 1. Compra pasaje, 2. Verificacion beneficios, 3. Impresion de boleto () |
 | Listado complejo | Listado de viajes disponibles, pudiendose filtrar por atributos como el destino, el punto de partida, el precio,  |
 | Nivel de acceso | Usuario y administrador |
 |Manejo de errores| Mensajes en la UI de retorno en API |
-| publicar el sitio | No obligatorio por falta de host gratuito |
+| publicar el sitio | No obligatorio, hacerlo con AWS |
 
 ### Requerimientos extra - AD
 | Requerimiento | Detalle/Listado de casos incluidos |
 | --- | --- |
-| Manejo de archivos | Imagenes del bus y del usuario |
+| Manejo de archivos | |
 | Custom exceptions | Excepciones personalizadas mediante subclases, validando las reglas de negocio |
 | Log de errores |  |
 | Envio de emails |  |
 
----
-user, driver, bus, route, ticket, discount, sale
-
-
-- Vender el pasaje
-- Consultar horarios
-- Aplicar descuentos sociales
-- Generar confirmación digital
-- Mostrar el código QR, o hacer un pdf con el boleto
-
-- Extra? Manejo de archivos? De imágenes
+user, driver, bus, trip, ticket, discount, destination, seat 
