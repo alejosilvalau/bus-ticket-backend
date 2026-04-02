@@ -1,3 +1,41 @@
+create database if not exists bus_ticket;
+
+use bus_ticket;
+
+create table person (
+  id int primary key auto_increment,
+  first_name varchar(100) not null,
+  last_name varchar(100) not null,
+  email varchar(100) unique null,
+  password varchar(255) null,
+  license_number varchar(50) unique null,
+  phone_number varchar(20) null,
+  role enum ('PASSENGER', 'ADMIN', 'DRIVER') default 'PASSENGER'
+);
+
+create table discount_type (
+  id int primary key auto_increment,
+  name varchar(100) not null,
+  discount_percentage decimal(4, 2) not null,
+);
+
+create table discount (
+  id int primary key auto_increment,
+  start_date datetime not null,
+  end_date datetime not null,
+  id_discount_type int not null,
+  foreign key (id_discount_type) references discount_type (id)
+);
+
+create table discount_user (
+  id int primary key auto_increment,
+  id_discount int not null,
+  id_user int not null,
+  foreign key (id_discount) references discount (id),
+  foreign key (id_user) references person (id)
+);
+
+-- SKETCH BELOW
 -- 1. Users (Passengers and Admins)
 CREATE TABLE users (
   id INT PRIMARY KEY AUTO_INCREMENT,
