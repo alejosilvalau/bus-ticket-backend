@@ -17,20 +17,20 @@ create table person (
 create table location (
   id int auto_increment primary key,
   city_name varchar(100) not null,
-  state varchar(100) not null,
+  state varchar(100) not null
 );
 
 create table bus (
   id int auto_increment primary key,
   plate_number varchar(20) not null unique,
   total_capacity int not null default 0 check (total_capacity >= 0),
-  is_active boolean default true,
+  is_active boolean default true
 );
 
 create table seat_type (
   id int auto_increment primary key,
   name varchar(100) not null unique,
-  upcharge decimal(10, 2) not null default 0.00 check (upcharge >= 0),
+  upcharge decimal(10, 2) not null default 0.00 check (upcharge >= 0)
 );
 
 create table trip (
@@ -47,9 +47,8 @@ create table trip (
   constraint fk_trip_location_origin foreign key (id_location_origin) references location (id) on delete restrict on update cascade,
   constraint fk_trip_location_destination foreign key (id_location_destination) references location (id) on delete restrict on update cascade,
   constraint chk_trip_date check (arrival_date > departure_date),
-  constraint chk_trip_location check (id_location_origin != id_location_destination),
   unique key uk_trip_bus_departure (id_bus, departure_date),
-  unique key uk_trip_driver_departure (id_driver, departure_date),
+  unique key uk_trip_driver_departure (id_driver, departure_date)
 );
 
 create table seat (
@@ -58,27 +57,22 @@ create table seat (
   id_seat_type int not null,
   letter char(1) not null,
   number int not null,
-  foreign key (id_bus) references bus (id) on delete cascade on update cascade,
-  foreign key (id_seat_type) references seat_type (id) on delete set null on update cascade,
-  unique key uk_bus_seat (bus_id, letter, number)
+  foreign key (id_bus) references bus (id) on delete restrict on update cascade,
+  foreign key (id_seat_type) references seat_type (id) on delete restrict on update cascade,
+  unique key uk_bus_seat (id_bus, letter, number)
 );
 
--- Ticket table
 create table ticket (
   id int auto_increment primary key,
-  user_id int not null,
-  trip_id int not null,
-  seat_id int not null,
-  final_price decimal(10, 2) not null check (final_price > 0),
-  booking_time timestamp default current_timestamp,
+  id_user int not null,
+  id_trip int not null,
+  id_seat int not null,
+  final_price decimal(10, 2) not null default 0.00 check (final_price > 0),
+  booking_time datetime default current_timestamp,
   status enum ('active', 'cancelled', 'used') default 'active',
-  cancelled_at timestamp null,
-  created_at timestamp default current_timestamp,
-  updated_at timestamp default current_timestamp on update current_timestamp,
-  foreign key (user_id) references person (id) on delete restrict on update cascade,
-  foreign key (trip_id) references trip (id) on delete restrict on update cascade,
-  foreign key (seat_id) references seat (id) on delete restrict on update cascade,
-  unique key uk_trip_seat (trip_id, seat_id)
+  token varchar(64) not null unique,
+  constraint fk_ticket_user foreign key (id_user) references person (id) on delete restrict on update cascade,
+  constraint fk_ticket_trip foreign key (id_trip) references trip (id) on delete restrict on update cascade,
+  constraint fk_ticket_seat foreign key (id_seat) references seat (id) on delete restrict on update cascade,
+  unique key uk_trip_seat (id_trip, id_seat)
 );
-
--- token varchar (64) not null unique
