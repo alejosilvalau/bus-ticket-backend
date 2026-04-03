@@ -23,14 +23,14 @@ create table location (
 create table bus (
   id int auto_increment primary key,
   plate_number varchar(20) not null unique,
-  total_capacity int not null default 0,
+  total_capacity int not null default 0 check (total_capacity >= 0),
   is_active boolean default true,
 );
 
 create table seat_type (
   id int auto_increment primary key,
   name varchar(100) not null unique,
-  upcharge decimal(10, 2) not null default 0.00,
+  upcharge decimal(10, 2) not null default 0.00 check (upcharge >= 0),
 );
 
 create table trip (
@@ -40,25 +40,26 @@ create table trip (
   id_location_origin int not null,
   id_location_destination int not null,
   departure_date datetime not null,
-  arrival_date datetytime not null,
-  base_price decimal(10, 2) not null default 0.00,
+  arrival_date datetime not null,
+  base_price decimal(10, 2) not null default 0.00 check (base_price >= 0),
   constraint fk_trip_bus FOREIGN key (id_bus) references bus (id) on delete restrict on update cascade,
   constraint fk_trip_person foreign key (id_driver) references person (id) on delete restrict on update cascade,
   constraint fk_trip_location_origin foreign key (id_location_origin) references location (id) on delete restrict on update cascade,
   constraint fk_trip_location_destination foreign key (id_location_destination) references location (id) on delete restrict on update cascade,
+  constraint chk_trip_date check (arrival_date > departure_date),
+  constraint chk_trip_location check (id_location_origin != id_location_destination),
   unique key uk_trip_bus_departure (id_bus, departure_date),
-  unique key uk_trip_driver_departure (id_driver, departure_date)
+  unique key uk_trip_driver_departure (id_driver, departure_date),
 );
 
 create table seat (
   id int auto_increment primary key,
-  bus_id int not null,
+  id_bus int not null,
+  id_seat_type int not null,
   letter char(1) not null,
-  number int not null check (number > 0),
-  seat_type_id int,
-  created_at timestamp default current_timestamp,
-  foreign key (bus_id) references bus (id) on delete cascade on update cascade,
-  foreign key (seat_type_id) references seat_type (id) on delete set null on update cascade,
+  number int not null,
+  foreign key (id_bus) references bus (id) on delete cascade on update cascade,
+  foreign key (id_seat_type) references seat_type (id) on delete set null on update cascade,
   unique key uk_bus_seat (bus_id, letter, number)
 );
 
