@@ -11,11 +11,8 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/public/**", "/", "/index", "/css/**", "/js/**").permitAll()
-            .anyRequest().authenticated())
-        .formLogin(form -> form
-            .loginPage("/login").permitAll())
-        .logout(logout -> logout.permitAll());
+            .anyRequest().permitAll())
+        .csrf(csrf -> csrf.disable());
     return http.build();
   }
 }
