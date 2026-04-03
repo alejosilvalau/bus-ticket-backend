@@ -40,15 +40,16 @@ create table trip (
   id_location_origin int not null,
   id_location_destination int not null,
   departure_date datetime not null,
-  arrival_date datetime not null,
+  arrival_date datetytime not null,
   base_price decimal(10, 2) not null default 0.00,
-  foreign key (bus_id) references bus (id) on delete restrict on update cascade,
-  foreign key (driver_id) references person (id) on delete restrict on update cascade,
-  foreign key (origin_location_id) references location (id) on delete restrict on update cascade,
-  foreign key (destination_location_id) references location (id) on delete restrict on update cascade,
+  constraint fk_trip_bus FOREIGN key (id_bus) references bus (id) on delete restrict on update cascade,
+  constraint fk_trip_person foreign key (id_driver) references person (id) on delete restrict on update cascade,
+  constraint fk_trip_location_origin foreign key (id_location_origin) references location (id) on delete restrict on update cascade,
+  constraint fk_trip_location_destination foreign key (id_location_destination) references location (id) on delete restrict on update cascade,
+  unique key uk_trip_bus_departure (id_bus, departure_date),
+  unique key uk_trip_driver_departure (id_driver, departure_date)
 );
 
--- Seat table
 create table seat (
   id int auto_increment primary key,
   bus_id int not null,
