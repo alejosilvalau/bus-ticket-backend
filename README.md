@@ -1,7 +1,7 @@
 # Bus Ticket
 ## Integrantes
 - 47868, Silva Alejo Lautaro
-- 52803, Libardi, Valentino Bruno
+- 52803, Libardi Valentino Bruno
 
 ## Enunciado General
 El sistema permite gestionar integralmente la compra, reserva y administración de boletos para colectivos de larga distancia en Argentina, incluyendo la consulta de horarios, listado de viajes (filtrable por atributos como destino, punto de partida, precio, tipo de asiento, fecha y hora de salida), manejo de asientos libres, y emisión del pasaje en formato digital o PDF. 
