@@ -3,117 +3,138 @@ create database if not exists bus_ticket;
 use bus_ticket;
 
 create table person (
-  id int primary key auto_increment,
+  id int auto_increment primary key,
   first_name varchar(100) not null,
   last_name varchar(100) not null,
-  email varchar(100) unique null,
-  password varchar(255) null,
-  license_number varchar(50) unique null,
+  email varchar(100) null unique,
+  password varchar(128) null,
+  is_active boolean not null default true,
+  license_number varchar(50) null unique,
   phone_number varchar(20) null,
-  role enum ('PASSENGER', 'ADMIN', 'DRIVER') default 'PASSENGER'
+  role enum ('user', 'admin', 'driver') not null default 'user',
 );
 
-create table discount_type (
-  id int primary key auto_increment,
-  name varchar(100) not null,
-  discount_percentage decimal(4, 2) not null,
+-- Location table
+create table location (
+  id int auto_increment primary key,
+  city_name varchar(100) not null,
+  state varchar(100) not null,
+  created_at timestamp default current_timestamp,
+  unique key uk_location (city_name, state)
 );
 
-create table discount (
-  id int primary key auto_increment,
-  start_date datetime not null,
-  end_date datetime not null,
-  id_discount_type int not null,
-  foreign key (id_discount_type) references discount_type (id)
+-- Bus table
+create table bus (
+  id int auto_increment primary key,
+  plate_number varchar(20) not null unique,
+  total_capacity int not null check (total_capacity > 0),
+  is_active boolean default true,
+  created_at timestamp default current_timestamp,
+  updated_at timestamp default current_timestamp on update current_timestamp
 );
 
-create table discount_user (
-  id int primary key auto_increment,
-  id_discount int not null,
-  id_user int not null,
-  foreign key (id_discount) references discount (id),
-  foreign key (id_user) references person (id)
+-- Seat type table
+create table seat_type (
+  id int auto_increment primary key,
+  name varchar(50) not null unique,
+  upcharge decimal(10, 2) not null default 0.00 check (upcharge >= 0),
+  created_at timestamp default current_timestamp
 );
 
--- SKETCH BELOW
--- 1. Users (Passengers and Admins)
-CREATE TABLE users (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  full_name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) UNIQUE NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  role ENUM ('PASSENGER', 'ADMIN') DEFAULT 'PASSENGER'
+-- Trip table
+create table trip (
+  id int auto_increment primary key,
+  bus_id int not null,
+  driver_id int not null,
+  origin_location_id int not null,
+  destination_location_id int not null,
+  departure_date datetime not null,
+  arrival_date datetime not null,
+  base_price decimal(10, 2) not null check (base_price > 0),
+  status enum (
+    'scheduled',
+    'in_progress',
+    'completed',
+    'cancelled'
+  ) default 'scheduled',
+  created_at timestamp default current_timestamp,
+  updated_at timestamp default current_timestamp on update current_timestamp,
+  foreign key (bus_id) references bus (id) on delete restrict on update cascade,
+  foreign key (driver_id) references driver (id) on delete restrict on update cascade,
+  foreign key (origin_location_id) references location (id) on delete restrict on update cascade,
+  foreign key (destination_location_id) references location (id) on delete restrict on update cascade,
+  check (departure_date < arrival_date),
+  check (origin_location_id != destination_location_id)
 );
 
--- 2. Drivers
-CREATE TABLE drivers (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(100) NOT NULL,
-  license_number VARCHAR(50) UNIQUE NOT NULL,
-  phone_number VARCHAR(20)
+-- Seat table
+create table seat (
+  id int auto_increment primary key,
+  bus_id int not null,
+  letter char(1) not null,
+  number int not null check (number > 0),
+  seat_type_id int,
+  created_at timestamp default current_timestamp,
+  foreign key (bus_id) references bus (id) on delete cascade on update cascade,
+  foreign key (seat_type_id) references seat_type (id) on delete set null on update cascade,
+  unique key uk_bus_seat (bus_id, letter, number)
 );
 
--- 3. Buses
-CREATE TABLE buses (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  plate_number VARCHAR(20) UNIQUE NOT NULL,
-  bus_type VARCHAR(50), -- e.g., 'Sleeper', 'AC', 'Standard'
-  total_capacity INT NOT NULL
+-- Ticket table
+create table ticket (
+  id int auto_increment primary key,
+  user_id int not null,
+  trip_id int not null,
+  seat_id int not null,
+  final_price decimal(10, 2) not null check (final_price > 0),
+  booking_time timestamp default current_timestamp,
+  status enum ('active', 'cancelled', 'used') default 'active',
+  cancelled_at timestamp null,
+  created_at timestamp default current_timestamp,
+  updated_at timestamp default current_timestamp on update current_timestamp,
+  foreign key (user_id) references user (id) on delete restrict on update cascade,
+  foreign key (trip_id) references trip (id) on delete restrict on update cascade,
+  foreign key (seat_id) references seat (id) on delete restrict on update cascade,
+  unique key uk_trip_seat (trip_id, seat_id)
 );
 
--- 4. Destinations (Cities/Stations)
-CREATE TABLE destinations (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  city_name VARCHAR(100) NOT NULL,
-  state VARCHAR(100)
-);
+-- Create indexes for performance optimization
+create index idx_user_email on user (email);
 
--- 5. Discounts
-CREATE TABLE discounts (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  promo_code VARCHAR(20) UNIQUE NOT NULL,
-  discount_percentage DECIMAL(5, 2), -- e.g., 10.00 for 10%
-  valid_until DATETIME
-);
+create index idx_user_is_active on user (is_active);
 
--- 6. Seats
-CREATE TABLE seats (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  bus_id INT NOT NULL,
-  seat_number VARCHAR(10) NOT NULL, -- e.g., 'A1', '12'
-  FOREIGN KEY (bus_id) REFERENCES buses (id) ON DELETE CASCADE
-);
+create index idx_driver_license on driver (license_number);
 
--- 7. Trips
-CREATE TABLE trips (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  bus_id INT NOT NULL,
-  driver_id INT NOT NULL,
-  origin_id INT NOT NULL,
-  destination_id INT NOT NULL,
-  departure_time DATETIME NOT NULL,
-  arrival_time DATETIME NOT NULL,
-  base_price DECIMAL(10, 2) NOT NULL,
-  FOREIGN KEY (bus_id) REFERENCES buses (id),
-  FOREIGN KEY (driver_id) REFERENCES drivers (id),
-  FOREIGN KEY (origin_id) REFERENCES destinations (id),
-  FOREIGN KEY (destination_id) REFERENCES destinations (id)
-);
+create index idx_driver_is_active on driver (is_active);
 
--- 8. Tickets
-CREATE TABLE tickets (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  user_id INT NOT NULL,
-  trip_id INT NOT NULL,
-  seat_id INT NOT NULL,
-  discount_id INT, -- Optional
-  final_price DECIMAL(10, 2) NOT NULL,
-  booking_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  status ENUM ('CONFIRMED', 'CANCELLED', 'PENDING') DEFAULT 'CONFIRMED',
-  FOREIGN KEY (user_id) REFERENCES users (id),
-  FOREIGN KEY (trip_id) REFERENCES trips (id),
-  FOREIGN KEY (seat_id) REFERENCES seats (id),
-  FOREIGN KEY (discount_id) REFERENCES discounts (id),
-  -- CRITICAL: Prevent the same seat being booked twice for the same trip
-  UNIQUE KEY unique_seat_per_trip (trip_id, seat_id)
-);
+create index idx_bus_plate on bus (plate_number);
+
+create index idx_bus_is_active on bus (is_active);
+
+create index idx_location_city_state on location (city_name, state);
+
+create index idx_trip_bus on trip (bus_id);
+
+create index idx_trip_driver on trip (driver_id);
+
+create index idx_trip_origin_location on trip (origin_location_id);
+
+create index idx_trip_destination_location on trip (destination_location_id);
+
+create index idx_trip_departure on trip (departure_date);
+
+create index idx_trip_status on trip (status);
+
+create index idx_seat_bus on seat (bus_id);
+
+create index idx_seat_type on seat (seat_type_id);
+
+create index idx_ticket_user on ticket (user_id);
+
+create index idx_ticket_trip on ticket (trip_id);
+
+create index idx_ticket_seat on ticket (seat_id);
+
+create index idx_ticket_status on ticket (status);
+
+create index idx_ticket_booking_time on ticket (booking_time);
