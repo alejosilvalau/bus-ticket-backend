@@ -9,7 +9,7 @@ El sistema permite gestionar integralmente la compra, reserva y administración 
 Incorpora perfiles de usuario y administrador, manejo de errores con mensajes claros en la interfaz, y excepciones personalizadas, asegurando eficiencia, accesibilidad y control para pasajeros, empresas y entes reguladores.
 
 ## Diagrama de Clases
-![Diagrama de Clases](./diagrama-de-clases-v2.png)
+![Diagrama de Clases](./diagrama-de-clases-v3.png)
 
 ## Casos de Uso para la AP DIRECTA
 | Requerimiento | Detalle/Listado de casos incluidos |

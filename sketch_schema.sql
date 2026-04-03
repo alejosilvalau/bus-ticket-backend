@@ -78,3 +78,5 @@ create table ticket (
   foreign key (seat_id) references seat (id) on delete restrict on update cascade,
   unique key uk_trip_seat (trip_id, seat_id)
 );
+
+-- token varchar (64) not null unique
