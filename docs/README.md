@@ -1,5 +1,5 @@
 # Bus Ticket
-[Tabla de Proyecto en Jira](https://alejosilvalau.atlassian.net/jira/software/projects/KAN/boards/1?atlOrigin=eyJpIjoiZjY1NmQ0ZDM4NDNjNDM4MmExNDllZmNhM2I5N2UzODAiLCJwIjoiaiJ9)
+[Tabla ToDo en Jira](https://alejosilvalau.atlassian.net/jira/software/projects/KAN/boards/1?atlOrigin=eyJpIjoiZjY1NmQ0ZDM4NDNjNDM4MmExNDllZmNhM2I5N2UzODAiLCJwIjoiaiJ9)
 - Se necesita una cuenta de Atlassian para ver el proyecto
 
 ## Integrantes
