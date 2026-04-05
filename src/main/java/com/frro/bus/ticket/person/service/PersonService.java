@@ -4,20 +4,19 @@ import com.frro.bus.ticket.person.dto.PersonResponseInterface;
 import com.frro.bus.ticket.person.mapper.PersonMapper;
 import com.frro.bus.ticket.person.model.Person;
 import com.frro.bus.ticket.person.repository.PersonRepository;
+
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class PersonService implements PersonServiceInterface {
 
   private final PersonRepository personRepository;
   private final PersonMapper personMapper;
-
-  public PersonService(PersonRepository personRepository, PersonMapper personMapper) {
-    this.personRepository = personRepository;
-    this.personMapper = personMapper;
-  }
 
   @Override
   public List<PersonResponseInterface> findAll() {
@@ -85,4 +84,3 @@ public class PersonService implements PersonServiceInterface {
     return personRepository.existsById(id);
   }
 }
-

@@ -10,17 +10,11 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserServiceInterface {
 
   private final UserRepository userRepository;
   private final UserMapper userMapper;
-
-  public UserService(
-      UserRepository userRepository,
-      UserMapper userMapper) {
-    this.userRepository = userRepository;
-    this.userMapper = userMapper;
-  }
 
   @Override
   public List<PersonResponseInterface> findAll() {
