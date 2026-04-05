@@ -8,8 +8,5 @@ import org.mapstruct.Mapper;
 public interface UserMapper {
 
   UserResponse toUserResponse(User user);
-
-  User toUser(UserResponse userResponse);
-
 }
 

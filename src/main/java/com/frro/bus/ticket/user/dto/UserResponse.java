@@ -7,6 +7,6 @@ public record UserResponse(
     Boolean isActive,
     String email,
     Boolean isAdmin
-) {
+) implements UserResponseInterface {
 }
 
