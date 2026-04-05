@@ -2,6 +2,11 @@ create database if not exists bus_ticket;
 
 use bus_ticket;
 
+create table user_role (
+  id int auto_increment primary key,
+  role_name varchar(100) not null unique
+);
+
 create table person (
   id int auto_increment primary key,
   first_name varchar(100) not null,
@@ -11,7 +16,8 @@ create table person (
   is_active boolean not null default true,
   license_number varchar(50) null unique,
   phone_number varchar(20) null,
-  role enum ('user', 'admin', 'driver') not null default 'user'
+  id_role int not null,
+  constraint fk_person_user_role foreign key (id_role) references user_role (id) on delete restrict on update cascade
 );
 
 create table location (
