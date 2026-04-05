@@ -75,7 +75,7 @@ create table ticket (
   id_seat int not null,
   final_price decimal(10, 2) not null default 0.00 check (final_price > 0),
   booking_time datetime default current_timestamp,
-  status enum ('active', 'cancelled', 'used') default 'active',
+  is_cancelled boolean default false not null,
   token varchar(64) not null unique,
   constraint fk_ticket_user foreign key (id_user) references person (id) on delete restrict on update cascade,
   constraint fk_ticket_trip foreign key (id_trip) references trip (id) on delete restrict on update cascade,
