@@ -23,45 +23,24 @@ public class PersonController {
     this.personService = personService;
   }
 
-  /**
-   * Get all persons
-   *
-   * @return List of all persons
-   */
   @GetMapping
   public ResponseEntity<List<PersonResponseInterface>> findAll() {
     List<PersonResponseInterface> persons = personService.findAll();
     return ResponseEntity.ok(persons);
   }
 
-  /**
-   * Get all active persons
-   *
-   * @return List of active persons
-   */
   @GetMapping("/active")
   public ResponseEntity<List<PersonResponseInterface>> findAllActive() {
     List<PersonResponseInterface> persons = personService.findAllActive();
     return ResponseEntity.ok(persons);
   }
 
-  /**
-   * Get all inactive persons
-   *
-   * @return List of inactive persons
-   */
   @GetMapping("/inactive")
   public ResponseEntity<List<PersonResponseInterface>> findAllInactive() {
     List<PersonResponseInterface> persons = personService.findAllInactive();
     return ResponseEntity.ok(persons);
   }
 
-  /**
-   * Get a person by ID
-   *
-   * @param id Person ID
-   * @return Person if found, 404 otherwise
-   */
   @GetMapping("/{id}")
   public ResponseEntity<PersonResponseInterface> findById(@PathVariable String id) {
     Optional<PersonResponseInterface> person = personService.findById(id);
@@ -69,12 +48,6 @@ public class PersonController {
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
-  /**
-   * Get a person by ID if active
-   *
-   * @param id Person ID
-   * @return Person if found and active, 404 otherwise
-   */
   @GetMapping("/{id}/active")
   public ResponseEntity<PersonResponseInterface> findByIdIfActive(@PathVariable String id) {
     Optional<PersonResponseInterface> person = personService.findByIdIfActive(id);
@@ -82,12 +55,6 @@ public class PersonController {
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
-  /**
-   * Activate a person
-   *
-   * @param id Person ID
-   * @return Updated person if found, 404 otherwise
-   */
   @PostMapping("/{id}/activate")
   public ResponseEntity<PersonResponseInterface> activate(@PathVariable String id) {
     try {
@@ -98,12 +65,6 @@ public class PersonController {
     }
   }
 
-  /**
-   * Deactivate a person
-   *
-   * @param id Person ID
-   * @return Updated person if found, 404 otherwise
-   */
   @PostMapping("/{id}/deactivate")
   public ResponseEntity<PersonResponseInterface> deactivate(@PathVariable String id) {
     try {
@@ -114,27 +75,15 @@ public class PersonController {
     }
   }
 
-  /**
-   * Get count of active persons
-   *
-   * @return Number of active persons
-   */
   @GetMapping("/count/active")
   public ResponseEntity<Long> countActive() {
     Long count = personService.countActive();
     return ResponseEntity.ok(count);
   }
 
-  /**
-   * Check if a person exists
-   *
-   * @param id Person ID
-   * @return Boolean indicating if person exists
-   */
   @GetMapping("/{id}/exists")
   public ResponseEntity<Boolean> existsById(@PathVariable String id) {
     Boolean exists = personService.existsById(id);
     return ResponseEntity.ok(exists);
   }
 }
-
