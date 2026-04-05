@@ -5,6 +5,9 @@ import com.frro.bus.ticket.user.dto.UserResponseInterface;
 import com.frro.bus.ticket.user.mapper.UserMapper;
 import com.frro.bus.ticket.user.model.User;
 import com.frro.bus.ticket.user.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -142,4 +145,3 @@ public class UserService implements UserServiceInterface {
     return userRepository.countByIsAdminTrue();
   }
 }
-
