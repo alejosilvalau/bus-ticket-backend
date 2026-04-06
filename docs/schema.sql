@@ -10,7 +10,7 @@ create table person (
   email varchar(100) null unique,
   password varchar(128) null,
   is_admin boolean null default false,
-  id_user boolean null default true,
+  is_user boolean null default true,
   license_number varchar(50) null unique,
   phone_number varchar(20) null
 );
