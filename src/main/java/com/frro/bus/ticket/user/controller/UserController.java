@@ -23,33 +23,14 @@ public class UserController {
   }
 
   @GetMapping
-  public ResponseEntity<List<?>> findAll() {
-    List<?> users = userService.findAll();
-    return ResponseEntity.ok(users);
-  }
-
-  @GetMapping("/active")
-  public ResponseEntity<List<?>> findAllActive() {
-    List<?> users = userService.findAllActive();
-    return ResponseEntity.ok(users);
-  }
-
-  @GetMapping("/inactive")
-  public ResponseEntity<List<?>> findAllInactive() {
-    List<?> users = userService.findAllInactive();
+  public ResponseEntity<List<UserResponseInterface>> findAll() {
+    List<UserResponseInterface> users = userService.findAll();
     return ResponseEntity.ok(users);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<?> findById(@PathVariable String id) {
-    Optional<?> user = userService.findById(id);
-    return user.map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.notFound().build());
-  }
-
-  @GetMapping("/{id}/active")
-  public ResponseEntity<?> findByIdIfActive(@PathVariable String id) {
-    Optional<?> user = userService.findByIdIfActive(id);
+  public ResponseEntity<UserResponseInterface> findById(@PathVariable int id) {
+    Optional<UserResponseInterface> user = userService.findById(id);
     return user.map(ResponseEntity::ok)
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
@@ -73,59 +54,9 @@ public class UserController {
     return ResponseEntity.ok(nonAdmins);
   }
 
-  @PostMapping("/{id}/activate")
-  public ResponseEntity<?> activate(@PathVariable String id) {
-    try {
-      return ResponseEntity.ok(userService.activate(id));
-    } catch (RuntimeException e) {
-      return ResponseEntity.notFound().build();
-    }
-  }
-
-  @PostMapping("/{id}/deactivate")
-  public ResponseEntity<?> deactivate(@PathVariable String id) {
-    try {
-      return ResponseEntity.ok(userService.deactivate(id));
-    } catch (RuntimeException e) {
-      return ResponseEntity.notFound().build();
-    }
-  }
-
-  @PostMapping("/{id}/grant-admin")
-  public ResponseEntity<UserResponseInterface> grantAdmin(@PathVariable String id) {
-    try {
-      UserResponseInterface user = userService.grantAdmin(id);
-      return ResponseEntity.ok(user);
-    } catch (RuntimeException e) {
-      return ResponseEntity.notFound().build();
-    }
-  }
-
-  @PostMapping("/{id}/revoke-admin")
-  public ResponseEntity<UserResponseInterface> revokeAdmin(@PathVariable String id) {
-    try {
-      UserResponseInterface user = userService.revokeAdmin(id);
-      return ResponseEntity.ok(user);
-    } catch (RuntimeException e) {
-      return ResponseEntity.notFound().build();
-    }
-  }
-
-  @GetMapping("/count/active")
-  public ResponseEntity<Long> countActive() {
-    Long count = userService.countActive();
-    return ResponseEntity.ok(count);
-  }
-
   @GetMapping("/count/admins")
   public ResponseEntity<Long> countAdmins() {
     Long count = userService.countAdmins();
     return ResponseEntity.ok(count);
-  }
-
-  @GetMapping("/{id}/exists")
-  public ResponseEntity<Boolean> existsById(@PathVariable String id) {
-    Boolean exists = userService.existsById(id);
-    return ResponseEntity.ok(exists);
   }
 }

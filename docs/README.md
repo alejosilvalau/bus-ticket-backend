@@ -12,12 +12,12 @@ El sistema permite gestionar integralmente la compra, reserva y administración 
 Incorpora perfiles de usuario y administrador, manejo de errores con mensajes claros en la interfaz, y excepciones personalizadas, asegurando eficiencia, accesibilidad y control para pasajeros, empresas y entes reguladores.
 
 ## Diagrama de Clases
-![Diagrama de Clases](./diagrama-de-clases-v6.png)
+![Diagrama de Clases](./diagrama-de-clases-v5.png)
 
 ## Casos de Uso para la AP DIRECTA
 | Requerimiento | Detalle/Listado de casos incluidos |
 | --- | --- |
-| ABMC | User, Driver, Bus, Trip, Ticket, Destination, Seat, Seat Type |
+| ABMC | User, Driver, Person Role, Bus, Trip, Ticket, Destination, Seat, Seat Type |
 | CU "Complejo"(nivel resumen) | Reserva de ticket, Administración de devolución, Cambio de día y horario de pasaje |
 | Listado complejo | Listado de viajes disponibles, pudiendose filtrar por atributos como destino, punto de partida, precio, tipo de asiento, fecha y hora de salida  |
 | Nivel de acceso | User y Admin |

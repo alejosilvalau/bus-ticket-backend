@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserServiceInterface {
+  List<UserResponseInterface> findAll();
+
+  Optional<UserResponseInterface> findById(int id);
 
   Optional<UserResponseInterface> findByEmail(String email);
 

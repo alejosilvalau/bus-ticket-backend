@@ -19,21 +19,23 @@ public class UserService implements UserServiceInterface {
   private final UserRepository userRepository;
   private final UserMapper userMapper;
 
-  public List<PersonResponseInterface> findAll() {
+  @Override
+  public List<UserResponseInterface> findAll() {
     return userRepository.findAll().stream()
         .filter(user -> user instanceof User)
         .map(user -> (User) user)
         .map(userMapper::toUserResponse)
-        .map(u -> (PersonResponseInterface) u)
+        .map(u -> (UserResponseInterface) u)
         .toList();
   }
 
-  public Optional<PersonResponseInterface> findById(int id) {
+  @Override
+  public Optional<UserResponseInterface> findById(int id) {
     return userRepository.findById(id)
         .filter(user -> user instanceof User)
         .map(user -> (User) user)
         .map(userMapper::toUserResponse)
-        .map(u -> (PersonResponseInterface) u);
+        .map(u -> (UserResponseInterface) u);
   }
 
   @Override
