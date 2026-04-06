@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@DiscriminatorColumn(name = "is_user", discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Person {
 
   @Id
