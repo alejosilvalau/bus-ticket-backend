@@ -1,11 +1,10 @@
 package com.frro.bus.ticket.user.service;
 
-import com.frro.bus.ticket.person.service.PersonServiceInterface;
 import com.frro.bus.ticket.user.dto.UserResponseInterface;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserServiceInterface extends PersonServiceInterface {
+public interface UserServiceInterface {
 
   Optional<UserResponseInterface> findByEmail(String email);
 

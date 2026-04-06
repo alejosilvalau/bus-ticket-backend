@@ -19,7 +19,6 @@ public class UserService implements UserServiceInterface {
   private final UserRepository userRepository;
   private final UserMapper userMapper;
 
-  @Override
   public List<PersonResponseInterface> findAll() {
     return userRepository.findAll().stream()
         .filter(user -> user instanceof User)
@@ -29,72 +28,12 @@ public class UserService implements UserServiceInterface {
         .toList();
   }
 
-  @Override
-  public List<PersonResponseInterface> findAllActive() {
-    return userRepository.findAllByIsActiveTrue().stream()
-        .filter(user -> user instanceof User)
-        .map(user -> (User) user)
-        .map(userMapper::toUserResponse)
-        .map(u -> (PersonResponseInterface) u)
-        .toList();
-  }
-
-  @Override
-  public List<PersonResponseInterface> findAllInactive() {
-    return userRepository.findAllByIsActiveFalse().stream()
-        .filter(user -> user instanceof User)
-        .map(user -> (User) user)
-        .map(userMapper::toUserResponse)
-        .map(u -> (PersonResponseInterface) u)
-        .toList();
-  }
-
-  @Override
   public Optional<PersonResponseInterface> findById(int id) {
     return userRepository.findById(id)
         .filter(user -> user instanceof User)
         .map(user -> (User) user)
         .map(userMapper::toUserResponse)
         .map(u -> (PersonResponseInterface) u);
-  }
-
-  @Override
-  public Optional<PersonResponseInterface> findByIdIfActive(String id) {
-    return userRepository.findByIdAndIsActiveTrue(id)
-        .filter(user -> user instanceof User)
-        .map(user -> (User) user)
-        .map(userMapper::toUserResponse)
-        .map(u -> (PersonResponseInterface) u);
-  }
-
-  @Override
-  public PersonResponseInterface activate(int id) {
-    var person = userRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-    User user = (User) person;
-    user.setIsActive(true);
-    userRepository.save(user);
-    return userMapper.toUserResponse(user);
-  }
-
-  @Override
-  public PersonResponseInterface deactivate(int id) {
-    var person = userRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-    User user = (User) person;
-    user.setIsActive(false);
-    userRepository.save(user);
-    return userMapper.toUserResponse(user);
-  }
-
-  @Override
-  public Long countActive() {
-    return userRepository.countByIsActiveTrue();
-  }
-
-  @Override
-  public Boolean existsById(int id) {
-    return userRepository.existsById(id);
   }
 
   @Override
