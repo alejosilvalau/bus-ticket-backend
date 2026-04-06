@@ -12,15 +12,15 @@ public interface PersonServiceInterface {
 
   List<PersonResponseInterface> findAllInactive();
 
-  Optional<PersonResponseInterface> findById(String id);
+  Optional<PersonResponseInterface> findById(int id);
 
-  Optional<PersonResponseInterface> findByIdIfActive(String id);
+  Optional<PersonResponseInterface> findByIdIfActive(int id);
 
-  PersonResponseInterface activate(String id);
+  PersonResponseInterface activate(int id);
 
-  PersonResponseInterface deactivate(String id);
+  PersonResponseInterface deactivate(int id);
 
   Long countActive();
 
-  Boolean existsById(String id);
+  Boolean existsById(int id);
 }

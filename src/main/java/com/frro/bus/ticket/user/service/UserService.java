@@ -50,7 +50,7 @@ public class UserService implements UserServiceInterface {
   }
 
   @Override
-  public Optional<PersonResponseInterface> findById(String id) {
+  public Optional<PersonResponseInterface> findById(int id) {
     return userRepository.findById(id)
         .filter(user -> user instanceof User)
         .map(user -> (User) user)
@@ -68,7 +68,7 @@ public class UserService implements UserServiceInterface {
   }
 
   @Override
-  public PersonResponseInterface activate(String id) {
+  public PersonResponseInterface activate(int id) {
     var person = userRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     User user = (User) person;
@@ -78,7 +78,7 @@ public class UserService implements UserServiceInterface {
   }
 
   @Override
-  public PersonResponseInterface deactivate(String id) {
+  public PersonResponseInterface deactivate(int id) {
     var person = userRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     User user = (User) person;
@@ -93,7 +93,7 @@ public class UserService implements UserServiceInterface {
   }
 
   @Override
-  public Boolean existsById(String id) {
+  public Boolean existsById(int id) {
     return userRepository.existsById(id);
   }
 
@@ -121,7 +121,7 @@ public class UserService implements UserServiceInterface {
   }
 
   @Override
-  public UserResponseInterface grantAdmin(String id) {
+  public UserResponseInterface grantAdmin(int id) {
     var person = userRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     User user = (User) person;
@@ -131,7 +131,7 @@ public class UserService implements UserServiceInterface {
   }
 
   @Override
-  public UserResponseInterface revokeAdmin(String id) {
+  public UserResponseInterface revokeAdmin(int id) {
     var person = userRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     User user = (User) person;

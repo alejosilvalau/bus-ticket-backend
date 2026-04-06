@@ -13,9 +13,9 @@ public interface UserServiceInterface extends PersonServiceInterface {
 
   List<UserResponseInterface> findAllNonAdmins();
 
-  UserResponseInterface grantAdmin(String id);
+  UserResponseInterface grantAdmin(int id);
 
-  UserResponseInterface revokeAdmin(String id);
+  UserResponseInterface revokeAdmin(int id);
 
   Long countAdmins();
 }

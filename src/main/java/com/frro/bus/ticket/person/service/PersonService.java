@@ -43,21 +43,21 @@ public class PersonService implements PersonServiceInterface {
   }
 
   @Override
-  public Optional<PersonResponseInterface> findById(String id) {
+  public Optional<PersonResponseInterface> findById(int id) {
     return personRepository.findById(id)
         .map(personMapper::toPersonResponse)
         .map(p -> (PersonResponseInterface) p);
   }
 
   @Override
-  public Optional<PersonResponseInterface> findByIdIfActive(String id) {
+  public Optional<PersonResponseInterface> findByIdIfActive(int id) {
     return personRepository.findByIdAndIsActiveTrue(id)
         .map(personMapper::toPersonResponse)
         .map(p -> (PersonResponseInterface) p);
   }
 
   @Override
-  public PersonResponseInterface activate(String id) {
+  public PersonResponseInterface activate(int id) {
     Person person = personRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Person not found with id: " + id));
     person.setIsActive(true);
@@ -66,7 +66,7 @@ public class PersonService implements PersonServiceInterface {
   }
 
   @Override
-  public PersonResponseInterface deactivate(String id) {
+  public PersonResponseInterface deactivate(int id) {
     Person person = personRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Person not found with id: " + id));
     person.setIsActive(false);

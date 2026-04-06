@@ -8,16 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, String> {
+public interface PersonRepository extends JpaRepository<Person, Integer> {
 
   List<Person> findAllByIsActiveTrue();
 
-  Optional<Person> findByIdAndIsActiveTrue(String id);
+  Optional<Person> findByIdAndIsActiveTrue(int id);
 
   List<Person> findAllByIsActiveFalse();
 
   Long countByIsActiveTrue();
 }
-
-
-
