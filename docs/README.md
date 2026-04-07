@@ -20,7 +20,7 @@ Incorpora perfiles de usuario y administrador, manejo de errores con mensajes cl
 | ABMC Simple | Seat, Location |
 | ABMC Dependiente | Bus |
 | CU NO-ABMC | Creación de viaje |
-| Listado Simple | Listado de asientos disponibles en los colectivos |
+| Listado Simple | Listado de asientos disponibles en cada colectivo |
 | Listado Complejo | Listado de viajes disponibles, pudiendose filtrar por atributos como destino, punto de partida, precio, tipo de asiento, fecha y hora de salida |
 
 ## Casos de Uso para la AP DIRECTA
