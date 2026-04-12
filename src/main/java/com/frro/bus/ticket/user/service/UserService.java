@@ -16,73 +16,38 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService implements UserServiceInterface {
 
-  private final UserRepository userRepository;
-  private final UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-  @Override
-  public List<UserResponseInterface> findAll() {
-    return userRepository.findAll().stream()
-        .filter(user -> user instanceof User)
-        .map(user -> (User) user)
-        .map(userMapper::toUserResponse)
-        .map(u -> (UserResponseInterface) u)
-        .toList();
-  }
+    @Override
+    public List<UserResponseInterface> findAll() {
+        return userRepository.findAll().stream()
+                .filter(user -> user instanceof User)
+                .map(user -> (User) user)
+                .map(userMapper::toUserResponse)
+                .map(u -> (UserResponseInterface) u)
+                .toList();
+    }
 
-  @Override
-  public Optional<UserResponseInterface> findById(int id) {
-    return userRepository.findById(id)
-        .filter(user -> user instanceof User)
-        .map(user -> (User) user)
-        .map(userMapper::toUserResponse)
-        .map(u -> (UserResponseInterface) u);
-  }
+    @Override
+    public Optional<UserResponseInterface> findById(int id) {
+        return userRepository.findById(id)
+                .filter(user -> user instanceof User)
+                .map(user -> (User) user)
+                .map(userMapper::toUserResponse)
+                .map(u -> (UserResponseInterface) u);
+    }
 
-  @Override
-  public Optional<UserResponseInterface> findByEmail(String email) {
-    return userRepository.findByEmail(email)
-        .map(userMapper::toUserResponse)
-        .map(u -> (UserResponseInterface) u);
-  }
+    @Override
+    public Optional<UserResponseInterface> delete(int id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
 
-  @Override
-  public List<UserResponseInterface> findAllAdmins() {
-    return userRepository.findAllByIsAdminTrue().stream()
-        .map(userMapper::toUserResponse)
-        .map(u -> (UserResponseInterface) u)
-        .toList();
-  }
+    @Override
+    public Optional<UserResponseInterface> save(int id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    }
 
-  @Override
-  public List<UserResponseInterface> findAllNonAdmins() {
-    return userRepository.findAllByIsAdminFalse().stream()
-        .map(userMapper::toUserResponse)
-        .map(u -> (UserResponseInterface) u)
-        .toList();
-  }
-
-  @Override
-  public UserResponseInterface grantAdmin(int id) {
-    var person = userRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-    User user = (User) person;
-    user.setIsAdmin(true);
-    userRepository.save(user);
-    return userMapper.toUserResponse(user);
-  }
-
-  @Override
-  public UserResponseInterface revokeAdmin(int id) {
-    var person = userRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-    User user = (User) person;
-    user.setIsAdmin(false);
-    userRepository.save(user);
-    return userMapper.toUserResponse(user);
-  }
-
-  @Override
-  public Long countAdmins() {
-    return userRepository.countByIsAdminTrue();
-  }
 }

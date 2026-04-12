@@ -5,19 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserServiceInterface {
-  List<UserResponseInterface> findAll();
+    List<UserResponseInterface> findAll();
 
-  Optional<UserResponseInterface> findById(int id);
+    Optional<UserResponseInterface> findById(int id);
 
-  Optional<UserResponseInterface> findByEmail(String email);
+    Optional<UserResponseInterface> delete(int id);
 
-  List<UserResponseInterface> findAllAdmins();
-
-  List<UserResponseInterface> findAllNonAdmins();
-
-  UserResponseInterface grantAdmin(int id);
-
-  UserResponseInterface revokeAdmin(int id);
-
-  Long countAdmins();
+    Optional<UserResponseInterface> save(int id);
 }
