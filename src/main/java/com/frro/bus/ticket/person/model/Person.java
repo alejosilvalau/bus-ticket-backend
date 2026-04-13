@@ -14,27 +14,30 @@ import lombok.Setter;
 @DiscriminatorColumn(name = "is_user", discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Person {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-  @Column(nullable = false)
-  private String firstName;
+    @Column(nullable = false)
+    private String firstName;
 
-  @Column(nullable = false)
-  private String lastName;
+    @Column(nullable = false)
+    private String lastName;
 
-  @Column(nullable = false)
-  private Boolean isActive = true;
+    @Column(nullable = false)
+    private Boolean isActive = true;
 
-  public Person(String firstName, String lastName, Boolean isActive) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.isActive = isActive;
-  }
+    @Column(nullable = false, updatable = false)
+    private Boolean isUser;
 
-  @Override
-  public String toString() {
-    return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName;
-  }
+    public Person(String firstName, String lastName, Boolean isActive) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.isActive = isActive;
+    }
+
+    @Override
+    public String toString() {
+        return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName;
+    }
 }

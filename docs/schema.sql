@@ -4,13 +4,13 @@ use bus_ticket;
 
 create table person (
   id int auto_increment primary key,
+  is_user boolean not null default true,
   first_name varchar(100) not null,
   last_name varchar(100) not null,
   is_active boolean not null default true,
   email varchar(100) null unique,
   password varchar(128) null,
   is_admin boolean null default false,
-  is_user boolean null default true,
   license_number varchar(50) null unique,
   phone_number varchar(20) null
 );

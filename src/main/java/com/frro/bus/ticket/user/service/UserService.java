@@ -1,5 +1,6 @@
 package com.frro.bus.ticket.user.service;
 
+import com.frro.bus.ticket.user.dto.UserRequest;
 import com.frro.bus.ticket.user.dto.UserResponse;
 import com.frro.bus.ticket.user.mapper.UserMapper;
 import com.frro.bus.ticket.user.model.User;
@@ -41,17 +42,22 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public UserResponse create(User user) {
+    public UserResponse create(UserRequest userRequest) {
+        User user = userMapper.toUser(userRequest);
+        user.setIsActive(true);
+        user.setIsUser(true);
+        user.setIsAdmin(false);
+
+        // TODO: Hash the password here
+
         User savedUser = userRepository.save(user);
         return userMapper.toUserResponse(savedUser);
     }
 
-    public Optional<UserResponse> update(Integer id, User user) {
-        return userRepository.findById(id)
+    public Optional<UserResponse> update(int id, UserRequest userRequest) {
+        return userRepository.findById(user.getId())
                 .map(existingUser -> {
-                    existingUser.setEmail(user.getEmail());
-                    existingUser.setName(user.getName());
-                    User savedUser = userRepository.save(existingUser); // UPDATE
+                    User savedUser = userRepository.save(existingUser);
                     return userMapper.toUserResponse(savedUser);
                 });
     }
