@@ -2,7 +2,10 @@ package com.frro.bus.ticket.user.controller;
 
 import com.frro.bus.ticket.user.dto.UserRequest;
 import com.frro.bus.ticket.user.dto.UserResponse;
-import com.frro.bus.ticket.user.service.UserServiceInterface;
+import com.frro.bus.ticket.user.service.UserService;
+
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceInterface userService;
-
-    public UserController(UserServiceInterface userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> findAll() {

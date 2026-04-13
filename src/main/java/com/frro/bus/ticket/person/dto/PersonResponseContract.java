@@ -1,6 +1,7 @@
 package com.frro.bus.ticket.person.dto;
 
-public interface PersonRequestInterface {
+public interface PersonResponseContract {
+    String id();
 
     String firstName();
 

@@ -5,6 +5,5 @@ public record UserRequest(
         String lastName,
         Boolean isActive,
         String email,
-        String password
-) implements UserRequestInterface {
+        String password) implements UserRequestContract {
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/drivers")
+@RequestMapping("/api/v1/drivers")
 @RequiredArgsConstructor
 public class DriverController {
     private final DriverService driverService;
@@ -34,7 +34,8 @@ public class DriverController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DriverResponse> updateDriver(@PathVariable Integer id, @RequestBody DriverRequest driverRequest) {
+    public ResponseEntity<DriverResponse> updateDriver(@PathVariable Integer id,
+            @RequestBody DriverRequest driverRequest) {
         return driverService.update(id, driverRequest)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
