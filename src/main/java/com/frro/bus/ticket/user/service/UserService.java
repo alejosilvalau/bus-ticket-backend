@@ -1,7 +1,7 @@
 package com.frro.bus.ticket.user.service;
 
 import com.frro.bus.ticket.person.dto.PersonResponseInterface;
-import com.frro.bus.ticket.user.dto.UserResponseInterface;
+import com.frro.bus.ticket.user.dto.UserResponse;
 import com.frro.bus.ticket.user.mapper.UserMapper;
 import com.frro.bus.ticket.user.model.User;
 import com.frro.bus.ticket.user.repository.UserRepository;
@@ -20,34 +20,44 @@ public class UserService implements UserServiceInterface {
     private final UserMapper userMapper;
 
     @Override
-    public List<UserResponseInterface> findAll() {
+    public List<UserResponse> findAll() {
         return userRepository.findAll().stream()
-                .filter(user -> user instanceof User)
-                .map(user -> (User) user)
                 .map(userMapper::toUserResponse)
-                .map(u -> (UserResponseInterface) u)
                 .toList();
     }
 
     @Override
-    public Optional<UserResponseInterface> findById(int id) {
+    public Optional<UserResponse> findById(int id) {
         return userRepository.findById(id)
-                .filter(user -> user instanceof User)
-                .map(user -> (User) user)
-                .map(userMapper::toUserResponse)
-                .map(u -> (UserResponseInterface) u);
+                .map(userMapper::toUserResponse);
     }
 
     @Override
-    public Optional<UserResponseInterface> delete(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    public Optional<UserResponse> delete(int id) {
+        Optional<User> userOptional = userRepository.findById(id)
+                .filter(user -> user instanceof User);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            userRepository.delete(user);
+            return Optional.of(userMapper.toUserResponse(user));
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
-    public Optional<UserResponseInterface> save(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    public Optional<UserResponse> save(int id) {
+        Optional<User> userOptional = userRepository.findById(id)
+                .filter(user -> user instanceof User);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            User savedUser = userRepository.save(user);
+            return Optional.of(userMapper.toUserResponse(savedUser));
+        } else {
+            return Optional.empty();
+        }
     }
 
 }

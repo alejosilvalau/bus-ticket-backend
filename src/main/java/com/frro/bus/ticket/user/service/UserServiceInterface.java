@@ -1,15 +1,15 @@
 package com.frro.bus.ticket.user.service;
 
-import com.frro.bus.ticket.user.dto.UserResponseInterface;
+import com.frro.bus.ticket.user.dto.UserResponse;
 import java.util.List;
 import java.util.Optional;
 
 public interface UserServiceInterface {
-    List<UserResponseInterface> findAll();
+    List<UserResponse> findAll();
 
-    Optional<UserResponseInterface> findById(int id);
+    Optional<UserResponse> findById(int id);
 
-    Optional<UserResponseInterface> delete(int id);
+    Optional<UserResponse> delete(int id);
 
-    Optional<UserResponseInterface> save(int id);
+    Optional<UserResponse> save(int id);
 }
