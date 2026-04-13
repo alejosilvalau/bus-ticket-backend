@@ -17,33 +17,42 @@ public class DriverServiceImpl implements DriverService {
     private final DriverRepository driverRepository;
     private final DriverMapper driverMapper;
 
+    @Override
     public List<DriverResponse> findAll() {
         return driverRepository.findAll().stream().map(driverMapper::toDriverResponse).toList();
     }
 
+    @Override
     public Optional<DriverResponse> findById(int id) {
         return driverRepository.findById(id).map(driverMapper::toDriverResponse);
     }
 
+    @Override
     public DriverResponse create(DriverRequest driverRequest) {
         Driver driver = driverMapper.toDriver(driverRequest);
         Driver saved = driverRepository.save(driver);
         return driverMapper.toDriverResponse(saved);
     }
 
+    @Override
     public Optional<DriverResponse> update(int id, DriverRequest driverRequest) {
-        return driverRepository.findById(id).map(existing -> {
-            Driver toUpdate = driverMapper.toDriver(driverRequest);
-            toUpdate.setId(id);
-            Driver saved = driverRepository.save(toUpdate);
-            return driverMapper.toDriverResponse(saved);
+        return driverRepository.findById(id).map(existingDriver -> {
+            existingDriver.setFirstName(driverRequest.firstName());
+            existingDriver.setLastName(driverRequest.lastName());
+            existingDriver.setIsActive(driverRequest.isActive());
+            existingDriver.setLicenseNumber(driverRequest.licenseNumber());
+            existingDriver.setPhoneNumber(driverRequest.phoneNumber());
+
+            Driver savedDriver = driverRepository.save(existingDriver);
+            return driverMapper.toDriverResponse(savedDriver);
         });
     }
 
+    @Override
     public Optional<DriverResponse> delete(int id) {
-        return driverRepository.findById(id).map(existing -> {
-            driverRepository.delete(existing);
-            return driverMapper.toDriverResponse(existing);
+        return driverRepository.findById(id).map(existingDriver -> {
+            driverRepository.delete(existingDriver);
+            return driverMapper.toDriverResponse(existingDriver);
         });
     }
 }

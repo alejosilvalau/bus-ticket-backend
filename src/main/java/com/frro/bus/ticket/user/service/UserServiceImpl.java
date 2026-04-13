@@ -33,19 +33,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserResponse> delete(int id) {
-        return userRepository.findById(id)
-                .map(user -> {
-                    userRepository.delete(user);
-                    return userMapper.toUserResponse(user);
-                });
-    }
-
-    @Override
     public UserResponse create(UserRequest userRequest) {
         User user = userMapper.toUser(userRequest);
-        user.setIsActive(true);
-        user.setIsAdmin(false);
 
         // TODO: Hash the password here
 
@@ -53,6 +42,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserResponse(savedUser);
     }
 
+    @Override
     public Optional<UserResponse> update(int id, UserRequest userRequest) {
         return userRepository.findById(id)
                 .map(existingUser -> {
@@ -64,6 +54,15 @@ public class UserServiceImpl implements UserService {
 
                     User savedUser = userRepository.save(existingUser);
                     return userMapper.toUserResponse(savedUser);
+                });
+    }
+
+    @Override
+    public Optional<UserResponse> delete(int id) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    userRepository.delete(user);
+                    return userMapper.toUserResponse(user);
                 });
     }
 }
