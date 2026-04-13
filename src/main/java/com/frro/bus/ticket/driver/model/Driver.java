@@ -1,0 +1,31 @@
+package com.frro.bus.ticket.driver.model;
+
+import com.frro.bus.ticket.person.model.Person;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@DiscriminatorValue("0") // 0 for Non-User (Driver)
+public class Driver extends Person {
+    @Column(nullable = false, unique = true)
+    private String licenseNumber;
+
+    @Column(nullable = false)
+    private String phoneNumber;
+
+    public Driver(String firstName, String lastName, Boolean isActive, String licenseNumber, String phoneNumber) {
+        super(firstName, lastName, isActive);
+        this.licenseNumber = licenseNumber;
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", licenseNumber=" + licenseNumber + ", phoneNumber=" + phoneNumber + "]";
+    }
+}
