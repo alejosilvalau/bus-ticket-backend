@@ -11,9 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@DiscriminatorValue("1") // 1 for True
+@DiscriminatorValue("1") // 1 for True (User)
 public class User extends Person {
-
     @Column(nullable = false, unique = true)
     private String email;
 

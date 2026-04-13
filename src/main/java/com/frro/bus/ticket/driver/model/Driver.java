@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@DiscriminatorValue("0") // 0 for Non-User (Driver)
+@DiscriminatorValue("0") // 0 for False (Driver)
 public class Driver extends Person {
     @Column(nullable = false, unique = true)
     private String licenseNumber;
