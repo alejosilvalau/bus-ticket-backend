@@ -27,9 +27,6 @@ public abstract class Person {
     @Column(nullable = false)
     private Boolean isActive = true;
 
-    @Column(nullable = false, updatable = false)
-    private Boolean isUser;
-
     public Person(String firstName, String lastName, Boolean isActive) {
         this.firstName = firstName;
         this.lastName = lastName;

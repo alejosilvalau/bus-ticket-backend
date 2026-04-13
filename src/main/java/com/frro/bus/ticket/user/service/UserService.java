@@ -45,7 +45,6 @@ public class UserService implements UserServiceInterface {
     public UserResponse create(UserRequest userRequest) {
         User user = userMapper.toUser(userRequest);
         user.setIsActive(true);
-        user.setIsUser(true);
         user.setIsAdmin(false);
 
         // TODO: Hash the password here
