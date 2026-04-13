@@ -1,5 +1,6 @@
 package com.frro.bus.ticket.user.controller;
 
+import com.frro.bus.ticket.user.dto.UserRequest;
 import com.frro.bus.ticket.user.dto.UserResponse;
 import com.frro.bus.ticket.user.service.UserServiceInterface;
 import java.util.List;
@@ -35,17 +36,24 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PostMapping
+    public ResponseEntity<UserResponse> create(UserRequest userRequest) {
+        UserResponse savedUser = userService.create(userRequest);
+        return ResponseEntity.ok(savedUser);
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<UserResponse> update(@PathVariable int id, UserRequest userRequest) {
+        Optional<UserResponse> updatedUser = userService.update(id, userRequest);
+        return updatedUser.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<UserResponse> delete(@PathVariable int id) {
         Optional<UserResponse> deletedUser = userService.delete(id);
         return deletedUser.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public ResponseEntity<UserResponse> save(UserResponse userResponse) {
-        UserResponse savedUser = userService.save(userResponse);
-        return ResponseEntity.ok(savedUser);
     }
 
 }
