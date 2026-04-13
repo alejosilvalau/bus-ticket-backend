@@ -6,7 +6,7 @@ import com.frro.bus.ticket.user.dto.UserResponse;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserServiceInterface {
+public interface UserService {
     List<UserResponse> findAll();
 
     Optional<UserResponse> findById(int id);
