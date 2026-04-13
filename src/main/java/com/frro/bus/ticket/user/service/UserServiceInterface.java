@@ -11,7 +11,9 @@ public interface UserServiceInterface {
 
     Optional<UserResponse> findById(int id);
 
+    UserResponse create(User user);
+
     Optional<UserResponse> delete(int id);
 
-    UserResponse save(User user);
+    Optional<UserResponse> update(User user);
 }

@@ -41,8 +41,18 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public UserResponse save(User user) {
+    public UserResponse create(User user) {
         User savedUser = userRepository.save(user);
         return userMapper.toUserResponse(savedUser);
+    }
+
+    public Optional<UserResponse> update(Integer id, User user) {
+        return userRepository.findById(id)
+                .map(existingUser -> {
+                    existingUser.setEmail(user.getEmail());
+                    existingUser.setName(user.getName());
+                    User savedUser = userRepository.save(existingUser); // UPDATE
+                    return userMapper.toUserResponse(savedUser);
+                });
     }
 }
