@@ -1,6 +1,5 @@
 package com.frro.bus.ticket.user.service;
 
-import com.frro.bus.ticket.person.dto.PersonResponseInterface;
 import com.frro.bus.ticket.user.dto.UserResponse;
 import com.frro.bus.ticket.user.mapper.UserMapper;
 import com.frro.bus.ticket.user.model.User;
@@ -34,30 +33,16 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public Optional<UserResponse> delete(int id) {
-        Optional<User> userOptional = userRepository.findById(id)
-                .filter(user -> user instanceof User);
-
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            userRepository.delete(user);
-            return Optional.of(userMapper.toUserResponse(user));
-        } else {
-            return Optional.empty();
-        }
+        return userRepository.findById(id)
+                .map(user -> {
+                    userRepository.delete(user);
+                    return userMapper.toUserResponse(user);
+                });
     }
 
     @Override
-    public Optional<UserResponse> save(int id) {
-        Optional<User> userOptional = userRepository.findById(id)
-                .filter(user -> user instanceof User);
-
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            User savedUser = userRepository.save(user);
-            return Optional.of(userMapper.toUserResponse(savedUser));
-        } else {
-            return Optional.empty();
-        }
+    public UserResponse save(User user) {
+        User savedUser = userRepository.save(user);
+        return userMapper.toUserResponse(savedUser);
     }
-
 }
