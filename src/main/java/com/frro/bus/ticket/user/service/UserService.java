@@ -55,8 +55,14 @@ public class UserService implements UserServiceInterface {
     }
 
     public Optional<UserResponse> update(int id, UserRequest userRequest) {
-        return userRepository.findById(user.getId())
+        return userRepository.findById(id)
                 .map(existingUser -> {
+                    existingUser.setFirstName(userRequest.firstName());
+                    existingUser.setLastName(userRequest.lastName());
+                    existingUser.setIsActive(userRequest.isActive());
+                    existingUser.setEmail(userRequest.email());
+                    existingUser.setEmail(userRequest.password());
+
                     User savedUser = userRepository.save(existingUser);
                     return userMapper.toUserResponse(savedUser);
                 });

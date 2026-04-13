@@ -5,4 +5,6 @@ public interface PersonRequestInterface {
     String firstName();
 
     String lastName();
+
+    Boolean isActive();
 }
