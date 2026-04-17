@@ -1,15 +1,9 @@
 package com.frro.bus.ticket.features.identity.dtos.driver;
 
-public interface DriverDTOContract {
-    String getId();
+import com.frro.bus.ticket.features.identity.dtos.person.PersonContract;
 
-    String getFirstName();
+public interface DriverContract extends PersonContract {
+    String licenseNumber();
 
-    String getLastName();
-
-    Boolean getIsActive();
-
-    String getLicenseNumber();
-
-    String getPhoneNumber();
+    String phoneNumber();
 }
