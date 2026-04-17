@@ -28,3 +28,20 @@ src/main/java/com/app/
 │
 └── common/ (Excepciones globales, configuraciones, utilidades)
 ```
+
+Internamente, el código se debe organizar de la siguiente manera:
+
+```
+features/
+└── identity/
+    ├── controllers/
+    │   ├── AuthController.java       --> (login, logout, password-reset)
+    │   └── UserProfileController.java --> (getProfile, updateAvatar)
+    ├── services/
+    │   ├── LoginService.java         --> (Lógica específica de autenticación)
+    │   ├── UserRegistrationService.java --> (Lógica de validación y guardado)
+    │   └── DriverManagementService.java --> (Lógica para validar licencias de drivers)
+    └── entities/
+```
+
+Es decir, una division vertical por features (identity, fleet, journey, booking) y una division horizontal por capas (controllers, services, repositories, entities).
