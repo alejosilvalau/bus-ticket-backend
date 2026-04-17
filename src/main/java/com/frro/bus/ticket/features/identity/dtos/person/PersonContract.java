@@ -1,7 +1,7 @@
 package com.frro.bus.ticket.features.identity.dtos.person;
 
 public interface PersonContract {
-    String id();
+    int id();
 
     String firstName();
 
