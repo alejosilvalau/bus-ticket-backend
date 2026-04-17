@@ -1,0 +1,37 @@
+# REST Client file Driver
+
+### Get all drivers
+GET http://localhost:8080/api/v1/drivers
+Accept: application/json
+
+### Get driver by ID
+GET http://localhost:8080/api/v1/drivers/2
+Accept: application/json
+
+### Create a new driver
+POST http://localhost:8080/api/v1/drivers
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "isActive": true,
+  "licenseNumber": "DR12345X",
+  "phoneNumber": "+541112345678"
+}
+
+### Update driver by ID
+POST http://localhost:8080/api/v1/drivers/1
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "isActive": true,
+  "licenseNumber": "DR54321Y",
+  "phoneNumber": "+541199876543"
+}
+
+### Delete driver by ID
+DELETE http://localhost:8080/api/v1/drivers/2
+Accept: application/json

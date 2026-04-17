@@ -13,13 +13,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @DiscriminatorValue("1") // 1 for True (User)
 public class User extends Person {
-    @Column(nullable = false, unique = true)
+    @Column(nullable = true, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Boolean isAdmin = false;
 
     public User(String firstName, String lastName, Boolean isActive, String email, String password,
@@ -29,10 +29,4 @@ public class User extends Person {
         this.password = password;
         this.isAdmin = isAdmin;
     }
-
-    @Override
-    public String toString() {
-        return super.toString() + ", email=" + email + ", isAdmin=" + isAdmin + "]";
-    }
-
 }

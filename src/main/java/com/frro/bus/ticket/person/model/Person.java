@@ -32,9 +32,4 @@ public abstract class Person {
         this.lastName = lastName;
         this.isActive = isActive;
     }
-
-    @Override
-    public String toString() {
-        return "Person [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName;
-    }
 }
