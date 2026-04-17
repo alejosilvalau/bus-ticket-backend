@@ -1,6 +1,7 @@
-package com.frro.bus.ticket.person.model;
+package com.frro.bus.ticket.features.identity.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @DiscriminatorColumn(name = "is_user", discriminatorType = DiscriminatorType.INTEGER)
 public abstract class Person {
 
@@ -26,10 +28,4 @@ public abstract class Person {
 
     @Column(nullable = false)
     private Boolean isActive = true;
-
-    public Person(String firstName, String lastName, Boolean isActive) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.isActive = isActive;
-    }
 }

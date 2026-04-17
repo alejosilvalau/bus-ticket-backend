@@ -1,7 +1,7 @@
-package com.frro.bus.ticket.driver.model;
+package com.frro.bus.ticket.features.identity.entities;
 
-import com.frro.bus.ticket.person.model.Person;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @DiscriminatorValue("0") // 0 for False (Driver)
 public class Driver extends Person {
     @Column(nullable = true, unique = true)
@@ -17,10 +18,4 @@ public class Driver extends Person {
 
     @Column(nullable = true)
     private String phoneNumber;
-
-    public Driver(String firstName, String lastName, Boolean isActive, String licenseNumber, String phoneNumber) {
-        super(firstName, lastName, isActive);
-        this.licenseNumber = licenseNumber;
-        this.phoneNumber = phoneNumber;
-    }
 }

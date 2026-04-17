@@ -1,4 +1,4 @@
-package com.frro.bus.ticket.driver.dto;
+package com.frro.bus.ticket.features.identity.dtos.driver;
 
 public record DriverRequest(
         String firstName,

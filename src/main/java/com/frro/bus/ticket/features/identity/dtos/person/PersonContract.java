@@ -1,6 +1,6 @@
-package com.frro.bus.ticket.person.dto;
+package com.frro.bus.ticket.features.identity.dtos.person;
 
-public interface PersonResponseContract {
+public interface PersonContract {
     String id();
 
     String firstName();

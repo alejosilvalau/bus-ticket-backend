@@ -1,6 +1,4 @@
-package com.frro.bus.ticket.driver.dto;
-
-import com.frro.bus.ticket.person.dto.PersonRequestContract;
+package com.frro.bus.ticket.features.identity.dtos.driver;
 
 public interface DriverRequestContract extends PersonRequestContract {
     String licenseNumber();

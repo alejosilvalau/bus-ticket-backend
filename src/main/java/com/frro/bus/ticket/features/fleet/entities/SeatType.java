@@ -1,4 +1,4 @@
-package com.frro.bus.ticket.seat_type.model;
+package com.frro.bus.ticket.features.fleet.entities;
 
 import jakarta.persistence.*;
 
