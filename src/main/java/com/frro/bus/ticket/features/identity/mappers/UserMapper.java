@@ -1,14 +1,18 @@
-package com.frro.bus.ticket.user.mapper;
+package com.frro.bus.ticket.features.identity.mappers;
 
-import com.frro.bus.ticket.user.dto.UserRequest;
-import com.frro.bus.ticket.user.dto.UserResponse;
-import com.frro.bus.ticket.user.model.User;
 import org.mapstruct.Mapper;
+
+import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
+import com.frro.bus.ticket.features.identity.dtos.user.CreateUserDTO;
+import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
+import com.frro.bus.ticket.features.identity.entities.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    UserResponse toUserResponse(User user);
+    UserDTO toUserDTO(User user);
 
-    User toUser(UserRequest userRequest);
+    User toUser(CreateUserDTO createUserDto);
+
+    User toUser(UpdateUserDTO updateUserDto);
 }

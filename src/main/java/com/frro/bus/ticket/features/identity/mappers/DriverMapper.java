@@ -1,13 +1,17 @@
 package com.frro.bus.ticket.features.identity.mappers;
 
-import com.frro.bus.ticket.driver.dto.DriverRequest;
-import com.frro.bus.ticket.driver.dto.DriverResponse;
-import com.frro.bus.ticket.driver.model.Driver;
 import org.mapstruct.Mapper;
+
+import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
+import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
+import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
+import com.frro.bus.ticket.features.identity.entities.Driver;
 
 @Mapper(componentModel = "spring")
 public interface DriverMapper {
-    DriverResponse toDriverResponse(Driver driver);
+    DriverDTO toDriverDTO(Driver driver);
 
-    Driver toDriver(DriverRequest driverRequest);
+    Driver toDriver(CreateDriverDTO driverDto);
+
+    Driver toDriver(UpdateDriverDTO driverDto);
 }
