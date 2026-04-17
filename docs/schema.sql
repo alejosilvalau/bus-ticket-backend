@@ -24,14 +24,14 @@ create table location (
 create table bus (
   id int auto_increment primary key,
   plate_number varchar(20) not null unique,
-  total_capacity int not null default 0 check (total_capacity >= 0),
+  total_capacity int not null default 0,
   is_active boolean default true
 );
 
 create table seat_type (
   id int auto_increment primary key,
   name varchar(100) not null unique,
-  upcharge decimal(10, 2) not null default 0.00 check (upcharge >= 0)
+  upcharge decimal(10, 2) not null default 0.00
 );
 
 create table trip (
@@ -42,12 +42,11 @@ create table trip (
   id_location_destination int not null,
   departure_date datetime not null,
   arrival_date datetime not null,
-  base_price decimal(10, 2) not null default 0.00 check (base_price >= 0),
+  base_price decimal(10, 2) not null default 0.00,
   constraint fk_trip_bus FOREIGN key (id_bus) references bus (id) on delete restrict on update cascade,
   constraint fk_trip_person foreign key (id_driver) references person (id) on delete restrict on update cascade,
   constraint fk_trip_location_origin foreign key (id_location_origin) references location (id) on delete restrict on update cascade,
   constraint fk_trip_location_destination foreign key (id_location_destination) references location (id) on delete restrict on update cascade,
-  constraint chk_trip_date check (arrival_date > departure_date),
   unique key uk_trip_bus_departure (id_bus, departure_date),
   unique key uk_trip_driver_departure (id_driver, departure_date)
 );
@@ -68,7 +67,7 @@ create table ticket (
   id_user int not null,
   id_trip int not null,
   id_seat int not null,
-  final_price decimal(10, 2) not null default 0.00 check (final_price > 0),
+  final_price decimal(10, 2) not null default 0.00,
   booking_time datetime default current_timestamp,
   is_cancelled boolean default false not null,
   token varchar(64) not null unique,
