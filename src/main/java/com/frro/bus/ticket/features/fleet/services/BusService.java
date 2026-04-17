@@ -1,12 +1,14 @@
-package com.frro.bus.ticket.bus.service;
+package com.frro.bus.ticket.features.fleet.services;
 
-import com.frro.bus.ticket.bus.dto.BusRequest;
-import com.frro.bus.ticket.bus.dto.BusResponse;
-import com.frro.bus.ticket.bus.mapper.BusMapper;
-import com.frro.bus.ticket.bus.model.Bus;
-import com.frro.bus.ticket.bus.repository.BusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import com.frro.bus.ticket.features.fleet.entities.Bus;
+import com.frro.bus.ticket.features.fleet.dtos.BusRequest;
+import com.frro.bus.ticket.features.fleet.dtos.BusResponse;
+import com.frro.bus.ticket.features.fleet.mappers.BusMapper;
+import com.frro.bus.ticket.features.fleet.repositories.BusRepository;
+
 import java.util.List;
 import java.util.Optional;
 

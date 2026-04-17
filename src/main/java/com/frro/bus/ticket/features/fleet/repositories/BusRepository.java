@@ -1,8 +1,10 @@
-package com.frro.bus.ticket.bus.repository;
+package com.frro.bus.ticket.features.fleet.repositories;
 
-import com.frro.bus.ticket.bus.model.Bus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.frro.bus.ticket..Bus;
+
 @Repository
-public interface BusRepository extends JpaRepository<Bus, Integer> {}
+public interface BusRepository extends JpaRepository<Bus, Integer> {
+}
