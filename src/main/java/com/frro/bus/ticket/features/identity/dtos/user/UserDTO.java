@@ -2,6 +2,7 @@ package com.frro.bus.ticket.features.identity.dtos.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 
 public record UserDTO(
         @NotBlank @NotNull int id,
@@ -14,7 +15,7 @@ public record UserDTO(
 
         @NotBlank @NotNull String email,
 
-        @NotBlank @NotNull String password,
+        @Null String password,
 
         @NotBlank @NotNull Boolean isAdmin) implements UserContract {
 }
