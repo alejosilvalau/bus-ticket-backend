@@ -12,6 +12,9 @@ public class SeatType {
 	@Column(nullable = false, unique = true)
 	private String name;
 
+    @OneToMany(mappedBy = "seatType", fetch = FetchType.LAZY)
+    private java.util.List<com.frro.bus.ticket.features.fleet.entities.Seat> seats;
+
 	public SeatType() {
 	}
 

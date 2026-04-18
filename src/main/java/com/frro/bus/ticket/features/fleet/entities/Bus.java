@@ -23,4 +23,10 @@ public class Bus {
 
     @Column(nullable = false)
     private Boolean isActive = true;
+
+    @OneToMany(mappedBy = "bus", fetch = FetchType.LAZY)
+    private java.util.List<com.frro.bus.ticket.trip.model.Trip> trips;
+
+    @OneToMany(mappedBy = "bus", fetch = FetchType.LAZY)
+    private java.util.List<com.frro.bus.ticket.features.fleet.entities.Seat> seats;
 }

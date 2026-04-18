@@ -20,4 +20,12 @@ public class Location {
 
     @Column(nullable = false)
     private String state;
+
+    // For trips where this location is the origin
+    @OneToMany(mappedBy = "locationOrigin", fetch = FetchType.LAZY)
+    private java.util.List<com.frro.bus.ticket.trip.model.Trip> tripsOrigin;
+
+    // For trips where this location is the destination
+    @OneToMany(mappedBy = "locationDestination", fetch = FetchType.LAZY)
+    private java.util.List<com.frro.bus.ticket.trip.model.Trip> tripsDestination;
 }
