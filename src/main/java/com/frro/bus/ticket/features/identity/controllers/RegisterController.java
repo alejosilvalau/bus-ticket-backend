@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.features.identity.dtos.user.CreateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
+import com.frro.bus.ticket.features.identity.services.register.RegisterService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,11 +16,11 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/register")
 @RequiredArgsConstructor
 public class RegisterController {
-    // private final UserService userService;
+    private final RegisterService registerService;
 
     @PostMapping
     public ResponseEntity<UserDTO> create(@RequestBody CreateUserDTO createUser) {
-        UserDTO savedUser = userService.create(createUser);
+        UserDTO savedUser = registerService.create(createUser);
         return ResponseEntity.ok(savedUser);
     }
 }

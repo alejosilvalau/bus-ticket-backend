@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
-import com.frro.bus.ticket.features.identity.services.DriverService;
+import com.frro.bus.ticket.features.identity.services.driver.DriverService;
 
 import java.util.List;
 import java.util.Optional;

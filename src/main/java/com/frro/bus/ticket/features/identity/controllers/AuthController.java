@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.frro.bus.ticket.features.identity.dtos.user.ChangePasswordUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.LoginUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
+import com.frro.bus.ticket.features.identity.services.auth.AuthService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,23 +18,24 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    // private final UserService userService;
+    private final AuthService authService;
 
     @GetMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody LoginUserDTO loginUser) {
-        UserDTO loggedInUser = userService.login(loginUser);
+    public ResponseEntity<UserDTO> login(@RequestBody LoginUserDTO userRequest) {
+        UserDTO loggedInUser = authService.login(userRequest)
+                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
         return ResponseEntity.ok(loggedInUser);
     }
 
     @GetMapping("/logout")
     public ResponseEntity<Boolean> logout() {
-        boolean result = userService.logout();
+        boolean result = authService.logout();
         return ResponseEntity.ok(result);
     }
 
     @PatchMapping("/change-password")
     public ResponseEntity<Boolean> changePassword(@RequestBody ChangePasswordUserDTO changePasswordUser) {
-        boolean result = userService.changePassword(changePasswordUser);
+        boolean result = authService.changePassword(changePasswordUser);
         return ResponseEntity.ok(result);
     }
 }
