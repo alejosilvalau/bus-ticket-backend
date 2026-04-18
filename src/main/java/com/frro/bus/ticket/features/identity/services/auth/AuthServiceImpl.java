@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.frro.bus.ticket.features.identity.dtos.user.ChangePasswordUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.LoginUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
+import com.frro.bus.ticket.features.identity.entities.User;
 import com.frro.bus.ticket.features.identity.mappers.UserMapper;
 import com.frro.bus.ticket.features.identity.repositories.UserRepository;
 
@@ -32,8 +33,19 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Boolean changePassword(ChangePasswordUserDTO userRequest) {
-        // TODO: Implement change password logic, e.g., verify old password, update to
-        // new password hashing it before saving
-        throw new UnsupportedOperationException("Unimplemented method 'changePassword'");
+        Optional<User> userFound = userRepository.findByEmailAndPassword(userRequest.email(),
+                userRequest.password());
+
+        if (userFound.isPresent()) {
+            User userToUpdate = userFound.get();
+            String newPassword = userRequest.newPassword();
+
+            // TODO: Hash the new password before saving it to the database
+
+            userToUpdate.setPassword(newPassword);
+            userRepository.save(userToUpdate);
+            return true;
+        }
+        return false;
     }
 }
