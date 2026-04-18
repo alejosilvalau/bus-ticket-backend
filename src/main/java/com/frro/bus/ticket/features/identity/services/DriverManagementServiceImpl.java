@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class DriverServiceImpl implements DriverService {
+public class DriverManagementServiceImpl implements DriverManagementService {
     private final DriverRepository driverRepository;
     private final DriverMapper driverMapper;
 
