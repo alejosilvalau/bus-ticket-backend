@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/profile")
 @RequiredArgsConstructor
-public class UserProfileController {
+public class ProfileController {
     @PatchMapping("/update")
     public ResponseEntity<UserDTO> update(@RequestBody UpdateUserDTO userRequest) {
         Optional<UserDTO> updatedUser = userService.update(userRequest);

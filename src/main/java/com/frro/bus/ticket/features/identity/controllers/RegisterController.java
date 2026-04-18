@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/register")
 @RequiredArgsConstructor
-public class UserRegisterController {
+public class RegisterController {
     // private final UserService userService;
 
     @PostMapping
