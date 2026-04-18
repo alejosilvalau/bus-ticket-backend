@@ -1,4 +1,4 @@
-package com.frro.bus.ticket.features.identity.services;
+package com.frro.bus.ticket.features.identity.services.profile;
 
 import java.util.Optional;
 
