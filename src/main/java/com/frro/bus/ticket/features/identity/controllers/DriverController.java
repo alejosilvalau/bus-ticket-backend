@@ -1,12 +1,13 @@
-package com.frro.bus.ticket.driver.controller;
+package com.frro.bus.ticket.features.identity.controllers;
 
-import com.frro.bus.ticket.driver.dto.DriverRequest;
-import com.frro.bus.ticket.driver.dto.DriverResponse;
-import com.frro.bus.ticket.driver.service.DriverService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
+import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
+import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,35 +19,35 @@ public class DriverController {
     private final DriverService driverService;
 
     @GetMapping
-    public ResponseEntity<List<DriverResponse>> findAll() {
-        List<DriverResponse> drivers = driverService.findAll();
+    public ResponseEntity<List<DriverDTO>> findAll() {
+        List<DriverDTO> drivers = driverService.findAll();
         return ResponseEntity.ok(drivers);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DriverResponse> findById(@PathVariable int id) {
-        Optional<DriverResponse> driver = driverService.findById(id);
+    public ResponseEntity<DriverDTO> findById(@PathVariable int id) {
+        Optional<DriverDTO> driver = driverService.findById(id);
         return driver.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<DriverResponse> create(@RequestBody DriverRequest driverRequest) {
-        DriverResponse savedDriver = driverService.create(driverRequest);
+    public ResponseEntity<DriverDTO> create(@RequestBody CreateDriverDTO driverRequest) {
+        DriverDTO savedDriver = driverService.create(driverRequest);
         return ResponseEntity.ok(savedDriver);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DriverResponse> updateDriver(@PathVariable int id,
-            @RequestBody DriverRequest driverRequest) {
-        Optional<DriverResponse> updatedDriver = driverService.update(id, driverRequest);
+    public ResponseEntity<DriverDTO> updateDriver(@PathVariable int id,
+            @RequestBody UpdateUserDTO driverRequest) {
+        Optional<DriverDTO> updatedDriver = driverService.update(id, driverRequest);
         return updatedDriver.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<DriverResponse> delete(@PathVariable int id) {
-        Optional<DriverResponse> deletedDriver = driverService.delete(id);
+    public ResponseEntity<DriverDTO> delete(@PathVariable int id) {
+        Optional<DriverDTO> deletedDriver = driverService.delete(id);
         return deletedDriver.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

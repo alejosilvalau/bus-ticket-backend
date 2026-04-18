@@ -1,12 +1,14 @@
-package com.frro.bus.ticket.driver.service;
+package com.frro.bus.ticket.features.identity.services;
 
-import com.frro.bus.ticket.driver.dto.DriverRequest;
-import com.frro.bus.ticket.driver.dto.DriverResponse;
-import com.frro.bus.ticket.driver.mapper.DriverMapper;
-import com.frro.bus.ticket.driver.model.Driver;
-import com.frro.bus.ticket.driver.repository.DriverRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
+import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
+import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
+import com.frro.bus.ticket.features.identity.entities.Driver;
+import com.frro.bus.ticket.features.identity.mappers.DriverMapper;
+import com.frro.bus.ticket.features.identity.repositories.DriverRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,24 +20,24 @@ public class DriverServiceImpl implements DriverService {
     private final DriverMapper driverMapper;
 
     @Override
-    public List<DriverResponse> findAll() {
-        return driverRepository.findAll().stream().map(driverMapper::toDriverResponse).toList();
+    public List<DriverDTO> findAll() {
+        return driverRepository.findAll().stream().map(driverMapper::toDriverDTO).toList();
     }
 
     @Override
-    public Optional<DriverResponse> findById(int id) {
-        return driverRepository.findById(id).map(driverMapper::toDriverResponse);
+    public Optional<DriverDTO> findById(int id) {
+        return driverRepository.findById(id).map(driverMapper::toDriverDTO);
     }
 
     @Override
-    public DriverResponse create(DriverRequest driverRequest) {
+    public DriverDTO create(CreateDriverDTO driverRequest) {
         Driver driver = driverMapper.toDriver(driverRequest);
         Driver saved = driverRepository.save(driver);
-        return driverMapper.toDriverResponse(saved);
+        return driverMapper.toDriverDTO(saved);
     }
 
     @Override
-    public Optional<DriverResponse> update(int id, DriverRequest driverRequest) {
+    public Optional<DriverDTO> update(int id, UpdateDriverDTO driverRequest) {
         return driverRepository.findById(id).map(existingDriver -> {
             existingDriver.setFirstName(driverRequest.firstName());
             existingDriver.setLastName(driverRequest.lastName());
@@ -44,15 +46,15 @@ public class DriverServiceImpl implements DriverService {
             existingDriver.setPhoneNumber(driverRequest.phoneNumber());
 
             Driver savedDriver = driverRepository.save(existingDriver);
-            return driverMapper.toDriverResponse(savedDriver);
+            return driverMapper.toDriverDTO(savedDriver);
         });
     }
 
     @Override
-    public Optional<DriverResponse> delete(int id) {
+    public Optional<DriverDTO> delete(int id) {
         return driverRepository.findById(id).map(existingDriver -> {
             driverRepository.delete(existingDriver);
-            return driverMapper.toDriverResponse(existingDriver);
+            return driverMapper.toDriverDTO(existingDriver);
         });
     }
 }

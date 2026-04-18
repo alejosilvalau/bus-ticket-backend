@@ -1,19 +1,20 @@
-package com.frro.bus.ticket.driver.service;
-
-import com.frro.bus.ticket.driver.dto.DriverRequest;
-import com.frro.bus.ticket.driver.dto.DriverResponse;
+package com.frro.bus.ticket.features.identity.services;
 
 import java.util.List;
 import java.util.Optional;
 
+import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
+import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
+import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
+
 public interface DriverService {
-    List<DriverResponse> findAll();
+    List<DriverDTO> findAll();
 
-    Optional<DriverResponse> findById(int id);
+    Optional<DriverDTO> findById(int id);
 
-    DriverResponse create(DriverRequest userRequest);
+    DriverDTO create(CreateDriverDTO userRequest);
 
-    Optional<DriverResponse> delete(int id);
+    Optional<DriverDTO> delete(int id);
 
-    Optional<DriverResponse> update(int id, DriverRequest userRequest);
+    Optional<DriverDTO> update(int id, UpdateDriverDTO userRequest);
 }
