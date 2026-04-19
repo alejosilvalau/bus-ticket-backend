@@ -8,7 +8,16 @@ import com.frro.bus.ticket.features.fleet.entities.Seat;
 import com.frro.bus.ticket.features.identity.entities.User;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "ticket")
 public class Ticket {
     @Id
