@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 import com.frro.bus.ticket.features.fleet.entities.Bus;
-import com.frro.bus.ticket.features.identity.entities.Person;
+import com.frro.bus.ticket.features.identity.entities.Driver;
 
 @Entity
 @Getter
@@ -38,7 +38,7 @@ public class Trip {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_driver", nullable = false)
-    private Person driver;
+    private Driver driver;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_location_origin", nullable = false)

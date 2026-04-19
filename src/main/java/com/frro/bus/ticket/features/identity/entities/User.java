@@ -1,10 +1,14 @@
 package com.frro.bus.ticket.features.identity.entities;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
+
+import com.frro.bus.ticket.features.booking.entities.Ticket;
 
 @Entity
 @Getter
@@ -22,5 +26,6 @@ public class User extends Person {
     @Column(nullable = true)
     private Boolean isAdmin = false;
 
-    // Missing relationship with Ticket
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Ticket> tickets;
 }

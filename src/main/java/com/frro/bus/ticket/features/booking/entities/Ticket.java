@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 import com.frro.bus.ticket.features.fleet.entities.Seat;
-import com.frro.bus.ticket.features.identity.entities.Person;
+import com.frro.bus.ticket.features.identity.entities.User;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 
 @Entity
@@ -29,7 +29,7 @@ public class Ticket {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user", nullable = false)
-    private Person user;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_trip", nullable = false)
