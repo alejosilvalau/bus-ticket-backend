@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+import com.frro.bus.ticket.features.journey.entities.Trip;
+
 @Entity
 @Getter
 @Setter
@@ -23,9 +26,9 @@ public class Location {
 
     // For trips where this location is the origin
     @OneToMany(mappedBy = "locationOrigin", fetch = FetchType.LAZY)
-    private java.util.List<com.frro.bus.ticket.trip.model.Trip> tripsOrigin;
+    private List<Trip> tripsOrigin;
 
     // For trips where this location is the destination
     @OneToMany(mappedBy = "locationDestination", fetch = FetchType.LAZY)
-    private java.util.List<com.frro.bus.ticket.trip.model.Trip> tripsDestination;
+    private List<Trip> tripsDestination;
 }
