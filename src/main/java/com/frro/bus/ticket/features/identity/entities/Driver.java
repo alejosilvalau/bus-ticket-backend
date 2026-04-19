@@ -1,5 +1,9 @@
 package com.frro.bus.ticket.features.identity.entities;
 
+import java.util.List;
+
+import com.frro.bus.ticket.features.journey.entities.Trip;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,5 +23,6 @@ public class Driver extends Person {
     @Column(nullable = true)
     private String phoneNumber;
 
-    // Missing relationship with Trip
+    @OneToMany(mappedBy = "driver", fetch = FetchType.LAZY)
+    private List<Trip> trips;
 }
