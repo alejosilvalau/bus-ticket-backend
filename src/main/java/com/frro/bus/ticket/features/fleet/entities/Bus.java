@@ -1,14 +1,20 @@
-package com.frro.bus.ticket.bus.model;
+package com.frro.bus.ticket.features.fleet.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
+import com.frro.bus.ticket.features.journey.entities.Trip;
+import com.frro.bus.ticket.features.fleet.entities.Seat;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "bus")
 public class Bus {
     @Id
@@ -23,4 +29,10 @@ public class Bus {
 
     @Column(nullable = false)
     private Boolean isActive = true;
+
+    @OneToMany(mappedBy = "bus", fetch = FetchType.LAZY)
+    private List<Trip> trips;
+
+    @OneToMany(mappedBy = "bus", fetch = FetchType.LAZY)
+    private List<Seat> seats;
 }

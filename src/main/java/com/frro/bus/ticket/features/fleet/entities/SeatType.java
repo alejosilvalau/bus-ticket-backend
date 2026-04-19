@@ -1,37 +1,35 @@
 package com.frro.bus.ticket.features.fleet.entities;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
+
+import com.frro.bus.ticket.features.fleet.entities.Seat;
+
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "seat_types")
 public class SeatType {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = false, unique = true)
-	private String name;
+    @Column(nullable = false, unique = true)
+    private String name;
 
-	public SeatType() {
-	}
+    @Column(nullable = false)
+    private BigDecimal upcharge;
 
-	public SeatType(String name) {
-		this.name = name;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+    @OneToMany(mappedBy = "seatType", fetch = FetchType.LAZY)
+    private List<Seat> seats;
 }

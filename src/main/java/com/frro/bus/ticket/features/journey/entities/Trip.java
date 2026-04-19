@@ -1,33 +1,51 @@
-package com.frro.bus.ticket.trip.model;
+package com.frro.bus.ticket.features.journey.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+
+import com.frro.bus.ticket.features.fleet.entities.Bus;
+import com.frro.bus.ticket.features.identity.entities.Person;
+import com.frro.bus.ticket.location.model.Location;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "trip")
 public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private Integer idBus;
-    private Integer idDriver;
-    private Integer idLocationOrigin;
-    private Integer idLocationDestination;
+    @Column(nullable = false)
+    private ZonedDateTime departureDate;
 
     @Column(nullable = false)
-    private LocalDateTime departureDate;
-
-    @Column(nullable = false)
-    private LocalDateTime arrivalDate;
+    private ZonedDateTime arrivalDate;
 
     @Column(nullable = false)
     private BigDecimal basePrice;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_bus", nullable = false)
+    private Bus bus;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_driver", nullable = false)
+    private Person driver;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_location_origin", nullable = false)
+    private Location locationOrigin;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_location_destination", nullable = false)
+    private Location locationDestination;
 }
