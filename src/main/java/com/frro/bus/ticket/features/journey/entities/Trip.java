@@ -33,7 +33,7 @@ public class Trip {
     private ZonedDateTime arrivalDate;
 
     @Column(nullable = false)
-    private BigDecimal basePrice;
+    private BigDecimal basePrice = BigDecimal.ZERO;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_bus", nullable = false)
