@@ -28,10 +28,4 @@ public abstract class Person {
 
     @Column(nullable = false)
     private Boolean isActive = true;
-
-    @OneToMany(mappedBy = "driver", fetch = FetchType.LAZY)
-    private java.util.List<com.frro.bus.ticket.trip.model.Trip> tripsAsDriver;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private java.util.List<com.frro.bus.ticket.features.booking.entities.Ticket> tickets;
 }

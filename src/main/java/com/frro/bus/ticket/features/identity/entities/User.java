@@ -22,4 +22,5 @@ public class User extends Person {
     @Column(nullable = true)
     private Boolean isAdmin = false;
 
+    // Missing relationship with Ticket
 }

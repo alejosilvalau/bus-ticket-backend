@@ -18,4 +18,6 @@ public class Driver extends Person {
 
     @Column(nullable = true)
     private String phoneNumber;
+
+    // Missing relationship with Trip
 }

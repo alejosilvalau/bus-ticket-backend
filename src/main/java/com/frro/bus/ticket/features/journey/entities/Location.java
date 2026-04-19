@@ -3,6 +3,7 @@ package com.frro.bus.ticket.location.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import com.frro.bus.ticket.features.journey.entities.Trip;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "location")
 public class Location {
     @Id
