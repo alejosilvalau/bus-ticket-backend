@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+
 import com.frro.bus.ticket.features.fleet.entities.Bus;
 import com.frro.bus.ticket.features.identity.entities.Person;
 import com.frro.bus.ticket.location.model.Location;
@@ -23,10 +25,10 @@ public class Trip {
     private int id;
 
     @Column(nullable = false)
-    private LocalDateTime departureDate;
+    private ZonedDateTime departureDate;
 
     @Column(nullable = false)
-    private LocalDateTime arrivalDate;
+    private ZonedDateTime arrivalDate;
 
     @Column(nullable = false)
     private BigDecimal basePrice;
