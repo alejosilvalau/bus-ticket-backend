@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.util.List;
 import com.frro.bus.ticket.features.journey.entities.Trip;
-import com.frro.bus.ticket.features.fleet.entities.Seat;
 
 @Entity
 @Getter

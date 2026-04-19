@@ -1,4 +1,4 @@
-package com.frro.bus.ticket.location.model;
+package com.frro.bus.ticket.features.journey.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-import com.frro.bus.ticket.features.journey.entities.Trip;
 
 @Entity
 @Getter

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.frro.bus.ticket.features.journey.entities.Trip;
+
 @Entity
 @Table(name = "ticket")
 public class Ticket {
@@ -17,7 +19,7 @@ public class Ticket {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_trip", nullable = false)
-    private com.frro.bus.ticket.trip.model.Trip trip;
+    private Trip trip;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_seat", nullable = false)
