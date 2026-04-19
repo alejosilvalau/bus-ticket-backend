@@ -32,6 +32,6 @@ public class Bus {
     @OneToMany(mappedBy = "bus", fetch = FetchType.LAZY)
     private List<Trip> trips;
 
-    @OneToMany(mappedBy = "bus", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "bus", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Seat> seats;
 }
