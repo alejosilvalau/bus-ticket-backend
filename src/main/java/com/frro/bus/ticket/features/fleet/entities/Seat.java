@@ -15,7 +15,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "seat")
+@Table(
+    name = "seat",
+    uniqueConstraints = @UniqueConstraint(
+        name = "uk_bus_seat",
+        columnNames = {"id_bus", "letter", "number"}
+    )
+)
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
