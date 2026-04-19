@@ -25,7 +25,7 @@ create table bus (
   id int auto_increment primary key,
   plate_number varchar(20) not null unique,
   total_capacity int not null default 0,
-  is_active boolean default true
+  is_active boolean not null default true
 );
 
 create table seat_type (
@@ -68,8 +68,8 @@ create table ticket (
   id_trip int not null,
   id_seat int not null,
   final_price decimal(10, 2) not null default 0.00,
-  booking_time datetime default current_timestamp,
-  is_cancelled boolean default false not null,
+  booking_time datetime not null default current_timestamp,
+  is_cancelled boolean not null default false,
   token varchar(64) not null unique,
   constraint fk_ticket_user foreign key (id_user) references person (id) on delete restrict on update cascade,
   constraint fk_ticket_trip foreign key (id_trip) references trip (id) on delete restrict on update cascade,

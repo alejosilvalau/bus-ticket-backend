@@ -18,17 +18,18 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ticket")
+@Table(name = "ticket", uniqueConstraints = @UniqueConstraint(name = "uk_trip_seat", columnNames = { "id_trip",
+        "id_seat" }))
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)
-    private BigDecimal finalPrice;
+    private BigDecimal finalPrice = BigDecimal.ZERO;
 
     @Column(nullable = false)
-    private ZonedDateTime bookingTime;
+    private ZonedDateTime bookingTime = ZonedDateTime.now();
 
     @Column(nullable = false)
     private boolean isCancelled = false;

@@ -11,8 +11,6 @@ import lombok.Setter;
 
 import java.util.List;
 
-import com.frro.bus.ticket.features.fleet.entities.Seat;
-
 @Entity
 @Getter
 @Setter
@@ -28,7 +26,7 @@ public class SeatType {
     private String name;
 
     @Column(nullable = false)
-    private BigDecimal upcharge;
+    private BigDecimal upcharge = BigDecimal.ZERO;
 
     @OneToMany(mappedBy = "seatType", fetch = FetchType.LAZY)
     private List<Seat> seats;
