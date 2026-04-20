@@ -24,7 +24,7 @@ public class Bus {
     private String plateNumber;
 
     @Column(nullable = false)
-    private Integer totalCapacity;
+    private Integer totalCapacity = 0;
 
     @Column(nullable = false)
     private Boolean isActive = true;

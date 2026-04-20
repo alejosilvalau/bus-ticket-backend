@@ -1,7 +1,10 @@
-package com.frro.bus.ticket.features.journey.dtos;
+package com.frro.bus.ticket.features.journey.dtos.location;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record UpdateLocationDTO(
-    int id,
-    String cityName,
-    String state
-) {}
+        @NotBlank @NotNull int id,
+        String cityName,
+        String state) {
+}

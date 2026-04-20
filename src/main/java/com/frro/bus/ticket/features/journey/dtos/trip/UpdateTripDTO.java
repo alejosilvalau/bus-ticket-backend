@@ -1,14 +1,18 @@
-package com.frro.bus.ticket.features.journey.dtos;
+package com.frro.bus.ticket.features.journey.dtos.trip;
+
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record UpdateTripDTO(
-    int id,
-    Integer busId,
-    Integer driverId,
-    Integer locationOriginId,
-    Integer locationDestinationId,
-    LocalDateTime departureDate,
-    LocalDateTime arrivalDate,
-    BigDecimal basePrice
-) {}
+        @NotBlank @NotNull int id,
+        ZonedDateTime departureDate,
+        ZonedDateTime arrivalDate,
+        BigDecimal basePrice,
+        int idBus,
+        int idDriver,
+        int idLocationOrigin,
+        int idLocationDestination) {
+}
