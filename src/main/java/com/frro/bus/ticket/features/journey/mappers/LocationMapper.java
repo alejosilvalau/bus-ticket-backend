@@ -11,7 +11,7 @@ import com.frro.bus.ticket.features.journey.entities.Location;
 public interface LocationMapper {
     LocationDTO toLocationDTO(Location location);
 
-    Location toLocation(CreateLocationDTO locationDto);
+    Location toLocation(CreateLocationDTO createLocationDto);
 
-    Location toLocation(UpdateLocationDTO locationDto);
+    Location toLocation(UpdateLocationDTO updateLocationDto);
 }
