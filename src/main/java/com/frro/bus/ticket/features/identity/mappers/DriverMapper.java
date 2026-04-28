@@ -11,7 +11,7 @@ import com.frro.bus.ticket.features.identity.entities.Driver;
 public interface DriverMapper {
     DriverDTO toDriverDTO(Driver driver);
 
-    Driver toDriver(CreateDriverDTO driverDto);
+    Driver toDriver(CreateDriverDTO createDriverDto);
 
-    Driver toDriver(UpdateDriverDTO driverDto);
+    Driver toDriver(UpdateDriverDTO updateDriverDto);
 }
