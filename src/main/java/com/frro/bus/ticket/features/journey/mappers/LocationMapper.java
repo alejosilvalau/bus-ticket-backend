@@ -1,12 +1,17 @@
-package com.frro.bus.ticket.location.mapper;
+package com.frro.bus.ticket.features.journey.mappers;
 
-import com.frro.bus.ticket.location.dto.LocationRequest;
-import com.frro.bus.ticket.location.dto.LocationResponse;
-import com.frro.bus.ticket.location.model.Location;
 import org.mapstruct.Mapper;
+
+import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
+import com.frro.bus.ticket.features.journey.dtos.location.UpdateLocationDTO;
+import com.frro.bus.ticket.features.journey.dtos.location.CreateLocationDTO;
+import com.frro.bus.ticket.features.journey.entities.Location;
 
 @Mapper(componentModel = "spring")
 public interface LocationMapper {
-    LocationResponse toLocationResponse(Location location);
-    Location toLocation(LocationRequest locationRequest);
+    LocationDTO toLocationDTO(Location location);
+
+    Location toLocation(CreateLocationDTO locationDto);
+
+    Location toLocation(UpdateLocationDTO locationDto);
 }

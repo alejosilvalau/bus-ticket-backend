@@ -1,12 +1,20 @@
-package com.frro.bus.ticket.trip.mapper;
+package com.frro.bus.ticket.features.journey.mappers;
 
-import com.frro.bus.ticket.trip.dto.TripRequest;
-import com.frro.bus.ticket.trip.dto.TripResponse;
-import com.frro.bus.ticket.trip.model.Trip;
 import org.mapstruct.Mapper;
+
+import com.frro.bus.ticket.features.journey.dtos.trip.CreateTripDTO;
+import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
+import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
+import com.frro.bus.ticket.features.journey.dtos.trip.UpdateTripDTO;
+import com.frro.bus.ticket.features.journey.entities.Trip;
 
 @Mapper(componentModel = "spring")
 public interface TripMapper {
-    TripResponse toTripResponse(Trip trip);
-    Trip toTrip(TripRequest tripRequest);
+    TripDTO toTripDTO(Trip trip);
+
+    TripFullDTO toTripFullDTO(Trip trip);
+
+    Trip toTrip(CreateTripDTO tripDto);
+
+    Trip toTrip(UpdateTripDTO tripDto);
 }
