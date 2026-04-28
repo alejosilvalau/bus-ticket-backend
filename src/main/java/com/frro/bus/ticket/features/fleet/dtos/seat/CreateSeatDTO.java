@@ -1,8 +1,11 @@
-package com.frro.bus.ticket.features.fleet.dtos;
+package com.frro.bus.ticket.features.fleet.dtos.seat;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record CreateSeatDTO(
-    int busId,
-    int seatTypeId,
-    char letter,
-    int number
-) {}
+        @NotBlank @NotNull int idBus,
+        @NotBlank @NotNull int idSeatType,
+        @NotBlank @NotNull char letter,
+        @NotBlank @NotNull int number) {
+}
