@@ -8,9 +8,9 @@ import jakarta.validation.constraints.NotNull;
 
 public record UpdateTicketDTO(
         @NotNull @NotEmpty int id,
-        int idUser,
-        int idTrip,
-        int idSeat,
+        // int idUser,
+        // int idTrip,
+        // int idSeat,
         BigDecimal finalPrice,
         LocalDateTime bookingTime,
         boolean isCancelled,

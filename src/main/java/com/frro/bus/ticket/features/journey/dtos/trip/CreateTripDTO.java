@@ -9,9 +9,10 @@ import jakarta.validation.constraints.NotNull;
 public record CreateTripDTO(
         @NotBlank @NotNull ZonedDateTime departureDate,
         @NotBlank @NotNull ZonedDateTime arrivalDate,
-        @NotBlank @NotNull BigDecimal basePrice,
-        @NotBlank @NotNull int idBus,
-        @NotBlank @NotNull int idDriverId,
-        @NotBlank @NotNull int idLocationOrigin,
-        @NotBlank @NotNull int idLocationDestination) {
+        @NotBlank @NotNull BigDecimal basePrice
+        // @NotBlank @NotNull int idBus,
+        // @NotBlank @NotNull int idDriverId,
+        // @NotBlank @NotNull int idLocationOrigin,
+        // @NotBlank @NotNull int idLocationDestination
+        ) {
 }

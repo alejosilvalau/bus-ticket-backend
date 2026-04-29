@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 
 public record TicketDTO(
         int id,
-        int idUser,
-        int idTrip,
-        int idSeat,
+        // int idUser,
+        // int idTrip,
+        // int idSeat,
         BigDecimal finalPrice,
         LocalDateTime bookingTime,
         boolean isCancelled,

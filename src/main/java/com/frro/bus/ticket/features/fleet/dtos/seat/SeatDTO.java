@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotNull;
 
 public record SeatDTO(
         @NotBlank @NotNull int id,
-        @NotBlank @NotNull int idBus,
-        @NotBlank @NotNull int idSeatType,
+        // @NotBlank @NotNull int idBus,
+        // @NotBlank @NotNull int idSeatType,
         @NotBlank @NotNull char letter,
         @NotBlank @NotNull int number) {
 }
