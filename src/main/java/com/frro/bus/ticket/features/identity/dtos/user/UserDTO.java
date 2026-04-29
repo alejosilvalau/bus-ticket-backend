@@ -1,5 +1,9 @@
 package com.frro.bus.ticket.features.identity.dtos.user;
 
+import java.util.List;
+
+import com.frro.bus.ticket.features.booking.dtos.TicketDTO;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -17,5 +21,7 @@ public record UserDTO(
 
         @Null String password,
 
-        @NotBlank @NotNull Boolean isAdmin) implements UserContract {
+        @NotBlank @NotNull Boolean isAdmin,
+
+        @NotBlank @NotNull List<TicketDTO> tickets) implements UserContract {
 }
