@@ -3,15 +3,15 @@ package com.frro.bus.ticket.features.booking.dtos;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.frro.bus.ticket.features.fleet.entities.Seat;
-import com.frro.bus.ticket.features.identity.entities.User;
-import com.frro.bus.ticket.features.journey.entities.Trip;
+import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
+import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
+import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
 
 public record TicketFullDTO(
         int id,
-        User user,
-        Trip trip,
-        Seat seat,
+        UserDTO user,
+        TripDTO trip,
+        SeatDTO seat,
         BigDecimal finalPrice,
         LocalDateTime bookingTime,
         boolean isCancelled,
