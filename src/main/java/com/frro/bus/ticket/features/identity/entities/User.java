@@ -26,6 +26,6 @@ public class User extends Person {
     @Column(nullable = true)
     private Boolean isAdmin = false;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Ticket> tickets;
+    // @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    // private List<Ticket> tickets;
 }

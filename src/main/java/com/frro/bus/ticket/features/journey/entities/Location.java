@@ -25,9 +25,9 @@ public class Location {
     @Column(nullable = false)
     private String state;
 
-    @OneToMany(mappedBy = "locationOrigin", fetch = FetchType.LAZY)
-    private List<Trip> tripsOrigin;
+    // @OneToMany(mappedBy = "locationOrigin", fetch = FetchType.LAZY)
+    // private List<Trip> tripsOrigin;
 
-    @OneToMany(mappedBy = "locationDestination", fetch = FetchType.LAZY)
-    private List<Trip> tripsDestination;
+    // @OneToMany(mappedBy = "locationDestination", fetch = FetchType.LAZY)
+    // private List<Trip> tripsDestination;
 }

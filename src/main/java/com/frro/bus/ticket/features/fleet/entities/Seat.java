@@ -33,14 +33,14 @@ public class Seat {
     @Column(nullable = false)
     private int number;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_bus", nullable = false)
-    private Bus bus;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "id_bus", nullable = false)
+    // private Bus bus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_seat_type", nullable = false)
-    private SeatType seatType;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "id_seat_type", nullable = false)
+    // private SeatType seatType;
 
-    @OneToMany(mappedBy = "seat", fetch = FetchType.LAZY)
-    private List<Ticket> tickets;
+    // @OneToMany(mappedBy = "seat", fetch = FetchType.LAZY)
+    // private List<Ticket> tickets;
 }

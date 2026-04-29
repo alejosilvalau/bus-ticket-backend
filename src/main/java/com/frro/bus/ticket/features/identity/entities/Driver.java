@@ -23,6 +23,6 @@ public class Driver extends Person {
     @Column(nullable = true)
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "driver", fetch = FetchType.LAZY)
-    private List<Trip> trips;
+    // @OneToMany(mappedBy = "driver", fetch = FetchType.LAZY)
+    // private List<Trip> trips;
 }
