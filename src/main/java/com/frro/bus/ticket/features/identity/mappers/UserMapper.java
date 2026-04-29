@@ -15,5 +15,6 @@ public interface UserMapper {
     @Mapping(target = "tickets", ignore = true)
     User toUser(CreateUserDTO createUserDto);
 
-    @Mapping(target = "tickets", ignore = true)User toUser(UpdateUserDTO updateUserDto);
+    @Mapping(target = "tickets", ignore = true)
+    User toUser(UpdateUserDTO updateUserDto);
 }
