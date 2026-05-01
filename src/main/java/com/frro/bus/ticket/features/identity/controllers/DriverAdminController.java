@@ -39,7 +39,7 @@ public class DriverAdminController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DriverDTO> updateDriver(@PathVariable int id,
+    public ResponseEntity<DriverDTO> update(@PathVariable int id,
             @RequestBody UpdateDriverDTO driverRequest) {
         Optional<DriverDTO> updatedDriver = driverService.update(id, driverRequest);
         return updatedDriver.map(ResponseEntity::ok)
