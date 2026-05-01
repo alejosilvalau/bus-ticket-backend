@@ -21,9 +21,9 @@ import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/journeys")
+@RequestMapping("/api/v1/journeys/catalog")
 @RequiredArgsConstructor
-public class JourneyController {
+public class CatalogController {
     private final TripMapper tripMapper;
     private final LocationMapper locationMapper;
 
@@ -38,15 +38,17 @@ public class JourneyController {
     @GetMapping("/trips/{id}")
     public ResponseEntity<TripDTO> getTripById(@PathVariable int id) {
         // TODO: Implement service to fetch trip by id
-        // Optional<TripDTO> trip = tripService.getTripById(id).map(tripMapper::toTripDTO);
+        // Optional<TripDTO> trip =
+        // tripService.getTripById(id).map(tripMapper::toTripDTO);
         // return trip.map(ResponseEntity::ok)
-        //         .orElseGet(() -> ResponseEntity.notFound().build());
+        // .orElseGet(() -> ResponseEntity.notFound().build());
         throw new UnsupportedOperationException("Unimplemented method 'getTripById'");
     }
 
     @PostMapping("/trips/search")
     public ResponseEntity<List<TripDTO>> searchTrips(@RequestBody Trip searchCriteria) {
-        // TODO: Implement service to search trips by criteria (departure location, arrival location, date, etc.)
+        // TODO: Implement service to search trips by criteria (departure location,
+        // arrival location, date, etc.)
         // List<Trip> trips = tripService.searchTrips(searchCriteria);
         // return ResponseEntity.ok(trips.stream().map(tripMapper::toTripDTO).toList());
         throw new UnsupportedOperationException("Unimplemented method 'searchTrips'");
@@ -56,16 +58,18 @@ public class JourneyController {
     public ResponseEntity<List<LocationDTO>> getAllLocations() {
         // TODO: Implement service to fetch all locations from database
         // List<Location> locations = locationService.getAllLocations();
-        // return ResponseEntity.ok(locations.stream().map(locationMapper::toLocationDTO).toList());
+        // return
+        // ResponseEntity.ok(locations.stream().map(locationMapper::toLocationDTO).toList());
         throw new UnsupportedOperationException("Unimplemented method 'getAllLocations'");
     }
 
     @GetMapping("/locations/{id}")
     public ResponseEntity<LocationDTO> getLocationById(@PathVariable int id) {
         // TODO: Implement service to fetch location by id
-        // Optional<LocationDTO> location = locationService.getLocationById(id).map(locationMapper::toLocationDTO);
+        // Optional<LocationDTO> location =
+        // locationService.getLocationById(id).map(locationMapper::toLocationDTO);
         // return location.map(ResponseEntity::ok)
-        //         .orElseGet(() -> ResponseEntity.notFound().build());
+        // .orElseGet(() -> ResponseEntity.notFound().build());
         throw new UnsupportedOperationException("Unimplemented method 'getLocationById'");
     }
 }

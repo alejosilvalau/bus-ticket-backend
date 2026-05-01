@@ -23,9 +23,9 @@ import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/journeys/admin")
+@RequestMapping("/api/v1/journeys/inventory")
 @RequiredArgsConstructor
-public class JourneyAdminController {
+public class InventoryController {
     private final TripMapper tripMapper;
     private final LocationMapper locationMapper;
 
