@@ -13,7 +13,7 @@ import com.frro.bus.ticket.features.identity.services.register.RegisterService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/register")
+@RequestMapping("/api/v1/identity/register")
 @RequiredArgsConstructor
 public class RegisterController {
     private final RegisterService registerService;

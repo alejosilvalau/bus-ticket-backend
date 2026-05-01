@@ -15,7 +15,7 @@ import com.frro.bus.ticket.features.identity.services.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/identity/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;

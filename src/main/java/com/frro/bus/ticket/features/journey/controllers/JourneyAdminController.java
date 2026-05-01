@@ -23,16 +23,14 @@ import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/admin/journeys")
+@RequestMapping("/api/v1/journeys/admin")
 @RequiredArgsConstructor
 public class JourneyAdminController {
     private final TripMapper tripMapper;
     private final LocationMapper locationMapper;
 
-    // Trip Management
-
-    @PostMapping("/trips/create")
-    public ResponseEntity<TripDTO> createTrip(@RequestBody CreateTripDTO createTripDTO) {
+    @PostMapping
+    public ResponseEntity<TripDTO> create(@RequestBody CreateTripDTO createTripDTO) {
         // TODO: Implement service to create a new trip
         // TripDTO createdTrip = tripService.createTrip(createTripDTO);
         // return ResponseEntity.ok(createdTrip);
@@ -42,27 +40,30 @@ public class JourneyAdminController {
     @PatchMapping("/trips/{id}/update")
     public ResponseEntity<TripDTO> updateTrip(@PathVariable int id, @RequestBody UpdateTripDTO updateTripDTO) {
         // TODO: Implement service to update a trip
-        // Optional<TripDTO> updatedTrip = tripService.updateTrip(id, updateTripDTO).map(tripMapper::toTripDTO);
+        // Optional<TripDTO> updatedTrip = tripService.updateTrip(id,
+        // updateTripDTO).map(tripMapper::toTripDTO);
         // return updatedTrip.map(ResponseEntity::ok)
-        //         .orElseGet(() -> ResponseEntity.notFound().build());
+        // .orElseGet(() -> ResponseEntity.notFound().build());
         throw new UnsupportedOperationException("Unimplemented method 'updateTrip'");
     }
 
     @DeleteMapping("/trips/{id}/delete")
     public ResponseEntity<TripDTO> deleteTrip(@PathVariable int id) {
         // TODO: Implement service to delete a trip (physical delete)
-        // Optional<TripDTO> deletedTrip = tripService.deleteTrip(id).map(tripMapper::toTripDTO);
+        // Optional<TripDTO> deletedTrip =
+        // tripService.deleteTrip(id).map(tripMapper::toTripDTO);
         // return deletedTrip.map(ResponseEntity::ok)
-        //         .orElseGet(() -> ResponseEntity.notFound().build());
+        // .orElseGet(() -> ResponseEntity.notFound().build());
         throw new UnsupportedOperationException("Unimplemented method 'deleteTrip'");
     }
 
     @PatchMapping("/trips/{id}/logical-delete")
     public ResponseEntity<TripDTO> logicalDeleteTrip(@PathVariable int id) {
         // TODO: Implement service to logically delete a trip (soft delete)
-        // Optional<TripDTO> updatedTrip = tripService.logicalDeleteTrip(id).map(tripMapper::toTripDTO);
+        // Optional<TripDTO> updatedTrip =
+        // tripService.logicalDeleteTrip(id).map(tripMapper::toTripDTO);
         // return updatedTrip.map(ResponseEntity::ok)
-        //         .orElseGet(() -> ResponseEntity.notFound().build());
+        // .orElseGet(() -> ResponseEntity.notFound().build());
         throw new UnsupportedOperationException("Unimplemented method 'logicalDeleteTrip'");
     }
 
@@ -71,26 +72,31 @@ public class JourneyAdminController {
     @PostMapping("/locations/create")
     public ResponseEntity<LocationDTO> createLocation(@RequestBody CreateLocationDTO createLocationDTO) {
         // TODO: Implement service to create a new location
-        // LocationDTO createdLocation = locationService.createLocation(createLocationDTO);
+        // LocationDTO createdLocation =
+        // locationService.createLocation(createLocationDTO);
         // return ResponseEntity.ok(createdLocation);
         throw new UnsupportedOperationException("Unimplemented method 'createLocation'");
     }
 
     @PatchMapping("/locations/{id}/update")
-    public ResponseEntity<LocationDTO> updateLocation(@PathVariable int id, @RequestBody UpdateLocationDTO updateLocationDTO) {
+    public ResponseEntity<LocationDTO> updateLocation(@PathVariable int id,
+            @RequestBody UpdateLocationDTO updateLocationDTO) {
         // TODO: Implement service to update a location
-        // Optional<LocationDTO> updatedLocation = locationService.updateLocation(id, updateLocationDTO).map(locationMapper::toLocationDTO);
+        // Optional<LocationDTO> updatedLocation = locationService.updateLocation(id,
+        // updateLocationDTO).map(locationMapper::toLocationDTO);
         // return updatedLocation.map(ResponseEntity::ok)
-        //         .orElseGet(() -> ResponseEntity.notFound().build());
+        // .orElseGet(() -> ResponseEntity.notFound().build());
         throw new UnsupportedOperationException("Unimplemented method 'updateLocation'");
     }
 
     @DeleteMapping("/locations/{id}/delete")
     public ResponseEntity<LocationDTO> deleteLocation(@PathVariable int id) {
         // TODO: Implement service to delete a location (physical delete)
-        // Optional<LocationDTO> deletedLocation = locationService.deleteLocation(id).map(locationMapper::toLocationDTO);
+        // Optional<LocationDTO> deletedLocation =
+        //
+        // locationService.deleteLocation(id).map(locationMapper::toLocationDTO);
         // return deletedLocation.map(ResponseEntity::ok)
-        //         .orElseGet(() -> ResponseEntity.notFound().build());
+        // .orElseGet(() -> ResponseEntity.notFound().build());
         throw new UnsupportedOperationException("Unimplemented method 'deleteLocation'");
     }
 
@@ -100,6 +106,6 @@ public class JourneyAdminController {
         // Optional<LocationDTO> updatedLocation = locationService.logicalDeleteLocation(id).map(locationMapper::toLocationDTO);
         // return updatedLocation.map(ResponseEntity::ok)
         //         .orElseGet(() -> ResponseEntity.notFound().build());
-        throw new UnsupportedOperationException("Unimplemented method 'logicalDeleteLocation'");
+        th nsupportedOperationException("Unimplemented method 'logicalDeleteLocation'");
     }
 }

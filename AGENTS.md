@@ -1,7 +1,7 @@
-# Normas Generales
-## Estructura de proyecto
+# AGENTS.md
+## Project Structure
 
-Division por features y capas, siguiendo el patrón de diseño MVC (Model-View-Controller) y la arquitectura de software en capas. Cada feature tiene su propia carpeta con subcarpetas para controllers, services, repositories y entities. Además, hay una carpeta común para excepciones globales, configuraciones y utilidades que pueden ser compartidas entre las diferentes features.
+Feature-based and layered division, following the MVC (Model-View-Controller) design pattern and a layered software architecture. Each feature has its own folder containing subfolders for controllers, services, repositories, and entities. Additionally, there is a common folder for global exceptions, configurations, and utilities that can be shared across the different features.
 
 ```
 src/main/java/com/app/
@@ -29,7 +29,7 @@ src/main/java/com/app/
 └── common/ (Excepciones globales, configuraciones, utilidades)
 ```
 
-Internamente, el código se debe organizar de la siguiente manera:
+Internally, the code should be organized as follows:
 
 ```
 features/
@@ -44,4 +44,4 @@ features/
     └── entities/
 ```
 
-Es decir, una division vertical por features (identity, fleet, journey, booking) y una division horizontal por capas (controllers, services, repositories, entities).
+In other words, the project is organized by features (identity, fleet, journey, booking) and by layers (controllers, services, repositories, entities).

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/admin/drivers")
+@RequestMapping("/api/v1/identity/drivers/admin")
 @RequiredArgsConstructor
 public class DriverAdminController {
     private final DriverService driverService;

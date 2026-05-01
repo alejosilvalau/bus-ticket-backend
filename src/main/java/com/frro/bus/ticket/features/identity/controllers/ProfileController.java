@@ -16,7 +16,7 @@ import com.frro.bus.ticket.features.identity.services.profile.ProfileService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/profile")
+@RequestMapping("/api/v1/identity/profile")
 @RequiredArgsConstructor
 public class ProfileController {
     private final ProfileService profileService;
