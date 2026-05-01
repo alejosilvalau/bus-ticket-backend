@@ -18,7 +18,7 @@ public interface InventoryService {
 
     Optional<LocationDTO> updateLocation(int id, UpdateLocationDTO userRequest);
 
-    Optional<TripDTO> delteTrip(int id);
+    Optional<TripDTO> deleteTrip(int id);
 
-    Optional<LocationDTO> delteLocation(int id);
+    Optional<LocationDTO> deleteLocation(int id);
 }
