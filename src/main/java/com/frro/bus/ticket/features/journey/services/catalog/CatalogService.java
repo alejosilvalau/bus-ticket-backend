@@ -17,7 +17,7 @@ public interface CatalogService {
 
     Optional<LocationDTO> findLocationById(int id);
 
-    List<TripDTO> searchTrips(SearchTripDTO searchTripDto);
+    List<TripDTO> searchTrips(SearchTripDTO searchCriteria);
 
-    List<LocationDTO> searchLocations(SearchLocationDTO searchLocationDto);
+    List<LocationDTO> searchLocations(SearchLocationDTO searchCriteria);
 }
