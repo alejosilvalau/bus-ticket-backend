@@ -22,10 +22,11 @@ public class ProfileServiceImpl implements ProfileService {
     public Optional<UserDTO> update(UpdateUserDTO userRequest) {
         return userRepository.findById(userRequest.id())
                 .map(existingUser -> {
-                    existingUser.setFirstName(userRequest.firstName());
-                    existingUser.setLastName(userRequest.lastName());
-                    existingUser.setIsActive(userRequest.isActive());
-                    existingUser.setEmail(userRequest.email());
+                    userRequest.firstName().ifPresent(existingUser::setFirstName);
+                    userRequest.lastName().ifPresent(existingUser::setLastName);
+                    userRequest.isActive().ifPresent(existingUser::setActive);
+                    userRequest.email().ifPresent(existingUser::setEmail);
+                    userRequest.isAdmin().ifPresent(existingUser::setAdmin);
 
                     User savedUser = userRepository.save(existingUser);
                     return userMapper.toUserDTO(savedUser);
