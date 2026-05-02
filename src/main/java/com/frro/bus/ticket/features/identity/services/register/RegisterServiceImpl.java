@@ -21,6 +21,7 @@ public class RegisterServiceImpl implements RegisterService {
         User user = userMapper.toUser(userRequest);
 
         // TODO: Hash the password here
+        // TODO: Check if the user already exists but is inactive
 
         User savedUser = userRepository.save(user);
         return userMapper.toUserDTO(savedUser);

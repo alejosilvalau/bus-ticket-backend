@@ -24,9 +24,7 @@ public class ProfileServiceImpl implements ProfileService {
                 .map(existingUser -> {
                     userRequest.firstName().ifPresent(existingUser::setFirstName);
                     userRequest.lastName().ifPresent(existingUser::setLastName);
-                    userRequest.isActive().ifPresent(existingUser::setActive);
                     userRequest.email().ifPresent(existingUser::setEmail);
-                    userRequest.isAdmin().ifPresent(existingUser::setAdmin);
 
                     User savedUser = userRepository.save(existingUser);
                     return userMapper.toUserDTO(savedUser);

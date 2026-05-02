@@ -11,9 +11,5 @@ public record UpdateUserDTO(
 
         Optional<String> lastName,
 
-        Optional<Boolean> isActive,
-
-        Optional<String> email,
-
-        Optional<Boolean> isAdmin) {
+        Optional<String> email) {
 }

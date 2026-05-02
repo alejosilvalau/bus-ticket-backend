@@ -19,14 +19,14 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "active", source = "isActive")
-    @Mapping(target = "admin", source = "isAdmin")
+    @Mapping(target = "admin", ignore = true)
     User toUser(CreateUserDTO createUserDto);
 
     @Mapping(target = "firstName", source = "firstName", qualifiedByName = "unwrapOptionalString")
     @Mapping(target = "lastName", source = "lastName", qualifiedByName = "unwrapOptionalString")
-    @Mapping(target = "active", source = "isActive", qualifiedByName = "unwrapOptionalBoolean")
     @Mapping(target = "email", source = "email", qualifiedByName = "unwrapOptionalString")
-    @Mapping(target = "admin", source = "isAdmin", qualifiedByName = "unwrapOptionalBoolean")
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "active", ignore = true)
+    @Mapping(target = "admin", ignore = true)
     User toUser(UpdateUserDTO updateUserDto);
 }

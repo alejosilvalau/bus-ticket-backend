@@ -13,7 +13,5 @@ public record CreateUserDTO(
 
         @NotBlank @NotNull @Email String email,
 
-        @NotBlank @NotNull String password,
-
-        @NotBlank boolean isAdmin) {
+        @NotBlank @NotNull String password) {
 }
