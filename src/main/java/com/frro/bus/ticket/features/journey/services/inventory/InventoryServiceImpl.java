@@ -57,6 +57,7 @@ public class InventoryServiceImpl implements InventoryService {
         return locationRepository.findById(locationRequest.id()).map(existingLocation -> {
             locationRequest.cityName().ifPresent(existingLocation::setCityName);
             locationRequest.state().ifPresent(existingLocation::setState);
+            locationRequest.postalCode().ifPresent(existingLocation::setPostalCode);
 
             Location savedLocation = locationRepository.save(existingLocation);
             return locationMapper.toLocationDTO(savedLocation);
