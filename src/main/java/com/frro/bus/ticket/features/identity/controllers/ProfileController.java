@@ -21,14 +21,14 @@ import lombok.RequiredArgsConstructor;
 public class ProfileController {
     private final ProfileService profileService;
 
-    @PatchMapping("/update")
+    @PatchMapping
     public ResponseEntity<UserDTO> update(@RequestBody UpdateUserDTO userRequest) {
         Optional<UserDTO> updatedUser = profileService.update(userRequest);
         return updatedUser.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<UserDTO> delete() {
         Optional<UserDTO> deletedUser = profileService.delete();
         return deletedUser.map(ResponseEntity::ok)
