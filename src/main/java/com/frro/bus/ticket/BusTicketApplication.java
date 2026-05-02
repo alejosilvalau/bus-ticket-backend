@@ -1,4 +1,4 @@
-package com.frro.bus.ticket.common;
+package com.frro.bus.ticket;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

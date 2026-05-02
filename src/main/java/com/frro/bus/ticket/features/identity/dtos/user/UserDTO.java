@@ -19,10 +19,8 @@ public record UserDTO(
 
         @NotBlank @NotNull String email,
 
-        @Null String password,
-
         @NotBlank @NotNull Boolean isAdmin
-        
-        // @NotBlank @NotNull List<TicketDTO> tickets
-        ) implements UserContract {
+
+// @NotBlank @NotNull List<TicketDTO> tickets
+) {
 }

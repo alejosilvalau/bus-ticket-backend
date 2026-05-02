@@ -2,11 +2,8 @@ package com.frro.bus.ticket.features.identity.dtos.driver;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 
 public record CreateDriverDTO(
-        @Null int id,
-
         @NotBlank @NotNull String firstName,
 
         @NotBlank @NotNull String lastName,
@@ -15,5 +12,5 @@ public record CreateDriverDTO(
 
         @NotBlank @NotNull String licenseNumber,
 
-        @NotBlank @NotNull String phoneNumber) implements DriverContract {
+        @NotBlank @NotNull String phoneNumber) {
 }

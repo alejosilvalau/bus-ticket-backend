@@ -15,7 +15,5 @@ public record UpdateUserDTO(
 
         String email,
 
-        @Null String password,
-
-        Boolean isAdmin) implements UserContract {
+        Boolean isAdmin) {
 }

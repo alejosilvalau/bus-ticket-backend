@@ -14,5 +14,5 @@ public record UpdateDriverDTO(
 
         String licenseNumber,
 
-        String phoneNumber) implements DriverContract {
+        String phoneNumber) {
 }

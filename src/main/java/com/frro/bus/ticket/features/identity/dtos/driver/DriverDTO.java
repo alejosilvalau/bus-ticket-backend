@@ -14,5 +14,5 @@ public record DriverDTO(
 
         @NotBlank @NotNull String licenseNumber,
 
-        @NotBlank @NotNull String phoneNumber) implements DriverContract {
+        @NotBlank @NotNull String phoneNumber) {
 }
