@@ -41,11 +41,11 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public Optional<TripDTO> updateTrip(int id, UpdateTripDTO tripRequest) {
-        return tripRepository.findById(id).map(existingTrip -> {
-            existingTrip.setDepartureDate(tripRequest.departureDate());
-            existingTrip.setArrivalDate(tripRequest.arrivalDate());
-            existingTrip.setBasePrice(tripRequest.basePrice());
+    public Optional<TripDTO> updateTrip(UpdateTripDTO tripRequest) {
+        return tripRepository.findById(tripRequest.id()).map(existingTrip -> {
+            tripRequest.departureDate().ifPresent(existingTrip::setDepartureDate);
+            tripRequest.arrivalDate().ifPresent(existingTrip::setArrivalDate);
+            tripRequest.basePrice().ifPresent(existingTrip::setBasePrice);
 
             Trip savedTrip = tripRepository.save(existingTrip);
             return tripMapper.toTripDTO(savedTrip);
@@ -53,10 +53,10 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public Optional<LocationDTO> updateLocation(int id, UpdateLocationDTO locationRequest) {
-        return locationRepository.findById(id).map(existingLocation -> {
-            existingLocation.setCityName(locationRequest.cityName());
-            existingLocation.setState(locationRequest.state());
+    public Optional<LocationDTO> updateLocation(UpdateLocationDTO locationRequest) {
+        return locationRepository.findById(locationRequest.id()).map(existingLocation -> {
+            locationRequest.cityName().ifPresent(existingLocation::setCityName);
+            locationRequest.state().ifPresent(existingLocation::setState);
 
             Location savedLocation = locationRepository.save(existingLocation);
             return locationMapper.toLocationDTO(savedLocation);

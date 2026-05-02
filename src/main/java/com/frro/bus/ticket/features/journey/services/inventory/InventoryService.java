@@ -14,9 +14,9 @@ public interface InventoryService {
 
     LocationDTO createLocation(CreateLocationDTO userRequest);
 
-    Optional<TripDTO> updateTrip(int id, UpdateTripDTO userRequest);
+    Optional<TripDTO> updateTrip(UpdateTripDTO userRequest);
 
-    Optional<LocationDTO> updateLocation(int id, UpdateLocationDTO userRequest);
+    Optional<LocationDTO> updateLocation(UpdateLocationDTO userRequest);
 
     Optional<TripDTO> deleteTrip(int id);
 

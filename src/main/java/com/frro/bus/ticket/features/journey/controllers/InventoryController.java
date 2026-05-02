@@ -41,17 +41,16 @@ public class InventoryController {
         return ResponseEntity.ok(savedLocation);
     }
 
-    @PatchMapping("/trips/{id}")
-    public ResponseEntity<TripDTO> updateTrip(@PathVariable int id, @RequestBody UpdateTripDTO tripRequest) {
-        Optional<TripDTO> updatedTrip = inventoryService.updateTrip(id, tripRequest);
+    @PatchMapping("/trips")
+    public ResponseEntity<TripDTO> updateTrip(@RequestBody UpdateTripDTO tripRequest) {
+        Optional<TripDTO> updatedTrip = inventoryService.updateTrip(tripRequest);
         return updatedTrip.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PatchMapping("/locations/{id}")
-    public ResponseEntity<LocationDTO> updateLocation(@PathVariable int id,
-            @RequestBody UpdateLocationDTO locationRequest) {
-        Optional<LocationDTO> updatedLocation = inventoryService.updateLocation(id, locationRequest);
+    @PatchMapping("/locations")
+    public ResponseEntity<LocationDTO> updateLocation(@RequestBody UpdateLocationDTO locationRequest) {
+        Optional<LocationDTO> updatedLocation = inventoryService.updateLocation(locationRequest);
         return updatedLocation.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
