@@ -14,7 +14,7 @@ public interface DriverService {
 
     DriverDTO create(CreateDriverDTO userRequest);
 
-    Optional<DriverDTO> update(int id, UpdateDriverDTO userRequest);
+    Optional<DriverDTO> update(UpdateDriverDTO userRequest);
 
     Optional<DriverDTO> delete(int id);
 

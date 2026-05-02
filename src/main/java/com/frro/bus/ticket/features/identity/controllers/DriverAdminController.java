@@ -38,10 +38,9 @@ public class DriverAdminController {
         return ResponseEntity.ok(savedDriver);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<DriverDTO> update(@PathVariable int id,
-            @RequestBody UpdateDriverDTO driverRequest) {
-        Optional<DriverDTO> updatedDriver = driverService.update(id, driverRequest);
+    @PatchMapping
+    public ResponseEntity<DriverDTO> update(@RequestBody UpdateDriverDTO driverRequest) {
+        Optional<DriverDTO> updatedDriver = driverService.update(driverRequest);
         return updatedDriver.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

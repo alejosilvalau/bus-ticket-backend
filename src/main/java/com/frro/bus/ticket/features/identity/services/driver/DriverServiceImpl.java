@@ -40,13 +40,13 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public Optional<DriverDTO> update(int id, UpdateDriverDTO driverRequest) {
-        return driverRepository.findById(id).map(existingDriver -> {
-            existingDriver.setFirstName(driverRequest.firstName());
-            existingDriver.setLastName(driverRequest.lastName());
-            existingDriver.setActive(driverRequest.isActive());
-            existingDriver.setLicenseNumber(driverRequest.licenseNumber());
-            existingDriver.setPhoneNumber(driverRequest.phoneNumber());
+    public Optional<DriverDTO> update(UpdateDriverDTO driverRequest) {
+        return driverRepository.findById(driverRequest.id()).map(existingDriver -> {
+            driverRequest.firstName().ifPresent(existingDriver::setFirstName);
+            driverRequest.lastName().ifPresent(existingDriver::setLastName);
+            driverRequest.isActive().ifPresent(existingDriver::setActive);
+            driverRequest.licenseNumber().ifPresent(existingDriver::setLicenseNumber);
+            driverRequest.phoneNumber().ifPresent(existingDriver::setPhoneNumber);
 
             Driver savedDriver = driverRepository.save(existingDriver);
             return driverMapper.toDriverDTO(savedDriver);
