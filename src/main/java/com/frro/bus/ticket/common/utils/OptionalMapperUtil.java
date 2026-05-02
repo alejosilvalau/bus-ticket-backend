@@ -1,0 +1,30 @@
+package com.frro.bus.ticket.common.utils;
+
+import org.mapstruct.Named;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.Optional;
+
+public class OptionalMapperUtil {
+
+    @Named("unwrapOptionalString")
+    public String unwrapString(Optional<String> opt) {
+        return opt.orElse(null);
+    }
+
+    @Named("unwrapOptionalBoolean")
+    public Boolean unwrapBoolean(Optional<Boolean> opt) {
+        return opt.orElse(null);
+    }
+
+    @Named("unwrapOptionalBigDecimal")
+    public BigDecimal unwrapBigDecimal(Optional<BigDecimal> opt) {
+        return opt.orElse(null);
+    }
+
+    @Named("unwrapOptionalZonedDateTime")
+    public ZonedDateTime unwrapZonedDateTime(Optional<ZonedDateTime> opt) {
+        return opt.orElse(null);
+    }
+}

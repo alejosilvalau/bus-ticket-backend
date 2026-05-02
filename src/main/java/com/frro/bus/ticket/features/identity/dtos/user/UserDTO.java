@@ -6,7 +6,6 @@ package com.frro.bus.ticket.features.identity.dtos.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 
 public record UserDTO(
         @NotBlank int id,
@@ -15,11 +14,11 @@ public record UserDTO(
 
         @NotBlank @NotNull String lastName,
 
-        @NotBlank boolean isActive,
+        boolean isActive,
 
         @NotBlank @NotNull String email,
 
-        @NotBlank boolean isAdmin
+        boolean isAdmin
 
 // @NotBlank @NotNull List<TicketDTO> tickets
 ) {
