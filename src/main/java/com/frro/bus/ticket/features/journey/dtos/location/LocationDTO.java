@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record LocationDTO(
-        @NotBlank @NotNull int id,
+        @NotBlank int id,
         @NotBlank @NotNull String cityName,
         @NotBlank @NotNull String state) {
 }

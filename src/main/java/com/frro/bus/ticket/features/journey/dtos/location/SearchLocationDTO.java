@@ -1,6 +1,8 @@
 package com.frro.bus.ticket.features.journey.dtos.location;
 
+import java.util.Optional;
+
 public record SearchLocationDTO(
-        String cityName,
-        String state) {
+        Optional<String> cityName,
+        Optional<String> state) {
 }
