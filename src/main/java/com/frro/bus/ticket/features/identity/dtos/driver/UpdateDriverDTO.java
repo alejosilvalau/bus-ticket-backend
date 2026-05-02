@@ -1,18 +1,19 @@
 package com.frro.bus.ticket.features.identity.dtos.driver;
 
+import java.util.Optional;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public record UpdateDriverDTO(
-        @NotBlank @NotNull int id,
+        @NotBlank int id,
 
-        String firstName,
+        Optional<String> firstName,
 
-        String lastName,
+        Optional<String> lastName,
 
-        boolean isActive,
+        Optional<Boolean> isActive,
 
-        String licenseNumber,
+        Optional<String> licenseNumber,
 
-        String phoneNumber) {
+        Optional<String> phoneNumber) {
 }

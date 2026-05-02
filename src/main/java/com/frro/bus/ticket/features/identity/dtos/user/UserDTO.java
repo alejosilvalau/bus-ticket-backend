@@ -9,17 +9,17 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 
 public record UserDTO(
-        @NotBlank @NotNull int id,
+        @NotBlank int id,
 
         @NotBlank @NotNull String firstName,
 
         @NotBlank @NotNull String lastName,
 
-        @NotBlank @NotNull boolean isActive,
+        @NotBlank boolean isActive,
 
         @NotBlank @NotNull String email,
 
-        @NotBlank @NotNull boolean isAdmin
+        @NotBlank boolean isAdmin
 
 // @NotBlank @NotNull List<TicketDTO> tickets
 ) {

@@ -4,13 +4,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record DriverDTO(
-        @NotBlank @NotNull int id,
+        @NotBlank int id,
 
         @NotBlank @NotNull String firstName,
 
         @NotBlank @NotNull String lastName,
 
-        @NotBlank @NotNull boolean isActive,
+        @NotBlank boolean isActive,
 
         @NotBlank @NotNull String licenseNumber,
 

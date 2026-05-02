@@ -44,7 +44,7 @@ public class DriverServiceImpl implements DriverService {
         return driverRepository.findById(id).map(existingDriver -> {
             existingDriver.setFirstName(driverRequest.firstName());
             existingDriver.setLastName(driverRequest.lastName());
-            existingDriver.setIsActive(driverRequest.isActive());
+            existingDriver.setActive(driverRequest.isActive());
             existingDriver.setLicenseNumber(driverRequest.licenseNumber());
             existingDriver.setPhoneNumber(driverRequest.phoneNumber());
 
@@ -56,7 +56,7 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public Optional<DriverDTO> logicalDelete(int id) {
         return driverRepository.findById(id).map(existingDriver -> {
-            existingDriver.setIsActive(false);
+            existingDriver.setActive(false);
             Driver savedDriver = driverRepository.save(existingDriver);
             return driverMapper.toDriverDTO(savedDriver);
         });

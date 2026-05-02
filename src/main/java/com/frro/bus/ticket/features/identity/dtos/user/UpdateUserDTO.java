@@ -1,19 +1,19 @@
 package com.frro.bus.ticket.features.identity.dtos.user;
 
+import java.util.Optional;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 
 public record UpdateUserDTO(
-        @NotBlank @NotNull int id,
+        @NotBlank int id,
 
-        String firstName,
+        Optional<String> firstName,
 
-        String lastName,
+        Optional<String> lastName,
 
-        boolean isActive,
+        Optional<Boolean> isActive,
 
-        String email,
+        Optional<String> email,
 
-        boolean isAdmin) {
+        Optional<Boolean> isAdmin) {
 }
