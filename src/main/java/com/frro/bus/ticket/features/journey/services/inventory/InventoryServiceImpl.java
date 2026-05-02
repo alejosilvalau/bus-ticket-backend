@@ -23,6 +23,8 @@ import java.util.Optional;
 public class InventoryServiceImpl implements InventoryService {
     private final TripRepository tripRepository;
     private final LocationRepository locationRepository;
+    private final TripMapper tripMapper;
+    private final LocationMapper locationMapper;
 
     @Override
     public TripDTO createTrip(CreateTripDTO tripRequest) {

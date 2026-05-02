@@ -2,11 +2,14 @@ package com.frro.bus.ticket.features.journey.services.catalog;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
+import com.frro.bus.ticket.features.journey.entities.Location;
+import com.frro.bus.ticket.features.journey.entities.Trip;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
 import com.frro.bus.ticket.features.journey.mappers.TripMapper;
