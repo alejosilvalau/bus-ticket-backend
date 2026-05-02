@@ -8,7 +8,7 @@ public record CreateDriverDTO(
 
         @NotBlank @NotNull String lastName,
 
-        @NotBlank @NotNull Boolean isActive,
+        @NotBlank @NotNull boolean isActive,
 
         @NotBlank @NotNull String licenseNumber,
 

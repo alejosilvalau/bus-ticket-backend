@@ -27,7 +27,7 @@ public class Bus {
     private int totalCapacity = 0;
 
     @Column(nullable = false)
-    private Boolean isActive = true;
+    private boolean isActive = true;
 
     // @OneToMany(mappedBy = "bus", fetch = FetchType.LAZY)
     // private List<Trip> trips;

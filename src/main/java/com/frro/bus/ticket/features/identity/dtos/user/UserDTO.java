@@ -15,11 +15,11 @@ public record UserDTO(
 
         @NotBlank @NotNull String lastName,
 
-        @NotBlank @NotNull Boolean isActive,
+        @NotBlank @NotNull boolean isActive,
 
         @NotBlank @NotNull String email,
 
-        @NotBlank @NotNull Boolean isAdmin
+        @NotBlank @NotNull boolean isAdmin
 
 // @NotBlank @NotNull List<TicketDTO> tickets
 ) {

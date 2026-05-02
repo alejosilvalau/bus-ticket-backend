@@ -11,9 +11,9 @@ public record UpdateUserDTO(
 
         String lastName,
 
-        Boolean isActive,
+        boolean isActive,
 
         String email,
 
-        Boolean isAdmin) {
+        boolean isAdmin) {
 }

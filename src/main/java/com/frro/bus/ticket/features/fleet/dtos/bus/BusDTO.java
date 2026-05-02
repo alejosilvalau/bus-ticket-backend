@@ -7,5 +7,5 @@ public record BusDTO(
         @NotBlank @NotNull int id,
         @NotBlank @NotNull String plateNumber,
         @NotBlank @NotNull int totalCapacity,
-        @NotBlank @NotNull Boolean isActive) {
+        @NotBlank @NotNull boolean isActive) {
 }

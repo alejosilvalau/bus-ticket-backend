@@ -9,11 +9,11 @@ public record CreateUserDTO(
 
         @NotBlank @NotNull String lastName,
 
-        @NotBlank @NotNull Boolean isActive,
+        @NotBlank @NotNull boolean isActive,
 
         @NotBlank @NotNull @Email String email,
 
         @NotBlank @NotNull String password,
 
-        @NotBlank @NotNull Boolean isAdmin) {
+        @NotBlank @NotNull boolean isAdmin) {
 }

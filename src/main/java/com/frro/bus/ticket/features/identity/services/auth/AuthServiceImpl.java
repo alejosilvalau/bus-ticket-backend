@@ -26,13 +26,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Boolean logout() {
+    public boolean logout() {
         // TODO: Implement logout logic, e.g., invalidate session or token
         throw new UnsupportedOperationException("Unimplemented method 'logout'");
     }
 
     @Override
-    public Boolean changePassword(ChangePasswordUserDTO userRequest) {
+    public boolean changePassword(ChangePasswordUserDTO userRequest) {
         Optional<User> userFound = userRepository.findByEmailAndPassword(userRequest.email(),
                 userRequest.password());
 

@@ -10,7 +10,7 @@ public record UpdateDriverDTO(
 
         String lastName,
 
-        Boolean isActive,
+        boolean isActive,
 
         String licenseNumber,
 

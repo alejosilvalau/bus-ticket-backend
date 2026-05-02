@@ -9,7 +9,7 @@ import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 public interface AuthService {
     Optional<UserDTO> login(LoginUserDTO userRequest);
 
-    Boolean logout();
+    boolean logout();
 
-    Boolean changePassword(ChangePasswordUserDTO userRequest);
+    boolean changePassword(ChangePasswordUserDTO userRequest);
 }

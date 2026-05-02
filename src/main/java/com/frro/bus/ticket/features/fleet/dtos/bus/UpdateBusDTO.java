@@ -7,5 +7,5 @@ public record UpdateBusDTO(
         @NotBlank @NotNull int id,
         String plateNumber,
         int totalCapacity,
-        Boolean isActive) {
+        boolean isActive) {
 }

@@ -24,7 +24,7 @@ public class User extends Person {
     private String password;
 
     @Column(nullable = true)
-    private Boolean isAdmin = false;
+    private boolean isAdmin = false;
 
     // @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     // private List<Ticket> tickets;
