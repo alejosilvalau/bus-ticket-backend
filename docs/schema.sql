@@ -18,7 +18,9 @@ create table person (
 create table location (
   id int auto_increment primary key,
   city_name varchar(100) not null,
-  state varchar(100) not null
+  state varchar(100) not null,
+  postal_code varchar(20) not null,
+  constraint uk_location_name_state_code unique (city_name, state, postal_code)
 );
 
 create table bus (

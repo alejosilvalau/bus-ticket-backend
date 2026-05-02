@@ -10,20 +10,6 @@ Content-Type: application/json
   "basePrice": 150.00
 }
 
-### Update trip by ID
-PATCH http://localhost:8080/api/v1/journeys/inventory/trips/1
-Content-Type: application/json
-
-{
-  "departureDate": "2024-12-02T09:00:00Z",
-  "arrivalDate": "2024-12-02T15:00:00Z",
-  "basePrice": 160.00
-}
-
-### Delete trip by ID
-DELETE http://localhost:8080/api/v1/journeys/inventory/trips/1
-Accept: application/json
-
 ### Create a new location
 POST http://localhost:8080/api/v1/journeys/inventory/locations
 Content-Type: application/json
@@ -33,14 +19,30 @@ Content-Type: application/json
   "state": "BA"
 }
 
-### Update location by ID
-PATCH http://localhost:8080/api/v1/journeys/inventory/locations/1
+### Update trip by ID
+PATCH http://localhost:8080/api/v1/journeys/inventory/trips
 Content-Type: application/json
 
 {
+  "id": 1,
+  "departureDate": "2024-12-02T09:00:00Z",
+  "arrivalDate": "2024-12-02T15:00:00Z",
+  "basePrice": 160.00
+}
+
+### Update location by ID
+PATCH http://localhost:8080/api/v1/journeys/inventory/locations
+Content-Type: application/json
+
+{
+  "id": 1,
   "cityName": "Mendoza",
   "state": "MZ"
 }
+
+### Delete trip by ID
+DELETE http://localhost:8080/api/v1/journeys/inventory/trips/1
+Accept: application/json
 
 ### Delete location by ID
 DELETE http://localhost:8080/api/v1/journeys/inventory/locations/1
