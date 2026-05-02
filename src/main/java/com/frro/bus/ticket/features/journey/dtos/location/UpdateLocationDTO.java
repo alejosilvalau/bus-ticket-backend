@@ -7,5 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 public record UpdateLocationDTO(
         @NotBlank int id,
         Optional<String> cityName,
-        Optional<String> state) {
+        Optional<String> state,
+        Optional<String> postalCode) {
 }

@@ -5,5 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record CreateLocationDTO(
         @NotBlank @NotNull String cityName,
-        @NotBlank @NotNull String state) {
+        @NotBlank @NotNull String state,
+        @NotBlank @NotNull String postalCode) {
 }

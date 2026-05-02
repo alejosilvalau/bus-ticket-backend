@@ -19,10 +19,12 @@ public interface LocationMapper {
 
     @Mapping(target = "cityName", source = "cityName", qualifiedByName = "unwrapOptionalString")
     @Mapping(target = "state", source = "state", qualifiedByName = "unwrapOptionalString")
+    @Mapping(target = "postalCode", source = "postalCode", qualifiedByName = "unwrapOptionalString")
     Location toLocation(UpdateLocationDTO updateLocationDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "cityName", source = "cityName", qualifiedByName = "unwrapOptionalString")
     @Mapping(target = "state", source = "state", qualifiedByName = "unwrapOptionalString")
+    @Mapping(target = "postalCode", source = "postalCode", qualifiedByName = "unwrapOptionalString")
     Location toLocation(SearchLocationDTO searchLocationDto);
 }

@@ -4,5 +4,6 @@ import java.util.Optional;
 
 public record SearchLocationDTO(
         Optional<String> cityName,
-        Optional<String> state) {
+        Optional<String> state,
+        Optional<String> postalCode) {
 }
