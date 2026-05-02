@@ -11,11 +11,11 @@ import com.frro.bus.ticket.features.identity.entities.Driver;
 
 @Mapper(componentModel = "spring", uses = OptionalMapperUtil.class)
 public interface DriverMapper {
-    @Mapping(target = "isActive", source = "active", qualifiedByName = "unwrapOptionalBoolean")
+    @Mapping(target = "isActive", source = "active")
     DriverDTO toDriverDTO(Driver driver);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "active", source = "isActive", qualifiedByName = "unwrapOptionalBoolean")
+    @Mapping(target = "active", source = "isActive")
     Driver toDriver(CreateDriverDTO createDriverDto);
 
     @Mapping(target = "firstName", source = "firstName", qualifiedByName = "unwrapOptionalString")

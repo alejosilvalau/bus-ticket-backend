@@ -1,11 +1,13 @@
 package com.frro.bus.ticket.common.utils;
 
+import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
+@Mapper(componentModel = "spring")
 public class OptionalMapperUtil {
 
     @Named("unwrapOptionalString")

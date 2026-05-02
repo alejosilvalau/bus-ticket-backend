@@ -13,13 +13,13 @@ import com.frro.bus.ticket.features.identity.entities.User;
 @Mapper(componentModel = "spring", uses = OptionalMapperUtil.class)
 public interface UserMapper {
 
-    @Mapping(target = "isAdmin", source = "getAdmin")
-    @Mapping(target = "isActive", source = "getActive")
+    @Mapping(target = "isAdmin", source = "admin")
+    @Mapping(target = "isActive", source = "active")
     UserDTO toUserDTO(User user);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "active", source = "isActive", qualifiedByName = "unwrapOptionalBoolean")
-    @Mapping(target = "admin", source = "isAdmin", qualifiedByName = "unwrapOptionalBoolean")
+    @Mapping(target = "active", source = "isActive")
+    @Mapping(target = "admin", source = "isAdmin")
     User toUser(CreateUserDTO createUserDto);
 
     @Mapping(target = "firstName", source = "firstName", qualifiedByName = "unwrapOptionalString")
