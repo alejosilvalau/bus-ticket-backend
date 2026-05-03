@@ -17,8 +17,6 @@ import com.frro.bus.ticket.features.journey.dtos.location.UpdateLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.CreateTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.UpdateTripDTO;
-import com.frro.bus.ticket.features.journey.mappers.LocationMapper;
-import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 import com.frro.bus.ticket.features.journey.services.inventory.InventoryService;
 
 import lombok.RequiredArgsConstructor;

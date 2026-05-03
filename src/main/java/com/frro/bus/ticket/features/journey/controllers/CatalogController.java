@@ -25,26 +25,26 @@ public class CatalogController {
     private final CatalogService catalogService;
 
     @GetMapping("/trips")
-    public ResponseEntity<List<TripDTO>> getAllTrips() {
+    public ResponseEntity<List<TripDTO>> findAllTrips() {
         List<TripDTO> trips = catalogService.findAllTrips();
         return ResponseEntity.ok(trips);
     }
 
     @GetMapping("/locations")
-    public ResponseEntity<List<LocationDTO>> getAllLocations() {
+    public ResponseEntity<List<LocationDTO>> findAllLocations() {
         List<LocationDTO> locations = catalogService.findAllLocations();
         return ResponseEntity.ok(locations);
     }
 
     @GetMapping("/trips/{id}")
-    public ResponseEntity<TripDTO> getTripById(@PathVariable int id) {
+    public ResponseEntity<TripDTO> findTripById(@PathVariable int id) {
         Optional<TripDTO> trip = catalogService.findTripById(id);
         return trip.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/locations/{id}")
-    public ResponseEntity<LocationDTO> getLocationById(@PathVariable int id) {
+    public ResponseEntity<LocationDTO> findLocationById(@PathVariable int id) {
         Optional<LocationDTO> location = catalogService.findLocationById(id);
         return location.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

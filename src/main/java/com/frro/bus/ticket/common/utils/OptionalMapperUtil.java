@@ -29,4 +29,14 @@ public class OptionalMapperUtil {
     public ZonedDateTime unwrapZonedDateTime(Optional<ZonedDateTime> opt) {
         return opt.orElse(null);
     }
+
+    @Named("unwrapOptionalInteger")
+    public Integer unwrapInt(Optional<Integer> opt) {
+        return opt.orElse(null);
+    }
+
+    @Named("unwrapOptionalChararacter")
+    public Character unwrapChar(Optional<Character> opt) {
+        return opt.orElse(null);
+    }
 }
