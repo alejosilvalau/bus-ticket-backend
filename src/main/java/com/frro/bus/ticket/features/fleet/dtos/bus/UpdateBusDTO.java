@@ -1,11 +1,12 @@
 package com.frro.bus.ticket.features.fleet.dtos.bus;
 
+import java.util.Optional;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public record UpdateBusDTO(
-        @NotBlank @NotNull int id,
-        String plateNumber,
-        int totalCapacity,
-        boolean isActive) {
+        @NotBlank int id,
+        Optional<String> plateNumber,
+        Optional<Integer> totalCapacity,
+        Optional<Boolean> isActive) {
 }

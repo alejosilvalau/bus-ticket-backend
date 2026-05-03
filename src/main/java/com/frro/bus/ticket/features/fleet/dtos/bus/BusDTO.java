@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record BusDTO(
-        @NotBlank @NotNull int id,
+        @NotBlank int id,
         @NotBlank @NotNull String plateNumber,
-        @NotBlank @NotNull int totalCapacity,
-        @NotBlank @NotNull boolean isActive) {
+        @NotBlank int totalCapacity,
+        boolean isActive) {
 }

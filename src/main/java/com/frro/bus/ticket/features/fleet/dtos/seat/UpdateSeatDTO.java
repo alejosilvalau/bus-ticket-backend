@@ -1,12 +1,13 @@
 package com.frro.bus.ticket.features.fleet.dtos.seat;
 
+import java.util.Optional;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public record UpdateSeatDTO(
-        @NotBlank @NotNull int id,
+        @NotBlank int id,
         // int idBus,
         // int idSeatType,
-        char letter,
-        int number) {
+        Optional<Character> letter,
+        Optional<Integer> number) {
 }

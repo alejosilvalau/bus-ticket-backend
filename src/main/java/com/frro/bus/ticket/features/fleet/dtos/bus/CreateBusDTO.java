@@ -5,6 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record CreateBusDTO(
         @NotBlank @NotNull String plateNumber,
-        @NotBlank @NotNull int totalCapacity,
-        @NotBlank @NotNull boolean isActive) {
+        @NotBlank int totalCapacity,
+        boolean isActive) {
 }
