@@ -1,0 +1,72 @@
+# REST Client file Architect
+
+### Create a new bus
+POST http://localhost:8080/api/v1/fleet/architect/buses
+Content-Type: application/json
+
+{
+  "plateNumber": "ABC-1234",
+  "totalCapacity": 40,
+  "isActive": true
+}
+
+### Create a new seat
+POST http://localhost:8080/api/v1/fleet/architect/seats
+Content-Type: application/json
+
+{
+  "letter": "A",
+  "number": 1
+}
+
+### Create a new seat type
+POST http://localhost:8080/api/v1/fleet/architect/seat-types
+Content-Type: application/json
+
+{
+  "name": "Premium",
+  "upcharge": 25.50
+}
+
+### Update bus by ID
+PATCH http://localhost:8080/api/v1/fleet/architect/buses
+Content-Type: application/json
+
+{
+  "id": 1,
+  "plateNumber": "ABC-1235",
+  "totalCapacity": 45,
+  "isActive": true
+}
+
+### Update seat by ID
+PATCH http://localhost:8080/api/v1/fleet/architect/seats
+Content-Type: application/json
+
+{
+  "id": 1,
+  "letter": "B",
+  "number": 2
+}
+
+### Update seat type by ID
+PATCH http://localhost:8080/api/v1/fleet/architect/seat-types
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "PremiumPlus",
+  "upcharge": 35.50
+}
+
+### Delete bus by ID
+DELETE http://localhost:8080/api/v1/fleet/architect/buses/1
+Accept: application/json
+
+### Delete seat by ID
+DELETE http://localhost:8080/api/v1/fleet/architect/seats/1
+Accept: application/json
+
+### Delete seat type by ID
+DELETE http://localhost:8080/api/v1/fleet/architect/seat-types/1
+Accept: application/json
