@@ -12,6 +12,6 @@ public record CreateTicketDTO(
         // @NotNull @NotEmpty int idSeat,
         @NotNull @NotEmpty BigDecimal finalPrice,
         @NotNull @NotEmpty LocalDateTime bookingTime,
-        @NotNull @NotEmpty boolean isCancelled,
+        boolean isCancelled,
         @NotNull @NotEmpty String token) {
 }
