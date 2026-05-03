@@ -21,12 +21,20 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public List<DriverDTO> findAll() {
-        return driverRepository.findAll().stream().map(driverMapper::toDriverDTO).toList();
+        return driverRepository.findAll().stream().map(driver -> {
+            // Force load trips to avoid lazy loading issues
+            driver.getTrips().size();
+            return driverMapper.toDriverDTO(driver);
+        }).toList();
     }
 
     @Override
     public Optional<DriverDTO> findById(int id) {
-        return driverRepository.findById(id).map(driverMapper::toDriverDTO);
+        return driverRepository.findById(id).map(driver -> {
+            // Force load trips to avoid lazy loading issues after session closes
+            driver.getTrips().size();
+            return driverMapper.toDriverDTO(driver);
+        });
     }
 
     @Override

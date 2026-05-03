@@ -1,5 +1,6 @@
 package com.frro.bus.ticket.features.identity.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.frro.bus.ticket.features.journey.entities.Trip;
@@ -24,5 +25,5 @@ public class Driver extends Person {
     private String phoneNumber;
 
     @OneToMany(mappedBy = "driver", fetch = FetchType.LAZY)
-    private List<Trip> trips;
+    private List<Trip> trips = new ArrayList<>();
 }
