@@ -7,10 +7,9 @@ import java.util.Optional;
 public record SearchTripDTO(
         Optional<ZonedDateTime> departureDate,
         Optional<ZonedDateTime> arrivalDate,
-        Optional<BigDecimal> basePrice
-// @NotBlank @NotNull int idBus,
-// @NotBlank @NotNull int idDriverId,
-// @NotBlank @NotNull int idLocationOrigin,
-// @NotBlank @NotNull int idLocationDestination
-) {
+        Optional<BigDecimal> basePrice,
+        Optional<Integer> idBus,
+        Optional<Integer> idDriver,
+        Optional<Integer> idLocationOrigin,
+        Optional<Integer> idLocationDestination) {
 }

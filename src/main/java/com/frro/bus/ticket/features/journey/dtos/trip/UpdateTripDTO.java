@@ -10,10 +10,9 @@ public record UpdateTripDTO(
         @NotBlank int id,
         Optional<ZonedDateTime> departureDate,
         Optional<ZonedDateTime> arrivalDate,
-        Optional<BigDecimal> basePrice
-// int idBus,
-// int idDriver,
-// int idLocationOrigin,
-// int idLocationDestination
-) {
+        Optional<BigDecimal> basePrice,
+        Optional<Integer> idBus,
+        Optional<Integer> idDriver,
+        Optional<Integer> idLocationOrigin,
+        Optional<Integer> idLocationDestination) {
 }
