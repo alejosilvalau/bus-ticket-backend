@@ -28,6 +28,6 @@ public class SeatType {
     @Column(nullable = false)
     private BigDecimal upcharge = BigDecimal.ZERO;
 
-    // @OneToMany(mappedBy = "seatType", fetch = FetchType.LAZY)
-    // private List<Seat> seats;
+    @OneToMany(mappedBy = "seatType", fetch = FetchType.LAZY)
+    private List<Seat> seats;
 }

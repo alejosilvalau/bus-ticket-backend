@@ -17,12 +17,12 @@ import com.frro.bus.ticket.features.identity.entities.Driver;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-// @Table(name = "trip", uniqueConstraints = {
-// @UniqueConstraint(name = "uk_trip_bus_departure", columnNames = { "id_bus",
-// "departure_date" }),
-// @UniqueConstraint(name = "uk_trip_driver_departure", columnNames = {
-// "id_driver", "departure_date" })
-// })
+@Table(name = "trip", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_trip_bus_departure", columnNames = { "id_bus",
+                "departure_date" }),
+        @UniqueConstraint(name = "uk_trip_driver_departure", columnNames = {
+                "id_driver", "departure_date" })
+})
 public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,19 +37,19 @@ public class Trip {
     @Column(nullable = false)
     private BigDecimal basePrice = BigDecimal.ZERO;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id_bus", nullable = false)
-    // private Bus bus;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_bus", nullable = false)
+    private Bus bus;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id_driver", nullable = false)
-    // private Driver driver;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_driver", nullable = false)
+    private Driver driver;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id_location_origin", nullable = false)
-    // private Location locationOrigin;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_location_origin", nullable = false)
+    private Location locationOrigin;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id_location_destination", nullable = false)
-    // private Location locationDestination;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_location_destination", nullable = false)
+    private Location locationDestination;
 }

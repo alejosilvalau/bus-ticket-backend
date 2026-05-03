@@ -15,14 +15,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-// @Table(
-// name = "seat",
-// uniqueConstraints = @UniqueConstraint(
-// name = "uk_bus_seat",
-// columnNames = {"id_bus", "letter", "number"}
-// )
-// )
-@Table(name = "seat")
+@Table(name = "seat", uniqueConstraints = @UniqueConstraint(name = "uk_bus_seat", columnNames = { "id_bus", "letter",
+        "number" }))
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,14 +28,14 @@ public class Seat {
     @Column(nullable = false)
     private int number;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id_bus", nullable = false)
-    // private Bus bus;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_bus", nullable = false)
+    private Bus bus;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id_seat_type", nullable = false)
-    // private SeatType seatType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_seat_type", nullable = false)
+    private SeatType seatType;
 
-    // @OneToMany(mappedBy = "seat", fetch = FetchType.LAZY)
-    // private List<Ticket> tickets;
+    @OneToMany(mappedBy = "seat", fetch = FetchType.LAZY)
+    private List<Ticket> tickets;
 }

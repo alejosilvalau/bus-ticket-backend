@@ -29,9 +29,9 @@ public class Bus {
     @Column(nullable = false)
     private boolean isActive = true;
 
-    // @OneToMany(mappedBy = "bus", fetch = FetchType.LAZY)
-    // private List<Trip> trips;
+    @OneToMany(mappedBy = "bus", fetch = FetchType.LAZY)
+    private List<Trip> trips;
 
-    // @OneToMany(mappedBy = "bus", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
-    // private List<Seat> seats;
+    @OneToMany(mappedBy = "bus", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Seat> seats;
 }
