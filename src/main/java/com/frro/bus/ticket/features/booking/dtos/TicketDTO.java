@@ -1,7 +1,7 @@
 package com.frro.bus.ticket.features.booking.dtos;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -11,7 +11,7 @@ public record TicketDTO(
         // int idTrip,
         // int idSeat,
         @NotBlank BigDecimal finalPrice,
-        @NotBlank LocalDateTime bookingTime,
+        @NotBlank ZonedDateTime bookingTime,
         boolean isCancelled,
         @NotBlank String token) {
 }
