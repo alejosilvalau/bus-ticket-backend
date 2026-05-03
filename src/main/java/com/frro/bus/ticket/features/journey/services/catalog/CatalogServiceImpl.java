@@ -34,7 +34,14 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public List<TripDTO> findAllTrips() {
-        return tripRepository.findAll().stream().map(tripMapper::toTripDTO).toList();
+        return tripRepository.findAll().stream().map(trip -> {
+            // Force load lazy relationships to avoid lazy loading issues
+            trip.getBus().getId();
+            trip.getDriver().getId();
+            trip.getLocationOrigin().getId();
+            trip.getLocationDestination().getId();
+            return tripMapper.toTripDTO(trip);
+        }).toList();
     }
 
     @Override
@@ -44,7 +51,14 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public Optional<TripDTO> findTripById(int id) {
-        return tripRepository.findById(id).map(tripMapper::toTripDTO);
+        return tripRepository.findById(id).map(trip -> {
+            // Force load lazy relationships
+            trip.getBus().getId();
+            trip.getDriver().getId();
+            trip.getLocationOrigin().getId();
+            trip.getLocationDestination().getId();
+            return tripMapper.toTripDTO(trip);
+        });
     }
 
     @Override
@@ -58,7 +72,14 @@ public class CatalogServiceImpl implements CatalogService {
 
         return tripRepository.findAll(Example.of(probe, DEFAULT_MATCHER))
                 .stream()
-                .map(tripMapper::toTripDTO)
+                .map(trip -> {
+                    // Force load lazy relationships
+                    trip.getBus().getId();
+                    trip.getDriver().getId();
+                    trip.getLocationOrigin().getId();
+                    trip.getLocationDestination().getId();
+                    return tripMapper.toTripDTO(trip);
+                })
                 .toList();
     }
 

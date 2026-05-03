@@ -3,6 +3,8 @@ package com.frro.bus.ticket.features.journey.services.inventory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.features.fleet.entities.Bus;
+import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.journey.dtos.location.CreateLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.UpdateLocationDTO;
@@ -47,7 +49,34 @@ public class InventoryServiceImpl implements InventoryService {
             tripRequest.arrivalDate().ifPresent(existingTrip::setArrivalDate);
             tripRequest.basePrice().ifPresent(existingTrip::setBasePrice);
 
+            // Update relationships if provided
+            tripRequest.idBus().ifPresent(busId -> {
+                Bus bus = new Bus();
+                bus.setId(busId);
+                existingTrip.setBus(bus);
+            });
+            tripRequest.idDriver().ifPresent(driverId -> {
+                Driver driver = new Driver();
+                driver.setId(driverId);
+                existingTrip.setDriver(driver);
+            });
+            tripRequest.idLocationOrigin().ifPresent(locationId -> {
+                Location location = new Location();
+                location.setId(locationId);
+                existingTrip.setLocationOrigin(location);
+            });
+            tripRequest.idLocationDestination().ifPresent(locationId -> {
+                Location location = new Location();
+                location.setId(locationId);
+                existingTrip.setLocationDestination(location);
+            });
+
             Trip savedTrip = tripRepository.save(existingTrip);
+            // Force load lazy relationships
+            savedTrip.getBus().getId();
+            savedTrip.getDriver().getId();
+            savedTrip.getLocationOrigin().getId();
+            savedTrip.getLocationDestination().getId();
             return tripMapper.toTripDTO(savedTrip);
         });
     }
