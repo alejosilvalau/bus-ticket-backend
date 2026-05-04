@@ -11,13 +11,15 @@ import lombok.Setter;
 
 import java.util.List;
 
+import com.frro.bus.ticket.common.utils.EntityWithId;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "seat_types")
-public class SeatType {
+public class SeatType implements EntityWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
