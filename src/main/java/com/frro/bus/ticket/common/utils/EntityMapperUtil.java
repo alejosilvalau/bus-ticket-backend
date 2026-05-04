@@ -1,6 +1,7 @@
 package com.frro.bus.ticket.common.utils;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
@@ -10,79 +11,73 @@ import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.journey.entities.Location;
 
 @Mapper(componentModel = "spring")
-public interface EntityMapperUtil {
+public abstract class EntityMapperUtil {
+    
+    // Generic helpers
+    
+    protected <T extends EntityWithId> Integer entityToId(T entity) {
+        return entity != null ? entity.getId() : null;
+    }
+    
+    protected <T extends EntityWithId> T idToEntity(Integer id, Supplier<T> constructor) {
+        if (id == null) return null;
+        T entity = constructor.get();
+        entity.setId(id);
+        return entity;
+    }
+    
+    protected <T extends EntityWithId> T optionalIdToEntity(Optional<Integer> id, Supplier<T> constructor) {
+        return id.map(idVal -> idToEntity(idVal, constructor)).orElse(null);
+    }
+    
     // Entity to id mappers
-
+    
     @Named("busToId")
-    default Integer busToId(Bus bus) {
-        return bus != null ? bus.getId() : null;
+    public Integer busToId(Bus bus) {
+        return entityToId(bus);
     }
-
+    
     @Named("driverToId")
-    default Integer driverToId(Driver driver) {
-        return driver != null ? driver.getId() : null;
+    public Integer driverToId(Driver driver) {
+        return entityToId(driver);
     }
-
+    
     @Named("locationToId")
-    default Integer locationToId(Location location) {
-        return location != null ? location.getId() : null;
+    public Integer locationToId(Location location) {
+        return entityToId(location);
     }
-
+    
     // Id to entity mappers
-
+    
     @Named("idToBus")
-    default Bus idToBus(Integer busId) {
-        if (busId == null)
-            return null;
-        Bus bus = new Bus();
-        bus.setId(busId);
-        return bus;
+    public Bus idToBus(Integer busId) {
+        return idToEntity(busId, Bus::new);
     }
-
+    
     @Named("idToDriver")
-    default Driver idToDriver(Integer driverId) {
-        if (driverId == null)
-            return null;
-        Driver driver = new Driver();
-        driver.setId(driverId);
-        return driver;
+    public Driver idToDriver(Integer driverId) {
+        return idToEntity(driverId, Driver::new);
     }
-
+    
     @Named("idToLocation")
-    default Location idToLocation(Integer locationId) {
-        if (locationId == null)
-            return null;
-        Location location = new Location();
-        location.setId(locationId);
-        return location;
+    public Location idToLocation(Integer locationId) {
+        return idToEntity(locationId, Location::new);
     }
-
+    
     // Optional Id to entity mappers
-
+    
     @Named("optionalIdToBus")
-    default Bus idToBusOptional(Optional<Integer> idBus) {
-        return idBus.map(id -> {
-            Bus bus = new Bus();
-            bus.setId(id);
-            return bus;
-        }).orElse(null);
+    public Bus idToBusOptional(Optional<Integer> idBus) {
+        return optionalIdToEntity(idBus, Bus::new);
     }
-
+    
     @Named("optionalIdToDriver")
-    default Driver idToDriverOptional(Optional<Integer> idDriver) {
-        return idDriver.map(id -> {
-            Driver driver = new Driver();
-            driver.setId(id);
-            return driver;
-        }).orElse(null);
+    public Driver idToDriverOptional(Optional<Integer> idDriver) {
+        return optionalIdToEntity(idDriver, Driver::new);
     }
-
+    
     @Named("optionalIdToLocation")
-    default Location idToLocationOptional(Optional<Integer> idLocation) {
-        return idLocation.map(id -> {
-            Location location = new Location();
-            location.setId(id);
-            return location;
-        }).orElse(null);
+    public Location idToLocationOptional(Optional<Integer> idLocation) {
+        return optionalIdToEntity(idLocation, Location::new);
     }
 }

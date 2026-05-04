@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.util.List;
 import com.frro.bus.ticket.features.journey.entities.Trip;
+import com.frro.bus.ticket.common.utils.EntityWithId;
 
 @Entity
 @Getter
@@ -15,7 +16,7 @@ import com.frro.bus.ticket.features.journey.entities.Trip;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "bus")
-public class Bus {
+public class Bus implements EntityWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

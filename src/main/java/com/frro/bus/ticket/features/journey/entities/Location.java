@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
+import com.frro.bus.ticket.common.utils.EntityWithId;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
         @UniqueConstraint(name = "uk_location_name_state_code", columnNames = { "city_name",
                 "state", "postal_code" }),
 })
-public class Location {
+public class Location implements EntityWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
