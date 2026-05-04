@@ -22,7 +22,7 @@ public abstract class TicketMapperDTOUtil extends EntityMapperDTOUtil {
     }
 
     @Named("ticketsToTicketDTOs")
-    public List<TicketDTO> ticketsToTicketDTOs(List<Ticket> ticket) {
-        return mapList(ticket, ticketMapper::toTicketDTO);
+    public List<TicketDTO> ticketsToTicketDTOs(List<Ticket> tickets) {
+        return mapList(tickets, ticketMapper::toTicketDTO);
     }
 }
