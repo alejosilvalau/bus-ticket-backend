@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
+import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
+
 public record DriverFullDTO(
         @NotBlank int id,
 
@@ -17,5 +19,5 @@ public record DriverFullDTO(
 
         @NotBlank @NotNull String phoneNumber,
 
-        List<Integer> idTrips) {
+        List<TripDTO> trips) {
 }
