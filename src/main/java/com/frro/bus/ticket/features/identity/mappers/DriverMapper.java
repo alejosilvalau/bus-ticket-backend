@@ -7,6 +7,7 @@ import org.mapstruct.Named;
 import com.frro.bus.ticket.common.utils.OptionalMapperUtil;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
+import com.frro.bus.ticket.features.identity.dtos.driver.DriverFullDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
 import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.journey.entities.Trip;
@@ -16,8 +17,11 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = OptionalMapperUtil.class)
 public interface DriverMapper {
     @Mapping(target = "isActive", source = "active")
-    @Mapping(target = "idTrips", source = "trips", qualifiedByName = "tripsToIds")
     DriverDTO toDriverDTO(Driver driver);
+
+    @Mapping(target = "isActive", source = "active")
+    @Mapping(target = "idTrips", source = "trips", qualifiedByName = "tripsToIds")
+    DriverFullDTO toDriverFullDTO(Driver driver);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "active", source = "isActive")

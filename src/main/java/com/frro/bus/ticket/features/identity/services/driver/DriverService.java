@@ -5,12 +5,17 @@ import java.util.Optional;
 
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
+import com.frro.bus.ticket.features.identity.dtos.driver.DriverFullDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
 
 public interface DriverService {
     List<DriverDTO> findAll();
 
+    List<DriverFullDTO> findAllFull();
+
     Optional<DriverDTO> findById(int id);
+
+    Optional<DriverFullDTO> findByIdFull(int id);
 
     DriverDTO create(CreateDriverDTO userRequest);
 

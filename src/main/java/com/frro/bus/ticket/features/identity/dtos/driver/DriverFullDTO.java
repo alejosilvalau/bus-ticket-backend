@@ -2,8 +2,9 @@ package com.frro.bus.ticket.features.identity.dtos.driver;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
-public record DriverDTO(
+public record DriverFullDTO(
         @NotBlank int id,
 
         @NotBlank @NotNull String firstName,
@@ -14,5 +15,7 @@ public record DriverDTO(
 
         @NotBlank @NotNull String licenseNumber,
 
-        @NotBlank @NotNull String phoneNumber) {
+        @NotBlank @NotNull String phoneNumber,
+
+        List<Integer> idTrips) {
 }
