@@ -1,9 +1,13 @@
 package com.frro.bus.ticket.features.identity.dtos.user;
 
+import java.util.List;
+
+import com.frro.bus.ticket.features.booking.dtos.TicketDTO;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record UserDTO(
+public record UserFullDTO(
         @NotBlank int id,
 
         @NotBlank @NotNull String firstName,
@@ -14,5 +18,7 @@ public record UserDTO(
 
         @NotBlank @NotNull String email,
 
-        boolean isAdmin) {
+        boolean isAdmin,
+
+        List<TicketDTO> tickets) {
 }

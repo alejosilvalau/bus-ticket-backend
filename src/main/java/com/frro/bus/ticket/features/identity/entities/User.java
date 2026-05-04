@@ -1,5 +1,6 @@
 package com.frro.bus.ticket.features.identity.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -27,5 +28,5 @@ public class User extends Person {
     private boolean isAdmin = false;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Ticket> tickets;
+    private List<Ticket> tickets = new ArrayList<>();
 }

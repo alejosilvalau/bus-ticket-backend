@@ -22,7 +22,6 @@ public abstract class TripMapperDTOUtil extends EntityMapperDTOUtil {
         return mapSingle(trip, tripMapper::toTripDTO);
     }
 
-    // List mappers
     @Named("tripsToTripDTOs")
     public List<TripDTO> tripsToTripDTOs(List<Trip> trips) {
         return mapList(trips, tripMapper::toTripDTO);

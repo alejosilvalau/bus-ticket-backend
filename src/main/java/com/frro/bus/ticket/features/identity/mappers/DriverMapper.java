@@ -2,7 +2,6 @@ package com.frro.bus.ticket.features.identity.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import com.frro.bus.ticket.common.utils.entities.BusMapperDTOUtil;
 import com.frro.bus.ticket.common.utils.entities.TripMapperDTOUtil;
 import com.frro.bus.ticket.common.utils.EntityMapperUtil;
 import com.frro.bus.ticket.common.utils.OptionalMapperUtil;
@@ -13,7 +12,7 @@ import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
 import com.frro.bus.ticket.features.identity.entities.Driver;
 
 @Mapper(componentModel = "spring", uses = { OptionalMapperUtil.class, EntityMapperUtil.class,
-        BusMapperDTOUtil.class, TripMapperDTOUtil.class })
+        TripMapperDTOUtil.class })
 public interface DriverMapper {
     @Mapping(target = "isActive", source = "active")
     DriverDTO toDriverDTO(Driver driver);
