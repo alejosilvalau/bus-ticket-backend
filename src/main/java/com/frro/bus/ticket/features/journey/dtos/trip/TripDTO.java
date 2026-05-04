@@ -10,9 +10,5 @@ public record TripDTO(
         @NotBlank int id,
         @NotBlank @NotNull ZonedDateTime departureDate,
         @NotBlank @NotNull ZonedDateTime arrivalDate,
-        @NotBlank @NotNull BigDecimal basePrice,
-        @NotBlank int idBus,
-        @NotBlank int idDriver,
-        @NotBlank int idLocationOrigin,
-        @NotBlank int idLocationDestination) {
+        @NotBlank @NotNull BigDecimal basePrice) {
 }

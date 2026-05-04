@@ -5,19 +5,18 @@ import org.mapstruct.Mapping;
 
 import com.frro.bus.ticket.common.utils.EntityMapperUtil;
 import com.frro.bus.ticket.common.utils.OptionalMapperUtil;
+import com.frro.bus.ticket.common.utils.entities.BusMapperDTOUtil;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
-import com.frro.bus.ticket.features.journey.dtos.trip.CreateTripDTO;
-import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
-import com.frro.bus.ticket.features.journey.dtos.trip.UpdateTripDTO;
+import com.frro.bus.ticket.features.journey.dtos.trip.*;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 
-@Mapper(componentModel = "spring", uses = { OptionalMapperUtil.class, EntityMapperUtil.class })
+@Mapper(componentModel = "spring", uses = { OptionalMapperUtil.class, EntityMapperUtil.class,
+        BusMapperDTOUtil.class })
 public interface TripMapper {
-    @Mapping(target = "idBus", source = "bus", qualifiedByName = "busToId")
-    @Mapping(target = "idDriver", source = "driver", qualifiedByName = "driverToId")
-    @Mapping(target = "idLocationOrigin", source = "locationOrigin", qualifiedByName = "locationToId")
-    @Mapping(target = "idLocationDestination", source = "locationDestination", qualifiedByName = "locationToId")
     TripDTO toTripDTO(Trip trip);
+
+    @Mapping(target = "bus", source = "bus", qualifiedByName = "busToBusDTO")
+    TripFullDTO toTripFullDTO(Trip trip);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "bus", source = "idBus", qualifiedByName = "idToBus")
