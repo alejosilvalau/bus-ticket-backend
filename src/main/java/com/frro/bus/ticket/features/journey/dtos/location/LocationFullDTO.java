@@ -12,5 +12,6 @@ public record LocationFullDTO(
         @NotBlank @NotNull String cityName,
         @NotBlank @NotNull String state,
         @NotBlank @NotNull String postalCode,
-        List<TripDTO> trips) {
+        List<TripDTO> tripsOrigin,
+        List<TripDTO> tripsDestination) {
 }

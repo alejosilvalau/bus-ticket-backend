@@ -3,7 +3,9 @@ package com.frro.bus.ticket.features.journey.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import com.frro.bus.ticket.common.utils.EntityMapperUtil;
 import com.frro.bus.ticket.common.utils.OptionalMapperUtil;
+import com.frro.bus.ticket.common.utils.entities.TripMapperDTOUtil;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.CreateLocationDTO;
@@ -11,27 +13,32 @@ import com.frro.bus.ticket.features.journey.dtos.location.UpdateLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
 import com.frro.bus.ticket.features.journey.entities.Location;
 
-@Mapper(componentModel = "spring", uses = OptionalMapperUtil.class)
+@Mapper(componentModel = "spring", uses = { OptionalMapperUtil.class, EntityMapperUtil.class,
+        TripMapperDTOUtil.class })
 public interface LocationMapper {
     LocationDTO toLocationDTO(Location location);
 
-    @Mapping(target = "trips", source = "trips", qualifiedByName = "tripsToTripDTOs")
+    @Mapping(target = "tripsOrigin", source = "tripsOrigin", qualifiedByName = "tripsToTripDTOs")
+    @Mapping(target = "tripsDestination", source = "tripsDestination", qualifiedByName = "tripsToTripDTOs")
     LocationFullDTO toLocationFullDTO(Location location);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "trips", ignore = true)
+    @Mapping(target = "tripsOrigin", ignore = true)
+    @Mapping(target = "tripsDestination", ignore = true)
     Location toLocation(CreateLocationDTO createLocationDto);
 
     @Mapping(target = "cityName", source = "cityName", qualifiedByName = "unwrapOptionalString")
     @Mapping(target = "state", source = "state", qualifiedByName = "unwrapOptionalString")
     @Mapping(target = "postalCode", source = "postalCode", qualifiedByName = "unwrapOptionalString")
-    @Mapping(target = "trips", ignore = true)
+    @Mapping(target = "tripsOrigin", ignore = true)
+    @Mapping(target = "tripsDestination", ignore = true)
     Location toLocation(UpdateLocationDTO updateLocationDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "cityName", source = "cityName", qualifiedByName = "unwrapOptionalString")
     @Mapping(target = "state", source = "state", qualifiedByName = "unwrapOptionalString")
     @Mapping(target = "postalCode", source = "postalCode", qualifiedByName = "unwrapOptionalString")
-    @Mapping(target = "trips", ignore = true)
+    @Mapping(target = "tripsOrigin", ignore = true)
+    @Mapping(target = "tripsDestination", ignore = true)
     Location toLocation(SearchLocationDTO searchLocationDto);
 }

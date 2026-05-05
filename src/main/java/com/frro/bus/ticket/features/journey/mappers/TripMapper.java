@@ -6,12 +6,15 @@ import org.mapstruct.Mapping;
 import com.frro.bus.ticket.common.utils.EntityMapperUtil;
 import com.frro.bus.ticket.common.utils.OptionalMapperUtil;
 import com.frro.bus.ticket.common.utils.entities.BusMapperDTOUtil;
+import com.frro.bus.ticket.common.utils.entities.DriverMapperDTOUtil;
+import com.frro.bus.ticket.common.utils.entities.LocationMapperDTOUtil;
+import com.frro.bus.ticket.common.utils.entities.TicketMapperDTOUtil;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.*;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 
 @Mapper(componentModel = "spring", uses = { OptionalMapperUtil.class, EntityMapperUtil.class,
-        BusMapperDTOUtil.class })
+        LocationMapperDTOUtil.class, BusMapperDTOUtil.class, DriverMapperDTOUtil.class, TicketMapperDTOUtil.class })
 public interface TripMapper {
     TripDTO toTripDTO(Trip trip);
 
