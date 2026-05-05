@@ -25,5 +25,5 @@ public class Driver extends Person {
     private String phoneNumber;
 
     @OneToMany(mappedBy = "driver", fetch = FetchType.LAZY)
-    private List<Trip> trips = new ArrayList<>();
+    private List<Trip> trips = new ArrayList<Trip>();
 }

@@ -28,5 +28,5 @@ public class User extends Person {
     private boolean isAdmin = false;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Ticket> tickets = new ArrayList<>();
+    private List<Ticket> tickets = new ArrayList<Ticket>();
 }

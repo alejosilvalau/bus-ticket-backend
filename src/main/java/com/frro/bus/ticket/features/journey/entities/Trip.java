@@ -8,7 +8,10 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.frro.bus.ticket.features.booking.entities.Ticket;
 import com.frro.bus.ticket.features.fleet.entities.Bus;
 import com.frro.bus.ticket.features.identity.entities.Driver;
 
@@ -52,4 +55,7 @@ public class Trip {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_location_destination", nullable = false)
     private Location locationDestination;
+
+    @OneToMany(mappedBy = "seat", fetch = FetchType.LAZY)
+    private List<Ticket> tickets = new ArrayList<Ticket>();
 }

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Setter;
 import com.frro.bus.ticket.common.utils.EntityWithId;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,8 +34,8 @@ public class Location implements EntityWithId {
     private String postalCode;
 
     @OneToMany(mappedBy = "locationOrigin", fetch = FetchType.LAZY)
-    private List<Trip> tripsOrigin;
+    private List<Trip> tripsOrigin = new ArrayList<Trip>();
 
     @OneToMany(mappedBy = "locationDestination", fetch = FetchType.LAZY)
-    private List<Trip> tripsDestination;
+    private List<Trip> tripsDestination = new ArrayList<Trip>();;
 }
