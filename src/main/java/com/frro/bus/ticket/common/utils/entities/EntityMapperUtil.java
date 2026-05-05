@@ -6,8 +6,6 @@ import java.util.function.Supplier;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 
-import com.frro.bus.ticket.common.utils.entities.EntityWithId;
-
 import com.frro.bus.ticket.features.booking.entities.Ticket;
 import com.frro.bus.ticket.features.fleet.entities.Bus;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
@@ -18,7 +16,7 @@ import com.frro.bus.ticket.features.journey.entities.Location;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 
 @Mapper(componentModel = "spring")
-public class EntityMapperUtil {
+public abstract class EntityMapperUtil {
 
     // Entity to id mappers
 
