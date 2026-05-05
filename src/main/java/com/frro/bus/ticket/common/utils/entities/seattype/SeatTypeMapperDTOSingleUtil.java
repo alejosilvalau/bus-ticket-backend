@@ -10,7 +10,7 @@ import com.frro.bus.ticket.features.fleet.entities.SeatType;
 import com.frro.bus.ticket.features.fleet.mappers.SeatTypeMapper;
 
 @Mapper(componentModel = "spring")
-public class SeatTypeMapperDTOSingleUtil extends EntityMapperDTOUtil {
+public abstract class SeatTypeMapperDTOSingleUtil extends EntityMapperDTOUtil {
 
     @Autowired
     protected SeatTypeMapper seatTypeMapper;

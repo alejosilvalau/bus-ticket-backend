@@ -10,7 +10,7 @@ import com.frro.bus.ticket.features.identity.entities.User;
 import com.frro.bus.ticket.features.identity.mappers.UserMapper;
 
 @Mapper(componentModel = "spring")
-public class UserMapperDTOSingleUtil extends EntityMapperDTOUtil {
+public abstract class UserMapperDTOSingleUtil extends EntityMapperDTOUtil {
 
     @Autowired
     protected UserMapper userMapper;

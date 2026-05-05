@@ -10,7 +10,7 @@ import com.frro.bus.ticket.features.journey.entities.Location;
 import com.frro.bus.ticket.features.journey.mappers.LocationMapper;
 
 @Mapper(componentModel = "spring")
-public class LocationMapperDTOSingleUtil extends EntityMapperDTOUtil {
+public abstract class LocationMapperDTOSingleUtil extends EntityMapperDTOUtil {
 
     @Autowired
     protected LocationMapper locationMapper;

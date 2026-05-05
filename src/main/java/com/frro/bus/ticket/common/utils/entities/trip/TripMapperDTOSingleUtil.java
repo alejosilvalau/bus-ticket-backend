@@ -10,7 +10,7 @@ import com.frro.bus.ticket.features.journey.entities.Trip;
 import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 
 @Mapper(componentModel = "spring")
-public class TripMapperDTOSingleUtil extends EntityMapperDTOUtil {
+public abstract class TripMapperDTOSingleUtil extends EntityMapperDTOUtil {
 
     @Autowired
     protected TripMapper tripMapper;

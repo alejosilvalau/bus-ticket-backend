@@ -10,7 +10,7 @@ import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.identity.mappers.DriverMapper;
 
 @Mapper(componentModel = "spring")
-public class DriverMapperDTOSingleUtil extends EntityMapperDTOUtil {
+public abstract class DriverMapperDTOSingleUtil extends EntityMapperDTOUtil {
 
     @Autowired
     protected DriverMapper driverMapper;
