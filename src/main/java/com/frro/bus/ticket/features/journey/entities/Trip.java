@@ -56,6 +56,6 @@ public class Trip {
     @JoinColumn(name = "id_location_destination", nullable = false)
     private Location locationDestination;
 
-    @OneToMany(mappedBy = "seat", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY)
     private List<Ticket> tickets = new ArrayList<Ticket>();
 }
