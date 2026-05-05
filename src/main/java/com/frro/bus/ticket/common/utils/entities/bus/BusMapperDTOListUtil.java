@@ -1,4 +1,4 @@
-package com.frro.bus.ticket.common.utils.entities;
+package com.frro.bus.ticket.common.utils.entities.bus;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.frro.bus.ticket.common.utils.entities;
+package com.frro.bus.ticket.common.utils.entities.location;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;

@@ -1,6 +1,4 @@
-package com.frro.bus.ticket.common.utils.entities;
-
-import java.util.List;
+package com.frro.bus.ticket.common.utils.entities.user;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
@@ -12,13 +10,13 @@ import com.frro.bus.ticket.features.identity.entities.User;
 import com.frro.bus.ticket.features.identity.mappers.UserMapper;
 
 @Mapper(componentModel = "spring")
-public abstract class UserMapperDTOListUtil extends EntityMapperDTOUtil {
+public abstract class UserMapperDTOSingleUtil extends EntityMapperDTOUtil {
 
     @Autowired
     protected UserMapper userMapper;
 
-    @Named("usersToUserDTOs")
-    public List<UserDTO> usersToUserDTOs(List<User> users) {
-        return mapList(users, userMapper::toUserDTO);
+    @Named("userToUserDTO")
+    public UserDTO userToUserDTO(User user) {
+        return mapSingle(user, userMapper::toUserDTO);
     }
 }

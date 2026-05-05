@@ -5,11 +5,11 @@ import org.mapstruct.Mapping;
 
 import com.frro.bus.ticket.common.utils.EntityMapperUtil;
 import com.frro.bus.ticket.common.utils.OptionalMapperUtil;
-import com.frro.bus.ticket.common.utils.entities.BusMapperDTOSingleUtil;
-import com.frro.bus.ticket.common.utils.entities.DriverMapperDTOSingleUtil;
-import com.frro.bus.ticket.common.utils.entities.LocationMapperDTOSingleUtil;
-import com.frro.bus.ticket.common.utils.entities.TicketMapperDTOSingleUtil;
-import com.frro.bus.ticket.common.utils.entities.TicketMapperDTOListUtil;
+import com.frro.bus.ticket.common.utils.entities.bus.BusMapperDTOSingleUtil;
+import com.frro.bus.ticket.common.utils.entities.driver.DriverMapperDTOSingleUtil;
+import com.frro.bus.ticket.common.utils.entities.location.LocationMapperDTOSingleUtil;
+import com.frro.bus.ticket.common.utils.entities.ticket.TicketMapperDTOSingleUtil;
+import com.frro.bus.ticket.common.utils.entities.ticket.TicketMapperDTOListUtil;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.*;
 import com.frro.bus.ticket.features.journey.entities.Trip;

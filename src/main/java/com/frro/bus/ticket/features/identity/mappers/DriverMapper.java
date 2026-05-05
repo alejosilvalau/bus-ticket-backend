@@ -2,8 +2,8 @@ package com.frro.bus.ticket.features.identity.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import com.frro.bus.ticket.common.utils.entities.TripMapperDTOSingleUtil;
-import com.frro.bus.ticket.common.utils.entities.TripMapperDTOListUtil;
+import com.frro.bus.ticket.common.utils.entities.trip.TripMapperDTOSingleUtil;
+import com.frro.bus.ticket.common.utils.entities.trip.TripMapperDTOListUtil;
 import com.frro.bus.ticket.common.utils.EntityMapperUtil;
 import com.frro.bus.ticket.common.utils.OptionalMapperUtil;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
