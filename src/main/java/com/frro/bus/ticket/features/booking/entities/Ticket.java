@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
+import com.frro.bus.ticket.common.utils.EntityWithId;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
 import com.frro.bus.ticket.features.identity.entities.User;
 import com.frro.bus.ticket.features.journey.entities.Trip;
@@ -20,7 +21,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "ticket", uniqueConstraints = @UniqueConstraint(name = "uk_trip_seat", columnNames = { "id_trip",
         "id_seat" }))
-public class Ticket {
+public class Ticket implements EntityWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

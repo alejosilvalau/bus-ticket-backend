@@ -11,6 +11,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.frro.bus.ticket.common.utils.EntityWithId;
 import com.frro.bus.ticket.features.booking.entities.Ticket;
 import com.frro.bus.ticket.features.fleet.entities.Bus;
 import com.frro.bus.ticket.features.identity.entities.Driver;
@@ -26,7 +27,7 @@ import com.frro.bus.ticket.features.identity.entities.Driver;
         @UniqueConstraint(name = "uk_trip_driver_departure", columnNames = {
                 "id_driver", "departure_date" })
 })
-public class Trip {
+public class Trip implements EntityWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
