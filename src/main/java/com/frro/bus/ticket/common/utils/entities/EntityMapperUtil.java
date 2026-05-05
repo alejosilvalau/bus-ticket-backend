@@ -1,10 +1,12 @@
-package com.frro.bus.ticket.common.utils;
+package com.frro.bus.ticket.common.utils.entities;
 
 import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
+
+import com.frro.bus.ticket.common.utils.entities.EntityWithId;
 
 import com.frro.bus.ticket.features.booking.entities.Ticket;
 import com.frro.bus.ticket.features.fleet.entities.Bus;

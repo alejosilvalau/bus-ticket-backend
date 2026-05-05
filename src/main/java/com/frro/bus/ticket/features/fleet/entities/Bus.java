@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import java.util.List;
 import com.frro.bus.ticket.features.journey.entities.Trip;
-import com.frro.bus.ticket.common.utils.EntityWithId;
+import com.frro.bus.ticket.common.utils.entities.EntityWithId;
 
 @Entity
 @Getter

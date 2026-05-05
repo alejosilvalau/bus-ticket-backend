@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.frro.bus.ticket.common.utils.EntityWithId;
+import com.frro.bus.ticket.common.utils.entities.EntityWithId;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

@@ -3,7 +3,7 @@ package com.frro.bus.ticket.features.fleet.entities;
 import jakarta.persistence.*;
 import java.util.List;
 
-import com.frro.bus.ticket.common.utils.EntityWithId;
+import com.frro.bus.ticket.common.utils.entities.EntityWithId;
 import com.frro.bus.ticket.features.booking.entities.Ticket;
 
 import lombok.Getter;

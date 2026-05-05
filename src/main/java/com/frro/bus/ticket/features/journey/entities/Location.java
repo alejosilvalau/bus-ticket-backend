@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
-import com.frro.bus.ticket.common.utils.EntityWithId;
+import com.frro.bus.ticket.common.utils.entities.EntityWithId;
 
 import java.util.ArrayList;
 import java.util.List;
