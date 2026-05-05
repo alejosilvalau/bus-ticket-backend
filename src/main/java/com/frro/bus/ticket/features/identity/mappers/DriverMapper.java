@@ -5,14 +5,14 @@ import org.mapstruct.Mapping;
 import com.frro.bus.ticket.common.utils.entities.trip.TripMapperDTOSingleUtil;
 import com.frro.bus.ticket.common.utils.entities.trip.TripMapperDTOListUtil;
 import com.frro.bus.ticket.common.utils.EntityMapperUtil;
-import com.frro.bus.ticket.common.utils.OptionalMapperUtil;
+import com.frro.bus.ticket.common.utils.DataTypeMapperUtil;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverFullDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
 import com.frro.bus.ticket.features.identity.entities.Driver;
 
-@Mapper(componentModel = "spring", uses = { OptionalMapperUtil.class, EntityMapperUtil.class,
+@Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class, EntityMapperUtil.class,
         TripMapperDTOSingleUtil.class, TripMapperDTOListUtil.class })
 public interface DriverMapper {
     @Mapping(target = "isActive", source = "active")

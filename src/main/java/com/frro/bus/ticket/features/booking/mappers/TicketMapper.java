@@ -3,13 +3,13 @@ package com.frro.bus.ticket.features.booking.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.frro.bus.ticket.common.utils.OptionalMapperUtil;
+import com.frro.bus.ticket.common.utils.DataTypeMapperUtil;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 import com.frro.bus.ticket.features.booking.entities.Ticket;
 
-@Mapper(componentModel = "spring", uses = OptionalMapperUtil.class)
+@Mapper(componentModel = "spring", uses = DataTypeMapperUtil.class)
 public interface TicketMapper {
     @Mapping(target = "isCancelled", source = "cancelled")
     TicketDTO toTicketDTO(Ticket ticket);
