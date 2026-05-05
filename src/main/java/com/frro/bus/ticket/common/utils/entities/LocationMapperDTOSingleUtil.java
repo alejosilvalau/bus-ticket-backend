@@ -1,7 +1,5 @@
 package com.frro.bus.ticket.common.utils.entities;
 
-import java.util.List;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,7 @@ import com.frro.bus.ticket.features.journey.entities.Location;
 import com.frro.bus.ticket.features.journey.mappers.LocationMapper;
 
 @Mapper(componentModel = "spring")
-public abstract class LocationMapperDTOUtil extends EntityMapperDTOUtil {
+public abstract class LocationMapperDTOSingleUtil extends EntityMapperDTOUtil {
 
     @Autowired
     protected LocationMapper locationMapper;
@@ -21,10 +19,4 @@ public abstract class LocationMapperDTOUtil extends EntityMapperDTOUtil {
     public LocationDTO locationToLocationDTO(Location location) {
         return mapSingle(location, locationMapper::toLocationDTO);
     }
-
-    @Named("locationsToLocationDTOs")
-    public List<LocationDTO> locationsToLocationDTOs(List<Location> locations) {
-        return mapList(locations, locationMapper::toLocationDTO);
-    }
-
 }

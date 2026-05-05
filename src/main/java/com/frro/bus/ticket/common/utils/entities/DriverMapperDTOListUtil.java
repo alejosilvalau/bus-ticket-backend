@@ -12,15 +12,10 @@ import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.identity.mappers.DriverMapper;
 
 @Mapper(componentModel = "spring")
-public abstract class DriverMapperDTOUtil extends EntityMapperDTOUtil {
+public abstract class DriverMapperDTOListUtil extends EntityMapperDTOUtil {
 
     @Autowired
     protected DriverMapper driverMapper;
-
-    @Named("driverToDriverDTO")
-    public DriverDTO driverToDriverDTO(Driver driver) {
-        return mapSingle(driver, driverMapper::toDriverDTO);
-    }
 
     @Named("driversToDriverDTOs")
     public List<DriverDTO> driversToDriverDTOs(List<Driver> drivers) {

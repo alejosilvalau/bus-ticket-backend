@@ -5,16 +5,17 @@ import org.mapstruct.Mapping;
 
 import com.frro.bus.ticket.common.utils.EntityMapperUtil;
 import com.frro.bus.ticket.common.utils.OptionalMapperUtil;
-import com.frro.bus.ticket.common.utils.entities.BusMapperDTOUtil;
-import com.frro.bus.ticket.common.utils.entities.DriverMapperDTOUtil;
-import com.frro.bus.ticket.common.utils.entities.LocationMapperDTOUtil;
-import com.frro.bus.ticket.common.utils.entities.TicketMapperDTOUtil;
+import com.frro.bus.ticket.common.utils.entities.BusMapperDTOSingleUtil;
+import com.frro.bus.ticket.common.utils.entities.DriverMapperDTOSingleUtil;
+import com.frro.bus.ticket.common.utils.entities.LocationMapperDTOSingleUtil;
+import com.frro.bus.ticket.common.utils.entities.TicketMapperDTOSingleUtil;
+import com.frro.bus.ticket.common.utils.entities.TicketMapperDTOListUtil;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.*;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 
 @Mapper(componentModel = "spring", uses = { OptionalMapperUtil.class, EntityMapperUtil.class,
-        LocationMapperDTOUtil.class, BusMapperDTOUtil.class, DriverMapperDTOUtil.class, TicketMapperDTOUtil.class })
+        LocationMapperDTOSingleUtil.class, BusMapperDTOSingleUtil.class, DriverMapperDTOSingleUtil.class, TicketMapperDTOSingleUtil.class, TicketMapperDTOListUtil.class })
 public interface TripMapper {
     TripDTO toTripDTO(Trip trip);
 

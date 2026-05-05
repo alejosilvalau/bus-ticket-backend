@@ -12,15 +12,10 @@ import com.frro.bus.ticket.features.identity.entities.User;
 import com.frro.bus.ticket.features.identity.mappers.UserMapper;
 
 @Mapper(componentModel = "spring")
-public abstract class UserMapperDTOUtil extends EntityMapperDTOUtil {
+public abstract class UserMapperDTOListUtil extends EntityMapperDTOUtil {
 
     @Autowired
     protected UserMapper userMapper;
-
-    @Named("userToUserDTO")
-    public UserDTO userToUserDTO(User user) {
-        return mapSingle(user, userMapper::toUserDTO);
-    }
 
     @Named("usersToUserDTOs")
     public List<UserDTO> usersToUserDTOs(List<User> users) {

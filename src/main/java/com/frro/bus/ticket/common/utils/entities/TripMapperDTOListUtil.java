@@ -12,19 +12,13 @@ import com.frro.bus.ticket.features.journey.entities.Trip;
 import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 
 @Mapper(componentModel = "spring")
-public abstract class TripMapperDTOUtil extends EntityMapperDTOUtil {
+public abstract class TripMapperDTOListUtil extends EntityMapperDTOUtil {
 
     @Autowired
     protected TripMapper tripMapper;
-
-    @Named("tripToTripDTO")
-    public TripDTO tripToTripDTO(Trip trip) {
-        return mapSingle(trip, tripMapper::toTripDTO);
-    }
 
     @Named("tripsToTripDTOs")
     public List<TripDTO> tripsToTripDTOs(List<Trip> trips) {
         return mapList(trips, tripMapper::toTripDTO);
     }
-
 }

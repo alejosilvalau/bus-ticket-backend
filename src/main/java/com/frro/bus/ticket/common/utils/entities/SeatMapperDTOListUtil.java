@@ -12,19 +12,13 @@ import com.frro.bus.ticket.features.fleet.entities.Seat;
 import com.frro.bus.ticket.features.fleet.mappers.SeatMapper;
 
 @Mapper(componentModel = "spring")
-public abstract class SeatMapperDTOUtil extends EntityMapperDTOUtil {
+public abstract class SeatMapperDTOListUtil extends EntityMapperDTOUtil {
 
     @Autowired
     protected SeatMapper seatMapper;
-
-    @Named("seatToSeatDTO")
-    public SeatDTO seatToSeatDTO(Seat seat) {
-        return mapSingle(seat, seatMapper::toSeatDTO);
-    }
 
     @Named("seatsToSeatDTOs")
     public List<SeatDTO> seatsToSeatDTOs(List<Seat> seats) {
         return mapList(seats, seatMapper::toSeatDTO);
     }
-
 }

@@ -12,14 +12,10 @@ import com.frro.bus.ticket.features.booking.entities.Ticket;
 import com.frro.bus.ticket.features.booking.mappers.TicketMapper;
 
 @Mapper(componentModel = "spring")
-public abstract class TicketMapperDTOUtil extends EntityMapperDTOUtil {
+public abstract class TicketMapperDTOListUtil extends EntityMapperDTOUtil {
+
     @Autowired
     protected TicketMapper ticketMapper;
-
-    @Named("ticketToTicketDTO")
-    public TicketDTO ticketToTicketDTO(Ticket ticket) {
-        return mapSingle(ticket, ticketMapper::toTicketDTO);
-    }
 
     @Named("ticketsToTicketDTOs")
     public List<TicketDTO> ticketsToTicketDTOs(List<Ticket> tickets) {
