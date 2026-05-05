@@ -12,7 +12,7 @@ import com.frro.bus.ticket.features.fleet.entities.Bus;
 import com.frro.bus.ticket.features.fleet.mappers.BusMapper;
 
 @Mapper(componentModel = "spring")
-public abstract class BusMapperDTOListUtil extends EntityMapperDTOUtil {
+public class BusMapperDTOListUtil extends EntityMapperDTOUtil {
 
     @Autowired
     protected BusMapper busMapper;

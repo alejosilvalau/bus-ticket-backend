@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public abstract class EntityMapperDTOUtil {
+public class EntityMapperDTOUtil {
     protected <T, D> D mapSingle(T entity, java.util.function.Function<T, D> mapper) {
         return entity != null ? mapper.apply(entity) : null;
     }
