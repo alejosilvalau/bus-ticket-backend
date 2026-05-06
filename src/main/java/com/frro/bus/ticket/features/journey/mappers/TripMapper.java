@@ -15,8 +15,14 @@ import com.frro.bus.ticket.features.journey.dtos.trip.*;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 
 @Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class, EntityMapperUtil.class,
-        LocationMapperDTOSingleUtil.class, BusMapperDTOSingleUtil.class, DriverMapperDTOSingleUtil.class, TicketMapperDTOSingleUtil.class, TicketMapperDTOListUtil.class })
+        LocationMapperDTOSingleUtil.class, BusMapperDTOSingleUtil.class, DriverMapperDTOSingleUtil.class,
+        TicketMapperDTOListUtil.class })
 public interface TripMapper {
+    @Mapping(target = "bus", ignore = true)
+    @Mapping(target = "driver", ignore = true)
+    @Mapping(target = "locationOrigin", ignore = true)
+    @Mapping(target = "locationDestination", ignore = true)
+    @Mapping(target = "tickets", ignore = true)
     TripDTO toTripDTO(Trip trip);
 
     @Mapping(target = "bus", source = "bus", qualifiedByName = "busToBusDTO")

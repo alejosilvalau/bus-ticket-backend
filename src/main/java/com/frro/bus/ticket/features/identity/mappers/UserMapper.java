@@ -6,7 +6,6 @@ import org.mapstruct.Mapping;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserFullDTO;
 import com.frro.bus.ticket.common.utils.DataTypeMapperUtil;
-import com.frro.bus.ticket.common.utils.entities.ticket.TicketMapperDTOSingleUtil;
 import com.frro.bus.ticket.common.utils.entities.ticket.TicketMapperDTOListUtil;
 import com.frro.bus.ticket.features.identity.dtos.user.CreateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
