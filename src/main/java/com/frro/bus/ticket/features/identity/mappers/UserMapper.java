@@ -12,7 +12,7 @@ import com.frro.bus.ticket.features.identity.dtos.user.CreateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
 import com.frro.bus.ticket.features.identity.entities.User;
 
-@Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class, TicketMapperDTOSingleUtil.class, TicketMapperDTOListUtil.class })
+@Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class, TicketMapperDTOListUtil.class })
 public interface UserMapper {
 
     @Mapping(target = "isAdmin", source = "admin")
