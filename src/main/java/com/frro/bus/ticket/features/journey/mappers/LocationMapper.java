@@ -4,21 +4,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.frro.bus.ticket.common.utils.DataTypeMapperUtil;
-import com.frro.bus.ticket.common.utils.entities.trip.TripMapperDTOListUtil;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
-import com.frro.bus.ticket.features.journey.dtos.location.LocationFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.CreateLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.UpdateLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
 import com.frro.bus.ticket.features.journey.entities.Location;
 
-@Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class, TripMapperDTOListUtil.class })
+@Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class })
 public interface LocationMapper {
     LocationDTO toLocationDTO(Location location);
-
-    @Mapping(target = "tripsOrigin", source = "tripsOrigin", qualifiedByName = "tripsToTripDTOs")
-    @Mapping(target = "tripsDestination", source = "tripsDestination", qualifiedByName = "tripsToTripDTOs")
-    LocationFullDTO toLocationFullDTO(Location location);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "tripsOrigin", ignore = true)

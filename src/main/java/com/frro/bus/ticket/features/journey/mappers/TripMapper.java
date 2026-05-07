@@ -8,14 +8,12 @@ import com.frro.bus.ticket.common.utils.DataTypeMapperUtil;
 import com.frro.bus.ticket.common.utils.entities.bus.BusMapperDTOSingleUtil;
 import com.frro.bus.ticket.common.utils.entities.driver.DriverMapperDTOSingleUtil;
 import com.frro.bus.ticket.common.utils.entities.location.LocationMapperDTOSingleUtil;
-import com.frro.bus.ticket.common.utils.entities.ticket.TicketMapperDTOListUtil;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.*;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 
 @Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class, EntityMapperUtil.class,
-        LocationMapperDTOSingleUtil.class, BusMapperDTOSingleUtil.class, DriverMapperDTOSingleUtil.class,
-        TicketMapperDTOListUtil.class })
+        LocationMapperDTOSingleUtil.class, BusMapperDTOSingleUtil.class, DriverMapperDTOSingleUtil.class })
 public interface TripMapper {
     TripDTO toTripDTO(Trip trip);
 
@@ -23,7 +21,6 @@ public interface TripMapper {
     @Mapping(target = "driver", source = "driver", qualifiedByName = "driverToDriverDTO")
     @Mapping(target = "locationOrigin", source = "locationOrigin", qualifiedByName = "locationToLocationDTO")
     @Mapping(target = "locationDestination", source = "locationDestination", qualifiedByName = "locationToLocationDTO")
-    @Mapping(target = "tickets", source = "tickets", qualifiedByName = "ticketsToTicketDTOs")
     TripFullDTO toTripFullDTO(Trip trip);
 
     @Mapping(target = "id", ignore = true)
