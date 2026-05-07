@@ -4,10 +4,7 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
-import jakarta.validation.constraints.NotBlank;
-
-public record UpdateTicketDTO(
-        @NotBlank int id,
+public record SearchTicketDTO(
         Optional<BigDecimal> finalPrice,
         Optional<ZonedDateTime> bookingTime,
         Optional<Boolean> isCancelled,

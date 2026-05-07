@@ -4,14 +4,13 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 public record CreateTicketDTO(
-        // @NotNull @NotEmpty int idUser,
-        // @NotNull @NotEmpty int idTrip,
-        // @NotNull @NotEmpty int idSeat,
-        @NotNull @NotEmpty BigDecimal finalPrice,
-        @NotNull @NotEmpty ZonedDateTime bookingTime,
+        @NotEmpty BigDecimal finalPrice,
+        @NotEmpty ZonedDateTime bookingTime,
         boolean isCancelled,
-        @NotNull @NotEmpty String token) {
+        @NotEmpty String token,
+        @NotEmpty int idUser,
+        @NotEmpty int idTrip,
+        @NotEmpty int idSeat) {
 }

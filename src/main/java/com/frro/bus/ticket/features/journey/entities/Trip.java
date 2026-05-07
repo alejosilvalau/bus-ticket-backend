@@ -41,19 +41,19 @@ public class Trip implements EntityWithId {
     @Column(nullable = false)
     private BigDecimal basePrice = BigDecimal.ZERO;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_bus", nullable = false)
     private Bus bus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_driver", nullable = false)
     private Driver driver;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_location_origin", nullable = false)
     private Location locationOrigin;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_location_destination", nullable = false)
     private Location locationDestination;
 

@@ -29,11 +29,11 @@ public class Seat implements EntityWithId {
     @Column(nullable = false)
     private int number;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_bus", nullable = false)
     private Bus bus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_seat_type", nullable = false)
     private SeatType seatType;
 

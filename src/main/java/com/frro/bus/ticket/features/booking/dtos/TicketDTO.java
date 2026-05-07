@@ -7,9 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record TicketDTO(
         @NotBlank int id,
-        // int idUser,
-        // int idTrip,
-        // int idSeat,
         @NotBlank BigDecimal finalPrice,
         @NotBlank ZonedDateTime bookingTime,
         boolean isCancelled,
