@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
-import com.frro.bus.ticket.features.identity.dtos.driver.DriverFullDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
 import com.frro.bus.ticket.features.identity.services.driver.DriverService;
 
@@ -26,22 +25,9 @@ public class DriverAdminController {
         return ResponseEntity.ok(drivers);
     }
 
-    @GetMapping("/full")
-    public ResponseEntity<List<DriverFullDTO>> findAllFull() {
-        List<DriverFullDTO> drivers = driverService.findAllFull();
-        return ResponseEntity.ok(drivers);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<DriverDTO> findById(@PathVariable int id) {
         Optional<DriverDTO> driver = driverService.findById(id);
-        return driver.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/full/{id}")
-    public ResponseEntity<DriverFullDTO> findByIdFull(@PathVariable int id) {
-        Optional<DriverFullDTO> driver = driverService.findByIdFull(id);
         return driver.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

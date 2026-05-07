@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
-import com.frro.bus.ticket.features.identity.dtos.driver.DriverFullDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
 import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.identity.mappers.DriverMapper;
@@ -28,26 +27,9 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public List<DriverFullDTO> findAllFull() {
-        return driverRepository.findAll().stream().map(driver -> {
-            driver.getTrips().size();
-            return driverMapper.toDriverFullDTO(driver);
-        }).toList();
-    }
-
-    @Override
     public Optional<DriverDTO> findById(int id) {
         return driverRepository.findById(id).map(driver -> {
             return driverMapper.toDriverDTO(driver);
-        });
-    }
-
-    @Override
-    public Optional<DriverFullDTO> findByIdFull(int id) {
-        return driverRepository.findById(id).map(driver -> {
-            // Force load trips to avoid lazy loading issues after session closes
-            driver.getTrips().size();
-            return driverMapper.toDriverFullDTO(driver);
         });
     }
 

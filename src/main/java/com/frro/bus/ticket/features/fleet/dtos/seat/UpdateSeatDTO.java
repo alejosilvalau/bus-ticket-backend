@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 
 public record UpdateSeatDTO(
         @NotBlank int id,
-        // int idBus,
-        // int idSeatType,
         Optional<Character> letter,
-        Optional<Integer> number) {
+        Optional<Integer> number,
+        Optional<Integer> idBus,
+        Optional<Integer> idSeatType) {
 }

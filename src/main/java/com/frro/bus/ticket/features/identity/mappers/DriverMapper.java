@@ -6,7 +6,6 @@ import com.frro.bus.ticket.common.utils.entities.trip.TripMapperDTOListUtil;
 import com.frro.bus.ticket.common.utils.DataTypeMapperUtil;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
-import com.frro.bus.ticket.features.identity.dtos.driver.DriverFullDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
 import com.frro.bus.ticket.features.identity.entities.Driver;
 
@@ -14,10 +13,6 @@ import com.frro.bus.ticket.features.identity.entities.Driver;
 public interface DriverMapper {
     @Mapping(target = "isActive", source = "active")
     DriverDTO toDriverDTO(Driver driver);
-
-    @Mapping(target = "isActive", source = "active")
-    @Mapping(target = "trips", source = "trips", qualifiedByName = "tripsToTripDTOs")
-    DriverFullDTO toDriverFullDTO(Driver driver);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "active", source = "isActive")

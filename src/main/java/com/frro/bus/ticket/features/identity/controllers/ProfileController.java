@@ -21,14 +21,6 @@ import lombok.RequiredArgsConstructor;
 public class ProfileController {
     private final ProfileService profileService;
 
-    // Integrate the get profile, with the full dto with the logged one
-    // @GetMapping
-    // public ResponseEntity<UserFullDTO> getProfile() {
-    // Optional<UserFullDTO> userProfile = profileService.getProfile();
-    // return userProfile.map(ResponseEntity::ok)
-    // .orElseGet(() -> ResponseEntity.notFound().build());
-    // }
-
     @PatchMapping
     public ResponseEntity<UserDTO> update(@RequestBody UpdateUserDTO userRequest) {
         Optional<UserDTO> updatedUser = profileService.update(userRequest);
