@@ -7,7 +7,6 @@ import com.frro.bus.ticket.common.utils.DataTypeMapperUtil;
 import com.frro.bus.ticket.common.utils.entities.EntityMapperUtil;
 import com.frro.bus.ticket.common.utils.entities.bus.BusMapperDTOSingleUtil;
 import com.frro.bus.ticket.common.utils.entities.seattype.SeatTypeMapperDTOSingleUtil;
-import com.frro.bus.ticket.common.utils.entities.ticket.TicketMapperDTOListUtil;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatFullDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.CreateSeatDTO;
@@ -16,13 +15,12 @@ import com.frro.bus.ticket.features.fleet.entities.Seat;
 
 @Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class, EntityMapperUtil.class,
         BusMapperDTOSingleUtil.class,
-        SeatTypeMapperDTOSingleUtil.class, TicketMapperDTOListUtil.class })
+        SeatTypeMapperDTOSingleUtil.class })
 public interface SeatMapper {
     SeatDTO toSeatDTO(Seat seat);
 
     @Mapping(target = "bus", source = "bus", qualifiedByName = "busToBusDTO")
     @Mapping(target = "seatType", source = "seatType", qualifiedByName = "seatTypeToSeatTypeDTO")
-    @Mapping(target = "tickets", source = "tickets", qualifiedByName = "ticketsToTicketDTOs")
     SeatFullDTO toSeatFullDTO(Seat seat);
 
     @Mapping(target = "id", ignore = true)
