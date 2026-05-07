@@ -10,6 +10,7 @@ import com.frro.bus.ticket.common.utils.entities.seattype.SeatTypeMapperDTOSingl
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatFullDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.CreateSeatDTO;
+import com.frro.bus.ticket.features.fleet.dtos.seat.SearchSeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.UpdateSeatDTO;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
 
@@ -35,4 +36,12 @@ public interface SeatMapper {
     @Mapping(target = "seatType", source = "idSeatType", qualifiedByName = "optionalIdToSeatType")
     @Mapping(target = "tickets", ignore = true)
     Seat toSeat(UpdateSeatDTO updateSeatDto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "letter", source = "letter", qualifiedByName = "unwrapOptionalChararacter")
+    @Mapping(target = "number", source = "number", qualifiedByName = "unwrapOptionalInteger")
+    @Mapping(target = "bus", source = "idBus", qualifiedByName = "optionalIdToBus")
+    @Mapping(target = "seatType", source = "idSeatType", qualifiedByName = "optionalIdToSeatType")
+    @Mapping(target = "tickets", ignore = true)
+    Seat toSeat(SearchSeatDTO searchSeatDto);
 }
