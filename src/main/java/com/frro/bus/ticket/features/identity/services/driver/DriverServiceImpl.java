@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
+import com.frro.bus.ticket.features.identity.dtos.driver.SearchDriverDTO;
 import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.identity.mappers.DriverMapper;
 import com.frro.bus.ticket.features.identity.repositories.DriverRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +33,12 @@ public class DriverServiceImpl implements DriverService {
         return driverRepository.findById(id).map(driver -> {
             return driverMapper.toDriverDTO(driver);
         });
+    }
+
+    @Override
+    public List<DriverDTO> search(SearchDriverDTO searchCriteria) {
+        ArrayList<DriverDTO> list = new ArrayList<>();
+        return list;
     }
 
     @Override

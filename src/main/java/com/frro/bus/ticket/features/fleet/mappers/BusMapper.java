@@ -3,14 +3,14 @@ package com.frro.bus.ticket.features.fleet.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.frro.bus.ticket.common.utils.DataTypeMapperUtil;
+import com.frro.bus.ticket.common.utils.DataTypeMapperUtils;
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.CreateBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.UpdateBusDTO;
 import com.frro.bus.ticket.features.fleet.entities.Bus;
 
-@Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class })
+@Mapper(componentModel = "spring", uses = { DataTypeMapperUtils.class })
 public interface BusMapper {
     @Mapping(target = "isActive", source = "active")
     BusDTO toBusDTO(Bus bus);

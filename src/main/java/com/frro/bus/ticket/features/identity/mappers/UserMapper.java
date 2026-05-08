@@ -4,12 +4,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
-import com.frro.bus.ticket.common.utils.DataTypeMapperUtil;
+import com.frro.bus.ticket.common.utils.DataTypeMapperUtils;
 import com.frro.bus.ticket.features.identity.dtos.user.CreateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
 import com.frro.bus.ticket.features.identity.entities.User;
 
-@Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class })
+@Mapper(componentModel = "spring", uses = { DataTypeMapperUtils.class })
 public interface UserMapper {
     @Mapping(target = "isAdmin", source = "admin")
     @Mapping(target = "isActive", source = "active")

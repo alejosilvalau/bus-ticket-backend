@@ -16,7 +16,7 @@ import com.frro.bus.ticket.features.journey.entities.Location;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 
 @Mapper(componentModel = "spring")
-public abstract class EntityMapperUtil {
+public abstract class EntityMapperUtils {
 
     // Entity to id mappers
 

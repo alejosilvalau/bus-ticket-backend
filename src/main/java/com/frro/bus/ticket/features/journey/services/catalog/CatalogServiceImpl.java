@@ -10,6 +10,7 @@ import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
 import com.frro.bus.ticket.features.journey.entities.Location;
 import com.frro.bus.ticket.features.journey.entities.Trip;
+import com.frro.bus.ticket.common.utils.SearchServiceUtils;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
 import com.frro.bus.ticket.features.journey.mappers.TripMapper;
@@ -27,10 +28,6 @@ public class CatalogServiceImpl implements CatalogService {
     private final LocationRepository locationRepository;
     private final TripMapper tripMapper;
     private final LocationMapper locationMapper;
-
-    private static final ExampleMatcher DEFAULT_MATCHER = ExampleMatcher.matching()
-            .withIgnoreNullValues()
-            .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
 
     @Override
     public List<TripDTO> findAllTrips() {
@@ -69,8 +66,7 @@ public class CatalogServiceImpl implements CatalogService {
     @Override
     public List<TripDTO> searchTrips(SearchTripDTO searchCriteria) {
         Trip probe = tripMapper.toTrip(searchCriteria);
-
-        return tripRepository.findAll(Example.of(probe, DEFAULT_MATCHER))
+        return tripRepository.findAll(Example.of(probe, SearchServiceUtils.DEFAULT_MATCHER))
                 .stream()
                 .map(trip -> {
                     // Force load lazy relationships
@@ -87,7 +83,7 @@ public class CatalogServiceImpl implements CatalogService {
     public List<LocationDTO> searchLocations(SearchLocationDTO searchCriteria) {
         Location probe = locationMapper.toLocation(searchCriteria);
 
-        return locationRepository.findAll(Example.of(probe, DEFAULT_MATCHER))
+        return locationRepository.findAll(Example.of(probe, SearchServiceUtils.DEFAULT_MATCHER))
                 .stream()
                 .map(locationMapper::toLocationDTO)
                 .toList();

@@ -2,14 +2,14 @@ package com.frro.bus.ticket.features.identity.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import com.frro.bus.ticket.common.utils.DataTypeMapperUtil;
+import com.frro.bus.ticket.common.utils.DataTypeMapperUtils;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.SearchDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
 import com.frro.bus.ticket.features.identity.entities.Driver;
 
-@Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class })
+@Mapper(componentModel = "spring", uses = { DataTypeMapperUtils.class })
 public interface DriverMapper {
     @Mapping(target = "isActive", source = "active")
     DriverDTO toDriverDTO(Driver driver);

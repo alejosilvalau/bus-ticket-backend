@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
+import com.frro.bus.ticket.features.identity.dtos.driver.SearchDriverDTO;
 import com.frro.bus.ticket.features.identity.services.driver.DriverService;
 
 import java.util.List;
@@ -30,6 +31,12 @@ public class DriverAdminController {
         Optional<DriverDTO> driver = driverService.findById(id);
         return driver.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<DriverDTO>> search(@RequestBody SearchDriverDTO searchCriteria) {
+        List<DriverDTO> drivers = driverService.search(searchCriteria);
+        return ResponseEntity.ok(drivers);
     }
 
     @PostMapping

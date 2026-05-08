@@ -3,8 +3,8 @@ package com.frro.bus.ticket.features.journey.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.frro.bus.ticket.common.utils.entities.EntityMapperUtil;
-import com.frro.bus.ticket.common.utils.DataTypeMapperUtil;
+import com.frro.bus.ticket.common.utils.entities.EntityMapperUtils;
+import com.frro.bus.ticket.common.utils.DataTypeMapperUtils;
 import com.frro.bus.ticket.common.utils.entities.bus.BusMapperDTOSingleUtil;
 import com.frro.bus.ticket.common.utils.entities.driver.DriverMapperDTOSingleUtil;
 import com.frro.bus.ticket.common.utils.entities.location.LocationMapperDTOSingleUtil;
@@ -12,7 +12,7 @@ import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.*;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 
-@Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class, EntityMapperUtil.class,
+@Mapper(componentModel = "spring", uses = { DataTypeMapperUtils.class, EntityMapperUtils.class,
         LocationMapperDTOSingleUtil.class, BusMapperDTOSingleUtil.class, DriverMapperDTOSingleUtil.class })
 public interface TripMapper {
     TripDTO toTripDTO(Trip trip);

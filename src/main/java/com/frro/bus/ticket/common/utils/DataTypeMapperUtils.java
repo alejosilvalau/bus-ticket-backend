@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @Mapper(componentModel = "spring")
-public abstract class DataTypeMapperUtil {
+public abstract class DataTypeMapperUtils {
 
     @Named("unwrapOptionalString")
     public String unwrapString(Optional<String> opt) {

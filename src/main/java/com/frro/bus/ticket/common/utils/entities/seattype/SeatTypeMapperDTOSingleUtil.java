@@ -4,13 +4,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.frro.bus.ticket.common.utils.entities.EntityMapperDTOUtil;
+import com.frro.bus.ticket.common.utils.entities.EntityMapperDTOUtils;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.entities.SeatType;
 import com.frro.bus.ticket.features.fleet.mappers.SeatTypeMapper;
 
 @Mapper(componentModel = "spring")
-public abstract class SeatTypeMapperDTOSingleUtil extends EntityMapperDTOUtil {
+public abstract class SeatTypeMapperDTOSingleUtil extends EntityMapperDTOUtils {
 
     @Autowired
     protected SeatTypeMapper seatTypeMapper;

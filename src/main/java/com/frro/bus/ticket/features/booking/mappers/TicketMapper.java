@@ -3,8 +3,8 @@ package com.frro.bus.ticket.features.booking.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.frro.bus.ticket.common.utils.DataTypeMapperUtil;
-import com.frro.bus.ticket.common.utils.entities.EntityMapperUtil;
+import com.frro.bus.ticket.common.utils.DataTypeMapperUtils;
+import com.frro.bus.ticket.common.utils.entities.EntityMapperUtils;
 import com.frro.bus.ticket.common.utils.entities.seat.SeatMapperDTOSingleUtil;
 import com.frro.bus.ticket.common.utils.entities.trip.TripMapperDTOSingleUtil;
 import com.frro.bus.ticket.common.utils.entities.user.UserMapperDTOSingleUtil;
@@ -15,7 +15,7 @@ import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 import com.frro.bus.ticket.features.booking.entities.Ticket;
 
-@Mapper(componentModel = "spring", uses = { DataTypeMapperUtil.class, EntityMapperUtil.class,
+@Mapper(componentModel = "spring", uses = { DataTypeMapperUtils.class, EntityMapperUtils.class,
         SeatMapperDTOSingleUtil.class,
         TripMapperDTOSingleUtil.class, UserMapperDTOSingleUtil.class })
 public interface TicketMapper {
