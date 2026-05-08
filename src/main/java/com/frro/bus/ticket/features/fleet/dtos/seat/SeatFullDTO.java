@@ -9,6 +9,7 @@ public record SeatFullDTO(
         @NotBlank int id,
         @NotBlank char letter,
         @NotBlank int number,
+        boolean isActive,
         @NotBlank BusDTO bus,
         @NotBlank SeatTypeDTO seatType) {
 }

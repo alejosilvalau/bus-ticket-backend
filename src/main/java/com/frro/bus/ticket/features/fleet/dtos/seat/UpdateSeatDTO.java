@@ -8,6 +8,7 @@ public record UpdateSeatDTO(
         @NotBlank int id,
         Optional<Character> letter,
         Optional<Integer> number,
+        Optional<Boolean> isActive,
         Optional<Integer> idBus,
         Optional<Integer> idSeatType) {
 }

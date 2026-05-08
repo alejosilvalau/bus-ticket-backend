@@ -29,6 +29,9 @@ public class Seat implements EntityWithId {
     @Column(nullable = false)
     private int number;
 
+    @Column(nullable = false)
+    private boolean isActive = true;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_bus", nullable = false)
     private Bus bus;

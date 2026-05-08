@@ -18,13 +18,16 @@ import com.frro.bus.ticket.features.fleet.entities.Seat;
         BusMapperDTOSingleUtil.class,
         SeatTypeMapperDTOSingleUtil.class })
 public interface SeatMapper {
+    @Mapping(target = "isActive", source = "active")
     SeatDTO toSeatDTO(Seat seat);
 
+    @Mapping(target = "isActive", source = "active")
     @Mapping(target = "bus", source = "bus", qualifiedByName = "busToBusDTO")
     @Mapping(target = "seatType", source = "seatType", qualifiedByName = "seatTypeToSeatTypeDTO")
     SeatFullDTO toSeatFullDTO(Seat seat);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "active", source = "isActive")
     @Mapping(target = "bus", source = "idBus", qualifiedByName = "idToBus")
     @Mapping(target = "seatType", source = "idSeatType", qualifiedByName = "idToSeatType")
     @Mapping(target = "tickets", ignore = true)
@@ -32,6 +35,7 @@ public interface SeatMapper {
 
     @Mapping(target = "letter", source = "letter", qualifiedByName = "unwrapOptionalChararacter")
     @Mapping(target = "number", source = "number", qualifiedByName = "unwrapOptionalInteger")
+    @Mapping(target = "active", source = "isActive", qualifiedByName = "unwrapOptionalBoolean")
     @Mapping(target = "bus", source = "idBus", qualifiedByName = "optionalIdToBus")
     @Mapping(target = "seatType", source = "idSeatType", qualifiedByName = "optionalIdToSeatType")
     @Mapping(target = "tickets", ignore = true)
@@ -40,6 +44,7 @@ public interface SeatMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "letter", source = "letter", qualifiedByName = "unwrapOptionalChararacter")
     @Mapping(target = "number", source = "number", qualifiedByName = "unwrapOptionalInteger")
+    @Mapping(target = "active", source = "isActive", qualifiedByName = "unwrapOptionalBoolean")
     @Mapping(target = "bus", source = "idBus", qualifiedByName = "optionalIdToBus")
     @Mapping(target = "seatType", source = "idSeatType", qualifiedByName = "optionalIdToSeatType")
     @Mapping(target = "tickets", ignore = true)

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 public record CreateSeatDTO(
         @NotBlank char letter,
         @NotBlank int number,
+        boolean isActive,
         @NotBlank int idBus,
         @NotBlank int idSeatType) {
 }

@@ -59,6 +59,7 @@ create table seat (
   id_seat_type int not null,
   letter char(1) not null,
   number int not null,
+  is_active boolean not null default true,
   foreign key (id_bus) references bus (id) on delete restrict on update cascade,
   foreign key (id_seat_type) references seat_type (id) on delete restrict on update cascade,
   constraint uk_bus_seat unique (id_bus, letter, number)
