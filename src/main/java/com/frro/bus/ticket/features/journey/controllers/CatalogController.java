@@ -27,9 +27,6 @@ public class CatalogController {
     @GetMapping("/trips")
     public ResponseEntity<List<TripFullDTO>> findAllTrips() {
         List<TripFullDTO> trips = catalogService.findAllTrips();
-        System.out.println("----------------------------------------------");
-        System.out.println(trips);
-        System.out.println("----------------------------------------------");
         return ResponseEntity.ok(trips);
     }
 
@@ -53,15 +50,17 @@ public class CatalogController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/trips/search")
-    public ResponseEntity<List<TripFullDTO>> searchTrips(@RequestBody SearchTripDTO searchCriteria) {
-        List<TripFullDTO> trips = catalogService.searchTrips(searchCriteria);
-        return ResponseEntity.ok(trips);
-    }
-
-    @GetMapping("/locations/search")
-    public ResponseEntity<List<LocationDTO>> searchLocations(@RequestBody SearchLocationDTO searchCriteria) {
-        List<LocationDTO> locations = catalogService.searchLocations(searchCriteria);
-        return ResponseEntity.ok(locations);
-    }
+    // @GetMapping("/trips/search")
+    // public ResponseEntity<List<TripFullDTO>> searchTrips(@RequestBody
+    // SearchTripDTO searchCriteria) {
+    // List<TripFullDTO> trips = catalogService.searchTrips(searchCriteria);
+    // return ResponseEntity.ok(trips);
+    // }
+    //
+    // @GetMapping("/locations/search")
+    // public ResponseEntity<List<LocationDTO>> searchLocations(@RequestBody
+    // SearchLocationDTO searchCriteria) {
+    // List<LocationDTO> locations = catalogService.searchLocations(searchCriteria);
+    // return ResponseEntity.ok(locations);
+    // }
 }

@@ -33,11 +33,12 @@ public class DriverAdminController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<DriverDTO>> search(@RequestBody SearchDriverDTO searchCriteria) {
-        List<DriverDTO> drivers = driverService.search(searchCriteria);
-        return ResponseEntity.ok(drivers);
-    }
+    // @GetMapping("/search")
+    // public ResponseEntity<List<DriverDTO>> search(@RequestBody SearchDriverDTO
+    // searchCriteria) {
+    // List<DriverDTO> drivers = driverService.search(searchCriteria);
+    // return ResponseEntity.ok(drivers);
+    // }
 
     @PostMapping
     public ResponseEntity<DriverDTO> create(@RequestBody CreateDriverDTO driverRequest) {
