@@ -8,7 +8,7 @@ import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 public interface ProfileService {
     Optional<UserDTO> update(UpdateUserDTO userRequest);
 
-    Optional<UserDTO> delete();
-
     Optional<UserDTO> logicalDelete();
+
+    Optional<UserDTO> delete();
 }

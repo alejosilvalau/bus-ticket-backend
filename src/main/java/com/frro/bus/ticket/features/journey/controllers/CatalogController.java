@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
+import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.services.catalog.CatalogService;
 
@@ -25,8 +26,8 @@ public class CatalogController {
     private final CatalogService catalogService;
 
     @GetMapping("/trips")
-    public ResponseEntity<List<TripDTO>> findAllTrips() {
-        List<TripDTO> trips = catalogService.findAllTrips();
+    public ResponseEntity<List<TripFullDTO>> findAllTrips() {
+        List<TripFullDTO> trips = catalogService.findAllTrips();
         return ResponseEntity.ok(trips);
     }
 
@@ -37,8 +38,8 @@ public class CatalogController {
     }
 
     @GetMapping("/trips/{id}")
-    public ResponseEntity<TripDTO> findTripById(@PathVariable int id) {
-        Optional<TripDTO> trip = catalogService.findTripById(id);
+    public ResponseEntity<TripFullDTO> findTripById(@PathVariable int id) {
+        Optional<TripFullDTO> trip = catalogService.findTripById(id);
         return trip.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -51,8 +52,8 @@ public class CatalogController {
     }
 
     @GetMapping("/trips/search")
-    public ResponseEntity<List<TripDTO>> searchTrips(@RequestBody SearchTripDTO searchCriteria) {
-        List<TripDTO> trips = catalogService.searchTrips(searchCriteria);
+    public ResponseEntity<List<TripFullDTO>> searchTrips(@RequestBody SearchTripDTO searchCriteria) {
+        List<TripFullDTO> trips = catalogService.searchTrips(searchCriteria);
         return ResponseEntity.ok(trips);
     }
 

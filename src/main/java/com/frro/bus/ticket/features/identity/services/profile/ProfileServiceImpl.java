@@ -32,15 +32,14 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Optional<UserDTO> delete() {
-        // TODO: Implement when having the session logic to identify the user to delete
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
-
-    @Override
     public Optional<UserDTO> logicalDelete() {
         // TODO: Implement when having the session logic to identify the user to delete
         throw new UnsupportedOperationException("Unimplemented method 'logicalDelete'");
     }
 
+    @Override
+    public Optional<UserDTO> delete() {
+        // TODO: Implement when having the session logic to identify the user to delete
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
 }

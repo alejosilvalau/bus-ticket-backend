@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
+import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.entities.Location;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 import com.frro.bus.ticket.common.utils.SearchServiceUtils;
@@ -29,14 +30,9 @@ public class CatalogServiceImpl implements CatalogService {
     private final LocationMapper locationMapper;
 
     @Override
-    public List<TripDTO> findAllTrips() {
+    public List<TripFullDTO> findAllTrips() {
         return tripRepository.findAll().stream().map(trip -> {
-            // Force load lazy relationships to avoid lazy loading issues
-            trip.getBus().getId();
-            trip.getDriver().getId();
-            trip.getLocationOrigin().getId();
-            trip.getLocationDestination().getId();
-            return tripMapper.toTripDTO(trip);
+            return tripMapper.toTripFullDTO(trip);
         }).toList();
     }
 
@@ -46,14 +42,9 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public Optional<TripDTO> findTripById(int id) {
+    public Optional<TripFullDTO> findTripById(int id) {
         return tripRepository.findById(id).map(trip -> {
-            // Force load lazy relationships
-            trip.getBus().getId();
-            trip.getDriver().getId();
-            trip.getLocationOrigin().getId();
-            trip.getLocationDestination().getId();
-            return tripMapper.toTripDTO(trip);
+            return tripMapper.toTripFullDTO(trip);
         });
     }
 
@@ -63,17 +54,12 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public List<TripDTO> searchTrips(SearchTripDTO searchCriteria) {
+    public List<TripFullDTO> searchTrips(SearchTripDTO searchCriteria) {
         Trip probe = tripMapper.toTrip(searchCriteria);
         return tripRepository.findAll(Example.of(probe, SearchServiceUtils.DEFAULT_MATCHER))
                 .stream()
                 .map(trip -> {
-                    // Force load lazy relationships
-                    trip.getBus().getId();
-                    trip.getDriver().getId();
-                    trip.getLocationOrigin().getId();
-                    trip.getLocationDestination().getId();
-                    return tripMapper.toTripDTO(trip);
+                    return tripMapper.toTripFullDTO(trip);
                 })
                 .toList();
     }

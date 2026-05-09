@@ -1,6 +1,7 @@
 package com.frro.bus.ticket.features.journey.services.inventory;
 
-import lombok.RequiredArgsConstructor;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.fleet.entities.Bus;
@@ -9,16 +10,16 @@ import com.frro.bus.ticket.features.journey.dtos.location.CreateLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.UpdateLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.CreateTripDTO;
-import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
+import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.UpdateTripDTO;
-import com.frro.bus.ticket.features.journey.entities.Trip;
 import com.frro.bus.ticket.features.journey.entities.Location;
-import com.frro.bus.ticket.features.journey.mappers.TripMapper;
+import com.frro.bus.ticket.features.journey.entities.Trip;
 import com.frro.bus.ticket.features.journey.mappers.LocationMapper;
-import com.frro.bus.ticket.features.journey.repositories.TripRepository;
+import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 import com.frro.bus.ticket.features.journey.repositories.LocationRepository;
+import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -29,10 +30,11 @@ public class InventoryServiceImpl implements InventoryService {
     private final LocationMapper locationMapper;
 
     @Override
-    public TripDTO createTrip(CreateTripDTO tripRequest) {
+    public TripFullDTO createTrip(CreateTripDTO tripRequest) {
         Trip trip = tripMapper.toTrip(tripRequest);
         Trip saved = tripRepository.save(trip);
-        return tripMapper.toTripDTO(saved);
+        saved = tripRepository.findById(saved.getId()).get();
+        return tripMapper.toTripFullDTO(saved);
     }
 
     @Override
@@ -43,7 +45,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public Optional<TripDTO> updateTrip(UpdateTripDTO tripRequest) {
+    public Optional<TripFullDTO> updateTrip(UpdateTripDTO tripRequest) {
         return tripRepository.findById(tripRequest.id()).map(existingTrip -> {
             tripRequest.departureDate().ifPresent(existingTrip::setDepartureDate);
             tripRequest.arrivalDate().ifPresent(existingTrip::setArrivalDate);
@@ -72,12 +74,7 @@ public class InventoryServiceImpl implements InventoryService {
             });
 
             Trip savedTrip = tripRepository.save(existingTrip);
-            // Force load lazy relationships
-            savedTrip.getBus().getId();
-            savedTrip.getDriver().getId();
-            savedTrip.getLocationOrigin().getId();
-            savedTrip.getLocationDestination().getId();
-            return tripMapper.toTripDTO(savedTrip);
+            return tripMapper.toTripFullDTO(savedTrip);
         });
     }
 
@@ -94,10 +91,10 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public Optional<TripDTO> deleteTrip(int id) {
+    public Optional<TripFullDTO> deleteTrip(int id) {
         return tripRepository.findById(id).map(existingTrip -> {
             tripRepository.delete(existingTrip);
-            return tripMapper.toTripDTO(existingTrip);
+            return tripMapper.toTripFullDTO(existingTrip);
         });
     }
 

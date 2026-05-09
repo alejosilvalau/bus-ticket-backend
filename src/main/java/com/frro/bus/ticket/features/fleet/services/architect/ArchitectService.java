@@ -31,5 +31,5 @@ public interface ArchitectService {
 
     Optional<SeatTypeDTO> deleteSeatType(int id);
 
-    Optional<SeatDTO> logicalDeleteSeat(int id);
+    // Optional<SeatDTO> logicalDeleteSeat(int id);
 }

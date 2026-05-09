@@ -16,6 +16,7 @@ import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.UpdateLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.CreateTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
+import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.UpdateTripDTO;
 import com.frro.bus.ticket.features.journey.services.inventory.InventoryService;
 
@@ -28,8 +29,8 @@ public class InventoryController {
     private final InventoryService inventoryService;
 
     @PostMapping("/trips")
-    public ResponseEntity<TripDTO> createTrip(@RequestBody CreateTripDTO tripRequest) {
-        TripDTO savedTrip = inventoryService.createTrip(tripRequest);
+    public ResponseEntity<TripFullDTO> createTrip(@RequestBody CreateTripDTO tripRequest) {
+        TripFullDTO savedTrip = inventoryService.createTrip(tripRequest);
         return ResponseEntity.ok(savedTrip);
     }
 
@@ -40,8 +41,8 @@ public class InventoryController {
     }
 
     @PatchMapping("/trips")
-    public ResponseEntity<TripDTO> updateTrip(@RequestBody UpdateTripDTO tripRequest) {
-        Optional<TripDTO> updatedTrip = inventoryService.updateTrip(tripRequest);
+    public ResponseEntity<TripFullDTO> updateTrip(@RequestBody UpdateTripDTO tripRequest) {
+        Optional<TripFullDTO> updatedTrip = inventoryService.updateTrip(tripRequest);
         return updatedTrip.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -54,8 +55,8 @@ public class InventoryController {
     }
 
     @DeleteMapping("/trips/{id}")
-    public ResponseEntity<TripDTO> deleteTrip(@PathVariable int id) {
-        Optional<TripDTO> deletedTrip = inventoryService.deleteTrip(id);
+    public ResponseEntity<TripFullDTO> deleteTrip(@PathVariable int id) {
+        Optional<TripFullDTO> deletedTrip = inventoryService.deleteTrip(id);
         return deletedTrip.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
