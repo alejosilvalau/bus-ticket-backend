@@ -3,6 +3,7 @@ package com.frro.bus.ticket.features.journey.services.inventory;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.frro.bus.ticket.features.fleet.entities.Bus;
 import com.frro.bus.ticket.features.identity.entities.Driver;
@@ -19,6 +20,7 @@ import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 import com.frro.bus.ticket.features.journey.repositories.LocationRepository;
 import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -28,12 +30,15 @@ public class InventoryServiceImpl implements InventoryService {
     private final LocationRepository locationRepository;
     private final TripMapper tripMapper;
     private final LocationMapper locationMapper;
+    private final EntityManager entityManager;
 
     @Override
+    @Transactional
     public TripFullDTO createTrip(CreateTripDTO tripRequest) {
         Trip trip = tripMapper.toTrip(tripRequest);
         Trip saved = tripRepository.save(trip);
-        saved = tripRepository.findById(saved.getId()).get();
+        entityManager.flush();
+        entityManager.refresh(saved);
         return tripMapper.toTripFullDTO(saved);
     }
 
@@ -45,6 +50,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
+    @Transactional
     public Optional<TripFullDTO> updateTrip(UpdateTripDTO tripRequest) {
         return tripRepository.findById(tripRequest.id()).map(existingTrip -> {
             tripRequest.departureDate().ifPresent(existingTrip::setDepartureDate);
