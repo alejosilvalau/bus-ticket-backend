@@ -7,10 +7,4 @@ import com.frro.bus.ticket.features.journey.entities.Trip;
 
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Integer> {
-    // findAll
-    // findById
-    // search
-    // create
-    // update
-    // delete
 }
