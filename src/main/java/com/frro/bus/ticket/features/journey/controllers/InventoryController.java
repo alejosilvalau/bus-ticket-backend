@@ -29,14 +29,7 @@ public class InventoryController {
 
     @PostMapping("/trips")
     public ResponseEntity<TripFullDTO> createTrip(@RequestBody CreateTripDTO tripRequest) {
-        System.out.println("This is what reaches to controllers ---------------------------");
-        System.out.println(tripRequest);
-        System.out.println("------------------------------------------------------------");
-
         TripFullDTO savedTrip = inventoryService.createTrip(tripRequest);
-        System.out.println("This is what reaches to services ---------------------------");
-        System.out.println(savedTrip);
-        System.out.println("------------------------------------------------------------");
         return ResponseEntity.ok(savedTrip);
     }
 

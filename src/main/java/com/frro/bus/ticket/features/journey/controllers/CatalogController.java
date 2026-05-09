@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
-import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.services.catalog.CatalogService;
@@ -28,6 +27,9 @@ public class CatalogController {
     @GetMapping("/trips")
     public ResponseEntity<List<TripFullDTO>> findAllTrips() {
         List<TripFullDTO> trips = catalogService.findAllTrips();
+        System.out.println("----------------------------------------------");
+        System.out.println(trips);
+        System.out.println("----------------------------------------------");
         return ResponseEntity.ok(trips);
     }
 

@@ -34,10 +34,6 @@ public class ZonedDateTimeDeserializer extends StdDeserializer<ZonedDateTime> {
                 LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                 return localDateTime.atZone(ZoneId.of("UTC"));
             }
-        } finally {
-            System.out.println("date from ZonedDateTimeDeserializer --------------------------------");
-            System.out.println(date);
-            System.out.println("-----------------------------------------------------------------");
         }
     }
 
