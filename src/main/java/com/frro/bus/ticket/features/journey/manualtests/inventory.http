@@ -5,8 +5,8 @@ POST http://localhost:8080/api/v1/journeys/inventory/trips
 Content-Type: application/json
 
 {
-  "departureDate": "2024-12-01T08:00:00Z",
-  "arrivalDate": "2024-12-01T14:00:00Z",
+  "departureDate": "2032-12-01T08:00:00-03:00",
+  "arrivalDate": "2032-12-01T14:00:00-03:00",
   "basePrice": 150.00,
   "idBus": 1,
   "idDriver": 2,

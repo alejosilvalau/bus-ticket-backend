@@ -15,7 +15,6 @@ import com.frro.bus.ticket.features.journey.dtos.location.CreateLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.UpdateLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.CreateTripDTO;
-import com.frro.bus.ticket.features.journey.dtos.trip.TripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.UpdateTripDTO;
 import com.frro.bus.ticket.features.journey.services.inventory.InventoryService;
@@ -30,7 +29,14 @@ public class InventoryController {
 
     @PostMapping("/trips")
     public ResponseEntity<TripFullDTO> createTrip(@RequestBody CreateTripDTO tripRequest) {
+        System.out.println("This is what reaches to controllers ---------------------------");
+        System.out.println(tripRequest);
+        System.out.println("------------------------------------------------------------");
+
         TripFullDTO savedTrip = inventoryService.createTrip(tripRequest);
+        System.out.println("This is what reaches to services ---------------------------");
+        System.out.println(savedTrip);
+        System.out.println("------------------------------------------------------------");
         return ResponseEntity.ok(savedTrip);
     }
 
