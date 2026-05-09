@@ -33,7 +33,7 @@ public interface SeatMapper {
     @Mapping(target = "tickets", ignore = true)
     Seat toSeat(CreateSeatDTO createSeatDto);
 
-    @Mapping(target = "letter", source = "letter", qualifiedByName = "unwrapOptionalChararacter")
+    @Mapping(target = "letter", source = "letter", qualifiedByName = "unwrapOptionalCharacter")
     @Mapping(target = "number", source = "number", qualifiedByName = "unwrapOptionalInteger")
     @Mapping(target = "active", source = "isActive", qualifiedByName = "unwrapOptionalBoolean")
     @Mapping(target = "bus", source = "idBus", qualifiedByName = "optionalIdToBus")
@@ -42,7 +42,7 @@ public interface SeatMapper {
     Seat toSeat(UpdateSeatDTO updateSeatDto);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "letter", source = "letter", qualifiedByName = "unwrapOptionalChararacter")
+    @Mapping(target = "letter", source = "letter", qualifiedByName = "unwrapOptionalCharacter")
     @Mapping(target = "number", source = "number", qualifiedByName = "unwrapOptionalInteger")
     @Mapping(target = "active", source = "isActive", qualifiedByName = "unwrapOptionalBoolean")
     @Mapping(target = "bus", source = "idBus", qualifiedByName = "optionalIdToBus")

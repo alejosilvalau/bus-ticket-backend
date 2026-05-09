@@ -35,7 +35,7 @@ public abstract class DataTypeMapperUtils {
         return opt.orElse(null);
     }
 
-    @Named("unwrapOptionalChararacter")
+    @Named("unwrapOptionalCharacter")
     public Character unwrapChar(Optional<Character> opt) {
         return opt.orElse(null);
     }
