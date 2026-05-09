@@ -11,32 +11,32 @@ import java.util.Optional;
 public abstract class DataTypeMapperUtils {
 
     @Named("unwrapOptionalString")
-    public String unwrapString(Optional<String> opt) {
+    public String unwrapOptionalString(Optional<String> opt) {
         return opt.orElse(null);
     }
 
     @Named("unwrapOptionalBoolean")
-    public Boolean unwrapBoolean(Optional<Boolean> opt) {
+    public Boolean unwrapOptionalBoolean(Optional<Boolean> opt) {
         return opt.orElse(null);
     }
 
     @Named("unwrapOptionalBigDecimal")
-    public BigDecimal unwrapBigDecimal(Optional<BigDecimal> opt) {
+    public BigDecimal unwrapOptionalBigDecimal(Optional<BigDecimal> opt) {
         return opt.orElse(null);
     }
 
     @Named("unwrapOptionalZonedDateTime")
-    public ZonedDateTime unwrapZonedDateTime(Optional<ZonedDateTime> opt) {
+    public ZonedDateTime unwrapOptionalZonedDateTime(Optional<ZonedDateTime> opt) {
         return opt.orElse(null);
     }
 
     @Named("unwrapOptionalInteger")
-    public Integer unwrapInt(Optional<Integer> opt) {
+    public Integer unwrapOptionalInteger(Optional<Integer> opt) {
         return opt.orElse(null);
     }
 
     @Named("unwrapOptionalCharacter")
-    public Character unwrapChar(Optional<Character> opt) {
+    public Character unwrapOptionalCharacter(Optional<Character> opt) {
         return opt.orElse(null);
     }
 }

@@ -19,7 +19,7 @@ public interface DriverService {
 
     Optional<DriverDTO> update(UpdateDriverDTO userRequest);
 
-    Optional<DriverDTO> delete(int id);
-
     Optional<DriverDTO> logicalDelete(int id);
+
+    Optional<DriverDTO> delete(int id);
 }

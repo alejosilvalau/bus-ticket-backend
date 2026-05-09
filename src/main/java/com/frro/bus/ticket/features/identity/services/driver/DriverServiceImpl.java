@@ -1,6 +1,8 @@
 package com.frro.bus.ticket.features.identity.services.driver;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
@@ -10,8 +12,8 @@ import com.frro.bus.ticket.features.identity.dtos.driver.SearchDriverDTO;
 import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.identity.mappers.DriverMapper;
 import com.frro.bus.ticket.features.identity.repositories.DriverRepository;
+import com.frro.bus.ticket.common.utils.SearchServiceUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +39,13 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public List<DriverDTO> search(SearchDriverDTO searchCriteria) {
-        ArrayList<DriverDTO> list = new ArrayList<>();
-        return list;
+        Driver probe = driverMapper.toDriver(searchCriteria);
+        return driverRepository.findAll(Example.of(probe, SearchServiceUtils.DEFAULT_MATCHER))
+                .stream()
+                .map(driver -> {
+                    return driverMapper.toDriverDTO(driver);
+                })
+                .toList();
     }
 
     @Override
