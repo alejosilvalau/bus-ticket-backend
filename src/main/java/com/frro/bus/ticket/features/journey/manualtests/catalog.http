@@ -4,7 +4,6 @@
 GET http://localhost:8080/api/v1/journeys/catalog/trips
 Accept: application/json
 
-
 ### Get all locations
 GET http://localhost:8080/api/v1/journeys/catalog/locations
 Accept: application/json

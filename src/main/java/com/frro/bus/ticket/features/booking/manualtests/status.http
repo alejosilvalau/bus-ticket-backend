@@ -5,5 +5,5 @@ GET http://localhost:8080/api/v1/booking/status/tickets
 Accept: application/json
 
 ### Get ticket by ID
-GET http://localhost:8080/api/v1/booking/status/tickets/1
+GET http://localhost:8080/api/v1/booking/status/tickets/5
 Accept: application/json

@@ -8,7 +8,10 @@ Content-Type: application/json
   "finalPrice": 150.00,
   "bookingTime": "2024-12-01T08:00:00Z",
   "isCancelled": false,
-  "token": "TICKET-ABC123"
+  "token": "TICKET-ABC123",
+  "idUser": 1,
+  "idTrip": 2,
+  "idSeat": 1
 }
 
 ### Update ticket by ID
@@ -16,11 +19,8 @@ PATCH http://localhost:8080/api/v1/booking/processor/tickets
 Content-Type: application/json
 
 {
-  "id": 1,
-  "finalPrice": 160.00,
-  "bookingTime": "2024-12-01T09:00:00Z",
-  "isCancelled": false,
-  "token": "TICKET-ABC123"
+  "id": 5,
+  "finalPrice": 160.00
 }
 
 ### Delete ticket by ID

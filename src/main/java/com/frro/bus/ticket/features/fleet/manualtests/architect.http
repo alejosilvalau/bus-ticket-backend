@@ -5,7 +5,7 @@ POST http://localhost:8080/api/v1/fleet/architect/buses
 Content-Type: application/json
 
 {
-  "plateNumber": "CDV-5678",
+  "plateNumber": "fka-4902",
   "totalCapacity": 40,
   "isActive": true
 }

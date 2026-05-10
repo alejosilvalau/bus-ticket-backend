@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
-import com.frro.bus.ticket.features.booking.dtos.TicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 import com.frro.bus.ticket.features.booking.entities.Ticket;
