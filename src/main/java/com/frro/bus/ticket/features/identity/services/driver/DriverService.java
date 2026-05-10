@@ -13,7 +13,7 @@ public interface DriverService {
 
     Optional<DriverDTO> findById(int id);
 
-    // List<DriverDTO> search(SearchDriverDTO searchCriteria);
+    List<DriverDTO> search(SearchDriverDTO searchCriteria);
 
     DriverDTO create(CreateDriverDTO userRequest);
 
