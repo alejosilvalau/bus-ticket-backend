@@ -5,7 +5,7 @@ POST http://localhost:8080/api/v1/fleet/architect/buses
 Content-Type: application/json
 
 {
-  "plateNumber": "ABC-1234",
+  "plateNumber": "CDV-5678",
   "totalCapacity": 40,
   "isActive": true
 }
@@ -16,7 +16,10 @@ Content-Type: application/json
 
 {
   "letter": "A",
-  "number": 1
+  "number": 1,
+  "isActive": true,
+  "idBus": 1,
+  "idSeatType": 1
 }
 
 ### Create a new seat type
@@ -24,8 +27,8 @@ POST http://localhost:8080/api/v1/fleet/architect/seat-types
 Content-Type: application/json
 
 {
-  "name": "Premium",
-  "upcharge": 25.50
+  "name": "Basic",
+  "upcharge": 0.00
 }
 
 ### Update bus by ID
@@ -33,10 +36,8 @@ PATCH http://localhost:8080/api/v1/fleet/architect/buses
 Content-Type: application/json
 
 {
-  "id": 1,
-  "plateNumber": "ABC-1235",
-  "totalCapacity": 45,
-  "isActive": true
+  "id": 2,
+  "totalCapacity": 45
 }
 
 ### Update seat by ID
@@ -45,8 +46,7 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "letter": "B",
-  "number": 2
+  "idSeatType": 2
 }
 
 ### Update seat type by ID
@@ -68,5 +68,5 @@ DELETE http://localhost:8080/api/v1/fleet/architect/seats/1
 Accept: application/json
 
 ### Delete seat type by ID
-DELETE http://localhost:8080/api/v1/fleet/architect/seat-types/1
+DELETE http://localhost:8080/api/v1/fleet/architect/seat-types/2
 Accept: application/json

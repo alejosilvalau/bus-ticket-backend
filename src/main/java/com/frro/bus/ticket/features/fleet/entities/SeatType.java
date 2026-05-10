@@ -18,7 +18,7 @@ import com.frro.bus.ticket.common.utils.entities.EntityWithId;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "seat_types")
+@Table(name = "seat_type")
 public class SeatType implements EntityWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
