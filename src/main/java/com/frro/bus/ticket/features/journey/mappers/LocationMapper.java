@@ -7,7 +7,6 @@ import com.frro.bus.ticket.common.utils.DataTypeMapperUtils;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.CreateLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.UpdateLocationDTO;
-import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
 import com.frro.bus.ticket.features.journey.entities.Location;
 
 @Mapper(componentModel = "spring", uses = { DataTypeMapperUtils.class })
@@ -25,12 +24,4 @@ public interface LocationMapper {
     @Mapping(target = "tripsOrigin", ignore = true)
     @Mapping(target = "tripsDestination", ignore = true)
     Location toLocation(UpdateLocationDTO updateLocationDto);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "cityName", source = "cityName", qualifiedByName = "unwrapOptionalString")
-    @Mapping(target = "state", source = "state", qualifiedByName = "unwrapOptionalString")
-    @Mapping(target = "postalCode", source = "postalCode", qualifiedByName = "unwrapOptionalString")
-    @Mapping(target = "tripsOrigin", ignore = true)
-    @Mapping(target = "tripsDestination", ignore = true)
-    Location toLocation(SearchLocationDTO searchLocationDto);
 }

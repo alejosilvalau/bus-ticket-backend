@@ -6,7 +6,6 @@ import org.mapstruct.Mapping;
 import com.frro.bus.ticket.common.utils.DataTypeMapperUtils;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.CreateSeatTypeDTO;
-import com.frro.bus.ticket.features.fleet.dtos.seattype.SearchSeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.UpdateSeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.entities.SeatType;
 
@@ -22,10 +21,4 @@ public interface SeatTypeMapper {
     @Mapping(target = "upcharge", source = "upcharge", qualifiedByName = "unwrapOptionalBigDecimal")
     @Mapping(target = "seats", ignore = true)
     SeatType toSeatType(UpdateSeatTypeDTO updateSeatTypeDto);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "name", source = "name", qualifiedByName = "unwrapOptionalString")
-    @Mapping(target = "upcharge", source = "upcharge", qualifiedByName = "unwrapOptionalBigDecimal")
-    @Mapping(target = "seats", ignore = true)
-    SeatType toSeatType(SearchSeatTypeDTO searchSeatTypeDto);
 }

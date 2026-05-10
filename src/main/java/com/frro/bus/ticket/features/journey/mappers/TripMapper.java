@@ -40,15 +40,4 @@ public interface TripMapper {
     @Mapping(target = "locationDestination", source = "idLocationDestination", qualifiedByName = "optionalIdToLocation")
     @Mapping(target = "tickets", ignore = true)
     Trip toTrip(UpdateTripDTO updateTripDto);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "departureDate", source = "departureDate", qualifiedByName = "unwrapOptionalZonedDateTime")
-    @Mapping(target = "arrivalDate", source = "arrivalDate", qualifiedByName = "unwrapOptionalZonedDateTime")
-    @Mapping(target = "basePrice", source = "basePrice", qualifiedByName = "unwrapOptionalBigDecimal")
-    @Mapping(target = "bus", source = "idBus", qualifiedByName = "optionalIdToBus")
-    @Mapping(target = "driver", source = "idDriver", qualifiedByName = "optionalIdToDriver")
-    @Mapping(target = "locationOrigin", source = "idLocationOrigin", qualifiedByName = "optionalIdToLocation")
-    @Mapping(target = "locationDestination", source = "idLocationDestination", qualifiedByName = "optionalIdToLocation")
-    @Mapping(target = "tickets", ignore = true)
-    Trip toTrip(SearchTripDTO searchTripDto);
 }

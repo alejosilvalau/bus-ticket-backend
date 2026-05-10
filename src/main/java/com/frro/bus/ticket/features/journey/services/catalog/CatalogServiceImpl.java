@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.entities.Location;
-import com.frro.bus.ticket.features.journey.entities.Trip;
 import com.frro.bus.ticket.common.utils.SearchServiceUtils;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
@@ -54,22 +53,28 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public List<TripFullDTO> searchTrips(SearchTripDTO searchCriteria) {
-        Trip probe = tripMapper.toTrip(searchCriteria);
-        return tripRepository.findAll(Example.of(probe, SearchServiceUtils.DEFAULT_MATCHER))
+        return tripRepository.searchTrips(
+                searchCriteria.departureDate().orElse(null),
+                searchCriteria.arrivalDate().orElse(null),
+                searchCriteria.startBasePrice().orElse(null),
+                searchCriteria.endBasePrice().orElse(null),
+                searchCriteria.idBus().orElse(null),
+                searchCriteria.idDriver().orElse(null),
+                searchCriteria.idLocationOrigin().orElse(null),
+                searchCriteria.idLocationDestination().orElse(null))
                 .stream()
-                .map(trip -> {
-                    return tripMapper.toTripFullDTO(trip);
-                })
+                .map(tripMapper::toTripFullDTO)
                 .toList();
     }
 
-    @Override
-    public List<LocationDTO> searchLocations(SearchLocationDTO searchCriteria) {
-        Location probe = locationMapper.toLocation(searchCriteria);
-
-        return locationRepository.findAll(Example.of(probe, SearchServiceUtils.DEFAULT_MATCHER))
-                .stream()
-                .map(locationMapper::toLocationDTO)
-                .toList();
-    }
+    // @Override
+    // public List<LocationDTO> searchLocations(SearchLocationDTO searchCriteria) {
+    // Location probe = locationMapper.toLocation(searchCriteria);
+    //
+    // return locationRepository.findAll(Example.of(probe,
+    // SearchServiceUtils.DEFAULT_MATCHER))
+    // .stream()
+    // .map(locationMapper::toLocationDTO)
+    // .toList();
+    // }
 }

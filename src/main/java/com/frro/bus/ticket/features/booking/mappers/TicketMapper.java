@@ -9,7 +9,6 @@ import com.frro.bus.ticket.common.utils.entities.seat.SeatMapperDTOSingleUtil;
 import com.frro.bus.ticket.common.utils.entities.trip.TripMapperDTOSingleUtil;
 import com.frro.bus.ticket.common.utils.entities.user.UserMapperDTOSingleUtil;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
-import com.frro.bus.ticket.features.booking.dtos.SearchTicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
@@ -43,14 +42,4 @@ public interface TicketMapper {
     @Mapping(target = "trip", source = "idTrip", qualifiedByName = "optionalIdToTrip")
     @Mapping(target = "user", source = "idUser", qualifiedByName = "optionalIdToUser")
     Ticket toTicket(UpdateTicketDTO updateTicketDto);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "finalPrice", source = "finalPrice", qualifiedByName = "unwrapOptionalBigDecimal")
-    @Mapping(target = "bookingTime", source = "bookingTime", qualifiedByName = "unwrapOptionalZonedDateTime")
-    @Mapping(target = "cancelled", source = "isCancelled", qualifiedByName = "unwrapOptionalBoolean")
-    @Mapping(target = "token", source = "token", qualifiedByName = "unwrapOptionalString")
-    @Mapping(target = "seat", source = "idSeat", qualifiedByName = "optionalIdToSeat")
-    @Mapping(target = "trip", source = "idTrip", qualifiedByName = "optionalIdToTrip")
-    @Mapping(target = "user", source = "idUser", qualifiedByName = "optionalIdToUser")
-    Ticket toTicket(SearchTicketDTO searchTicketDto);
 }

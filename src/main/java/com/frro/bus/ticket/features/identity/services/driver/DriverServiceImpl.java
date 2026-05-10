@@ -37,16 +37,17 @@ public class DriverServiceImpl implements DriverService {
         });
     }
 
-    @Override
-    public List<DriverDTO> search(SearchDriverDTO searchCriteria) {
-        Driver probe = driverMapper.toDriver(searchCriteria);
-        return driverRepository.findAll(Example.of(probe, SearchServiceUtils.DEFAULT_MATCHER))
-                .stream()
-                .map(driver -> {
-                    return driverMapper.toDriverDTO(driver);
-                })
-                .toList();
-    }
+    // @Override
+    // public List<DriverDTO> search(SearchDriverDTO searchCriteria) {
+    // Driver probe = driverMapper.toDriver(searchCriteria);
+    // return driverRepository.findAll(Example.of(probe,
+    // SearchServiceUtils.DEFAULT_MATCHER))
+    // .stream()
+    // .map(driver -> {
+    // return driverMapper.toDriverDTO(driver);
+    // })
+    // .toList();
+    // }
 
     @Override
     public DriverDTO create(CreateDriverDTO driverRequest) {
