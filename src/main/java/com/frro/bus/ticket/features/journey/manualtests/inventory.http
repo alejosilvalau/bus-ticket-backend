@@ -29,14 +29,9 @@ PATCH http://localhost:8080/api/v1/journeys/inventory/trips
 Content-Type: application/json
 
 {
-  "id": 1,
-  "departureDate": "2024-12-02T09:00:00Z",
-  "arrivalDate": "2024-12-02T15:00:00Z",
-  "basePrice": 160.00,
-  "idBus": 1,
-  "idDriver": 1,
-  "idLocationOrigin": 1,
-  "idLocationDestination": 2
+  "id": 5,
+  "idLocationOrigin": 2,
+  "idLocationDestination": 1
 }
 
 ### Update location by ID
@@ -50,7 +45,7 @@ Content-Type: application/json
 }
 
 ### Delete trip by ID
-DELETE http://localhost:8080/api/v1/journeys/inventory/trips/1
+DELETE http://localhost:8080/api/v1/journeys/inventory/trips/2
 Accept: application/json
 
 ### Delete location by ID

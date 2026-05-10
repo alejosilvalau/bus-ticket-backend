@@ -80,6 +80,8 @@ public class InventoryServiceImpl implements InventoryService {
             });
 
             Trip savedTrip = tripRepository.save(existingTrip);
+            entityManager.flush();
+            entityManager.refresh(savedTrip);
             return tripMapper.toTripFullDTO(savedTrip);
         });
     }
