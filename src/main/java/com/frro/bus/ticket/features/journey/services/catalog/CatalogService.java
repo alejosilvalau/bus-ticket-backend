@@ -19,5 +19,5 @@ public interface CatalogService {
 
     List<TripFullDTO> searchTrips(SearchTripDTO searchCriteria);
 
-    // List<LocationDTO> searchLocations(SearchLocationDTO searchCriteria);
+    List<LocationDTO> searchLocations(SearchLocationDTO searchCriteria);
 }

@@ -62,14 +62,14 @@ public class CatalogServiceImpl implements CatalogService {
                 .toList();
     }
 
-    // @Override
-    // public List<LocationDTO> searchLocations(SearchLocationDTO searchCriteria) {
-    // Location probe = locationMapper.toLocation(searchCriteria);
-    //
-    // return locationRepository.findAll(Example.of(probe,
-    // SearchServiceUtils.DEFAULT_MATCHER))
-    // .stream()
-    // .map(locationMapper::toLocationDTO)
-    // .toList();
-    // }
+    @Override
+    public List<LocationDTO> searchLocations(SearchLocationDTO searchCriteria) {
+        return locationRepository.searchLocations(
+                searchCriteria.cityName().orElse(null),
+                searchCriteria.state().orElse(null),
+                searchCriteria.postalCode().orElse(null))
+                .stream()
+                .map(locationMapper::toLocationDTO)
+                .toList();
+    }
 }

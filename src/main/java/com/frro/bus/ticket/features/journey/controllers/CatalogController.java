@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
+import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
 import com.frro.bus.ticket.features.journey.services.catalog.CatalogService;
 
 import lombok.RequiredArgsConstructor;
@@ -48,12 +49,11 @@ public class CatalogController {
         return ResponseEntity.ok(locations);
     }
 
-    // @GetMapping("/locations/search")
-    // public ResponseEntity<List<LocationDTO>> searchLocations(@RequestBody
-    // SearchLocationDTO searchCriteria) {
-    // List<LocationDTO> locations = catalogService.searchLocations(searchCriteria);
-    // return ResponseEntity.ok(locations);
-    // }
+    @GetMapping("/locations/search")
+    public ResponseEntity<List<LocationDTO>> searchLocations(@RequestBody SearchLocationDTO searchCriteria) {
+        List<LocationDTO> locations = catalogService.searchLocations(searchCriteria);
+        return ResponseEntity.ok(locations);
+    }
 
     @GetMapping("/locations/{id}")
     public ResponseEntity<LocationDTO> findLocationById(@PathVariable int id) {
