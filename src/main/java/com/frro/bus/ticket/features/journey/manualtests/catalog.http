@@ -30,6 +30,5 @@ GET http://localhost:8080/api/v1/journeys/catalog/locations/search
 Content-Type: application/json
 
 {
-  "cityName": "Buenos Aires",
-  "state": "BA"
+  "state": "California"
 }

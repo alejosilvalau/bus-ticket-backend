@@ -2,7 +2,6 @@ package com.frro.bus.ticket.features.identity.repositories;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,7 +17,6 @@ public interface DriverRepository extends JpaRepository<Driver, Integer> {
             "(:isActive IS NULL OR d.isActive = :isActive) AND " +
             "(:licenseNumber IS NULL OR d.licenseNumber = :licenseNumber) AND " +
             "(:phoneNumber IS NULL OR d.phoneNumber = :phoneNumber)")
-    @EntityGraph(attributePaths = { "trips" })
     List<Driver> searchDrivers(
             @Param("firstName") String firstName,
             @Param("lastName") String lastName,
