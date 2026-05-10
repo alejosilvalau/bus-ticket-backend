@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketDTO;
+import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 import com.frro.bus.ticket.features.booking.services.processor.ProcessorService;
 
@@ -25,21 +26,21 @@ public class ProcessorController {
     private final ProcessorService processorService;
 
     @PostMapping("/tickets")
-    public ResponseEntity<TicketDTO> createTicket(@RequestBody CreateTicketDTO ticketRequest) {
-        TicketDTO savedTicket = processorService.createTicket(ticketRequest);
+    public ResponseEntity<TicketFullDTO> createTicket(@RequestBody CreateTicketDTO ticketRequest) {
+        TicketFullDTO savedTicket = processorService.createTicket(ticketRequest);
         return ResponseEntity.ok(savedTicket);
     }
 
     @PatchMapping("/tickets")
-    public ResponseEntity<TicketDTO> updateTicket(@RequestBody UpdateTicketDTO ticketRequest) {
-        Optional<TicketDTO> updatedTicket = processorService.updateTicket(ticketRequest);
+    public ResponseEntity<TicketFullDTO> updateTicket(@RequestBody UpdateTicketDTO ticketRequest) {
+        Optional<TicketFullDTO> updatedTicket = processorService.updateTicket(ticketRequest);
         return updatedTicket.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/tickets/{id}")
-    public ResponseEntity<TicketDTO> deleteTicket(@PathVariable int id) {
-        Optional<TicketDTO> deletedTicket = processorService.deleteTicket(id);
+    public ResponseEntity<TicketFullDTO> deleteTicket(@PathVariable int id) {
+        Optional<TicketFullDTO> deletedTicket = processorService.deleteTicket(id);
         return deletedTicket.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

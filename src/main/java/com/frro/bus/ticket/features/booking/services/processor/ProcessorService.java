@@ -3,13 +3,13 @@ package com.frro.bus.ticket.features.booking.services.processor;
 import java.util.Optional;
 
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
-import com.frro.bus.ticket.features.booking.dtos.TicketDTO;
+import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 
 public interface ProcessorService {
-    TicketDTO createTicket(CreateTicketDTO userRequest);
+    TicketFullDTO createTicket(CreateTicketDTO userRequest);
 
-    Optional<TicketDTO> updateTicket(UpdateTicketDTO userRequest);
+    Optional<TicketFullDTO> updateTicket(UpdateTicketDTO userRequest);
 
-    Optional<TicketDTO> deleteTicket(int id);
+    Optional<TicketFullDTO> deleteTicket(int id);
 }

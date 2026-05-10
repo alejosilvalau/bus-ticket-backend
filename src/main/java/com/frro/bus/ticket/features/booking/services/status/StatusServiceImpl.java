@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.frro.bus.ticket.features.booking.dtos.TicketDTO;
+import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.mappers.TicketMapper;
 import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
 
@@ -18,12 +18,12 @@ public class StatusServiceImpl implements StatusService {
     private final TicketMapper ticketMapper;
 
     @Override
-    public List<TicketDTO> findAllTickets() {
-        return ticketRepository.findAll().stream().map(ticketMapper::toTicketDTO).toList();
+    public List<TicketFullDTO> findAllTickets() {
+        return ticketRepository.findAll().stream().map(ticketMapper::toTicketFullDTO).toList();
     }
 
     @Override
-    public Optional<TicketDTO> findTicketById(int id) {
-        return ticketRepository.findById(id).map(ticketMapper::toTicketDTO);
+    public Optional<TicketFullDTO> findTicketById(int id) {
+        return ticketRepository.findById(id).map(ticketMapper::toTicketFullDTO);
     }
 }

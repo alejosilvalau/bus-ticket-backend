@@ -28,9 +28,7 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public List<TripFullDTO> findAllTrips() {
-        return tripRepository.findAll().stream().map(trip -> {
-            return tripMapper.toTripFullDTO(trip);
-        }).toList();
+        return tripRepository.findAll().stream().map(tripMapper::toTripFullDTO).toList();
     }
 
     @Override
@@ -40,9 +38,7 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public Optional<TripFullDTO> findTripById(int id) {
-        return tripRepository.findById(id).map(trip -> {
-            return tripMapper.toTripFullDTO(trip);
-        });
+        return tripRepository.findById(id).map(tripMapper::toTripFullDTO);
     }
 
     @Override

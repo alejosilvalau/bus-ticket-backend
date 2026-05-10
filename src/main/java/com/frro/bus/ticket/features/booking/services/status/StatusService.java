@@ -3,10 +3,10 @@ package com.frro.bus.ticket.features.booking.services.status;
 import java.util.List;
 import java.util.Optional;
 
-import com.frro.bus.ticket.features.booking.dtos.TicketDTO;
+import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 
 public interface StatusService {
-    List<TicketDTO> findAllTickets();
+    List<TicketFullDTO> findAllTickets();
 
-    Optional<TicketDTO> findTicketById(int id);
+    Optional<TicketFullDTO> findTicketById(int id);
 }

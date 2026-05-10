@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
-import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.services.catalog.CatalogService;

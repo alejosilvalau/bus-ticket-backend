@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.features.booking.dtos.TicketDTO;
+import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.services.status.StatusService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,14 +22,14 @@ public class StatusController {
     private final StatusService statusService;
 
     @GetMapping("/tickets")
-    public ResponseEntity<List<TicketDTO>> findAllTickets() {
-        List<TicketDTO> tickets = statusService.findAllTickets();
+    public ResponseEntity<List<TicketFullDTO>> findAllTickets() {
+        List<TicketFullDTO> tickets = statusService.findAllTickets();
         return ResponseEntity.ok(tickets);
     }
 
     @GetMapping("/tickets/{id}")
-    public ResponseEntity<TicketDTO> findTicketById(@PathVariable int id) {
-        Optional<TicketDTO> ticket = statusService.findTicketById(id);
+    public ResponseEntity<TicketFullDTO> findTicketById(@PathVariable int id) {
+        Optional<TicketFullDTO> ticket = statusService.findTicketById(id);
         return ticket.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
