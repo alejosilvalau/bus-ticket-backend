@@ -21,11 +21,11 @@ POST http://localhost:8080/api/v1/identity/drivers
 Content-Type: application/json
 
 {
-  "firstName": "John",
-  "lastName": "Doe",
-  "isActive": true,
-  "licenseNumber": "DR12345X",
-  "phoneNumber": "+541112345678"
+  "firstName": "Alex",
+  "lastName": "Stewards",
+  "isActive": false,
+  "licenseNumber": "RTR12345X",
+  "phoneNumber": "+549998765432"
 }
 
 ### Update driver by ID (optional fields)

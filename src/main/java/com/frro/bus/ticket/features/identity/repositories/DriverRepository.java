@@ -15,7 +15,7 @@ public interface DriverRepository extends JpaRepository<Driver, Integer> {
     @Query("SELECT d FROM Driver d WHERE " +
             "(:firstName IS NULL OR LOWER(d.firstName) LIKE LOWER(CONCAT('%', :firstName, '%'))) AND " +
             "(:lastName IS NULL OR LOWER(d.lastName) LIKE LOWER(CONCAT('%', :lastName, '%'))) AND " +
-            "(:isActive IS NULL OR d.active = :isActive) AND " +
+            "(:isActive IS NULL OR d.isActive = :isActive) AND " +
             "(:licenseNumber IS NULL OR d.licenseNumber = :licenseNumber) AND " +
             "(:phoneNumber IS NULL OR d.phoneNumber = :phoneNumber)")
     @EntityGraph(attributePaths = { "trips" })
