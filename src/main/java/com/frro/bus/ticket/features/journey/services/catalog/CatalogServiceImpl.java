@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.entities.Location;
-import com.frro.bus.ticket.common.utils.SearchServiceUtils;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
 import com.frro.bus.ticket.features.journey.mappers.TripMapper;

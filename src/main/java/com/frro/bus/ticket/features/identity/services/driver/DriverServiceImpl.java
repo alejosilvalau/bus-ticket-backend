@@ -12,7 +12,6 @@ import com.frro.bus.ticket.features.identity.dtos.driver.SearchDriverDTO;
 import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.identity.mappers.DriverMapper;
 import com.frro.bus.ticket.features.identity.repositories.DriverRepository;
-import com.frro.bus.ticket.common.utils.SearchServiceUtils;
 
 import java.util.List;
 import java.util.Optional;
