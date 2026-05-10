@@ -21,7 +21,8 @@ GET http://localhost:8080/api/v1/journeys/catalog/trips/search
 Content-Type: application/json
 
 {
-  "departureDate": "2024-12-01T05:00:00-03:00"
+  "startBasePrice": 200,
+  "endBasePrice": 210
 }
 
 ### Search locations

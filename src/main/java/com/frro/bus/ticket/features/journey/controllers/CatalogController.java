@@ -30,10 +30,10 @@ public class CatalogController {
         return ResponseEntity.ok(trips);
     }
 
-    @GetMapping("/locations")
-    public ResponseEntity<List<LocationDTO>> findAllLocations() {
-        List<LocationDTO> locations = catalogService.findAllLocations();
-        return ResponseEntity.ok(locations);
+    @GetMapping("/trips/search")
+    public ResponseEntity<List<TripFullDTO>> searchTrips(@RequestBody SearchTripDTO searchCriteria) {
+        List<TripFullDTO> trips = catalogService.searchTrips(searchCriteria);
+        return ResponseEntity.ok(trips);
     }
 
     @GetMapping("/trips/{id}")
@@ -43,24 +43,23 @@ public class CatalogController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/locations/{id}")
-    public ResponseEntity<LocationDTO> findLocationById(@PathVariable int id) {
-        Optional<LocationDTO> location = catalogService.findLocationById(id);
-        return location.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/locations")
+    public ResponseEntity<List<LocationDTO>> findAllLocations() {
+        List<LocationDTO> locations = catalogService.findAllLocations();
+        return ResponseEntity.ok(locations);
     }
 
-    // @GetMapping("/trips/search")
-    // public ResponseEntity<List<TripFullDTO>> searchTrips(@RequestBody
-    // SearchTripDTO searchCriteria) {
-    // List<TripFullDTO> trips = catalogService.searchTrips(searchCriteria);
-    // return ResponseEntity.ok(trips);
-    // }
-    //
     // @GetMapping("/locations/search")
     // public ResponseEntity<List<LocationDTO>> searchLocations(@RequestBody
     // SearchLocationDTO searchCriteria) {
     // List<LocationDTO> locations = catalogService.searchLocations(searchCriteria);
     // return ResponseEntity.ok(locations);
     // }
+
+    @GetMapping("/locations/{id}")
+    public ResponseEntity<LocationDTO> findLocationById(@PathVariable int id) {
+        Optional<LocationDTO> location = catalogService.findLocationById(id);
+        return location.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
