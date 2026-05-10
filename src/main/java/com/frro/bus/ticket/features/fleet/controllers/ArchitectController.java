@@ -15,6 +15,7 @@ import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.CreateBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.UpdateBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
+import com.frro.bus.ticket.features.fleet.dtos.seat.SeatFullDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.CreateSeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.UpdateSeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
@@ -37,8 +38,8 @@ public class ArchitectController {
     }
 
     @PostMapping("/seats")
-    public ResponseEntity<SeatDTO> createSeat(@RequestBody CreateSeatDTO seatRequest) {
-        SeatDTO savedSeat = architectService.createSeat(seatRequest);
+    public ResponseEntity<SeatFullDTO> createSeat(@RequestBody CreateSeatDTO seatRequest) {
+        SeatFullDTO savedSeat = architectService.createSeat(seatRequest);
         return ResponseEntity.ok(savedSeat);
     }
 
@@ -56,8 +57,8 @@ public class ArchitectController {
     }
 
     @PatchMapping("/seats")
-    public ResponseEntity<SeatDTO> updateSeat(@RequestBody UpdateSeatDTO seatRequest) {
-        Optional<SeatDTO> updatedSeat = architectService.updateSeat(seatRequest);
+    public ResponseEntity<SeatFullDTO> updateSeat(@RequestBody UpdateSeatDTO seatRequest) {
+        Optional<SeatFullDTO> updatedSeat = architectService.updateSeat(seatRequest);
         return updatedSeat.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -77,8 +78,8 @@ public class ArchitectController {
     }
 
     @DeleteMapping("/seats/{id}")
-    public ResponseEntity<SeatDTO> deleteSeat(@PathVariable int id) {
-        Optional<SeatDTO> deletedSeat = architectService.deleteSeat(id);
+    public ResponseEntity<SeatFullDTO> deleteSeat(@PathVariable int id) {
+        Optional<SeatFullDTO> deletedSeat = architectService.deleteSeat(id);
         return deletedSeat.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

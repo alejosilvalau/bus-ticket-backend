@@ -8,6 +8,7 @@ import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.CreateBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.UpdateBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
+import com.frro.bus.ticket.features.fleet.dtos.seat.SeatFullDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.CreateSeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.UpdateSeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
@@ -23,6 +24,8 @@ import com.frro.bus.ticket.features.fleet.repositories.BusRepository;
 import com.frro.bus.ticket.features.fleet.repositories.SeatRepository;
 import com.frro.bus.ticket.features.fleet.repositories.SeatTypeRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -34,6 +37,7 @@ public class ArchitectServiceImpl implements ArchitectService {
     private final BusMapper busMapper;
     private final SeatMapper seatMapper;
     private final SeatTypeMapper seatTypeMapper;
+    private final EntityManager entityManager;
 
     @Override
     public BusDTO createBus(CreateBusDTO busRequest) {
@@ -43,10 +47,13 @@ public class ArchitectServiceImpl implements ArchitectService {
     }
 
     @Override
-    public SeatDTO createSeat(CreateSeatDTO seatRequest) {
+    @Transactional
+    public SeatFullDTO createSeat(CreateSeatDTO seatRequest) {
         Seat seat = seatMapper.toSeat(seatRequest);
         Seat savedSeat = seatRepository.save(seat);
-        return seatMapper.toSeatDTO(savedSeat);
+        entityManager.flush();
+        entityManager.refresh(savedSeat);
+        return seatMapper.toSeatFullDTO(savedSeat);
     }
 
     @Override
@@ -69,13 +76,29 @@ public class ArchitectServiceImpl implements ArchitectService {
     }
 
     @Override
-    public Optional<SeatDTO> updateSeat(UpdateSeatDTO seatRequest) {
+    @Transactional
+    public Optional<SeatFullDTO> updateSeat(UpdateSeatDTO seatRequest) {
         return seatRepository.findById(seatRequest.id()).map(existingSeat -> {
             seatRequest.letter().ifPresent(existingSeat::setLetter);
             seatRequest.number().ifPresent(existingSeat::setNumber);
+            seatRequest.isActive().ifPresent(existingSeat::setActive);
+
+            seatRequest.idBus().ifPresent(idBus -> {
+                Bus bus = new Bus();
+                bus.setId(idBus);
+                existingSeat.setBus(bus);
+            });
+
+            seatRequest.idSeatType().ifPresent(idSeatType -> {
+                SeatType seatType = new SeatType();
+                seatType.setId(idSeatType);
+                existingSeat.setSeatType(seatType);
+            });
 
             Seat savedSeat = seatRepository.save(existingSeat);
-            return seatMapper.toSeatDTO(savedSeat);
+            entityManager.flush();
+            entityManager.refresh(savedSeat);
+            return seatMapper.toSeatFullDTO(savedSeat);
         });
     }
 
@@ -99,10 +122,10 @@ public class ArchitectServiceImpl implements ArchitectService {
     }
 
     @Override
-    public Optional<SeatDTO> deleteSeat(int id) {
+    public Optional<SeatFullDTO> deleteSeat(int id) {
         return seatRepository.findById(id).map(seat -> {
             seatRepository.deleteById(id);
-            return seatMapper.toSeatDTO(seat);
+            return seatMapper.toSeatFullDTO(seat);
         });
     }
 

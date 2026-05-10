@@ -58,24 +58,24 @@ public class InventoryServiceImpl implements InventoryService {
             tripRequest.basePrice().ifPresent(existingTrip::setBasePrice);
 
             // Update relationships if provided
-            tripRequest.idBus().ifPresent(busId -> {
+            tripRequest.idBus().ifPresent(idBus -> {
                 Bus bus = new Bus();
-                bus.setId(busId);
+                bus.setId(idBus);
                 existingTrip.setBus(bus);
             });
-            tripRequest.idDriver().ifPresent(driverId -> {
+            tripRequest.idDriver().ifPresent(idDriver -> {
                 Driver driver = new Driver();
-                driver.setId(driverId);
+                driver.setId(idDriver);
                 existingTrip.setDriver(driver);
             });
-            tripRequest.idLocationOrigin().ifPresent(locationId -> {
+            tripRequest.idLocationOrigin().ifPresent(idLocation -> {
                 Location location = new Location();
-                location.setId(locationId);
+                location.setId(idLocation);
                 existingTrip.setLocationOrigin(location);
             });
-            tripRequest.idLocationDestination().ifPresent(locationId -> {
+            tripRequest.idLocationDestination().ifPresent(idLocation -> {
                 Location location = new Location();
-                location.setId(locationId);
+                location.setId(idLocation);
                 existingTrip.setLocationDestination(location);
             });
 
