@@ -28,16 +28,16 @@ public class StatusController {
         return ResponseEntity.ok(tickets);
     }
 
+    @GetMapping("/tickets/search")
+    public ResponseEntity<List<TicketFullDTO>> searchTickets(@RequestBody SearchTicketDTO searchCriteria) {
+        List<TicketFullDTO> tickets = statusService.searchTickets(searchCriteria);
+        return ResponseEntity.ok(tickets);
+    }
+
     @GetMapping("/tickets/{id}")
     public ResponseEntity<TicketFullDTO> findTicketById(@PathVariable int id) {
         Optional<TicketFullDTO> ticket = statusService.findTicketById(id);
         return ticket.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/tickets/search")
-    public ResponseEntity<List<TicketFullDTO>> searchTickets(@RequestBody SearchTicketDTO searchCriteria) {
-        List<TicketFullDTO> tickets = statusService.searchTickets(searchCriteria);
-        return ResponseEntity.ok(tickets);
     }
 }
