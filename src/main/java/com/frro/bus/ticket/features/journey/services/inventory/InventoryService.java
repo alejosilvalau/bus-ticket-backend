@@ -12,13 +12,13 @@ import com.frro.bus.ticket.features.journey.dtos.trip.UpdateTripDTO;
 public interface InventoryService {
     TripFullDTO createTrip(CreateTripDTO userRequest);
 
-    LocationDTO createLocation(CreateLocationDTO userRequest);
-
     Optional<TripFullDTO> updateTrip(UpdateTripDTO userRequest);
 
-    Optional<LocationDTO> updateLocation(UpdateLocationDTO userRequest);
-
     Optional<TripFullDTO> deleteTrip(int id);
+
+    LocationDTO createLocation(CreateLocationDTO userRequest);
+
+    Optional<LocationDTO> updateLocation(UpdateLocationDTO userRequest);
 
     Optional<LocationDTO> deleteLocation(int id);
 }

@@ -14,16 +14,6 @@ Content-Type: application/json
   "idLocationDestination": 2
 }
 
-### Create a new location
-POST http://localhost:8080/api/v1/journeys/inventory/locations
-Content-Type: application/json
-
-{
-  "cityName": "Buenos Aires",
-  "state": "BA",
-  "postalCode": "1000"
-}
-
 ### Update trip by ID
 PATCH http://localhost:8080/api/v1/journeys/inventory/trips
 Content-Type: application/json
@@ -32,6 +22,20 @@ Content-Type: application/json
   "id": 5,
   "idLocationOrigin": 2,
   "idLocationDestination": 1
+}
+
+### Delete trip by ID
+DELETE http://localhost:8080/api/v1/journeys/inventory/trips/2
+Accept: application/json
+
+### Create a new location
+POST http://localhost:8080/api/v1/journeys/inventory/locations
+Content-Type: application/json
+
+{
+  "cityName": "Buenos Aires",
+  "state": "BA",
+  "postalCode": "1000"
 }
 
 ### Update location by ID
@@ -43,10 +47,6 @@ Content-Type: application/json
   "cityName": "Mendoza",
   "state": "MZ"
 }
-
-### Delete trip by ID
-DELETE http://localhost:8080/api/v1/journeys/inventory/trips/2
-Accept: application/json
 
 ### Delete location by ID
 DELETE http://localhost:8080/api/v1/journeys/inventory/locations/1

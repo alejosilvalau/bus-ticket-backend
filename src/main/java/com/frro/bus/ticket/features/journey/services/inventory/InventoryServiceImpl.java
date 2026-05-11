@@ -43,13 +43,6 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public LocationDTO createLocation(CreateLocationDTO locationRequest) {
-        Location location = locationMapper.toLocation(locationRequest);
-        Location saved = locationRepository.save(location);
-        return locationMapper.toLocationDTO(saved);
-    }
-
-    @Override
     @Transactional
     public Optional<TripFullDTO> updateTrip(UpdateTripDTO tripRequest) {
         return tripRepository.findById(tripRequest.id()).map(existingTrip -> {
@@ -87,6 +80,21 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
+    public Optional<TripFullDTO> deleteTrip(int id) {
+        return tripRepository.findById(id).map(existingTrip -> {
+            tripRepository.delete(existingTrip);
+            return tripMapper.toTripFullDTO(existingTrip);
+        });
+    }
+
+    @Override
+    public LocationDTO createLocation(CreateLocationDTO locationRequest) {
+        Location location = locationMapper.toLocation(locationRequest);
+        Location saved = locationRepository.save(location);
+        return locationMapper.toLocationDTO(saved);
+    }
+
+    @Override
     public Optional<LocationDTO> updateLocation(UpdateLocationDTO locationRequest) {
         return locationRepository.findById(locationRequest.id()).map(existingLocation -> {
             locationRequest.cityName().ifPresent(existingLocation::setCityName);
@@ -95,14 +103,6 @@ public class InventoryServiceImpl implements InventoryService {
 
             Location savedLocation = locationRepository.save(existingLocation);
             return locationMapper.toLocationDTO(savedLocation);
-        });
-    }
-
-    @Override
-    public Optional<TripFullDTO> deleteTrip(int id) {
-        return tripRepository.findById(id).map(existingTrip -> {
-            tripRepository.delete(existingTrip);
-            return tripMapper.toTripFullDTO(existingTrip);
         });
     }
 

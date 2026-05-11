@@ -4,19 +4,7 @@
 GET http://localhost:8080/api/v1/journeys/catalog/trips
 Accept: application/json
 
-### Get all locations
-GET http://localhost:8080/api/v1/journeys/catalog/locations
-Accept: application/json
-
-### Get trip by ID
-GET http://localhost:8080/api/v1/journeys/catalog/trips/2
-Accept: application/json
-
-### Get location by ID
-GET http://localhost:8080/api/v1/journeys/catalog/locations/1
-Accept: application/json
-
-### Search trips
+### Get all trips by fields
 GET http://localhost:8080/api/v1/journeys/catalog/trips/search
 Content-Type: application/json
 
@@ -25,10 +13,22 @@ Content-Type: application/json
   "endBasePrice": 210
 }
 
-### Search locations
+### Get trip by ID
+GET http://localhost:8080/api/v1/journeys/catalog/trips/2
+Accept: application/json
+
+### Get all locations
+GET http://localhost:8080/api/v1/journeys/catalog/locations
+Accept: application/json
+
+### Get all locations by fields
 GET http://localhost:8080/api/v1/journeys/catalog/locations/search
 Content-Type: application/json
 
 {
   "state": "California"
 }
+
+### Get location by ID
+GET http://localhost:8080/api/v1/journeys/catalog/locations/1
+Accept: application/json

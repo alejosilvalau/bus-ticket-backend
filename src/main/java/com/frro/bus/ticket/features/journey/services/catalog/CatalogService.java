@@ -11,13 +11,13 @@ import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
 public interface CatalogService {
     List<TripFullDTO> findAllTrips();
 
-    List<LocationDTO> findAllLocations();
+    List<TripFullDTO> searchTrips(SearchTripDTO searchCriteria);
 
     Optional<TripFullDTO> findTripById(int id);
 
-    Optional<LocationDTO> findLocationById(int id);
-
-    List<TripFullDTO> searchTrips(SearchTripDTO searchCriteria);
+    List<LocationDTO> findAllLocations();
 
     List<LocationDTO> searchLocations(SearchLocationDTO searchCriteria);
+
+    Optional<LocationDTO> findLocationById(int id);
 }

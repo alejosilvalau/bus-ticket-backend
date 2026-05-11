@@ -2,12 +2,10 @@ package com.frro.bus.ticket.features.journey.services.catalog;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
-import com.frro.bus.ticket.features.journey.entities.Location;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
 import com.frro.bus.ticket.features.journey.mappers.TripMapper;
@@ -32,21 +30,6 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public List<LocationDTO> findAllLocations() {
-        return locationRepository.findAll().stream().map(locationMapper::toLocationDTO).toList();
-    }
-
-    @Override
-    public Optional<TripFullDTO> findTripById(int id) {
-        return tripRepository.findById(id).map(tripMapper::toTripFullDTO);
-    }
-
-    @Override
-    public Optional<LocationDTO> findLocationById(int id) {
-        return locationRepository.findById(id).map(locationMapper::toLocationDTO);
-    }
-
-    @Override
     public List<TripFullDTO> searchTrips(SearchTripDTO searchCriteria) {
         return tripRepository.searchTrips(
                 searchCriteria.departureDate().orElse(null),
@@ -63,6 +46,16 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
+    public Optional<TripFullDTO> findTripById(int id) {
+        return tripRepository.findById(id).map(tripMapper::toTripFullDTO);
+    }
+
+    @Override
+    public List<LocationDTO> findAllLocations() {
+        return locationRepository.findAll().stream().map(locationMapper::toLocationDTO).toList();
+    }
+
+    @Override
     public List<LocationDTO> searchLocations(SearchLocationDTO searchCriteria) {
         return locationRepository.searchLocations(
                 searchCriteria.cityName().orElse(null),
@@ -71,5 +64,10 @@ public class CatalogServiceImpl implements CatalogService {
                 .stream()
                 .map(locationMapper::toLocationDTO)
                 .toList();
+    }
+
+    @Override
+    public Optional<LocationDTO> findLocationById(int id) {
+        return locationRepository.findById(id).map(locationMapper::toLocationDTO);
     }
 }
