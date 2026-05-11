@@ -4,6 +4,14 @@
 GET http://localhost:8080/api/v1/booking/status/tickets
 Accept: application/json
 
+### Create a new ticket
+GET http://localhost:8080/api/v1/booking/status/tickets/search
+Content-Type: application/json
+
+{
+  "startFinalPrice": 1400.00
+}
+
 ### Get ticket by ID
 GET http://localhost:8080/api/v1/booking/status/tickets/5
 Accept: application/json

@@ -5,8 +5,10 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public record SearchTicketDTO(
-        Optional<BigDecimal> finalPrice,
-        Optional<ZonedDateTime> bookingTime,
+        Optional<BigDecimal> startFinalPrice,
+        Optional<BigDecimal> endFinalPrice,
+        Optional<ZonedDateTime> startBookingTime,
+        Optional<ZonedDateTime> endBookingTime,
         Optional<Boolean> isCancelled,
         Optional<String> token,
         Optional<Integer> idUser,

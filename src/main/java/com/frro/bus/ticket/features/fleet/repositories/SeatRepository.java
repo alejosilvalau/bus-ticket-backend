@@ -14,12 +14,12 @@ import com.frro.bus.ticket.features.fleet.entities.Seat;
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Integer> {
 
-    @EntityGraph(attributePaths = { "bus", "seatType" })
     @Override
+    @EntityGraph(attributePaths = { "bus", "seatType" })
     List<Seat> findAll();
 
-    @EntityGraph(attributePaths = { "bus", "seatType" })
     @Override
+    @EntityGraph(attributePaths = { "bus", "seatType" })
     Optional<Seat> findById(Integer id);
 
     @Query("SELECT s FROM Seat s WHERE " +

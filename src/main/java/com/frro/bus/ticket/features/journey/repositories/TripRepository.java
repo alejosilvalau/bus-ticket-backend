@@ -16,12 +16,12 @@ import com.frro.bus.ticket.features.journey.entities.Trip;
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Integer> {
 
-    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     @Override
+    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     List<Trip> findAll();
 
-    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     @Override
+    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Optional<Trip> findById(Integer id);
 
     @Query("SELECT t FROM Trip t WHERE " +
