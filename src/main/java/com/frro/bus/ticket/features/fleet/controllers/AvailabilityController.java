@@ -14,6 +14,7 @@ import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
+import com.frro.bus.ticket.features.fleet.dtos.seattype.SearchSeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.services.availability.AvailabilityService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,10 +37,24 @@ public class AvailabilityController {
         return ResponseEntity.ok(buses);
     }
 
+    @GetMapping("/buses/{id}")
+    public ResponseEntity<BusDTO> findBusById(@PathVariable int id) {
+        Optional<BusDTO> bus = availabilityService.findBusById(id);
+        return bus.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @GetMapping("/seats")
     public ResponseEntity<List<SeatDTO>> findAllSeats() {
         List<SeatDTO> seats = availabilityService.findAllSeats();
         return ResponseEntity.ok(seats);
+    }
+
+    @GetMapping("/seats/{id}")
+    public ResponseEntity<SeatDTO> findSeatById(@PathVariable int id) {
+        Optional<SeatDTO> seat = availabilityService.findSeatById(id);
+        return seat.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/seat-types")
@@ -48,18 +63,10 @@ public class AvailabilityController {
         return ResponseEntity.ok(seatTypes);
     }
 
-    @GetMapping("/buses/{id}")
-    public ResponseEntity<BusDTO> findBusById(@PathVariable int id) {
-        Optional<BusDTO> bus = availabilityService.findBusById(id);
-        return bus.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/seats/{id}")
-    public ResponseEntity<SeatDTO> findSeatById(@PathVariable int id) {
-        Optional<SeatDTO> seat = availabilityService.findSeatById(id);
-        return seat.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/seat-types/search")
+    public ResponseEntity<List<SeatTypeDTO>> searchSeatTypes(@RequestBody SearchSeatTypeDTO searchCriteria) {
+        List<SeatTypeDTO> seatTypes = availabilityService.searchSeatTypes(searchCriteria);
+        return ResponseEntity.ok(seatTypes);
     }
 
     @GetMapping("/seat-types/{id}")

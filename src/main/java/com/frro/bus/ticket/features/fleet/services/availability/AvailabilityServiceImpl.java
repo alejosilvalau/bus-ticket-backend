@@ -9,6 +9,7 @@ import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
+import com.frro.bus.ticket.features.fleet.dtos.seattype.SearchSeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.mappers.BusMapper;
 import com.frro.bus.ticket.features.fleet.mappers.SeatMapper;
 import com.frro.bus.ticket.features.fleet.mappers.SeatTypeMapper;
@@ -34,31 +35,6 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public List<SeatDTO> findAllSeats() {
-        return seatRepository.findAll().stream().map(seatMapper::toSeatDTO).toList();
-    }
-
-    @Override
-    public List<SeatTypeDTO> findAllSeatTypes() {
-        return seatTypeRepository.findAll().stream().map(seatTypeMapper::toSeatTypeDTO).toList();
-    }
-
-    @Override
-    public Optional<BusDTO> findBusById(int id) {
-        return busRepository.findById(id).map(busMapper::toBusDTO);
-    }
-
-    @Override
-    public Optional<SeatDTO> findSeatById(int id) {
-        return seatRepository.findById(id).map(seatMapper::toSeatDTO);
-    }
-
-    @Override
-    public Optional<SeatTypeDTO> findSeatTypeById(int id) {
-        return seatTypeRepository.findById(id).map(seatTypeMapper::toSeatTypeDTO);
-    }
-
-    @Override
     public List<BusDTO> searchBuses(SearchBusDTO searchCriteria) {
         return busRepository.searchBuses(
                 searchCriteria.plateNumber().orElse(null),
@@ -68,5 +44,41 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                 .stream()
                 .map(busMapper::toBusDTO)
                 .toList();
+    }
+
+    @Override
+    public Optional<BusDTO> findBusById(int id) {
+        return busRepository.findById(id).map(busMapper::toBusDTO);
+    }
+
+    @Override
+    public List<SeatDTO> findAllSeats() {
+        return seatRepository.findAll().stream().map(seatMapper::toSeatDTO).toList();
+    }
+
+    @Override
+    public Optional<SeatDTO> findSeatById(int id) {
+        return seatRepository.findById(id).map(seatMapper::toSeatDTO);
+    }
+
+    @Override
+    public List<SeatTypeDTO> findAllSeatTypes() {
+        return seatTypeRepository.findAll().stream().map(seatTypeMapper::toSeatTypeDTO).toList();
+    }
+
+    @Override
+    public List<SeatTypeDTO> searchSeatTypes(SearchSeatTypeDTO searchCriteria) {
+        return seatTypeRepository.searchSeatTypes(
+                searchCriteria.name().orElse(null),
+                searchCriteria.startUpcharge().orElse(null),
+                searchCriteria.endUpcharge().orElse(null))
+                .stream()
+                .map(seatTypeMapper::toSeatTypeDTO)
+                .toList();
+    }
+
+    @Override
+    public Optional<SeatTypeDTO> findSeatTypeById(int id) {
+        return seatTypeRepository.findById(id).map(seatTypeMapper::toSeatTypeDTO);
     }
 }

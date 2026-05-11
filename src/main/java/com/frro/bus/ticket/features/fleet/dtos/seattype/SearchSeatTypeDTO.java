@@ -5,5 +5,6 @@ import java.util.Optional;
 
 public record SearchSeatTypeDTO(
         Optional<String> name,
-        Optional<BigDecimal> upcharge) {
+        Optional<BigDecimal> startUpcharge,
+        Optional<BigDecimal> endUpcharge) {
 }

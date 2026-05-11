@@ -4,26 +4,6 @@
 GET http://localhost:8080/api/v1/fleet/availability/buses
 Accept: application/json
 
-### Get all seats
-GET http://localhost:8080/api/v1/fleet/availability/seats
-Accept: application/json
-
-### Get all seat types
-GET http://localhost:8080/api/v1/fleet/availability/seat-types
-Accept: application/json
-
-### Get bus by ID
-GET http://localhost:8080/api/v1/fleet/availability/buses/1
-Accept: application/json
-
-### Get seat by ID
-GET http://localhost:8080/api/v1/fleet/availability/seats/1
-Accept: application/json
-
-### Get seat type by ID
-GET http://localhost:8080/api/v1/fleet/availability/seat-types/1
-Accept: application/json
-
 ### Search buses
 GET http://localhost:8080/api/v1/fleet/availability/buses/search
 Content-Type: application/json
@@ -32,6 +12,14 @@ Content-Type: application/json
   "startTotalCapacity": 20,
   "endTotalCapacity": 40
 }
+
+### Get bus by ID
+GET http://localhost:8080/api/v1/fleet/availability/buses/1
+Accept: application/json
+
+### Get all seats
+GET http://localhost:8080/api/v1/fleet/availability/seats
+Accept: application/json
 
 ### Search seats
 GET http://localhost:8080/api/v1/fleet/availability/seats/search
@@ -42,11 +30,22 @@ Content-Type: application/json
   "number": null
 }
 
+### Get seat by ID
+GET http://localhost:8080/api/v1/fleet/availability/seats/1
+Accept: application/json
+
+### Get all seat types
+GET http://localhost:8080/api/v1/fleet/availability/seat-types
+Accept: application/json
+
 ### Search seat types
 GET http://localhost:8080/api/v1/fleet/availability/seat-types/search
 Content-Type: application/json
 
 {
-  "name": "Premium",
-  "upcharge": null
+  "name": "Basic"
 }
+
+### Get seat type by ID
+GET http://localhost:8080/api/v1/fleet/availability/seat-types/1
+Accept: application/json
