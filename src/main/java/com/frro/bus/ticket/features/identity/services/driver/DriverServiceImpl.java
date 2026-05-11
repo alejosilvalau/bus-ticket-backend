@@ -2,7 +2,6 @@ package com.frro.bus.ticket.features.identity.services.driver;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
@@ -30,13 +29,6 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public Optional<DriverDTO> findById(int id) {
-        return driverRepository.findById(id).map(driver -> {
-            return driverMapper.toDriverDTO(driver);
-        });
-    }
-
-    @Override
     public List<DriverDTO> search(SearchDriverDTO searchCriteria) {
         return driverRepository.searchDrivers(
                 searchCriteria.firstName().orElse(null),
@@ -47,6 +39,13 @@ public class DriverServiceImpl implements DriverService {
                 .stream()
                 .map(driverMapper::toDriverDTO)
                 .toList();
+    }
+
+    @Override
+    public Optional<DriverDTO> findById(int id) {
+        return driverRepository.findById(id).map(driver -> {
+            return driverMapper.toDriverDTO(driver);
+        });
     }
 
     @Override

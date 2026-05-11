@@ -11,9 +11,9 @@ import com.frro.bus.ticket.features.identity.dtos.driver.SearchDriverDTO;
 public interface DriverService {
     List<DriverDTO> findAll();
 
-    Optional<DriverDTO> findById(int id);
-
     List<DriverDTO> search(SearchDriverDTO searchCriteria);
+
+    Optional<DriverDTO> findById(int id);
 
     DriverDTO create(CreateDriverDTO userRequest);
 

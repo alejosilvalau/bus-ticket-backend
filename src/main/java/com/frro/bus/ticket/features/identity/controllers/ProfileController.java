@@ -28,17 +28,17 @@ public class ProfileController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping
-    public ResponseEntity<UserDTO> delete() {
-        Optional<UserDTO> deletedUser = profileService.delete();
-        return deletedUser.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @PatchMapping("/logical-delete")
     public ResponseEntity<UserDTO> logicalDelete() {
         Optional<UserDTO> updatedUser = profileService.logicalDelete();
         return updatedUser.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping
+    public ResponseEntity<UserDTO> delete() {
+        Optional<UserDTO> deletedUser = profileService.delete();
+        return deletedUser.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

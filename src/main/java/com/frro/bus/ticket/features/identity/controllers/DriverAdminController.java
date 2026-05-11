@@ -26,17 +26,17 @@ public class DriverAdminController {
         return ResponseEntity.ok(drivers);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<DriverDTO>> search(@RequestBody SearchDriverDTO searchCriteria) {
+        List<DriverDTO> drivers = driverService.search(searchCriteria);
+        return ResponseEntity.ok(drivers);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<DriverDTO> findById(@PathVariable int id) {
         Optional<DriverDTO> driver = driverService.findById(id);
         return driver.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<List<DriverDTO>> search(@RequestBody SearchDriverDTO searchCriteria) {
-        List<DriverDTO> drivers = driverService.search(searchCriteria);
-        return ResponseEntity.ok(drivers);
     }
 
     @PostMapping
