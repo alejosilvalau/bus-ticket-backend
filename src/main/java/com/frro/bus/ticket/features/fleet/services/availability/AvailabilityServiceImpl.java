@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
+import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.mappers.BusMapper;
@@ -55,5 +56,17 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     @Override
     public Optional<SeatTypeDTO> findSeatTypeById(int id) {
         return seatTypeRepository.findById(id).map(seatTypeMapper::toSeatTypeDTO);
+    }
+
+    @Override
+    public List<BusDTO> searchBuses(SearchBusDTO searchCriteria) {
+        return busRepository.searchBuses(
+                searchCriteria.plateNumber().orElse(null),
+                searchCriteria.startTotalCapacity().orElse(null),
+                searchCriteria.endTotalCapacity().orElse(null),
+                searchCriteria.isActive().orElse(null))
+                .stream()
+                .map(busMapper::toBusDTO)
+                .toList();
     }
 }

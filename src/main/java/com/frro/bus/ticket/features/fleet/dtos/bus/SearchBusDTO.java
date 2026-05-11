@@ -4,6 +4,7 @@ import java.util.Optional;
 
 public record SearchBusDTO(
         Optional<String> plateNumber,
-        Optional<Integer> totalCapacity,
+        Optional<Integer> startTotalCapacity,
+        Optional<Integer> endTotalCapacity,
         Optional<Boolean> isActive) {
 }

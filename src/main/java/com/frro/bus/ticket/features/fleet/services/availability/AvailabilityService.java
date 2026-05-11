@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
+import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
 
 public interface AvailabilityService {
     List<BusDTO> findAllBuses();
@@ -19,4 +20,6 @@ public interface AvailabilityService {
     Optional<SeatDTO> findSeatById(int id);
 
     Optional<SeatTypeDTO> findSeatTypeById(int id);
+
+    List<BusDTO> searchBuses(SearchBusDTO searchCriteria);
 }

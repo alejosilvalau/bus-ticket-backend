@@ -6,10 +6,12 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
+import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.services.availability.AvailabilityService;
@@ -25,6 +27,12 @@ public class AvailabilityController {
     @GetMapping("/buses")
     public ResponseEntity<List<BusDTO>> findAllBuses() {
         List<BusDTO> buses = availabilityService.findAllBuses();
+        return ResponseEntity.ok(buses);
+    }
+
+    @GetMapping("/buses/search")
+    public ResponseEntity<List<BusDTO>> searchBuses(@RequestBody SearchBusDTO searchCriteria) {
+        List<BusDTO> buses = availabilityService.searchBuses(searchCriteria);
         return ResponseEntity.ok(buses);
     }
 

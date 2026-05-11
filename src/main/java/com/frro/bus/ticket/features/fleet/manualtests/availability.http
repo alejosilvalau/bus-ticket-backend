@@ -29,9 +29,8 @@ GET http://localhost:8080/api/v1/fleet/availability/buses/search
 Content-Type: application/json
 
 {
-  "plateNumber": "ABC",
-  "totalCapacity": null,
-  "isActive": null
+  "startTotalCapacity": 20,
+  "endTotalCapacity": 40
 }
 
 ### Search seats
