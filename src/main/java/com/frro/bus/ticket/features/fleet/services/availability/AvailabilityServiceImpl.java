@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
+import com.frro.bus.ticket.features.fleet.dtos.seat.SeatFullDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SearchSeatTypeDTO;
+import com.frro.bus.ticket.features.fleet.dtos.seat.SearchSeatDTO;
 import com.frro.bus.ticket.features.fleet.mappers.BusMapper;
 import com.frro.bus.ticket.features.fleet.mappers.SeatMapper;
 import com.frro.bus.ticket.features.fleet.mappers.SeatTypeMapper;
@@ -52,13 +54,26 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public List<SeatDTO> findAllSeats() {
-        return seatRepository.findAll().stream().map(seatMapper::toSeatDTO).toList();
+    public List<SeatFullDTO> findAllSeats() {
+        return seatRepository.findAll().stream().map(seatMapper::toSeatFullDTO).toList();
     }
 
     @Override
-    public Optional<SeatDTO> findSeatById(int id) {
-        return seatRepository.findById(id).map(seatMapper::toSeatDTO);
+    public List<SeatFullDTO> searchSeats(SearchSeatDTO searchCriteria) {
+        return seatRepository.searchSeats(
+                searchCriteria.letter().orElse(null),
+                searchCriteria.number().orElse(null),
+                searchCriteria.isActive().orElse(null),
+                searchCriteria.idBus().orElse(null),
+                searchCriteria.idSeatType().orElse(null))
+                .stream()
+                .map(seatMapper::toSeatFullDTO)
+                .toList();
+    }
+
+    @Override
+    public Optional<SeatFullDTO> findSeatById(int id) {
+        return seatRepository.findById(id).map(seatMapper::toSeatFullDTO);
     }
 
     @Override

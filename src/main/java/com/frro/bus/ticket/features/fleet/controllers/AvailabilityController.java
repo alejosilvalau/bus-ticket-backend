@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
+import com.frro.bus.ticket.features.fleet.dtos.seat.SeatFullDTO;
+import com.frro.bus.ticket.features.fleet.dtos.seat.SearchSeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SearchSeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.services.availability.AvailabilityService;
@@ -45,14 +47,20 @@ public class AvailabilityController {
     }
 
     @GetMapping("/seats")
-    public ResponseEntity<List<SeatDTO>> findAllSeats() {
-        List<SeatDTO> seats = availabilityService.findAllSeats();
+    public ResponseEntity<List<SeatFullDTO>> findAllSeats() {
+        List<SeatFullDTO> seats = availabilityService.findAllSeats();
+        return ResponseEntity.ok(seats);
+    }
+
+    @GetMapping("/seats/search")
+    public ResponseEntity<List<SeatFullDTO>> searchSeats(@RequestBody SearchSeatDTO searchCriteria) {
+        List<SeatFullDTO> seats = availabilityService.searchSeats(searchCriteria);
         return ResponseEntity.ok(seats);
     }
 
     @GetMapping("/seats/{id}")
-    public ResponseEntity<SeatDTO> findSeatById(@PathVariable int id) {
-        Optional<SeatDTO> seat = availabilityService.findSeatById(id);
+    public ResponseEntity<SeatFullDTO> findSeatById(@PathVariable int id) {
+        Optional<SeatFullDTO> seat = availabilityService.findSeatById(id);
         return seat.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
