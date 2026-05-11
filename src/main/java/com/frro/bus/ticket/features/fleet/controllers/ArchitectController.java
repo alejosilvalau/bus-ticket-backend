@@ -1,11 +1,9 @@
 package com.frro.bus.ticket.features.fleet.controllers;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,36 +36,10 @@ public class ArchitectController {
         return ResponseEntity.ok(savedBus);
     }
 
-    @PostMapping("/seats")
-    public ResponseEntity<SeatFullDTO> createSeat(@RequestBody CreateSeatDTO seatRequest) {
-        SeatFullDTO savedSeat = architectService.createSeat(seatRequest);
-        return ResponseEntity.ok(savedSeat);
-    }
-
-    @PostMapping("/seat-types")
-    public ResponseEntity<SeatTypeDTO> createSeatType(@RequestBody CreateSeatTypeDTO seatTypeRequest) {
-        SeatTypeDTO savedSeatType = architectService.createSeatType(seatTypeRequest);
-        return ResponseEntity.ok(savedSeatType);
-    }
-
     @PatchMapping("/buses")
     public ResponseEntity<BusDTO> updateBus(@RequestBody UpdateBusDTO busRequest) {
         Optional<BusDTO> updatedBus = architectService.updateBus(busRequest);
         return updatedBus.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PatchMapping("/seats")
-    public ResponseEntity<SeatFullDTO> updateSeat(@RequestBody UpdateSeatDTO seatRequest) {
-        Optional<SeatFullDTO> updatedSeat = architectService.updateSeat(seatRequest);
-        return updatedSeat.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PatchMapping("/seat-types")
-    public ResponseEntity<SeatTypeDTO> updateSeatType(@RequestBody UpdateSeatTypeDTO seatTypeRequest) {
-        Optional<SeatTypeDTO> updatedSeatType = architectService.updateSeatType(seatTypeRequest);
-        return updatedSeatType.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -78,10 +50,36 @@ public class ArchitectController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PostMapping("/seats")
+    public ResponseEntity<SeatFullDTO> createSeat(@RequestBody CreateSeatDTO seatRequest) {
+        SeatFullDTO savedSeat = architectService.createSeat(seatRequest);
+        return ResponseEntity.ok(savedSeat);
+    }
+
+    @PatchMapping("/seats")
+    public ResponseEntity<SeatFullDTO> updateSeat(@RequestBody UpdateSeatDTO seatRequest) {
+        Optional<SeatFullDTO> updatedSeat = architectService.updateSeat(seatRequest);
+        return updatedSeat.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/seats/{id}")
     public ResponseEntity<SeatFullDTO> deleteSeat(@PathVariable int id) {
         Optional<SeatFullDTO> deletedSeat = architectService.deleteSeat(id);
         return deletedSeat.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/seat-types")
+    public ResponseEntity<SeatTypeDTO> createSeatType(@RequestBody CreateSeatTypeDTO seatTypeRequest) {
+        SeatTypeDTO savedSeatType = architectService.createSeatType(seatTypeRequest);
+        return ResponseEntity.ok(savedSeatType);
+    }
+
+    @PatchMapping("/seat-types")
+    public ResponseEntity<SeatTypeDTO> updateSeatType(@RequestBody UpdateSeatTypeDTO seatTypeRequest) {
+        Optional<SeatTypeDTO> updatedSeatType = architectService.updateSeatType(seatTypeRequest);
+        return updatedSeatType.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 

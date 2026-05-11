@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
-import com.frro.bus.ticket.features.booking.dtos.TicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 import com.frro.bus.ticket.features.booking.services.processor.ProcessorService;

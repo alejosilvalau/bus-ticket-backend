@@ -46,23 +46,6 @@ public class ArchitectServiceImpl implements ArchitectService {
     }
 
     @Override
-    @Transactional
-    public SeatFullDTO createSeat(CreateSeatDTO seatRequest) {
-        Seat seat = seatMapper.toSeat(seatRequest);
-        Seat savedSeat = seatRepository.save(seat);
-        entityManager.flush();
-        entityManager.refresh(savedSeat);
-        return seatMapper.toSeatFullDTO(savedSeat);
-    }
-
-    @Override
-    public SeatTypeDTO createSeatType(CreateSeatTypeDTO seatTypeRequest) {
-        SeatType seatType = seatTypeMapper.toSeatType(seatTypeRequest);
-        SeatType savedSeatType = seatTypeRepository.save(seatType);
-        return seatTypeMapper.toSeatTypeDTO(savedSeatType);
-    }
-
-    @Override
     public Optional<BusDTO> updateBus(UpdateBusDTO busRequest) {
         return busRepository.findById(busRequest.id()).map(existingBus -> {
             busRequest.plateNumber().ifPresent(existingBus::setPlateNumber);
@@ -72,6 +55,24 @@ public class ArchitectServiceImpl implements ArchitectService {
             Bus savedBus = busRepository.save(existingBus);
             return busMapper.toBusDTO(savedBus);
         });
+    }
+
+    @Override
+    public Optional<BusDTO> deleteBus(int id) {
+        return busRepository.findById(id).map(existingBus -> {
+            busRepository.delete(existingBus);
+            return busMapper.toBusDTO(existingBus);
+        });
+    }
+
+    @Override
+    @Transactional
+    public SeatFullDTO createSeat(CreateSeatDTO seatRequest) {
+        Seat seat = seatMapper.toSeat(seatRequest);
+        Seat savedSeat = seatRepository.save(seat);
+        entityManager.flush();
+        entityManager.refresh(savedSeat);
+        return seatMapper.toSeatFullDTO(savedSeat);
     }
 
     @Override
@@ -102,6 +103,21 @@ public class ArchitectServiceImpl implements ArchitectService {
     }
 
     @Override
+    public Optional<SeatFullDTO> deleteSeat(int id) {
+        return seatRepository.findById(id).map(seat -> {
+            seatRepository.deleteById(id);
+            return seatMapper.toSeatFullDTO(seat);
+        });
+    }
+
+    @Override
+    public SeatTypeDTO createSeatType(CreateSeatTypeDTO seatTypeRequest) {
+        SeatType seatType = seatTypeMapper.toSeatType(seatTypeRequest);
+        SeatType savedSeatType = seatTypeRepository.save(seatType);
+        return seatTypeMapper.toSeatTypeDTO(savedSeatType);
+    }
+
+    @Override
     public Optional<SeatTypeDTO> updateSeatType(UpdateSeatTypeDTO seatTypeRequest) {
         return seatTypeRepository.findById(seatTypeRequest.id()).map(existingSeatType -> {
             seatTypeRequest.name().ifPresent(existingSeatType::setName);
@@ -109,22 +125,6 @@ public class ArchitectServiceImpl implements ArchitectService {
 
             SeatType savedSeatType = seatTypeRepository.save(existingSeatType);
             return seatTypeMapper.toSeatTypeDTO(savedSeatType);
-        });
-    }
-
-    @Override
-    public Optional<BusDTO> deleteBus(int id) {
-        return busRepository.findById(id).map(existingBus -> {
-            busRepository.delete(existingBus);
-            return busMapper.toBusDTO(existingBus);
-        });
-    }
-
-    @Override
-    public Optional<SeatFullDTO> deleteSeat(int id) {
-        return seatRepository.findById(id).map(seat -> {
-            seatRepository.deleteById(id);
-            return seatMapper.toSeatFullDTO(seat);
         });
     }
 

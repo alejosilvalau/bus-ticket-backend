@@ -4,7 +4,7 @@
 GET http://localhost:8080/api/v1/fleet/availability/buses
 Accept: application/json
 
-### Search buses
+### Get all buses by fields
 GET http://localhost:8080/api/v1/fleet/availability/buses/search
 Content-Type: application/json
 
@@ -21,7 +21,7 @@ Accept: application/json
 GET http://localhost:8080/api/v1/fleet/availability/seats
 Accept: application/json
 
-### Search seats
+### Get all seats by fields
 GET http://localhost:8080/api/v1/fleet/availability/seats/search
 Content-Type: application/json
 
@@ -37,7 +37,7 @@ Accept: application/json
 GET http://localhost:8080/api/v1/fleet/availability/seat-types
 Accept: application/json
 
-### Search seat types
+### Get all seat types by fields
 GET http://localhost:8080/api/v1/fleet/availability/seat-types/search
 Content-Type: application/json
 

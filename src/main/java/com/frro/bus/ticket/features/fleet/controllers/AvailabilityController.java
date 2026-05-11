@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
-import com.frro.bus.ticket.features.fleet.dtos.seat.SeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatFullDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SearchSeatDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;

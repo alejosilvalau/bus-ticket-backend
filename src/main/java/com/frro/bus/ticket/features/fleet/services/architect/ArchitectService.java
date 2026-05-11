@@ -15,19 +15,19 @@ import com.frro.bus.ticket.features.fleet.dtos.seattype.UpdateSeatTypeDTO;
 public interface ArchitectService {
     BusDTO createBus(CreateBusDTO userRequest);
 
-    SeatFullDTO createSeat(CreateSeatDTO userRequest);
-
-    SeatTypeDTO createSeatType(CreateSeatTypeDTO userRequest);
-
     Optional<BusDTO> updateBus(UpdateBusDTO userRequest);
-
-    Optional<SeatFullDTO> updateSeat(UpdateSeatDTO userRequest);
-
-    Optional<SeatTypeDTO> updateSeatType(UpdateSeatTypeDTO userRequest);
 
     Optional<BusDTO> deleteBus(int id);
 
+    SeatFullDTO createSeat(CreateSeatDTO userRequest);
+
+    Optional<SeatFullDTO> updateSeat(UpdateSeatDTO userRequest);
+
     Optional<SeatFullDTO> deleteSeat(int id);
+
+    SeatTypeDTO createSeatType(CreateSeatTypeDTO userRequest);
+
+    Optional<SeatTypeDTO> updateSeatType(UpdateSeatTypeDTO userRequest);
 
     Optional<SeatTypeDTO> deleteSeatType(int id);
 }
