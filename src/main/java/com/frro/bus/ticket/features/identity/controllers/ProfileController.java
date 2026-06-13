@@ -14,6 +14,7 @@ import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.services.profile.ProfileService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,7 +27,7 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @PatchMapping
-    public ResponseEntity<ApiResponse<UserDTO>> update(@RequestBody UpdateUserDTO userRequest) {
+    public ResponseEntity<ApiResponse<UserDTO>> update(@Valid @RequestBody UpdateUserDTO userRequest) {
         try {
             return profileService.update(userRequest)
                     .map(user -> ResponseEntity.ok(ApiResponse.success("Profile updated successfully", user)))

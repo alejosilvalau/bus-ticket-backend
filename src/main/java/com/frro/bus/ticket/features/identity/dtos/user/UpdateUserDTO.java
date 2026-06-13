@@ -2,14 +2,16 @@ package com.frro.bus.ticket.features.identity.dtos.user;
 
 import java.util.Optional;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 
 public record UpdateUserDTO(
-        @NotBlank int id,
+        @Min(value = 1, message = "User ID must be a positive number")
+        int id,
 
-        Optional<String> firstName,
+        Optional<@Size(min = 1, max = 100, message = "First name must be between 1 and 100 characters") String> firstName,
 
-        Optional<String> lastName,
+        Optional<@Size(min = 1, max = 100, message = "Last name must be between 1 and 100 characters") String> lastName,
 
-        Optional<String> email) {
+        Optional<@jakarta.validation.constraints.Email(message = "Email must be valid") String> email) {
 }

@@ -13,6 +13,7 @@ import com.frro.bus.ticket.features.identity.dtos.user.CreateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.services.register.RegisterService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -25,7 +26,7 @@ public class RegisterController {
     private final RegisterService registerService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<UserDTO>> create(@RequestBody CreateUserDTO createUser) {
+    public ResponseEntity<ApiResponse<UserDTO>> create(@Valid @RequestBody CreateUserDTO createUser) {
         try {
             UserDTO savedUser = registerService.create(createUser);
             return ResponseEntity.ok(ApiResponse.success("User registered successfully", savedUser));

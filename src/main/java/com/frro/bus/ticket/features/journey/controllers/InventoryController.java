@@ -20,6 +20,7 @@ import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.UpdateTripDTO;
 import com.frro.bus.ticket.features.journey.services.inventory.InventoryService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -32,7 +33,7 @@ public class InventoryController {
     private final InventoryService inventoryService;
 
     @PostMapping("/trips")
-    public ResponseEntity<ApiResponse<TripFullDTO>> createTrip(@RequestBody CreateTripDTO tripRequest) {
+    public ResponseEntity<ApiResponse<TripFullDTO>> createTrip(@Valid @RequestBody CreateTripDTO tripRequest) {
         try {
             TripFullDTO savedTrip = inventoryService.createTrip(tripRequest);
             return ResponseEntity.ok(ApiResponse.success("Trip created successfully", savedTrip));
@@ -43,7 +44,7 @@ public class InventoryController {
     }
 
     @PostMapping("/locations")
-    public ResponseEntity<ApiResponse<LocationDTO>> createLocation(@RequestBody CreateLocationDTO locationRequest) {
+    public ResponseEntity<ApiResponse<LocationDTO>> createLocation(@Valid @RequestBody CreateLocationDTO locationRequest) {
         try {
             LocationDTO savedLocation = inventoryService.createLocation(locationRequest);
             return ResponseEntity.ok(ApiResponse.success("Location created successfully", savedLocation));
@@ -54,7 +55,7 @@ public class InventoryController {
     }
 
     @PatchMapping("/trips")
-    public ResponseEntity<ApiResponse<TripFullDTO>> updateTrip(@RequestBody UpdateTripDTO tripRequest) {
+    public ResponseEntity<ApiResponse<TripFullDTO>> updateTrip(@Valid @RequestBody UpdateTripDTO tripRequest) {
         try {
             return inventoryService.updateTrip(tripRequest)
                     .map(trip -> ResponseEntity.ok(ApiResponse.success("Trip updated successfully", trip)))
@@ -66,7 +67,7 @@ public class InventoryController {
     }
 
     @PatchMapping("/locations")
-    public ResponseEntity<ApiResponse<LocationDTO>> updateLocation(@RequestBody UpdateLocationDTO locationRequest) {
+    public ResponseEntity<ApiResponse<LocationDTO>> updateLocation(@Valid @RequestBody UpdateLocationDTO locationRequest) {
         try {
             return inventoryService.updateLocation(locationRequest)
                     .map(location -> ResponseEntity.ok(ApiResponse.success("Location updated successfully", location)))

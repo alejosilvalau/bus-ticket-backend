@@ -17,6 +17,7 @@ import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 import com.frro.bus.ticket.features.booking.services.processor.ProcessorService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -29,7 +30,7 @@ public class ProcessorController {
     private final ProcessorService processorService;
 
     @PostMapping("/tickets")
-    public ResponseEntity<ApiResponse<TicketFullDTO>> createTicket(@RequestBody CreateTicketDTO ticketRequest) {
+    public ResponseEntity<ApiResponse<TicketFullDTO>> createTicket(@Valid @RequestBody CreateTicketDTO ticketRequest) {
         try {
             TicketFullDTO savedTicket = processorService.createTicket(ticketRequest);
             return ResponseEntity.ok(ApiResponse.success("Ticket created successfully", savedTicket));
@@ -40,7 +41,7 @@ public class ProcessorController {
     }
 
     @PatchMapping("/tickets")
-    public ResponseEntity<ApiResponse<TicketFullDTO>> updateTicket(@RequestBody UpdateTicketDTO ticketRequest) {
+    public ResponseEntity<ApiResponse<TicketFullDTO>> updateTicket(@Valid @RequestBody UpdateTicketDTO ticketRequest) {
         try {
             return processorService.updateTicket(ticketRequest)
                     .map(ticket -> ResponseEntity.ok(ApiResponse.success("Ticket updated successfully", ticket)))

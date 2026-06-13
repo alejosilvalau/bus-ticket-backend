@@ -3,11 +3,24 @@ package com.frro.bus.ticket.features.identity.dtos.user;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public record ChangePasswordUserDTO(
-        @NotNull @Email @NotBlank String email,
+        @NotBlank(message = "Email is required")
+        @NotNull(message = "Email is required")
+        @Email(message = "Email must be valid")
+        String email,
 
-        @NotNull @NotBlank String password,
+        @NotBlank(message = "Current password is required")
+        @NotNull(message = "Current password is required")
+        String password,
 
-        @NotNull @NotBlank String newPassword) {
+        @NotBlank(message = "New password is required")
+        @NotNull(message = "New password is required")
+        @Size(min = 8, max = 100, message = "New password must be between 8 and 100 characters")
+        @Pattern(
+                regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+                message = "New password must contain at least one uppercase letter, one lowercase letter, one number and one special character (@$!%*?&)")
+        String newPassword) {
 }

@@ -23,6 +23,8 @@ import com.frro.bus.ticket.features.fleet.dtos.seattype.CreateSeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.UpdateSeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.services.architect.ArchitectService;
 
+import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -35,7 +37,7 @@ public class ArchitectController {
     private final ArchitectService architectService;
 
     @PostMapping("/buses")
-    public ResponseEntity<ApiResponse<BusDTO>> createBus(@RequestBody CreateBusDTO busRequest) {
+    public ResponseEntity<ApiResponse<BusDTO>> createBus(@Valid @RequestBody CreateBusDTO busRequest) {
         try {
             BusDTO savedBus = architectService.createBus(busRequest);
             return ResponseEntity.ok(ApiResponse.success("Bus created successfully", savedBus));
@@ -46,7 +48,7 @@ public class ArchitectController {
     }
 
     @PatchMapping("/buses")
-    public ResponseEntity<ApiResponse<BusDTO>> updateBus(@RequestBody UpdateBusDTO busRequest) {
+    public ResponseEntity<ApiResponse<BusDTO>> updateBus(@Valid @RequestBody UpdateBusDTO busRequest) {
         try {
             return architectService.updateBus(busRequest)
                     .map(bus -> ResponseEntity.ok(ApiResponse.success("Bus updated successfully", bus)))
@@ -70,7 +72,7 @@ public class ArchitectController {
     }
 
     @PostMapping("/seats")
-    public ResponseEntity<ApiResponse<SeatFullDTO>> createSeat(@RequestBody CreateSeatDTO seatRequest) {
+    public ResponseEntity<ApiResponse<SeatFullDTO>> createSeat(@Valid @RequestBody CreateSeatDTO seatRequest) {
         try {
             SeatFullDTO savedSeat = architectService.createSeat(seatRequest);
             return ResponseEntity.ok(ApiResponse.success("Seat created successfully", savedSeat));
@@ -81,7 +83,7 @@ public class ArchitectController {
     }
 
     @PatchMapping("/seats")
-    public ResponseEntity<ApiResponse<SeatFullDTO>> updateSeat(@RequestBody UpdateSeatDTO seatRequest) {
+    public ResponseEntity<ApiResponse<SeatFullDTO>> updateSeat(@Valid @RequestBody UpdateSeatDTO seatRequest) {
         try {
             return architectService.updateSeat(seatRequest)
                     .map(seat -> ResponseEntity.ok(ApiResponse.success("Seat updated successfully", seat)))
@@ -105,7 +107,7 @@ public class ArchitectController {
     }
 
     @PostMapping("/seat-types")
-    public ResponseEntity<ApiResponse<SeatTypeDTO>> createSeatType(@RequestBody CreateSeatTypeDTO seatTypeRequest) {
+    public ResponseEntity<ApiResponse<SeatTypeDTO>> createSeatType(@Valid @RequestBody CreateSeatTypeDTO seatTypeRequest) {
         try {
             SeatTypeDTO savedSeatType = architectService.createSeatType(seatTypeRequest);
             return ResponseEntity.ok(ApiResponse.success("Seat type created successfully", savedSeatType));
@@ -116,7 +118,7 @@ public class ArchitectController {
     }
 
     @PatchMapping("/seat-types")
-    public ResponseEntity<ApiResponse<SeatTypeDTO>> updateSeatType(@RequestBody UpdateSeatTypeDTO seatTypeRequest) {
+    public ResponseEntity<ApiResponse<SeatTypeDTO>> updateSeatType(@Valid @RequestBody UpdateSeatTypeDTO seatTypeRequest) {
         try {
             return architectService.updateSeatType(seatTypeRequest)
                     .map(seatType -> ResponseEntity.ok(ApiResponse.success("Seat type updated successfully", seatType)))

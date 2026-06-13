@@ -15,6 +15,7 @@ import com.frro.bus.ticket.features.identity.dtos.user.LoginUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.services.auth.AuthService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -27,7 +28,7 @@ public class AuthController {
     private final AuthService authService;
 
     @GetMapping("/login")
-    public ResponseEntity<ApiResponse<UserDTO>> login(@RequestBody LoginUserDTO userRequest) {
+    public ResponseEntity<ApiResponse<UserDTO>> login(@Valid @RequestBody LoginUserDTO userRequest) {
         try {
             return authService.login(userRequest)
                     .map(user -> ResponseEntity.ok(ApiResponse.success("Login successful", user)))
@@ -50,7 +51,7 @@ public class AuthController {
     }
 
     @PatchMapping("/change-password")
-    public ResponseEntity<ApiResponse<Boolean>> changePassword(@RequestBody ChangePasswordUserDTO changePasswordUser) {
+    public ResponseEntity<ApiResponse<Boolean>> changePassword(@Valid @RequestBody ChangePasswordUserDTO changePasswordUser) {
         try {
             boolean result = authService.changePassword(changePasswordUser);
             if (result) {

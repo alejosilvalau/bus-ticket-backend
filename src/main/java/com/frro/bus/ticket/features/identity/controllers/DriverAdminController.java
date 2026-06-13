@@ -16,6 +16,8 @@ import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.SearchDriverDTO;
 import com.frro.bus.ticket.features.identity.services.driver.DriverService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/identity/drivers")
 @RequiredArgsConstructor
@@ -60,7 +62,7 @@ public class DriverAdminController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<DriverDTO>> create(@RequestBody CreateDriverDTO driverRequest) {
+    public ResponseEntity<ApiResponse<DriverDTO>> create(@Valid @RequestBody CreateDriverDTO driverRequest) {
         try {
             DriverDTO savedDriver = driverService.create(driverRequest);
             return ResponseEntity.ok(ApiResponse.success("Driver created successfully", savedDriver));
@@ -71,7 +73,7 @@ public class DriverAdminController {
     }
 
     @PatchMapping
-    public ResponseEntity<ApiResponse<DriverDTO>> update(@RequestBody UpdateDriverDTO driverRequest) {
+    public ResponseEntity<ApiResponse<DriverDTO>> update(@Valid @RequestBody UpdateDriverDTO driverRequest) {
         try {
             return driverService.update(driverRequest)
                     .map(driver -> ResponseEntity.ok(ApiResponse.success("Driver updated successfully", driver)))
