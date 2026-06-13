@@ -1,5 +1,7 @@
 package com.frro.bus.ticket.features.identity.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,6 +21,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/identity/auth")
 @RequiredArgsConstructor
 public class AuthController {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
+
     private final AuthService authService;
 
     @GetMapping("/login")
@@ -28,7 +33,8 @@ public class AuthController {
                     .map(user -> ResponseEntity.ok(ApiResponse.success("Login successful", user)))
                     .orElseGet(() -> ResponseEntity.status(401).body(ApiResponse.error("Invalid email or password")));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Login failed: " + e.getMessage()));
+            log.error("Login failed", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Login failed. Please try again later."));
         }
     }
 
@@ -38,7 +44,8 @@ public class AuthController {
             boolean result = authService.logout();
             return ResponseEntity.ok(ApiResponse.success("Logout successful", result));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Logout failed: " + e.getMessage()));
+            log.error("Logout failed", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Logout failed. Please try again later."));
         }
     }
 
@@ -52,7 +59,8 @@ public class AuthController {
                 return ResponseEntity.badRequest().body(ApiResponse.error("Failed to change password: invalid credentials"));
             }
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Password change failed: " + e.getMessage()));
+            log.error("Password change failed", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Password change failed. Please try again later."));
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.frro.bus.ticket.features.identity.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,6 +20,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/identity/profile")
 @RequiredArgsConstructor
 public class ProfileController {
+
+    private static final Logger log = LoggerFactory.getLogger(ProfileController.class);
+
     private final ProfileService profileService;
 
     @PatchMapping
@@ -27,7 +32,8 @@ public class ProfileController {
                     .map(user -> ResponseEntity.ok(ApiResponse.success("Profile updated successfully", user)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("User not found with id: " + userRequest.id())));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update profile: " + e.getMessage()));
+            log.error("Failed to update profile with id: {}", userRequest.id(), e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update profile. Please try again later."));
         }
     }
 
@@ -38,7 +44,8 @@ public class ProfileController {
                     .map(user -> ResponseEntity.ok(ApiResponse.success("User logically deleted successfully", user)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("User not found")));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to logically delete user: " + e.getMessage()));
+            log.error("Failed to logically delete user", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete user. Please try again later."));
         }
     }
 
@@ -49,7 +56,8 @@ public class ProfileController {
                     .map(user -> ResponseEntity.ok(ApiResponse.success("User deleted successfully", user)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("User not found")));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete user: " + e.getMessage()));
+            log.error("Failed to delete user", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete user. Please try again later."));
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.frro.bus.ticket.features.fleet.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/fleet/availability")
 @RequiredArgsConstructor
 public class AvailabilityController {
+
+    private static final Logger log = LoggerFactory.getLogger(AvailabilityController.class);
+
     private final AvailabilityService availabilityService;
 
     @GetMapping("/buses")
@@ -32,7 +37,8 @@ public class AvailabilityController {
             Page<BusDTO> buses = availabilityService.findAllBuses(pageable);
             return ResponseEntity.ok(ApiResponse.success("Buses retrieved successfully", buses));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve buses: " + e.getMessage()));
+            log.error("Failed to retrieve buses", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve buses. Please try again later."));
         }
     }
 
@@ -42,7 +48,8 @@ public class AvailabilityController {
             Page<BusDTO> buses = availabilityService.searchBuses(searchCriteria, pageable);
             return ResponseEntity.ok(ApiResponse.success("Buses searched successfully", buses));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search buses: " + e.getMessage()));
+            log.error("Failed to search buses", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search buses. Please try again later."));
         }
     }
 
@@ -53,7 +60,8 @@ public class AvailabilityController {
                     .map(bus -> ResponseEntity.ok(ApiResponse.success("Bus retrieved successfully", bus)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Bus not found with id: " + id)));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve bus: " + e.getMessage()));
+            log.error("Failed to retrieve bus with id: {}", id, e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve bus. Please try again later."));
         }
     }
 
@@ -63,7 +71,8 @@ public class AvailabilityController {
             Page<SeatFullDTO> seats = availabilityService.findAllSeats(pageable);
             return ResponseEntity.ok(ApiResponse.success("Seats retrieved successfully", seats));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve seats: " + e.getMessage()));
+            log.error("Failed to retrieve seats", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve seats. Please try again later."));
         }
     }
 
@@ -73,7 +82,8 @@ public class AvailabilityController {
             Page<SeatFullDTO> seats = availabilityService.searchSeats(searchCriteria, pageable);
             return ResponseEntity.ok(ApiResponse.success("Seats searched successfully", seats));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search seats: " + e.getMessage()));
+            log.error("Failed to search seats", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search seats. Please try again later."));
         }
     }
 
@@ -84,7 +94,8 @@ public class AvailabilityController {
                     .map(seat -> ResponseEntity.ok(ApiResponse.success("Seat retrieved successfully", seat)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat not found with id: " + id)));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve seat: " + e.getMessage()));
+            log.error("Failed to retrieve seat with id: {}", id, e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve seat. Please try again later."));
         }
     }
 
@@ -94,7 +105,8 @@ public class AvailabilityController {
             Page<SeatTypeDTO> seatTypes = availabilityService.findAllSeatTypes(pageable);
             return ResponseEntity.ok(ApiResponse.success("Seat types retrieved successfully", seatTypes));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve seat types: " + e.getMessage()));
+            log.error("Failed to retrieve seat types", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve seat types. Please try again later."));
         }
     }
 
@@ -104,7 +116,8 @@ public class AvailabilityController {
             Page<SeatTypeDTO> seatTypes = availabilityService.searchSeatTypes(searchCriteria, pageable);
             return ResponseEntity.ok(ApiResponse.success("Seat types searched successfully", seatTypes));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search seat types: " + e.getMessage()));
+            log.error("Failed to search seat types", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search seat types. Please try again later."));
         }
     }
 
@@ -115,7 +128,8 @@ public class AvailabilityController {
                     .map(seatType -> ResponseEntity.ok(ApiResponse.success("Seat type retrieved successfully", seatType)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat type not found with id: " + id)));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve seat type: " + e.getMessage()));
+            log.error("Failed to retrieve seat type with id: {}", id, e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve seat type. Please try again later."));
         }
     }
 }

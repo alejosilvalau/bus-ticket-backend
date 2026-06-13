@@ -1,5 +1,7 @@
 package com.frro.bus.ticket.features.identity.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/identity/register")
 @RequiredArgsConstructor
 public class RegisterController {
+
+    private static final Logger log = LoggerFactory.getLogger(RegisterController.class);
+
     private final RegisterService registerService;
 
     @PostMapping
@@ -25,7 +30,8 @@ public class RegisterController {
             UserDTO savedUser = registerService.create(createUser);
             return ResponseEntity.ok(ApiResponse.success("User registered successfully", savedUser));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Registration failed: " + e.getMessage()));
+            log.error("Registration failed", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Registration failed. Please try again later."));
         }
     }
 }

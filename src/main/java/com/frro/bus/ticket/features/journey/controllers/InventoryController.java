@@ -1,5 +1,7 @@
 package com.frro.bus.ticket.features.journey.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,6 +26,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/journeys/inventory")
 @RequiredArgsConstructor
 public class InventoryController {
+
+    private static final Logger log = LoggerFactory.getLogger(InventoryController.class);
+
     private final InventoryService inventoryService;
 
     @PostMapping("/trips")
@@ -32,7 +37,8 @@ public class InventoryController {
             TripFullDTO savedTrip = inventoryService.createTrip(tripRequest);
             return ResponseEntity.ok(ApiResponse.success("Trip created successfully", savedTrip));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create trip: " + e.getMessage()));
+            log.error("Failed to create trip", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create trip. Please try again later."));
         }
     }
 
@@ -42,7 +48,8 @@ public class InventoryController {
             LocationDTO savedLocation = inventoryService.createLocation(locationRequest);
             return ResponseEntity.ok(ApiResponse.success("Location created successfully", savedLocation));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create location: " + e.getMessage()));
+            log.error("Failed to create location", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create location. Please try again later."));
         }
     }
 
@@ -53,7 +60,8 @@ public class InventoryController {
                     .map(trip -> ResponseEntity.ok(ApiResponse.success("Trip updated successfully", trip)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Trip not found with id: " + tripRequest.id())));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update trip: " + e.getMessage()));
+            log.error("Failed to update trip with id: {}", tripRequest.id(), e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update trip. Please try again later."));
         }
     }
 
@@ -64,7 +72,8 @@ public class InventoryController {
                     .map(location -> ResponseEntity.ok(ApiResponse.success("Location updated successfully", location)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Location not found with id: " + locationRequest.id())));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update location: " + e.getMessage()));
+            log.error("Failed to update location with id: {}", locationRequest.id(), e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update location. Please try again later."));
         }
     }
 
@@ -75,7 +84,8 @@ public class InventoryController {
                     .map(trip -> ResponseEntity.ok(ApiResponse.success("Trip deleted successfully", trip)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Trip not found with id: " + id)));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete trip: " + e.getMessage()));
+            log.error("Failed to delete trip with id: {}", id, e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete trip. Please try again later."));
         }
     }
 
@@ -86,7 +96,8 @@ public class InventoryController {
                     .map(location -> ResponseEntity.ok(ApiResponse.success("Location deleted successfully", location)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Location not found with id: " + id)));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete location: " + e.getMessage()));
+            log.error("Failed to delete location with id: {}", id, e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete location. Please try again later."));
         }
     }
 }

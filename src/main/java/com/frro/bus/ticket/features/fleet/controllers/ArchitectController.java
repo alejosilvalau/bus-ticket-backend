@@ -1,5 +1,7 @@
 package com.frro.bus.ticket.features.fleet.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,6 +29,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/fleet/architect")
 @RequiredArgsConstructor
 public class ArchitectController {
+
+    private static final Logger log = LoggerFactory.getLogger(ArchitectController.class);
+
     private final ArchitectService architectService;
 
     @PostMapping("/buses")
@@ -35,7 +40,8 @@ public class ArchitectController {
             BusDTO savedBus = architectService.createBus(busRequest);
             return ResponseEntity.ok(ApiResponse.success("Bus created successfully", savedBus));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create bus: " + e.getMessage()));
+            log.error("Failed to create bus", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create bus. Please try again later."));
         }
     }
 
@@ -46,7 +52,8 @@ public class ArchitectController {
                     .map(bus -> ResponseEntity.ok(ApiResponse.success("Bus updated successfully", bus)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Bus not found with id: " + busRequest.id())));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update bus: " + e.getMessage()));
+            log.error("Failed to update bus with id: {}", busRequest.id(), e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update bus. Please try again later."));
         }
     }
 
@@ -57,7 +64,8 @@ public class ArchitectController {
                     .map(bus -> ResponseEntity.ok(ApiResponse.success("Bus deleted successfully", bus)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Bus not found with id: " + id)));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete bus: " + e.getMessage()));
+            log.error("Failed to delete bus with id: {}", id, e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete bus. Please try again later."));
         }
     }
 
@@ -67,7 +75,8 @@ public class ArchitectController {
             SeatFullDTO savedSeat = architectService.createSeat(seatRequest);
             return ResponseEntity.ok(ApiResponse.success("Seat created successfully", savedSeat));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create seat: " + e.getMessage()));
+            log.error("Failed to create seat", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create seat. Please try again later."));
         }
     }
 
@@ -78,7 +87,8 @@ public class ArchitectController {
                     .map(seat -> ResponseEntity.ok(ApiResponse.success("Seat updated successfully", seat)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat not found with id: " + seatRequest.id())));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update seat: " + e.getMessage()));
+            log.error("Failed to update seat with id: {}", seatRequest.id(), e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update seat. Please try again later."));
         }
     }
 
@@ -89,7 +99,8 @@ public class ArchitectController {
                     .map(seat -> ResponseEntity.ok(ApiResponse.success("Seat deleted successfully", seat)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat not found with id: " + id)));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete seat: " + e.getMessage()));
+            log.error("Failed to delete seat with id: {}", id, e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete seat. Please try again later."));
         }
     }
 
@@ -99,7 +110,8 @@ public class ArchitectController {
             SeatTypeDTO savedSeatType = architectService.createSeatType(seatTypeRequest);
             return ResponseEntity.ok(ApiResponse.success("Seat type created successfully", savedSeatType));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create seat type: " + e.getMessage()));
+            log.error("Failed to create seat type", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create seat type. Please try again later."));
         }
     }
 
@@ -110,7 +122,8 @@ public class ArchitectController {
                     .map(seatType -> ResponseEntity.ok(ApiResponse.success("Seat type updated successfully", seatType)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat type not found with id: " + seatTypeRequest.id())));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update seat type: " + e.getMessage()));
+            log.error("Failed to update seat type with id: {}", seatTypeRequest.id(), e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update seat type. Please try again later."));
         }
     }
 
@@ -121,7 +134,8 @@ public class ArchitectController {
                     .map(seatType -> ResponseEntity.ok(ApiResponse.success("Seat type deleted successfully", seatType)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat type not found with id: " + id)));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete seat type: " + e.getMessage()));
+            log.error("Failed to delete seat type with id: {}", id, e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete seat type. Please try again later."));
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.frro.bus.ticket.features.booking.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/booking/status")
 @RequiredArgsConstructor
 public class StatusController {
+
+    private static final Logger log = LoggerFactory.getLogger(StatusController.class);
+
     private final StatusService statusService;
 
     @GetMapping("/tickets")
@@ -28,7 +33,8 @@ public class StatusController {
             Page<TicketFullDTO> tickets = statusService.findAllTickets(pageable);
             return ResponseEntity.ok(ApiResponse.success("Tickets retrieved successfully", tickets));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve tickets: " + e.getMessage()));
+            log.error("Failed to retrieve tickets", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve tickets. Please try again later."));
         }
     }
 
@@ -38,7 +44,8 @@ public class StatusController {
             Page<TicketFullDTO> tickets = statusService.searchTickets(searchCriteria, pageable);
             return ResponseEntity.ok(ApiResponse.success("Tickets searched successfully", tickets));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search tickets: " + e.getMessage()));
+            log.error("Failed to search tickets", e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search tickets. Please try again later."));
         }
     }
 
@@ -49,7 +56,8 @@ public class StatusController {
                     .map(ticket -> ResponseEntity.ok(ApiResponse.success("Ticket retrieved successfully", ticket)))
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Ticket not found with id: " + id)));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve ticket: " + e.getMessage()));
+            log.error("Failed to retrieve ticket with id: {}", id, e);
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve ticket. Please try again later."));
         }
     }
 }
