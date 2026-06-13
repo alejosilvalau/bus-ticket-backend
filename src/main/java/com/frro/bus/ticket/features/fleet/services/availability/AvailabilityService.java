@@ -3,6 +3,9 @@ package com.frro.bus.ticket.features.fleet.services.availability;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatFullDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
@@ -11,21 +14,21 @@ import com.frro.bus.ticket.features.fleet.dtos.seattype.SearchSeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SearchSeatDTO;
 
 public interface AvailabilityService {
-    List<BusDTO> findAllBuses();
+    Page<BusDTO> findAllBuses(Pageable pageable);
 
-    List<BusDTO> searchBuses(SearchBusDTO searchCriteria);
+    Page<BusDTO> searchBuses(SearchBusDTO searchCriteria, Pageable pageable);
 
     Optional<BusDTO> findBusById(int id);
 
-    List<SeatFullDTO> findAllSeats();
+    Page<SeatFullDTO> findAllSeats(Pageable pageable);
 
-    List<SeatFullDTO> searchSeats(SearchSeatDTO searchCriteria);
+    Page<SeatFullDTO> searchSeats(SearchSeatDTO searchCriteria, Pageable pageable);
 
     Optional<SeatFullDTO> findSeatById(int id);
 
-    List<SeatTypeDTO> findAllSeatTypes();
+    Page<SeatTypeDTO> findAllSeatTypes(Pageable pageable);
 
-    List<SeatTypeDTO> searchSeatTypes(SearchSeatTypeDTO searchCriteria);
+    Page<SeatTypeDTO> searchSeatTypes(SearchSeatTypeDTO searchCriteria, Pageable pageable);
 
     Optional<SeatTypeDTO> findSeatTypeById(int id);
 

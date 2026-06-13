@@ -1,7 +1,5 @@
 package com.frro.bus.ticket.features.fleet.controllers;
 
-import java.util.Optional;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.frro.bus.ticket.common.dto.ApiResponse;
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.CreateBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.UpdateBusDTO;
@@ -31,62 +30,62 @@ public class ArchitectController {
     private final ArchitectService architectService;
 
     @PostMapping("/buses")
-    public ResponseEntity<BusDTO> createBus(@RequestBody CreateBusDTO busRequest) {
+    public ResponseEntity<ApiResponse<BusDTO>> createBus(@RequestBody CreateBusDTO busRequest) {
         BusDTO savedBus = architectService.createBus(busRequest);
-        return ResponseEntity.ok(savedBus);
+        return ResponseEntity.ok(ApiResponse.success(savedBus));
     }
 
     @PatchMapping("/buses")
-    public ResponseEntity<BusDTO> updateBus(@RequestBody UpdateBusDTO busRequest) {
-        Optional<BusDTO> updatedBus = architectService.updateBus(busRequest);
-        return updatedBus.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ApiResponse<BusDTO>> updateBus(@RequestBody UpdateBusDTO busRequest) {
+        return architectService.updateBus(busRequest)
+                .map(bus -> ResponseEntity.ok(ApiResponse.success(bus)))
+                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Bus not found")));
     }
 
     @DeleteMapping("/buses/{id}")
-    public ResponseEntity<BusDTO> deleteBus(@PathVariable int id) {
-        Optional<BusDTO> deletedBus = architectService.deleteBus(id);
-        return deletedBus.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ApiResponse<BusDTO>> deleteBus(@PathVariable int id) {
+        return architectService.deleteBus(id)
+                .map(bus -> ResponseEntity.ok(ApiResponse.success(bus)))
+                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Bus not found")));
     }
 
     @PostMapping("/seats")
-    public ResponseEntity<SeatFullDTO> createSeat(@RequestBody CreateSeatDTO seatRequest) {
+    public ResponseEntity<ApiResponse<SeatFullDTO>> createSeat(@RequestBody CreateSeatDTO seatRequest) {
         SeatFullDTO savedSeat = architectService.createSeat(seatRequest);
-        return ResponseEntity.ok(savedSeat);
+        return ResponseEntity.ok(ApiResponse.success(savedSeat));
     }
 
     @PatchMapping("/seats")
-    public ResponseEntity<SeatFullDTO> updateSeat(@RequestBody UpdateSeatDTO seatRequest) {
-        Optional<SeatFullDTO> updatedSeat = architectService.updateSeat(seatRequest);
-        return updatedSeat.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ApiResponse<SeatFullDTO>> updateSeat(@RequestBody UpdateSeatDTO seatRequest) {
+        return architectService.updateSeat(seatRequest)
+                .map(seat -> ResponseEntity.ok(ApiResponse.success(seat)))
+                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat not found")));
     }
 
     @DeleteMapping("/seats/{id}")
-    public ResponseEntity<SeatFullDTO> deleteSeat(@PathVariable int id) {
-        Optional<SeatFullDTO> deletedSeat = architectService.deleteSeat(id);
-        return deletedSeat.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ApiResponse<SeatFullDTO>> deleteSeat(@PathVariable int id) {
+        return architectService.deleteSeat(id)
+                .map(seat -> ResponseEntity.ok(ApiResponse.success(seat)))
+                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat not found")));
     }
 
     @PostMapping("/seat-types")
-    public ResponseEntity<SeatTypeDTO> createSeatType(@RequestBody CreateSeatTypeDTO seatTypeRequest) {
+    public ResponseEntity<ApiResponse<SeatTypeDTO>> createSeatType(@RequestBody CreateSeatTypeDTO seatTypeRequest) {
         SeatTypeDTO savedSeatType = architectService.createSeatType(seatTypeRequest);
-        return ResponseEntity.ok(savedSeatType);
+        return ResponseEntity.ok(ApiResponse.success(savedSeatType));
     }
 
     @PatchMapping("/seat-types")
-    public ResponseEntity<SeatTypeDTO> updateSeatType(@RequestBody UpdateSeatTypeDTO seatTypeRequest) {
-        Optional<SeatTypeDTO> updatedSeatType = architectService.updateSeatType(seatTypeRequest);
-        return updatedSeatType.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ApiResponse<SeatTypeDTO>> updateSeatType(@RequestBody UpdateSeatTypeDTO seatTypeRequest) {
+        return architectService.updateSeatType(seatTypeRequest)
+                .map(seatType -> ResponseEntity.ok(ApiResponse.success(seatType)))
+                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat type not found")));
     }
 
     @DeleteMapping("/seat-types/{id}")
-    public ResponseEntity<SeatTypeDTO> deleteSeatType(@PathVariable int id) {
-        Optional<SeatTypeDTO> deletedSeatType = architectService.deleteSeatType(id);
-        return deletedSeatType.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ApiResponse<SeatTypeDTO>> deleteSeatType(@PathVariable int id) {
+        return architectService.deleteSeatType(id)
+                .map(seatType -> ResponseEntity.ok(ApiResponse.success(seatType)))
+                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat type not found")));
     }
 }

@@ -2,6 +2,8 @@ package com.frro.bus.ticket.features.identity.services.driver;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
@@ -12,7 +14,6 @@ import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.identity.mappers.DriverMapper;
 import com.frro.bus.ticket.features.identity.repositories.DriverRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,38 +23,30 @@ public class DriverServiceImpl implements DriverService {
     private final DriverMapper driverMapper;
 
     @Override
-    public List<DriverDTO> findAll() {
-        return driverRepository.findAll().stream().map(driver -> {
-            return driverMapper.toDriverDTO(driver);
-        }).toList();
+    public Page<DriverDTO> findAll(Pageable pageable) {
+        return driverRepository.findAll(pageable).map(driverMapper::toDriverDTO);
     }
 
     @Override
-    public List<DriverDTO> search(SearchDriverDTO searchCriteria) {
+    public Page<DriverDTO> search(SearchDriverDTO searchCriteria, Pageable pageable) {
         return driverRepository.searchDrivers(
                 searchCriteria.firstName().orElse(null),
                 searchCriteria.lastName().orElse(null),
                 searchCriteria.isActive().orElse(null),
                 searchCriteria.licenseNumber().orElse(null),
-                searchCriteria.phoneNumber().orElse(null))
-                .stream()
-                .map(driverMapper::toDriverDTO)
-                .toList();
+                searchCriteria.phoneNumber().orElse(null),
+                pageable)
+                .map(driverMapper::toDriverDTO);
     }
 
     @Override
     public Optional<DriverDTO> findById(int id) {
-        return driverRepository.findById(id).map(driver -> {
-            return driverMapper.toDriverDTO(driver);
-        });
+        return driverRepository.findById(id).map(driverMapper::toDriverDTO);
     }
 
     @Override
     public DriverDTO create(CreateDriverDTO driverRequest) {
         Driver driver = driverMapper.toDriver(driverRequest);
-
-        // Search for existing one for active false
-
         Driver saved = driverRepository.save(driver);
         return driverMapper.toDriverDTO(saved);
     }

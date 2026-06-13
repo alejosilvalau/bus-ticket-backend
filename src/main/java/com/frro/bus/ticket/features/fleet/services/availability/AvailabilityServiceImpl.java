@@ -1,8 +1,9 @@
 package com.frro.bus.ticket.features.fleet.services.availability;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
@@ -31,20 +32,19 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     private final SeatTypeMapper seatTypeMapper;
 
     @Override
-    public List<BusDTO> findAllBuses() {
-        return busRepository.findAll().stream().map(busMapper::toBusDTO).toList();
+    public Page<BusDTO> findAllBuses(Pageable pageable) {
+        return busRepository.findAll(pageable).map(busMapper::toBusDTO);
     }
 
     @Override
-    public List<BusDTO> searchBuses(SearchBusDTO searchCriteria) {
+    public Page<BusDTO> searchBuses(SearchBusDTO searchCriteria, Pageable pageable) {
         return busRepository.searchBuses(
                 searchCriteria.plateNumber().orElse(null),
                 searchCriteria.startTotalCapacity().orElse(null),
                 searchCriteria.endTotalCapacity().orElse(null),
-                searchCriteria.isActive().orElse(null))
-                .stream()
-                .map(busMapper::toBusDTO)
-                .toList();
+                searchCriteria.isActive().orElse(null),
+                pageable)
+                .map(busMapper::toBusDTO);
     }
 
     @Override
@@ -53,21 +53,20 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public List<SeatFullDTO> findAllSeats() {
-        return seatRepository.findAll().stream().map(seatMapper::toSeatFullDTO).toList();
+    public Page<SeatFullDTO> findAllSeats(Pageable pageable) {
+        return seatRepository.findAll(pageable).map(seatMapper::toSeatFullDTO);
     }
 
     @Override
-    public List<SeatFullDTO> searchSeats(SearchSeatDTO searchCriteria) {
+    public Page<SeatFullDTO> searchSeats(SearchSeatDTO searchCriteria, Pageable pageable) {
         return seatRepository.searchSeats(
                 searchCriteria.letter().orElse(null),
                 searchCriteria.number().orElse(null),
                 searchCriteria.isActive().orElse(null),
                 searchCriteria.idBus().orElse(null),
-                searchCriteria.idSeatType().orElse(null))
-                .stream()
-                .map(seatMapper::toSeatFullDTO)
-                .toList();
+                searchCriteria.idSeatType().orElse(null),
+                pageable)
+                .map(seatMapper::toSeatFullDTO);
     }
 
     @Override
@@ -76,19 +75,18 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public List<SeatTypeDTO> findAllSeatTypes() {
-        return seatTypeRepository.findAll().stream().map(seatTypeMapper::toSeatTypeDTO).toList();
+    public Page<SeatTypeDTO> findAllSeatTypes(Pageable pageable) {
+        return seatTypeRepository.findAll(pageable).map(seatTypeMapper::toSeatTypeDTO);
     }
 
     @Override
-    public List<SeatTypeDTO> searchSeatTypes(SearchSeatTypeDTO searchCriteria) {
+    public Page<SeatTypeDTO> searchSeatTypes(SearchSeatTypeDTO searchCriteria, Pageable pageable) {
         return seatTypeRepository.searchSeatTypes(
                 searchCriteria.name().orElse(null),
                 searchCriteria.startUpcharge().orElse(null),
-                searchCriteria.endUpcharge().orElse(null))
-                .stream()
-                .map(seatTypeMapper::toSeatTypeDTO)
-                .toList();
+                searchCriteria.endUpcharge().orElse(null),
+                pageable)
+                .map(seatTypeMapper::toSeatTypeDTO);
     }
 
     @Override

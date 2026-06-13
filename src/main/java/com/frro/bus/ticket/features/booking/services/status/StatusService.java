@@ -1,15 +1,17 @@
 package com.frro.bus.ticket.features.booking.services.status;
 
-import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.SearchTicketDTO;
 
 public interface StatusService {
-    List<TicketFullDTO> findAllTickets();
+    Page<TicketFullDTO> findAllTickets(Pageable pageable);
 
-    List<TicketFullDTO> searchTickets(SearchTicketDTO searchCriteria);
+    Page<TicketFullDTO> searchTickets(SearchTicketDTO searchCriteria, Pageable pageable);
 
     Optional<TicketFullDTO> findTicketById(int id);
 }

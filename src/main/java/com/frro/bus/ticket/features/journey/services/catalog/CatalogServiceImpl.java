@@ -2,6 +2,8 @@ package com.frro.bus.ticket.features.journey.services.catalog;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
@@ -13,7 +15,6 @@ import com.frro.bus.ticket.features.journey.mappers.LocationMapper;
 import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 import com.frro.bus.ticket.features.journey.repositories.LocationRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,12 +26,12 @@ public class CatalogServiceImpl implements CatalogService {
     private final LocationMapper locationMapper;
 
     @Override
-    public List<TripFullDTO> findAllTrips() {
-        return tripRepository.findAll().stream().map(tripMapper::toTripFullDTO).toList();
+    public Page<TripFullDTO> findAllTrips(Pageable pageable) {
+        return tripRepository.findAll(pageable).map(tripMapper::toTripFullDTO);
     }
 
     @Override
-    public List<TripFullDTO> searchTrips(SearchTripDTO searchCriteria) {
+    public Page<TripFullDTO> searchTrips(SearchTripDTO searchCriteria, Pageable pageable) {
         return tripRepository.searchTrips(
                 searchCriteria.departureDate().orElse(null),
                 searchCriteria.arrivalDate().orElse(null),
@@ -39,10 +40,9 @@ public class CatalogServiceImpl implements CatalogService {
                 searchCriteria.idBus().orElse(null),
                 searchCriteria.idDriver().orElse(null),
                 searchCriteria.idLocationOrigin().orElse(null),
-                searchCriteria.idLocationDestination().orElse(null))
-                .stream()
-                .map(tripMapper::toTripFullDTO)
-                .toList();
+                searchCriteria.idLocationDestination().orElse(null),
+                pageable)
+                .map(tripMapper::toTripFullDTO);
     }
 
     @Override
@@ -51,19 +51,18 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public List<LocationDTO> findAllLocations() {
-        return locationRepository.findAll().stream().map(locationMapper::toLocationDTO).toList();
+    public Page<LocationDTO> findAllLocations(Pageable pageable) {
+        return locationRepository.findAll(pageable).map(locationMapper::toLocationDTO);
     }
 
     @Override
-    public List<LocationDTO> searchLocations(SearchLocationDTO searchCriteria) {
+    public Page<LocationDTO> searchLocations(SearchLocationDTO searchCriteria, Pageable pageable) {
         return locationRepository.searchLocations(
                 searchCriteria.cityName().orElse(null),
                 searchCriteria.state().orElse(null),
-                searchCriteria.postalCode().orElse(null))
-                .stream()
-                .map(locationMapper::toLocationDTO)
-                .toList();
+                searchCriteria.postalCode().orElse(null),
+                pageable)
+                .map(locationMapper::toLocationDTO);
     }
 
     @Override

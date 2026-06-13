@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.frro.bus.ticket.common.dto.ApiResponse;
 import com.frro.bus.ticket.features.identity.dtos.user.ChangePasswordUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.LoginUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
@@ -21,21 +22,21 @@ public class AuthController {
     private final AuthService authService;
 
     @GetMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody LoginUserDTO userRequest) {
+    public ResponseEntity<ApiResponse<UserDTO>> login(@RequestBody LoginUserDTO userRequest) {
         UserDTO loggedInUser = authService.login(userRequest)
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
-        return ResponseEntity.ok(loggedInUser);
+        return ResponseEntity.ok(ApiResponse.success(loggedInUser));
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<Boolean> logout() {
+    public ResponseEntity<ApiResponse<Boolean>> logout() {
         boolean result = authService.logout();
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(ApiResponse.success(result));
     }
 
     @PatchMapping("/change-password")
-    public ResponseEntity<Boolean> changePassword(@RequestBody ChangePasswordUserDTO changePasswordUser) {
+    public ResponseEntity<ApiResponse<Boolean>> changePassword(@RequestBody ChangePasswordUserDTO changePasswordUser) {
         boolean result = authService.changePassword(changePasswordUser);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(ApiResponse.success(result));
     }
 }

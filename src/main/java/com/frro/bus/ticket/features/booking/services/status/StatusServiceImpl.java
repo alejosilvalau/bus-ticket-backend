@@ -1,8 +1,9 @@
 package com.frro.bus.ticket.features.booking.services.status;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
@@ -19,12 +20,12 @@ public class StatusServiceImpl implements StatusService {
     private final TicketMapper ticketMapper;
 
     @Override
-    public List<TicketFullDTO> findAllTickets() {
-        return ticketRepository.findAll().stream().map(ticketMapper::toTicketFullDTO).toList();
+    public Page<TicketFullDTO> findAllTickets(Pageable pageable) {
+        return ticketRepository.findAll(pageable).map(ticketMapper::toTicketFullDTO);
     }
 
     @Override
-    public List<TicketFullDTO> searchTickets(SearchTicketDTO searchCriteria) {
+    public Page<TicketFullDTO> searchTickets(SearchTicketDTO searchCriteria, Pageable pageable) {
         return ticketRepository.searchTickets(
                 searchCriteria.startFinalPrice().orElse(null),
                 searchCriteria.endFinalPrice().orElse(null),
@@ -34,10 +35,9 @@ public class StatusServiceImpl implements StatusService {
                 searchCriteria.token().orElse(null),
                 searchCriteria.idUser().orElse(null),
                 searchCriteria.idTrip().orElse(null),
-                searchCriteria.idSeat().orElse(null))
-                .stream()
-                .map(ticketMapper::toTicketFullDTO)
-                .toList();
+                searchCriteria.idSeat().orElse(null),
+                pageable)
+                .map(ticketMapper::toTicketFullDTO);
     }
 
     @Override
