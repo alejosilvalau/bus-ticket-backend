@@ -1,7 +1,5 @@
 package com.frro.bus.ticket.features.identity.controllers;
 
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -10,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
-import com.frro.bus.ticket.common.dto.PaginationMeta;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
@@ -24,15 +21,15 @@ public class DriverAdminController {
     private final DriverService driverService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<DriverDTO>>> findAll(Pageable pageable) {
+    public ResponseEntity<ApiResponse<Page<DriverDTO>>> findAll(Pageable pageable) {
         Page<DriverDTO> drivers = driverService.findAll(pageable);
-        return ResponseEntity.ok(ApiResponse.success(drivers.getContent(), PaginationMeta.fromPage(drivers)));
+        return ResponseEntity.ok(ApiResponse.success(drivers));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<List<DriverDTO>>> search(@RequestBody SearchDriverDTO searchCriteria, Pageable pageable) {
+    public ResponseEntity<ApiResponse<Page<DriverDTO>>> search(@RequestBody SearchDriverDTO searchCriteria, Pageable pageable) {
         Page<DriverDTO> drivers = driverService.search(searchCriteria, pageable);
-        return ResponseEntity.ok(ApiResponse.success(drivers.getContent(), PaginationMeta.fromPage(drivers)));
+        return ResponseEntity.ok(ApiResponse.success(drivers));
     }
 
     @GetMapping("/{id}")
