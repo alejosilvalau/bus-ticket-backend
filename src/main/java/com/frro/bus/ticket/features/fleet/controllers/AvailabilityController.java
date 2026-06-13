@@ -28,58 +28,94 @@ public class AvailabilityController {
 
     @GetMapping("/buses")
     public ResponseEntity<ApiResponse<Page<BusDTO>>> findAllBuses(Pageable pageable) {
-        Page<BusDTO> buses = availabilityService.findAllBuses(pageable);
-        return ResponseEntity.ok(ApiResponse.success(buses));
+        try {
+            Page<BusDTO> buses = availabilityService.findAllBuses(pageable);
+            return ResponseEntity.ok(ApiResponse.success("Buses retrieved successfully", buses));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve buses: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/buses/search")
     public ResponseEntity<ApiResponse<Page<BusDTO>>> searchBuses(@RequestBody SearchBusDTO searchCriteria, Pageable pageable) {
-        Page<BusDTO> buses = availabilityService.searchBuses(searchCriteria, pageable);
-        return ResponseEntity.ok(ApiResponse.success(buses));
+        try {
+            Page<BusDTO> buses = availabilityService.searchBuses(searchCriteria, pageable);
+            return ResponseEntity.ok(ApiResponse.success("Buses searched successfully", buses));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search buses: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/buses/{id}")
     public ResponseEntity<ApiResponse<BusDTO>> findBusById(@PathVariable int id) {
-        return availabilityService.findBusById(id)
-                .map(bus -> ResponseEntity.ok(ApiResponse.success(bus)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Bus not found")));
+        try {
+            return availabilityService.findBusById(id)
+                    .map(bus -> ResponseEntity.ok(ApiResponse.success("Bus retrieved successfully", bus)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Bus not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve bus: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/seats")
     public ResponseEntity<ApiResponse<Page<SeatFullDTO>>> findAllSeats(Pageable pageable) {
-        Page<SeatFullDTO> seats = availabilityService.findAllSeats(pageable);
-        return ResponseEntity.ok(ApiResponse.success(seats));
+        try {
+            Page<SeatFullDTO> seats = availabilityService.findAllSeats(pageable);
+            return ResponseEntity.ok(ApiResponse.success("Seats retrieved successfully", seats));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve seats: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/seats/search")
     public ResponseEntity<ApiResponse<Page<SeatFullDTO>>> searchSeats(@RequestBody SearchSeatDTO searchCriteria, Pageable pageable) {
-        Page<SeatFullDTO> seats = availabilityService.searchSeats(searchCriteria, pageable);
-        return ResponseEntity.ok(ApiResponse.success(seats));
+        try {
+            Page<SeatFullDTO> seats = availabilityService.searchSeats(searchCriteria, pageable);
+            return ResponseEntity.ok(ApiResponse.success("Seats searched successfully", seats));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search seats: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/seats/{id}")
     public ResponseEntity<ApiResponse<SeatFullDTO>> findSeatById(@PathVariable int id) {
-        return availabilityService.findSeatById(id)
-                .map(seat -> ResponseEntity.ok(ApiResponse.success(seat)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat not found")));
+        try {
+            return availabilityService.findSeatById(id)
+                    .map(seat -> ResponseEntity.ok(ApiResponse.success("Seat retrieved successfully", seat)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve seat: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/seat-types")
     public ResponseEntity<ApiResponse<Page<SeatTypeDTO>>> findAllSeatTypes(Pageable pageable) {
-        Page<SeatTypeDTO> seatTypes = availabilityService.findAllSeatTypes(pageable);
-        return ResponseEntity.ok(ApiResponse.success(seatTypes));
+        try {
+            Page<SeatTypeDTO> seatTypes = availabilityService.findAllSeatTypes(pageable);
+            return ResponseEntity.ok(ApiResponse.success("Seat types retrieved successfully", seatTypes));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve seat types: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/seat-types/search")
     public ResponseEntity<ApiResponse<Page<SeatTypeDTO>>> searchSeatTypes(@RequestBody SearchSeatTypeDTO searchCriteria, Pageable pageable) {
-        Page<SeatTypeDTO> seatTypes = availabilityService.searchSeatTypes(searchCriteria, pageable);
-        return ResponseEntity.ok(ApiResponse.success(seatTypes));
+        try {
+            Page<SeatTypeDTO> seatTypes = availabilityService.searchSeatTypes(searchCriteria, pageable);
+            return ResponseEntity.ok(ApiResponse.success("Seat types searched successfully", seatTypes));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search seat types: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/seat-types/{id}")
     public ResponseEntity<ApiResponse<SeatTypeDTO>> findSeatTypeById(@PathVariable int id) {
-        return availabilityService.findSeatTypeById(id)
-                .map(seatType -> ResponseEntity.ok(ApiResponse.success(seatType)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat type not found")));
+        try {
+            return availabilityService.findSeatTypeById(id)
+                    .map(seatType -> ResponseEntity.ok(ApiResponse.success("Seat type retrieved successfully", seatType)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat type not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve seat type: " + e.getMessage()));
+        }
     }
 }

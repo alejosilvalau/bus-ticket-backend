@@ -28,41 +28,65 @@ public class InventoryController {
 
     @PostMapping("/trips")
     public ResponseEntity<ApiResponse<TripFullDTO>> createTrip(@RequestBody CreateTripDTO tripRequest) {
-        TripFullDTO savedTrip = inventoryService.createTrip(tripRequest);
-        return ResponseEntity.ok(ApiResponse.success(savedTrip));
+        try {
+            TripFullDTO savedTrip = inventoryService.createTrip(tripRequest);
+            return ResponseEntity.ok(ApiResponse.success("Trip created successfully", savedTrip));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create trip: " + e.getMessage()));
+        }
     }
 
     @PostMapping("/locations")
     public ResponseEntity<ApiResponse<LocationDTO>> createLocation(@RequestBody CreateLocationDTO locationRequest) {
-        LocationDTO savedLocation = inventoryService.createLocation(locationRequest);
-        return ResponseEntity.ok(ApiResponse.success(savedLocation));
+        try {
+            LocationDTO savedLocation = inventoryService.createLocation(locationRequest);
+            return ResponseEntity.ok(ApiResponse.success("Location created successfully", savedLocation));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create location: " + e.getMessage()));
+        }
     }
 
     @PatchMapping("/trips")
     public ResponseEntity<ApiResponse<TripFullDTO>> updateTrip(@RequestBody UpdateTripDTO tripRequest) {
-        return inventoryService.updateTrip(tripRequest)
-                .map(trip -> ResponseEntity.ok(ApiResponse.success(trip)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Trip not found")));
+        try {
+            return inventoryService.updateTrip(tripRequest)
+                    .map(trip -> ResponseEntity.ok(ApiResponse.success("Trip updated successfully", trip)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Trip not found with id: " + tripRequest.id())));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update trip: " + e.getMessage()));
+        }
     }
 
     @PatchMapping("/locations")
     public ResponseEntity<ApiResponse<LocationDTO>> updateLocation(@RequestBody UpdateLocationDTO locationRequest) {
-        return inventoryService.updateLocation(locationRequest)
-                .map(location -> ResponseEntity.ok(ApiResponse.success(location)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Location not found")));
+        try {
+            return inventoryService.updateLocation(locationRequest)
+                    .map(location -> ResponseEntity.ok(ApiResponse.success("Location updated successfully", location)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Location not found with id: " + locationRequest.id())));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update location: " + e.getMessage()));
+        }
     }
 
     @DeleteMapping("/trips/{id}")
     public ResponseEntity<ApiResponse<TripFullDTO>> deleteTrip(@PathVariable int id) {
-        return inventoryService.deleteTrip(id)
-                .map(trip -> ResponseEntity.ok(ApiResponse.success(trip)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Trip not found")));
+        try {
+            return inventoryService.deleteTrip(id)
+                    .map(trip -> ResponseEntity.ok(ApiResponse.success("Trip deleted successfully", trip)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Trip not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete trip: " + e.getMessage()));
+        }
     }
 
     @DeleteMapping("/locations/{id}")
     public ResponseEntity<ApiResponse<LocationDTO>> deleteLocation(@PathVariable int id) {
-        return inventoryService.deleteLocation(id)
-                .map(location -> ResponseEntity.ok(ApiResponse.success(location)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Location not found")));
+        try {
+            return inventoryService.deleteLocation(id)
+                    .map(location -> ResponseEntity.ok(ApiResponse.success("Location deleted successfully", location)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Location not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete location: " + e.getMessage()));
+        }
     }
 }

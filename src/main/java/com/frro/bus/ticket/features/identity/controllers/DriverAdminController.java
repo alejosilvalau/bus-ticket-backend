@@ -22,40 +22,64 @@ public class DriverAdminController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<DriverDTO>>> findAll(Pageable pageable) {
-        Page<DriverDTO> drivers = driverService.findAll(pageable);
-        return ResponseEntity.ok(ApiResponse.success(drivers));
+        try {
+            Page<DriverDTO> drivers = driverService.findAll(pageable);
+            return ResponseEntity.ok(ApiResponse.success("Drivers retrieved successfully", drivers));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve drivers: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<Page<DriverDTO>>> search(@RequestBody SearchDriverDTO searchCriteria, Pageable pageable) {
-        Page<DriverDTO> drivers = driverService.search(searchCriteria, pageable);
-        return ResponseEntity.ok(ApiResponse.success(drivers));
+        try {
+            Page<DriverDTO> drivers = driverService.search(searchCriteria, pageable);
+            return ResponseEntity.ok(ApiResponse.success("Drivers searched successfully", drivers));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search drivers: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<DriverDTO>> findById(@PathVariable int id) {
-        return driverService.findById(id)
-                .map(driver -> ResponseEntity.ok(ApiResponse.success(driver)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Driver not found")));
+        try {
+            return driverService.findById(id)
+                    .map(driver -> ResponseEntity.ok(ApiResponse.success("Driver retrieved successfully", driver)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Driver not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve driver: " + e.getMessage()));
+        }
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse<DriverDTO>> create(@RequestBody CreateDriverDTO driverRequest) {
-        DriverDTO savedDriver = driverService.create(driverRequest);
-        return ResponseEntity.ok(ApiResponse.success(savedDriver));
+        try {
+            DriverDTO savedDriver = driverService.create(driverRequest);
+            return ResponseEntity.ok(ApiResponse.success("Driver created successfully", savedDriver));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create driver: " + e.getMessage()));
+        }
     }
 
     @PatchMapping
     public ResponseEntity<ApiResponse<DriverDTO>> update(@RequestBody UpdateDriverDTO driverRequest) {
-        return driverService.update(driverRequest)
-                .map(driver -> ResponseEntity.ok(ApiResponse.success(driver)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Driver not found")));
+        try {
+            return driverService.update(driverRequest)
+                    .map(driver -> ResponseEntity.ok(ApiResponse.success("Driver updated successfully", driver)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Driver not found with id: " + driverRequest.id())));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update driver: " + e.getMessage()));
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<DriverDTO>> delete(@PathVariable int id) {
-        return driverService.delete(id)
-                .map(driver -> ResponseEntity.ok(ApiResponse.success(driver)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Driver not found")));
+        try {
+            return driverService.delete(id)
+                    .map(driver -> ResponseEntity.ok(ApiResponse.success("Driver deleted successfully", driver)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Driver not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete driver: " + e.getMessage()));
+        }
     }
 }

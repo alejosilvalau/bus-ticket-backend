@@ -25,21 +25,38 @@ public class ProcessorController {
 
     @PostMapping("/tickets")
     public ResponseEntity<ApiResponse<TicketFullDTO>> createTicket(@RequestBody CreateTicketDTO ticketRequest) {
-        TicketFullDTO savedTicket = processorService.createTicket(ticketRequest);
-        return ResponseEntity.ok(ApiResponse.success(savedTicket));
+        try {
+            TicketFullDTO savedTicket = processorService.createTicket(ticketRequest);
+            return ResponseEntity.ok(ApiResponse.success("Ticket created successfully", savedTicket));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to create ticket: " + e.getMessage()));
+        }
     }
 
     @PatchMapping("/tickets")
     public ResponseEntity<ApiResponse<TicketFullDTO>> updateTicket(@RequestBody UpdateTicketDTO ticketRequest) {
-        return processorService.updateTicket(ticketRequest)
-                .map(ticket -> ResponseEntity.ok(ApiResponse.success(ticket)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Ticket not found")));
+        try {
+            return processorService.updateTicket(ticketRequest)
+                    .map(ticket -> ResponseEntity.ok(ApiResponse.success("Ticket updated successfully", ticket)))
+                    .orElseGet(() -> ResponseEntity.status(404)
+                            .body(ApiResponse.error("Ticket not found with id: " + ticketRequest.id())));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to update ticket: " + e.getMessage()));
+        }
     }
 
     @DeleteMapping("/tickets/{id}")
     public ResponseEntity<ApiResponse<TicketFullDTO>> deleteTicket(@PathVariable int id) {
-        return processorService.deleteTicket(id)
-                .map(ticket -> ResponseEntity.ok(ApiResponse.success(ticket)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Ticket not found")));
+        try {
+            return processorService.deleteTicket(id)
+                    .map(ticket -> ResponseEntity.ok(ApiResponse.success("Ticket deleted successfully", ticket)))
+                    .orElseGet(() -> ResponseEntity.status(404)
+                            .body(ApiResponse.error("Ticket not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to delete ticket: " + e.getMessage()));
+        }
     }
 }

@@ -26,39 +26,63 @@ public class CatalogController {
 
     @GetMapping("/trips")
     public ResponseEntity<ApiResponse<Page<TripFullDTO>>> findAllTrips(Pageable pageable) {
-        Page<TripFullDTO> trips = catalogService.findAllTrips(pageable);
-        return ResponseEntity.ok(ApiResponse.success(trips));
+        try {
+            Page<TripFullDTO> trips = catalogService.findAllTrips(pageable);
+            return ResponseEntity.ok(ApiResponse.success("Trips retrieved successfully", trips));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve trips: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/trips/search")
     public ResponseEntity<ApiResponse<Page<TripFullDTO>>> searchTrips(@RequestBody SearchTripDTO searchCriteria, Pageable pageable) {
-        Page<TripFullDTO> trips = catalogService.searchTrips(searchCriteria, pageable);
-        return ResponseEntity.ok(ApiResponse.success(trips));
+        try {
+            Page<TripFullDTO> trips = catalogService.searchTrips(searchCriteria, pageable);
+            return ResponseEntity.ok(ApiResponse.success("Trips searched successfully", trips));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search trips: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/trips/{id}")
     public ResponseEntity<ApiResponse<TripFullDTO>> findTripById(@PathVariable int id) {
-        return catalogService.findTripById(id)
-                .map(trip -> ResponseEntity.ok(ApiResponse.success(trip)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Trip not found")));
+        try {
+            return catalogService.findTripById(id)
+                    .map(trip -> ResponseEntity.ok(ApiResponse.success("Trip retrieved successfully", trip)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Trip not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve trip: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/locations")
     public ResponseEntity<ApiResponse<Page<LocationDTO>>> findAllLocations(Pageable pageable) {
-        Page<LocationDTO> locations = catalogService.findAllLocations(pageable);
-        return ResponseEntity.ok(ApiResponse.success(locations));
+        try {
+            Page<LocationDTO> locations = catalogService.findAllLocations(pageable);
+            return ResponseEntity.ok(ApiResponse.success("Locations retrieved successfully", locations));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve locations: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/locations/search")
     public ResponseEntity<ApiResponse<Page<LocationDTO>>> searchLocations(@RequestBody SearchLocationDTO searchCriteria, Pageable pageable) {
-        Page<LocationDTO> locations = catalogService.searchLocations(searchCriteria, pageable);
-        return ResponseEntity.ok(ApiResponse.success(locations));
+        try {
+            Page<LocationDTO> locations = catalogService.searchLocations(searchCriteria, pageable);
+            return ResponseEntity.ok(ApiResponse.success("Locations searched successfully", locations));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search locations: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/locations/{id}")
     public ResponseEntity<ApiResponse<LocationDTO>> findLocationById(@PathVariable int id) {
-        return catalogService.findLocationById(id)
-                .map(location -> ResponseEntity.ok(ApiResponse.success(location)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Location not found")));
+        try {
+            return catalogService.findLocationById(id)
+                    .map(location -> ResponseEntity.ok(ApiResponse.success("Location retrieved successfully", location)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Location not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve location: " + e.getMessage()));
+        }
     }
 }

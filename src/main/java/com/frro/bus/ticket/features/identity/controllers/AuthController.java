@@ -23,20 +23,36 @@ public class AuthController {
 
     @GetMapping("/login")
     public ResponseEntity<ApiResponse<UserDTO>> login(@RequestBody LoginUserDTO userRequest) {
-        UserDTO loggedInUser = authService.login(userRequest)
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
-        return ResponseEntity.ok(ApiResponse.success(loggedInUser));
+        try {
+            return authService.login(userRequest)
+                    .map(user -> ResponseEntity.ok(ApiResponse.success("Login successful", user)))
+                    .orElseGet(() -> ResponseEntity.status(401).body(ApiResponse.error("Invalid email or password")));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Login failed: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/logout")
     public ResponseEntity<ApiResponse<Boolean>> logout() {
-        boolean result = authService.logout();
-        return ResponseEntity.ok(ApiResponse.success(result));
+        try {
+            boolean result = authService.logout();
+            return ResponseEntity.ok(ApiResponse.success("Logout successful", result));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Logout failed: " + e.getMessage()));
+        }
     }
 
     @PatchMapping("/change-password")
     public ResponseEntity<ApiResponse<Boolean>> changePassword(@RequestBody ChangePasswordUserDTO changePasswordUser) {
-        boolean result = authService.changePassword(changePasswordUser);
-        return ResponseEntity.ok(ApiResponse.success(result));
+        try {
+            boolean result = authService.changePassword(changePasswordUser);
+            if (result) {
+                return ResponseEntity.ok(ApiResponse.success("Password changed successfully", result));
+            } else {
+                return ResponseEntity.badRequest().body(ApiResponse.error("Failed to change password: invalid credentials"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Password change failed: " + e.getMessage()));
+        }
     }
 }

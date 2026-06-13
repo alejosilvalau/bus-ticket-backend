@@ -21,7 +21,11 @@ public class RegisterController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<UserDTO>> create(@RequestBody CreateUserDTO createUser) {
-        UserDTO savedUser = registerService.create(createUser);
-        return ResponseEntity.ok(ApiResponse.success(savedUser));
+        try {
+            UserDTO savedUser = registerService.create(createUser);
+            return ResponseEntity.ok(ApiResponse.success("User registered successfully", savedUser));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Registration failed: " + e.getMessage()));
+        }
     }
 }

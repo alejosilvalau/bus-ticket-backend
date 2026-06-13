@@ -31,61 +31,97 @@ public class ArchitectController {
 
     @PostMapping("/buses")
     public ResponseEntity<ApiResponse<BusDTO>> createBus(@RequestBody CreateBusDTO busRequest) {
-        BusDTO savedBus = architectService.createBus(busRequest);
-        return ResponseEntity.ok(ApiResponse.success(savedBus));
+        try {
+            BusDTO savedBus = architectService.createBus(busRequest);
+            return ResponseEntity.ok(ApiResponse.success("Bus created successfully", savedBus));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create bus: " + e.getMessage()));
+        }
     }
 
     @PatchMapping("/buses")
     public ResponseEntity<ApiResponse<BusDTO>> updateBus(@RequestBody UpdateBusDTO busRequest) {
-        return architectService.updateBus(busRequest)
-                .map(bus -> ResponseEntity.ok(ApiResponse.success(bus)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Bus not found")));
+        try {
+            return architectService.updateBus(busRequest)
+                    .map(bus -> ResponseEntity.ok(ApiResponse.success("Bus updated successfully", bus)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Bus not found with id: " + busRequest.id())));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update bus: " + e.getMessage()));
+        }
     }
 
     @DeleteMapping("/buses/{id}")
     public ResponseEntity<ApiResponse<BusDTO>> deleteBus(@PathVariable int id) {
-        return architectService.deleteBus(id)
-                .map(bus -> ResponseEntity.ok(ApiResponse.success(bus)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Bus not found")));
+        try {
+            return architectService.deleteBus(id)
+                    .map(bus -> ResponseEntity.ok(ApiResponse.success("Bus deleted successfully", bus)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Bus not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete bus: " + e.getMessage()));
+        }
     }
 
     @PostMapping("/seats")
     public ResponseEntity<ApiResponse<SeatFullDTO>> createSeat(@RequestBody CreateSeatDTO seatRequest) {
-        SeatFullDTO savedSeat = architectService.createSeat(seatRequest);
-        return ResponseEntity.ok(ApiResponse.success(savedSeat));
+        try {
+            SeatFullDTO savedSeat = architectService.createSeat(seatRequest);
+            return ResponseEntity.ok(ApiResponse.success("Seat created successfully", savedSeat));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create seat: " + e.getMessage()));
+        }
     }
 
     @PatchMapping("/seats")
     public ResponseEntity<ApiResponse<SeatFullDTO>> updateSeat(@RequestBody UpdateSeatDTO seatRequest) {
-        return architectService.updateSeat(seatRequest)
-                .map(seat -> ResponseEntity.ok(ApiResponse.success(seat)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat not found")));
+        try {
+            return architectService.updateSeat(seatRequest)
+                    .map(seat -> ResponseEntity.ok(ApiResponse.success("Seat updated successfully", seat)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat not found with id: " + seatRequest.id())));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update seat: " + e.getMessage()));
+        }
     }
 
     @DeleteMapping("/seats/{id}")
     public ResponseEntity<ApiResponse<SeatFullDTO>> deleteSeat(@PathVariable int id) {
-        return architectService.deleteSeat(id)
-                .map(seat -> ResponseEntity.ok(ApiResponse.success(seat)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat not found")));
+        try {
+            return architectService.deleteSeat(id)
+                    .map(seat -> ResponseEntity.ok(ApiResponse.success("Seat deleted successfully", seat)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete seat: " + e.getMessage()));
+        }
     }
 
     @PostMapping("/seat-types")
     public ResponseEntity<ApiResponse<SeatTypeDTO>> createSeatType(@RequestBody CreateSeatTypeDTO seatTypeRequest) {
-        SeatTypeDTO savedSeatType = architectService.createSeatType(seatTypeRequest);
-        return ResponseEntity.ok(ApiResponse.success(savedSeatType));
+        try {
+            SeatTypeDTO savedSeatType = architectService.createSeatType(seatTypeRequest);
+            return ResponseEntity.ok(ApiResponse.success("Seat type created successfully", savedSeatType));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create seat type: " + e.getMessage()));
+        }
     }
 
     @PatchMapping("/seat-types")
     public ResponseEntity<ApiResponse<SeatTypeDTO>> updateSeatType(@RequestBody UpdateSeatTypeDTO seatTypeRequest) {
-        return architectService.updateSeatType(seatTypeRequest)
-                .map(seatType -> ResponseEntity.ok(ApiResponse.success(seatType)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat type not found")));
+        try {
+            return architectService.updateSeatType(seatTypeRequest)
+                    .map(seatType -> ResponseEntity.ok(ApiResponse.success("Seat type updated successfully", seatType)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat type not found with id: " + seatTypeRequest.id())));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update seat type: " + e.getMessage()));
+        }
     }
 
     @DeleteMapping("/seat-types/{id}")
     public ResponseEntity<ApiResponse<SeatTypeDTO>> deleteSeatType(@PathVariable int id) {
-        return architectService.deleteSeatType(id)
-                .map(seatType -> ResponseEntity.ok(ApiResponse.success(seatType)))
-                .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat type not found")));
+        try {
+            return architectService.deleteSeatType(id)
+                    .map(seatType -> ResponseEntity.ok(ApiResponse.success("Seat type deleted successfully", seatType)))
+                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Seat type not found with id: " + id)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete seat type: " + e.getMessage()));
+        }
     }
 }
