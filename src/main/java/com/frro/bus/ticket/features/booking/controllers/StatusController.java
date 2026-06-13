@@ -16,6 +16,7 @@ import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.SearchTicketDTO;
 import com.frro.bus.ticket.features.booking.services.status.StatusService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -39,7 +40,7 @@ public class StatusController {
     }
 
     @GetMapping("/tickets/search")
-    public ResponseEntity<ApiResponse<Page<TicketFullDTO>>> searchTickets(@RequestBody SearchTicketDTO searchCriteria, Pageable pageable) {
+    public ResponseEntity<ApiResponse<Page<TicketFullDTO>>> searchTickets(@Valid @RequestBody SearchTicketDTO searchCriteria, Pageable pageable) {
         try {
             Page<TicketFullDTO> tickets = statusService.searchTickets(searchCriteria, pageable);
             return ResponseEntity.ok(ApiResponse.success("Tickets searched successfully", tickets));

@@ -18,6 +18,7 @@ import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
 import com.frro.bus.ticket.features.journey.services.catalog.CatalogService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -41,7 +42,7 @@ public class CatalogController {
     }
 
     @GetMapping("/trips/search")
-    public ResponseEntity<ApiResponse<Page<TripFullDTO>>> searchTrips(@RequestBody SearchTripDTO searchCriteria, Pageable pageable) {
+    public ResponseEntity<ApiResponse<Page<TripFullDTO>>> searchTrips(@Valid @RequestBody SearchTripDTO searchCriteria, Pageable pageable) {
         try {
             Page<TripFullDTO> trips = catalogService.searchTrips(searchCriteria, pageable);
             return ResponseEntity.ok(ApiResponse.success("Trips searched successfully", trips));
@@ -75,7 +76,7 @@ public class CatalogController {
     }
 
     @GetMapping("/locations/search")
-    public ResponseEntity<ApiResponse<Page<LocationDTO>>> searchLocations(@RequestBody SearchLocationDTO searchCriteria, Pageable pageable) {
+    public ResponseEntity<ApiResponse<Page<LocationDTO>>> searchLocations(@Valid @RequestBody SearchLocationDTO searchCriteria, Pageable pageable) {
         try {
             Page<LocationDTO> locations = catalogService.searchLocations(searchCriteria, pageable);
             return ResponseEntity.ok(ApiResponse.success("Locations searched successfully", locations));

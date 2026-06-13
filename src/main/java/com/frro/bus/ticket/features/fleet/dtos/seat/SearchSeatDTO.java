@@ -2,10 +2,12 @@ package com.frro.bus.ticket.features.fleet.dtos.seat;
 
 import java.util.Optional;
 
+import jakarta.validation.constraints.Min;
+
 public record SearchSeatDTO(
         Optional<Character> letter,
-        Optional<Integer> number,
+        Optional<@Min(value = 1, message = "Seat number must be at least 1") Integer> number,
         Optional<Boolean> isActive,
-        Optional<Integer> idBus,
-        Optional<Integer> idSeatType) {
+        Optional<@Min(value = 1, message = "Bus ID must be a positive number") Integer> idBus,
+        Optional<@Min(value = 1, message = "Seat type ID must be a positive number") Integer> idSeatType) {
 }

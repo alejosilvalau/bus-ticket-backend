@@ -20,6 +20,7 @@ import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SearchSeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.services.availability.AvailabilityService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -43,7 +44,7 @@ public class AvailabilityController {
     }
 
     @GetMapping("/buses/search")
-    public ResponseEntity<ApiResponse<Page<BusDTO>>> searchBuses(@RequestBody SearchBusDTO searchCriteria, Pageable pageable) {
+    public ResponseEntity<ApiResponse<Page<BusDTO>>> searchBuses(@Valid @RequestBody SearchBusDTO searchCriteria, Pageable pageable) {
         try {
             Page<BusDTO> buses = availabilityService.searchBuses(searchCriteria, pageable);
             return ResponseEntity.ok(ApiResponse.success("Buses searched successfully", buses));
@@ -77,7 +78,7 @@ public class AvailabilityController {
     }
 
     @GetMapping("/seats/search")
-    public ResponseEntity<ApiResponse<Page<SeatFullDTO>>> searchSeats(@RequestBody SearchSeatDTO searchCriteria, Pageable pageable) {
+    public ResponseEntity<ApiResponse<Page<SeatFullDTO>>> searchSeats(@Valid @RequestBody SearchSeatDTO searchCriteria, Pageable pageable) {
         try {
             Page<SeatFullDTO> seats = availabilityService.searchSeats(searchCriteria, pageable);
             return ResponseEntity.ok(ApiResponse.success("Seats searched successfully", seats));
@@ -111,7 +112,7 @@ public class AvailabilityController {
     }
 
     @GetMapping("/seat-types/search")
-    public ResponseEntity<ApiResponse<Page<SeatTypeDTO>>> searchSeatTypes(@RequestBody SearchSeatTypeDTO searchCriteria, Pageable pageable) {
+    public ResponseEntity<ApiResponse<Page<SeatTypeDTO>>> searchSeatTypes(@Valid @RequestBody SearchSeatTypeDTO searchCriteria, Pageable pageable) {
         try {
             Page<SeatTypeDTO> seatTypes = availabilityService.searchSeatTypes(searchCriteria, pageable);
             return ResponseEntity.ok(ApiResponse.success("Seat types searched successfully", seatTypes));

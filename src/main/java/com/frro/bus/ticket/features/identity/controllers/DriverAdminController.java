@@ -39,7 +39,7 @@ public class DriverAdminController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<Page<DriverDTO>>> search(@RequestBody SearchDriverDTO searchCriteria, Pageable pageable) {
+    public ResponseEntity<ApiResponse<Page<DriverDTO>>> search(@Valid @RequestBody SearchDriverDTO searchCriteria, Pageable pageable) {
         try {
             Page<DriverDTO> drivers = driverService.search(searchCriteria, pageable);
             return ResponseEntity.ok(ApiResponse.success("Drivers searched successfully", drivers));
