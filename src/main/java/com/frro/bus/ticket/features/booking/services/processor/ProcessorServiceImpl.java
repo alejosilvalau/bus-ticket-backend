@@ -2,6 +2,8 @@ package com.frro.bus.ticket.features.booking.services.processor;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,8 @@ import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +40,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     private final TicketMapper ticketMapper;
     private final PriceCalculationService priceCalculationService;
     private final EntityManager entityManager;
+    private final ObjectMapper objectMapper = JsonMapper.builder().build();
 
     @Override
     @Transactional
@@ -64,6 +69,12 @@ public class ProcessorServiceImpl implements ProcessorService {
         Ticket savedTicket = ticketRepository.save(ticket);
         entityManager.flush();
         entityManager.refresh(savedTicket);
+
+        savedTicket.setToken(generateToken(savedTicket.getId(), savedTicket.getBookingTime(), trip, seat));
+        ticketRepository.save(savedTicket);
+        entityManager.flush();
+        entityManager.refresh(savedTicket);
+
         return ticketMapper.toTicketFullDTO(savedTicket);
     }
 
@@ -95,6 +106,7 @@ public class ProcessorServiceImpl implements ProcessorService {
 
         if (ticketRequest.tripId().isPresent() || ticketRequest.seatId().isPresent()) {
             existingTicket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(trip, seat));
+            existingTicket.setToken(generateToken(existingTicket.getId(), existingTicket.getBookingTime(), trip, seat));
         }
 
         Ticket savedTicket = ticketRepository.save(existingTicket);
@@ -137,5 +149,26 @@ public class ProcessorServiceImpl implements ProcessorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", request.seatId()));
 
         return priceCalculationService.calculateFinalPriceValue(trip, seat);
+    }
+
+    private String generateToken(int ticketId, ZonedDateTime bookingTime, Trip trip, Seat seat) {
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("ticketId", ticketId);
+        data.put("bookingTime", bookingTime.toString());
+        data.put("seat", Map.of(
+                "letter", String.valueOf(seat.getLetter()),
+                "number", seat.getNumber(),
+                "seatType", seat.getSeatType().getName()));
+        data.put("trip", Map.of(
+                "departureDate", trip.getDepartureDate().toString(),
+                "arrivalDate", trip.getArrivalDate().toString()));
+        data.put("bus", Map.of(
+                "plateNumber", trip.getBus().getPlateNumber()));
+
+        try {
+            return objectMapper.writeValueAsString(data);
+        } catch (Exception e) {
+            throw new BusinessException("Failed to generate token");
+        }
     }
 }

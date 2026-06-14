@@ -1,13 +1,9 @@
 package com.frro.bus.ticket.features.booking.dtos;
 
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 public record CreateTicketDTO(
-
-        @NotBlank(message = "Token is required") @Size(min = 1, max = 100, message = "Token must be between 1 and 100 characters") String token,
 
         @NotNull(message = "User ID is required") @Min(value = 1, message = "User ID must be a positive number") int userId,
 

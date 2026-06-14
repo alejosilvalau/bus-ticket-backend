@@ -5,7 +5,6 @@ POST http://localhost:8080/api/v1/booking/processor/tickets
 Content-Type: application/json
 
 {
-  "token": "TICKET-ABC123",
   "userId": 1,
   "tripId": 2,
   "seatId": 1
@@ -16,8 +15,7 @@ PATCH http://localhost:8080/api/v1/booking/processor/tickets
 Content-Type: application/json
 
 {
-  "id": 5,
-  "token": "TICKET-UPDATED-456"
+  "id": 5
 }
 
 ### Delete ticket by ID
