@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.HandlerExecutionChain;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
 import com.frro.bus.ticket.common.security.endpointhelpers.AdminEndpoint;
@@ -42,6 +43,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
+
+        // Allow swagger and related static endpoints to bypass this filter so Swagger UI
+        // can fetch remote configuration without authentication.
+        String path = request.getRequestURI();
+        if (path != null && (path.startsWith("/v3/api-docs") || path.startsWith("/swagger-ui")
+                || path.equals("/swagger-ui.html") || path.startsWith("/swagger-resources")
+                || path.startsWith("/webjars"))) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
@@ -96,8 +107,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private HandlerMethod getHandlerMethod(HttpServletRequest request) {
         try {
             Object handler = handlerMapping.getHandler(request);
+            // RequestMappingHandlerMapping.getHandler(...) may return a HandlerExecutionChain
+            // which wraps the actual handler (often a HandlerMethod). Unwrap when necessary.
             if (handler instanceof HandlerMethod handlerMethod) {
                 return handlerMethod;
+            }
+            if (handler instanceof HandlerExecutionChain chain) {
+                Object inner = chain.getHandler();
+                if (inner instanceof HandlerMethod innerHandlerMethod) {
+                    return innerHandlerMethod;
+                }
             }
         } catch (Exception e) {
             log.debug("Could not resolve handler method: {}", e.getMessage());
