@@ -17,11 +17,11 @@ public record UpdateTripDTO(
 
         Optional<@DecimalMin(value = "0", message = "Base price must be zero or positive") BigDecimal> basePrice,
 
-        Optional<@Min(value = 1, message = "Bus ID must be a positive number") Integer> idBus,
+        Optional<@Min(value = 1, message = "Bus ID must be a positive number") Integer> busId,
 
-        Optional<@Min(value = 1, message = "Driver ID must be a positive number") Integer> idDriver,
+        Optional<@Min(value = 1, message = "Driver ID must be a positive number") Integer> driverId,
 
-        Optional<@Min(value = 1, message = "Origin location ID must be a positive number") Integer> idLocationOrigin,
+        Optional<@Min(value = 1, message = "Origin location ID must be a positive number") Integer> locationOriginId,
 
-        Optional<@Min(value = 1, message = "Destination location ID must be a positive number") Integer> idLocationDestination) {
+        Optional<@Min(value = 1, message = "Destination location ID must be a positive number") Integer> locationDestinationId) {
 }

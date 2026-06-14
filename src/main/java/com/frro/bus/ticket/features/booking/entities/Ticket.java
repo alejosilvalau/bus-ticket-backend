@@ -19,8 +19,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ticket", uniqueConstraints = @UniqueConstraint(name = "uk_trip_seat", columnNames = { "id_trip",
-        "id_seat" }))
+@Table(name = "ticket", uniqueConstraints = @UniqueConstraint(name = "uk_trip_seat", columnNames = { "trip_id",
+        "seat_id" }))
 public class Ticket implements EntityWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,14 +39,14 @@ public class Ticket implements EntityWithId {
     private String token;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_user", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_trip", nullable = false)
+    @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_seat", nullable = false)
+    @JoinColumn(name = "seat_id", nullable = false)
     private Seat seat;
 }

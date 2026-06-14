@@ -64,8 +64,8 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                 searchCriteria.letter().orElse(null),
                 searchCriteria.number().orElse(null),
                 searchCriteria.isActive().orElse(null),
-                searchCriteria.idBus().orElse(null),
-                searchCriteria.idSeatType().orElse(null),
+                searchCriteria.busId().orElse(null),
+                searchCriteria.seatTypeId().orElse(null),
                 pageable)
                 .map(seatMapper::toSeatFullDTO);
     }

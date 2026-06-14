@@ -29,17 +29,17 @@ public interface TicketMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "cancelled", source = "isCancelled")
-    @Mapping(target = "seat", source = "idSeat", qualifiedByName = "idToSeat")
-    @Mapping(target = "trip", source = "idTrip", qualifiedByName = "idToTrip")
-    @Mapping(target = "user", source = "idUser", qualifiedByName = "idToUser")
+    @Mapping(target = "seat", source = "seatId", qualifiedByName = "idToSeat")
+    @Mapping(target = "trip", source = "tripId", qualifiedByName = "idToTrip")
+    @Mapping(target = "user", source = "userId", qualifiedByName = "idToUser")
     Ticket toTicket(CreateTicketDTO createTicketDto);
 
     @Mapping(target = "finalPrice", source = "finalPrice", qualifiedByName = "unwrapOptionalBigDecimal")
     @Mapping(target = "bookingTime", source = "bookingTime", qualifiedByName = "unwrapOptionalZonedDateTime")
     @Mapping(target = "cancelled", source = "isCancelled", qualifiedByName = "unwrapOptionalBoolean")
     @Mapping(target = "token", source = "token", qualifiedByName = "unwrapOptionalString")
-    @Mapping(target = "seat", source = "idSeat", qualifiedByName = "optionalIdToSeat")
-    @Mapping(target = "trip", source = "idTrip", qualifiedByName = "optionalIdToTrip")
-    @Mapping(target = "user", source = "idUser", qualifiedByName = "optionalIdToUser")
+    @Mapping(target = "seat", source = "seatId", qualifiedByName = "optionalIdToSeat")
+    @Mapping(target = "trip", source = "tripId", qualifiedByName = "optionalIdToTrip")
+    @Mapping(target = "user", source = "userId", qualifiedByName = "optionalIdToUser")
     Ticket toTicket(UpdateTicketDTO updateTicketDto);
 }

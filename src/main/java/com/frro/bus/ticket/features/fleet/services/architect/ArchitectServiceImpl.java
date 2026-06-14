@@ -82,10 +82,10 @@ public class ArchitectServiceImpl implements ArchitectService {
     @Override
     @Transactional
     public SeatFullDTO createSeat(CreateSeatDTO seatRequest) {
-        seatRepository.findByBusIdAndLetterAndNumber(seatRequest.idBus(), seatRequest.letter(), seatRequest.number())
+        seatRepository.findByBusIdAndLetterAndNumber(seatRequest.busId(), seatRequest.letter(), seatRequest.number())
                 .ifPresent(seat -> {
                     throw new DuplicateResourceException("Seat", "bus+letter+number",
-                            "bus=" + seatRequest.idBus() + ", " + seatRequest.letter() + seatRequest.number());
+                            "bus=" + seatRequest.busId() + ", " + seatRequest.letter() + seatRequest.number());
                 });
 
         Seat seat = seatMapper.toSeat(seatRequest);
@@ -105,15 +105,15 @@ public class ArchitectServiceImpl implements ArchitectService {
         seatRequest.number().ifPresent(existingSeat::setNumber);
         seatRequest.isActive().ifPresent(existingSeat::setActive);
 
-        seatRequest.idBus().ifPresent(idBus -> {
+        seatRequest.busId().ifPresent(busId -> {
             Bus bus = new Bus();
-            bus.setId(idBus);
+            bus.setId(busId);
             existingSeat.setBus(bus);
         });
 
-        seatRequest.idSeatType().ifPresent(idSeatType -> {
+        seatRequest.seatTypeId().ifPresent(seatTypeId -> {
             SeatType seatType = new SeatType();
-            seatType.setId(idSeatType);
+            seatType.setId(seatTypeId);
             existingSeat.setSeatType(seatType);
         });
 

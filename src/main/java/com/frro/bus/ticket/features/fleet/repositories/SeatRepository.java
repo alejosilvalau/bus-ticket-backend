@@ -33,28 +33,28 @@ public interface SeatRepository extends JpaRepository<Seat, Integer> {
             "(:letter IS NULL OR s.letter = :letter) AND " +
             "(:number IS NULL OR s.number = :number) AND " +
             "(:isActive IS NULL OR s.isActive = :isActive) AND " +
-            "(:idBus IS NULL OR s.bus.id = :idBus) AND " +
-            "(:idSeatType IS NULL OR s.seatType.id = :idSeatType)")
+            "(:busId IS NULL OR s.bus.id = :busId) AND " +
+            "(:seatTypeId IS NULL OR s.seatType.id = :seatTypeId)")
     @EntityGraph(attributePaths = { "bus", "seatType" })
     List<Seat> searchSeats(
             @Param("letter") Character letter,
             @Param("number") Integer number,
             @Param("isActive") Boolean isActive,
-            @Param("idBus") Integer idBus,
-            @Param("idSeatType") Integer idSeatType);
+            @Param("busId") Integer busId,
+            @Param("seatTypeId") Integer seatTypeId);
 
     @Query("SELECT s FROM Seat s WHERE " +
             "(:letter IS NULL OR s.letter = :letter) AND " +
             "(:number IS NULL OR s.number = :number) AND " +
             "(:isActive IS NULL OR s.isActive = :isActive) AND " +
-            "(:idBus IS NULL OR s.bus.id = :idBus) AND " +
-            "(:idSeatType IS NULL OR s.seatType.id = :idSeatType)")
+            "(:busId IS NULL OR s.bus.id = :busId) AND " +
+            "(:seatTypeId IS NULL OR s.seatType.id = :seatTypeId)")
     @EntityGraph(attributePaths = { "bus", "seatType" })
     Page<Seat> searchSeats(
             @Param("letter") Character letter,
             @Param("number") Integer number,
             @Param("isActive") Boolean isActive,
-            @Param("idBus") Integer idBus,
-            @Param("idSeatType") Integer idSeatType,
+            @Param("busId") Integer busId,
+            @Param("seatTypeId") Integer seatTypeId,
             Pageable pageable);
 }

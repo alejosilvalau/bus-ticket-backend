@@ -28,10 +28,10 @@ public class ProcessorServiceImpl implements ProcessorService {
     @Override
     @Transactional
     public TicketFullDTO createTicket(CreateTicketDTO ticketRequest) {
-        ticketRepository.findByTripIdAndSeatId(ticketRequest.idTrip(), ticketRequest.idSeat())
+        ticketRepository.findByTripIdAndSeatId(ticketRequest.tripId(), ticketRequest.seatId())
                 .ifPresent(ticket -> {
                     throw new DuplicateResourceException("Ticket", "trip+seat combination",
-                            "trip=" + ticketRequest.idTrip() + ", seat=" + ticketRequest.idSeat());
+                            "trip=" + ticketRequest.tripId() + ", seat=" + ticketRequest.seatId());
                 });
 
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
@@ -52,19 +52,19 @@ public class ProcessorServiceImpl implements ProcessorService {
         ticketRequest.isCancelled().ifPresent(existingTicket::setCancelled);
         ticketRequest.token().ifPresent(existingTicket::setToken);
 
-        ticketRequest.idUser().ifPresent(idUser -> {
+        ticketRequest.userId().ifPresent(userId -> {
             User user = new User();
-            user.setId(idUser);
+            user.setId(userId);
             existingTicket.setUser(user);
         });
-        ticketRequest.idTrip().ifPresent(idTrip -> {
+        ticketRequest.tripId().ifPresent(tripId -> {
             Trip trip = new Trip();
-            trip.setId(idTrip);
+            trip.setId(tripId);
             existingTicket.setTrip(trip);
         });
-        ticketRequest.idSeat().ifPresent(idSeat -> {
+        ticketRequest.seatId().ifPresent(seatId -> {
             Seat seat = new Seat();
-            seat.setId(idSeat);
+            seat.setId(seatId);
             existingTicket.setSeat(seat);
         });
 

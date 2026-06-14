@@ -22,10 +22,10 @@ import com.frro.bus.ticket.features.identity.entities.Driver;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "trip", uniqueConstraints = {
-        @UniqueConstraint(name = "uk_trip_bus_departure", columnNames = { "id_bus",
+        @UniqueConstraint(name = "uk_trip_bus_departure", columnNames = { "bus_id",
                 "departure_date" }),
         @UniqueConstraint(name = "uk_trip_driver_departure", columnNames = {
-                "id_driver", "departure_date" })
+                "driver_id", "departure_date" })
 })
 public class Trip implements EntityWithId {
     @Id
@@ -42,19 +42,19 @@ public class Trip implements EntityWithId {
     private BigDecimal basePrice = BigDecimal.ZERO;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_bus", nullable = false)
+    @JoinColumn(name = "bus_id", nullable = false)
     private Bus bus;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_driver", nullable = false)
+    @JoinColumn(name = "driver_id", nullable = false)
     private Driver driver;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_location_origin", nullable = false)
+    @JoinColumn(name = "location_origin_id", nullable = false)
     private Location locationOrigin;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_location_destination", nullable = false)
+    @JoinColumn(name = "location_destination_id", nullable = false)
     private Location locationDestination;
 
     @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY)

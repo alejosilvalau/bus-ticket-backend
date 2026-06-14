@@ -31,8 +31,8 @@ Content-Type: application/json
   "letter": "A",
   "number": 1,
   "isActive": true,
-  "idBus": 1,
-  "idSeatType": 1
+  "busId": 1,
+  "seatTypeId": 1
 }
 
 ### Update seat by ID
@@ -41,7 +41,7 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "idSeatType": 2
+  "seatTypeId": 2
 }
 
 ### Delete seat by ID

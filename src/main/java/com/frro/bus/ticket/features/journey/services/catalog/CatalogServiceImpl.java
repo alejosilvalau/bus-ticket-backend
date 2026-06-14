@@ -36,10 +36,10 @@ public class CatalogServiceImpl implements CatalogService {
                 searchCriteria.arrivalDate().orElse(null),
                 searchCriteria.startBasePrice().orElse(null),
                 searchCriteria.endBasePrice().orElse(null),
-                searchCriteria.idBus().orElse(null),
-                searchCriteria.idDriver().orElse(null),
-                searchCriteria.idLocationOrigin().orElse(null),
-                searchCriteria.idLocationDestination().orElse(null),
+                searchCriteria.busId().orElse(null),
+                searchCriteria.driverId().orElse(null),
+                searchCriteria.locationOriginId().orElse(null),
+                searchCriteria.locationDestinationId().orElse(null),
                 pageable)
                 .map(tripMapper::toTripFullDTO);
     }

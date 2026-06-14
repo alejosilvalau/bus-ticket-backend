@@ -35,16 +35,16 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     @Transactional
     public TripFullDTO createTrip(CreateTripDTO tripRequest) {
-        tripRepository.findByBusIdAndDepartureDate(tripRequest.idBus(), tripRequest.departureDate())
+        tripRepository.findByBusIdAndDepartureDate(tripRequest.busId(), tripRequest.departureDate())
                 .ifPresent(trip -> {
                     throw new DuplicateResourceException("Trip", "bus+departureDate",
-                            "bus=" + tripRequest.idBus() + ", departure=" + tripRequest.departureDate());
+                            "bus=" + tripRequest.busId() + ", departure=" + tripRequest.departureDate());
                 });
 
-        tripRepository.findByDriverIdAndDepartureDate(tripRequest.idDriver(), tripRequest.departureDate())
+        tripRepository.findByDriverIdAndDepartureDate(tripRequest.driverId(), tripRequest.departureDate())
                 .ifPresent(trip -> {
                     throw new DuplicateResourceException("Trip", "driver+departureDate",
-                            "driver=" + tripRequest.idDriver() + ", departure=" + tripRequest.departureDate());
+                            "driver=" + tripRequest.driverId() + ", departure=" + tripRequest.departureDate());
                 });
 
         Trip trip = tripMapper.toTrip(tripRequest);
@@ -64,24 +64,24 @@ public class InventoryServiceImpl implements InventoryService {
         tripRequest.arrivalDate().ifPresent(existingTrip::setArrivalDate);
         tripRequest.basePrice().ifPresent(existingTrip::setBasePrice);
 
-        tripRequest.idBus().ifPresent(idBus -> {
+        tripRequest.busId().ifPresent(busId -> {
             Bus bus = new Bus();
-            bus.setId(idBus);
+            bus.setId(busId);
             existingTrip.setBus(bus);
         });
-        tripRequest.idDriver().ifPresent(idDriver -> {
+        tripRequest.driverId().ifPresent(driverId -> {
             Driver driver = new Driver();
-            driver.setId(idDriver);
+            driver.setId(driverId);
             existingTrip.setDriver(driver);
         });
-        tripRequest.idLocationOrigin().ifPresent(idLocation -> {
+        tripRequest.locationOriginId().ifPresent(locationOriginId -> {
             Location location = new Location();
-            location.setId(idLocation);
+            location.setId(locationOriginId);
             existingTrip.setLocationOrigin(location);
         });
-        tripRequest.idLocationDestination().ifPresent(idLocation -> {
+        tripRequest.locationDestinationId().ifPresent(locationDestinationId -> {
             Location location = new Location();
-            location.setId(idLocation);
+            location.setId(locationDestinationId);
             existingTrip.setLocationDestination(location);
         });
 

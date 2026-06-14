@@ -8,10 +8,10 @@ Content-Type: application/json
   "departureDate": "2039-12-01T08:00:00Z",
   "arrivalDate": "2039-12-01T14:00:00Z",
   "basePrice": 150.00,
-  "idBus": 1,
-  "idDriver": 2,
-  "idLocationOrigin": 1,
-  "idLocationDestination": 2
+  "busId": 1,
+  "driverId": 2,
+  "locationOriginId": 1,
+  "locationDestinationId": 2
 }
 
 ### Update trip by ID
@@ -20,8 +20,8 @@ Content-Type: application/json
 
 {
   "id": 5,
-  "idLocationOrigin": 2,
-  "idLocationDestination": 1
+  "locationOriginId": 2,
+  "locationDestinationId": 1
 }
 
 ### Delete trip by ID

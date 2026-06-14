@@ -24,20 +24,20 @@ public interface TripMapper {
     TripFullDTO toTripFullDTO(Trip trip);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "bus", source = "idBus", qualifiedByName = "idToBus")
-    @Mapping(target = "driver", source = "idDriver", qualifiedByName = "idToDriver")
-    @Mapping(target = "locationOrigin", source = "idLocationOrigin", qualifiedByName = "idToLocation")
-    @Mapping(target = "locationDestination", source = "idLocationDestination", qualifiedByName = "idToLocation")
+    @Mapping(target = "bus", source = "busId", qualifiedByName = "idToBus")
+    @Mapping(target = "driver", source = "driverId", qualifiedByName = "idToDriver")
+    @Mapping(target = "locationOrigin", source = "locationOriginId", qualifiedByName = "idToLocation")
+    @Mapping(target = "locationDestination", source = "locationDestinationId", qualifiedByName = "idToLocation")
     @Mapping(target = "tickets", ignore = true)
     Trip toTrip(CreateTripDTO createTripDto);
 
     @Mapping(target = "departureDate", source = "departureDate", qualifiedByName = "unwrapOptionalZonedDateTime")
     @Mapping(target = "arrivalDate", source = "arrivalDate", qualifiedByName = "unwrapOptionalZonedDateTime")
     @Mapping(target = "basePrice", source = "basePrice", qualifiedByName = "unwrapOptionalBigDecimal")
-    @Mapping(target = "bus", source = "idBus", qualifiedByName = "optionalIdToBus")
-    @Mapping(target = "driver", source = "idDriver", qualifiedByName = "optionalIdToDriver")
-    @Mapping(target = "locationOrigin", source = "idLocationOrigin", qualifiedByName = "optionalIdToLocation")
-    @Mapping(target = "locationDestination", source = "idLocationDestination", qualifiedByName = "optionalIdToLocation")
+    @Mapping(target = "bus", source = "busId", qualifiedByName = "optionalIdToBus")
+    @Mapping(target = "driver", source = "driverId", qualifiedByName = "optionalIdToDriver")
+    @Mapping(target = "locationOrigin", source = "locationOriginId", qualifiedByName = "optionalIdToLocation")
+    @Mapping(target = "locationDestination", source = "locationDestinationId", qualifiedByName = "optionalIdToLocation")
     @Mapping(target = "tickets", ignore = true)
     Trip toTrip(UpdateTripDTO updateTripDto);
 }

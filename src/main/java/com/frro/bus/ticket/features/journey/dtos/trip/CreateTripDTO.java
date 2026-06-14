@@ -20,17 +20,17 @@ public record CreateTripDTO(
 
         @NotNull(message = "Bus ID is required")
         @Min(value = 1, message = "Bus ID must be a positive number")
-        int idBus,
+        int busId,
 
         @NotNull(message = "Driver ID is required")
         @Min(value = 1, message = "Driver ID must be a positive number")
-        int idDriver,
+        int driverId,
 
         @NotNull(message = "Origin location ID is required")
         @Min(value = 1, message = "Origin location ID must be a positive number")
-        int idLocationOrigin,
+        int locationOriginId,
 
         @NotNull(message = "Destination location ID is required")
         @Min(value = 1, message = "Destination location ID must be a positive number")
-        int idLocationDestination) {
+        int locationDestinationId) {
 }

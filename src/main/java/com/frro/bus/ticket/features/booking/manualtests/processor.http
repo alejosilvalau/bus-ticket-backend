@@ -9,9 +9,9 @@ Content-Type: application/json
   "bookingTime": "2024-12-01T08:00:00Z",
   "isCancelled": false,
   "token": "TICKET-ABC123",
-  "idUser": 1,
-  "idTrip": 2,
-  "idSeat": 1
+  "userId": 1,
+  "tripId": 2,
+  "seatId": 1
 }
 
 ### Update ticket by ID

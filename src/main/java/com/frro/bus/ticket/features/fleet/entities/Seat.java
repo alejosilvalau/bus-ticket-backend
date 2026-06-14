@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "seat", uniqueConstraints = @UniqueConstraint(name = "uk_bus_seat", columnNames = { "id_bus", "letter",
+@Table(name = "seat", uniqueConstraints = @UniqueConstraint(name = "uk_bus_seat", columnNames = { "bus_id", "letter",
         "number" }))
 public class Seat implements EntityWithId {
     @Id
@@ -33,11 +33,11 @@ public class Seat implements EntityWithId {
     private boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_bus", nullable = false)
+    @JoinColumn(name = "bus_id", nullable = false)
     private Bus bus;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_seat_type", nullable = false)
+    @JoinColumn(name = "seat_type_id", nullable = false)
     private SeatType seatType;
 
     @OneToMany(mappedBy = "seat", fetch = FetchType.LAZY)

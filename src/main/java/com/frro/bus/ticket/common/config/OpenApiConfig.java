@@ -55,7 +55,6 @@ public class OpenApiConfig {
                                         .in("query")
                                         .description("Page number (0-based)")
                                         .schema(new IntegerSchema()
-                                                .format(null)
                                                 .minimum(BigDecimal.ZERO)
                                                 .example("0")));
                                 params.add(new Parameter()
@@ -63,11 +62,9 @@ public class OpenApiConfig {
                                         .in("query")
                                         .description("Page size (max 100)")
                                         .schema(new IntegerSchema()
-                                                .format(null)
                                                 .minimum(BigDecimal.ZERO)
                                                 .maximum(BigDecimal.valueOf(100))
-                                                .example("20"))
-                                        );
+                                                .example("20")));
                             }
                             operation.setParameters(params);
                         });

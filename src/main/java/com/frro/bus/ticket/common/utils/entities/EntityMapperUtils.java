@@ -105,43 +105,43 @@ public abstract class EntityMapperUtils {
     // Optional Id to entity mappers
 
     @Named("optionalIdToBus")
-    public Bus idToBusOptional(Optional<Integer> idBus) {
-        return optionalIdToEntity(idBus, Bus::new);
+    public Bus idToBusOptional(Optional<Integer> busId) {
+        return optionalIdToEntity(busId, Bus::new);
     }
 
     @Named("optionalIdToDriver")
-    public Driver idToDriverOptional(Optional<Integer> idDriver) {
-        return optionalIdToEntity(idDriver, Driver::new);
+    public Driver idToDriverOptional(Optional<Integer> driverId) {
+        return optionalIdToEntity(driverId, Driver::new);
     }
 
     @Named("optionalIdToLocation")
-    public Location idToLocationOptional(Optional<Integer> idLocation) {
-        return optionalIdToEntity(idLocation, Location::new);
+    public Location idToLocationOptional(Optional<Integer> locationId) {
+        return optionalIdToEntity(locationId, Location::new);
     }
 
     @Named("optionalIdToUser")
-    public User idToUserOptional(Optional<Integer> idUser) {
-        return optionalIdToEntity(idUser, User::new);
+    public User idToUserOptional(Optional<Integer> userId) {
+        return optionalIdToEntity(userId, User::new);
     }
 
     @Named("optionalIdToTrip")
-    public Trip idToTripOptional(Optional<Integer> idTrip) {
-        return optionalIdToEntity(idTrip, Trip::new);
+    public Trip idToTripOptional(Optional<Integer> tripId) {
+        return optionalIdToEntity(tripId, Trip::new);
     }
 
     @Named("optionalIdToSeat")
-    public Seat idToSeatOptional(Optional<Integer> idSeat) {
-        return optionalIdToEntity(idSeat, Seat::new);
+    public Seat idToSeatOptional(Optional<Integer> seatId) {
+        return optionalIdToEntity(seatId, Seat::new);
     }
 
     @Named("optionalIdToSeatType")
-    public SeatType idToSeatTypeOptional(Optional<Integer> idSeatType) {
-        return optionalIdToEntity(idSeatType, SeatType::new);
+    public SeatType idToSeatTypeOptional(Optional<Integer> seatTypeId) {
+        return optionalIdToEntity(seatTypeId, SeatType::new);
     }
 
     @Named("optionalIdToTicket")
-    public Ticket idToTicketOptional(Optional<Integer> idTicket) {
-        return optionalIdToEntity(idTicket, Ticket::new);
+    public Ticket idToTicketOptional(Optional<Integer> ticketId) {
+        return optionalIdToEntity(ticketId, Ticket::new);
     }
 
     // Generic helpers

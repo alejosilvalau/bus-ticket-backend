@@ -32,9 +32,9 @@ public class StatusServiceImpl implements StatusService {
                 searchCriteria.endBookingTime().orElse(null),
                 searchCriteria.isCancelled().orElse(null),
                 searchCriteria.token().orElse(null),
-                searchCriteria.idUser().orElse(null),
-                searchCriteria.idTrip().orElse(null),
-                searchCriteria.idSeat().orElse(null),
+                searchCriteria.userId().orElse(null),
+                searchCriteria.tripId().orElse(null),
+                searchCriteria.seatId().orElse(null),
                 pageable)
                 .map(ticketMapper::toTicketFullDTO);
     }

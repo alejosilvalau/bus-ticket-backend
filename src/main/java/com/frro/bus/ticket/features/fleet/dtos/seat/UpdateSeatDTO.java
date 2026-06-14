@@ -14,7 +14,7 @@ public record UpdateSeatDTO(
 
         Optional<Boolean> isActive,
 
-        Optional<@Min(value = 1, message = "Bus ID must be a positive number") Integer> idBus,
+        Optional<@Min(value = 1, message = "Bus ID must be a positive number") Integer> busId,
 
-        Optional<@Min(value = 1, message = "Seat type ID must be a positive number") Integer> idSeatType) {
+        Optional<@Min(value = 1, message = "Seat type ID must be a positive number") Integer> seatTypeId) {
 }
