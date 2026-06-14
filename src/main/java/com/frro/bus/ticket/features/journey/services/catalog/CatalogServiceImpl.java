@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
@@ -14,8 +15,6 @@ import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 import com.frro.bus.ticket.features.journey.mappers.LocationMapper;
 import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 import com.frro.bus.ticket.features.journey.repositories.LocationRepository;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,8 +45,10 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public Optional<TripFullDTO> findTripById(int id) {
-        return tripRepository.findById(id).map(tripMapper::toTripFullDTO);
+    public TripFullDTO findTripById(int id) {
+        return tripRepository.findById(id)
+                .map(tripMapper::toTripFullDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", id));
     }
 
     @Override
@@ -66,7 +67,9 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public Optional<LocationDTO> findLocationById(int id) {
-        return locationRepository.findById(id).map(locationMapper::toLocationDTO);
+    public LocationDTO findLocationById(int id) {
+        return locationRepository.findById(id)
+                .map(locationMapper::toLocationDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Location", "id", id));
     }
 }

@@ -1,7 +1,5 @@
 package com.frro.bus.ticket.features.journey.services.catalog;
 
-import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,11 +13,11 @@ public interface CatalogService {
 
     Page<TripFullDTO> searchTrips(SearchTripDTO searchCriteria, Pageable pageable);
 
-    Optional<TripFullDTO> findTripById(int id);
+    TripFullDTO findTripById(int id);
 
     Page<LocationDTO> findAllLocations(Pageable pageable);
 
     Page<LocationDTO> searchLocations(SearchLocationDTO searchCriteria, Pageable pageable);
 
-    Optional<LocationDTO> findLocationById(int id);
+    LocationDTO findLocationById(int id);
 }

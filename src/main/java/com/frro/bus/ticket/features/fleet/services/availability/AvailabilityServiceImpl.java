@@ -1,15 +1,14 @@
 package com.frro.bus.ticket.features.fleet.services.availability;
 
-import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
-import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatFullDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
+import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SearchSeatTypeDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SearchSeatDTO;
 import com.frro.bus.ticket.features.fleet.mappers.BusMapper;
@@ -48,8 +47,10 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public Optional<BusDTO> findBusById(int id) {
-        return busRepository.findById(id).map(busMapper::toBusDTO);
+    public BusDTO findBusById(int id) {
+        return busRepository.findById(id)
+                .map(busMapper::toBusDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", id));
     }
 
     @Override
@@ -70,8 +71,10 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public Optional<SeatFullDTO> findSeatById(int id) {
-        return seatRepository.findById(id).map(seatMapper::toSeatFullDTO);
+    public SeatFullDTO findSeatById(int id) {
+        return seatRepository.findById(id)
+                .map(seatMapper::toSeatFullDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", id));
     }
 
     @Override
@@ -90,7 +93,9 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public Optional<SeatTypeDTO> findSeatTypeById(int id) {
-        return seatTypeRepository.findById(id).map(seatTypeMapper::toSeatTypeDTO);
+    public SeatTypeDTO findSeatTypeById(int id) {
+        return seatTypeRepository.findById(id)
+                .map(seatTypeMapper::toSeatTypeDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("SeatType", "id", id));
     }
 }

@@ -1,7 +1,5 @@
 package com.frro.bus.ticket.features.identity.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,47 +24,23 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProfileController {
 
-    private static final Logger log = LoggerFactory.getLogger(ProfileController.class);
-
     private final ProfileService profileService;
 
     @PatchMapping
     public ResponseEntity<ApiResponse<UserDTO>> update(@Valid @RequestBody UpdateUserDTO userRequest) {
-        try {
-            return profileService.update(userRequest)
-                    .map(user -> ResponseEntity.ok(ApiResponse.success("Profile updated successfully", user)))
-                    .orElseGet(() -> ResponseEntity.status(404)
-                            .body(ApiResponse.error("User not found with id: " + userRequest.id())));
-        } catch (Exception e) {
-            log.error("Failed to update profile with id: {}", userRequest.id(), e);
-            return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Failed to update profile. Please try again later."));
-        }
+        UserDTO user = profileService.update(userRequest);
+        return ResponseEntity.ok(ApiResponse.success("Profile updated successfully", user));
     }
 
     @PatchMapping("/logical-delete")
     public ResponseEntity<ApiResponse<UserDTO>> logicalDelete() {
-        try {
-            return profileService.logicalDelete()
-                    .map(user -> ResponseEntity.ok(ApiResponse.success("User logically deleted successfully", user)))
-                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("User not found")));
-        } catch (Exception e) {
-            log.error("Failed to logically delete user", e);
-            return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Failed to delete user. Please try again later."));
-        }
+        UserDTO user = profileService.logicalDelete();
+        return ResponseEntity.ok(ApiResponse.success("User logically deleted successfully", user));
     }
 
     @DeleteMapping
     public ResponseEntity<ApiResponse<UserDTO>> delete() {
-        try {
-            return profileService.delete()
-                    .map(user -> ResponseEntity.ok(ApiResponse.success("User deleted successfully", user)))
-                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("User not found")));
-        } catch (Exception e) {
-            log.error("Failed to delete user", e);
-            return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Failed to delete user. Please try again later."));
-        }
+        UserDTO user = profileService.delete();
+        return ResponseEntity.ok(ApiResponse.success("User deleted successfully", user));
     }
 }

@@ -1,9 +1,8 @@
 package com.frro.bus.ticket.features.fleet.services.architect;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.CreateBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.UpdateBusDTO;
@@ -46,23 +45,24 @@ public class ArchitectServiceImpl implements ArchitectService {
     }
 
     @Override
-    public Optional<BusDTO> updateBus(UpdateBusDTO busRequest) {
-        return busRepository.findById(busRequest.id()).map(existingBus -> {
-            busRequest.plateNumber().ifPresent(existingBus::setPlateNumber);
-            busRequest.totalCapacity().ifPresent(existingBus::setTotalCapacity);
-            busRequest.isActive().ifPresent(existingBus::setActive);
+    public BusDTO updateBus(UpdateBusDTO busRequest) {
+        Bus existingBus = busRepository.findById(busRequest.id())
+                .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", busRequest.id()));
 
-            Bus savedBus = busRepository.save(existingBus);
-            return busMapper.toBusDTO(savedBus);
-        });
+        busRequest.plateNumber().ifPresent(existingBus::setPlateNumber);
+        busRequest.totalCapacity().ifPresent(existingBus::setTotalCapacity);
+        busRequest.isActive().ifPresent(existingBus::setActive);
+
+        Bus savedBus = busRepository.save(existingBus);
+        return busMapper.toBusDTO(savedBus);
     }
 
     @Override
-    public Optional<BusDTO> deleteBus(int id) {
-        return busRepository.findById(id).map(existingBus -> {
-            busRepository.delete(existingBus);
-            return busMapper.toBusDTO(existingBus);
-        });
+    public BusDTO deleteBus(int id) {
+        Bus existingBus = busRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", id));
+        busRepository.delete(existingBus);
+        return busMapper.toBusDTO(existingBus);
     }
 
     @Override
@@ -77,37 +77,38 @@ public class ArchitectServiceImpl implements ArchitectService {
 
     @Override
     @Transactional
-    public Optional<SeatFullDTO> updateSeat(UpdateSeatDTO seatRequest) {
-        return seatRepository.findById(seatRequest.id()).map(existingSeat -> {
-            seatRequest.letter().ifPresent(existingSeat::setLetter);
-            seatRequest.number().ifPresent(existingSeat::setNumber);
-            seatRequest.isActive().ifPresent(existingSeat::setActive);
+    public SeatFullDTO updateSeat(UpdateSeatDTO seatRequest) {
+        Seat existingSeat = seatRepository.findById(seatRequest.id())
+                .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", seatRequest.id()));
 
-            seatRequest.idBus().ifPresent(idBus -> {
-                Bus bus = new Bus();
-                bus.setId(idBus);
-                existingSeat.setBus(bus);
-            });
+        seatRequest.letter().ifPresent(existingSeat::setLetter);
+        seatRequest.number().ifPresent(existingSeat::setNumber);
+        seatRequest.isActive().ifPresent(existingSeat::setActive);
 
-            seatRequest.idSeatType().ifPresent(idSeatType -> {
-                SeatType seatType = new SeatType();
-                seatType.setId(idSeatType);
-                existingSeat.setSeatType(seatType);
-            });
-
-            Seat savedSeat = seatRepository.save(existingSeat);
-            entityManager.flush();
-            entityManager.refresh(savedSeat);
-            return seatMapper.toSeatFullDTO(savedSeat);
+        seatRequest.idBus().ifPresent(idBus -> {
+            Bus bus = new Bus();
+            bus.setId(idBus);
+            existingSeat.setBus(bus);
         });
+
+        seatRequest.idSeatType().ifPresent(idSeatType -> {
+            SeatType seatType = new SeatType();
+            seatType.setId(idSeatType);
+            existingSeat.setSeatType(seatType);
+        });
+
+        Seat savedSeat = seatRepository.save(existingSeat);
+        entityManager.flush();
+        entityManager.refresh(savedSeat);
+        return seatMapper.toSeatFullDTO(savedSeat);
     }
 
     @Override
-    public Optional<SeatFullDTO> deleteSeat(int id) {
-        return seatRepository.findById(id).map(seat -> {
-            seatRepository.deleteById(id);
-            return seatMapper.toSeatFullDTO(seat);
-        });
+    public SeatFullDTO deleteSeat(int id) {
+        Seat seat = seatRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", id));
+        seatRepository.deleteById(id);
+        return seatMapper.toSeatFullDTO(seat);
     }
 
     @Override
@@ -118,22 +119,22 @@ public class ArchitectServiceImpl implements ArchitectService {
     }
 
     @Override
-    public Optional<SeatTypeDTO> updateSeatType(UpdateSeatTypeDTO seatTypeRequest) {
-        return seatTypeRepository.findById(seatTypeRequest.id()).map(existingSeatType -> {
-            seatTypeRequest.name().ifPresent(existingSeatType::setName);
-            seatTypeRequest.upcharge().ifPresent(existingSeatType::setUpcharge);
+    public SeatTypeDTO updateSeatType(UpdateSeatTypeDTO seatTypeRequest) {
+        SeatType existingSeatType = seatTypeRepository.findById(seatTypeRequest.id())
+                .orElseThrow(() -> new ResourceNotFoundException("SeatType", "id", seatTypeRequest.id()));
 
-            SeatType savedSeatType = seatTypeRepository.save(existingSeatType);
-            return seatTypeMapper.toSeatTypeDTO(savedSeatType);
-        });
+        seatTypeRequest.name().ifPresent(existingSeatType::setName);
+        seatTypeRequest.upcharge().ifPresent(existingSeatType::setUpcharge);
+
+        SeatType savedSeatType = seatTypeRepository.save(existingSeatType);
+        return seatTypeMapper.toSeatTypeDTO(savedSeatType);
     }
 
     @Override
-    public Optional<SeatTypeDTO> deleteSeatType(int id) {
-        return seatTypeRepository.findById(id).map(seatType -> {
-            seatTypeRepository.deleteById(id);
-            return seatTypeMapper.toSeatTypeDTO(seatType);
-        });
+    public SeatTypeDTO deleteSeatType(int id) {
+        SeatType seatType = seatTypeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("SeatType", "id", id));
+        seatTypeRepository.deleteById(id);
+        return seatTypeMapper.toSeatTypeDTO(seatType);
     }
-
 }

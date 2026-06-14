@@ -1,11 +1,10 @@
 package com.frro.bus.ticket.features.booking.services.status;
 
-import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.SearchTicketDTO;
 import com.frro.bus.ticket.features.booking.mappers.TicketMapper;
@@ -41,8 +40,9 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public Optional<TicketFullDTO> findTicketById(int id) {
-        return ticketRepository.findById(id).map(ticketMapper::toTicketFullDTO);
+    public TicketFullDTO findTicketById(int id) {
+        return ticketRepository.findById(id)
+                .map(ticketMapper::toTicketFullDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", id));
     }
-
 }

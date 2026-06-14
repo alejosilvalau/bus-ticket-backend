@@ -1,9 +1,8 @@
 package com.frro.bus.ticket.features.identity.services.profile;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.entities.User;
@@ -19,26 +18,26 @@ public class ProfileServiceImpl implements ProfileService {
     private final UserMapper userMapper;
 
     @Override
-    public Optional<UserDTO> update(UpdateUserDTO userRequest) {
-        return userRepository.findById(userRequest.id())
-                .map(existingUser -> {
-                    userRequest.firstName().ifPresent(existingUser::setFirstName);
-                    userRequest.lastName().ifPresent(existingUser::setLastName);
-                    userRequest.email().ifPresent(existingUser::setEmail);
+    public UserDTO update(UpdateUserDTO userRequest) {
+        User existingUser = userRepository.findById(userRequest.id())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userRequest.id()));
 
-                    User savedUser = userRepository.save(existingUser);
-                    return userMapper.toUserDTO(savedUser);
-                });
+        userRequest.firstName().ifPresent(existingUser::setFirstName);
+        userRequest.lastName().ifPresent(existingUser::setLastName);
+        userRequest.email().ifPresent(existingUser::setEmail);
+
+        User savedUser = userRepository.save(existingUser);
+        return userMapper.toUserDTO(savedUser);
     }
 
     @Override
-    public Optional<UserDTO> logicalDelete() {
+    public UserDTO logicalDelete() {
         // TODO: Implement when having the session logic to identify the user to delete
         throw new UnsupportedOperationException("Unimplemented method 'logicalDelete'");
     }
 
     @Override
-    public Optional<UserDTO> delete() {
+    public UserDTO delete() {
         // TODO: Implement when having the session logic to identify the user to delete
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }

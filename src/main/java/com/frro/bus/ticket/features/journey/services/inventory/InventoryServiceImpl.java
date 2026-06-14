@@ -1,10 +1,9 @@
 package com.frro.bus.ticket.features.journey.services.inventory;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.fleet.entities.Bus;
 import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.journey.dtos.location.CreateLocationDTO;
@@ -44,47 +43,47 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     @Transactional
-    public Optional<TripFullDTO> updateTrip(UpdateTripDTO tripRequest) {
-        return tripRepository.findById(tripRequest.id()).map(existingTrip -> {
-            tripRequest.departureDate().ifPresent(existingTrip::setDepartureDate);
-            tripRequest.arrivalDate().ifPresent(existingTrip::setArrivalDate);
-            tripRequest.basePrice().ifPresent(existingTrip::setBasePrice);
+    public TripFullDTO updateTrip(UpdateTripDTO tripRequest) {
+        Trip existingTrip = tripRepository.findById(tripRequest.id())
+                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", tripRequest.id()));
 
-            // Update relationships if provided
-            tripRequest.idBus().ifPresent(idBus -> {
-                Bus bus = new Bus();
-                bus.setId(idBus);
-                existingTrip.setBus(bus);
-            });
-            tripRequest.idDriver().ifPresent(idDriver -> {
-                Driver driver = new Driver();
-                driver.setId(idDriver);
-                existingTrip.setDriver(driver);
-            });
-            tripRequest.idLocationOrigin().ifPresent(idLocation -> {
-                Location location = new Location();
-                location.setId(idLocation);
-                existingTrip.setLocationOrigin(location);
-            });
-            tripRequest.idLocationDestination().ifPresent(idLocation -> {
-                Location location = new Location();
-                location.setId(idLocation);
-                existingTrip.setLocationDestination(location);
-            });
+        tripRequest.departureDate().ifPresent(existingTrip::setDepartureDate);
+        tripRequest.arrivalDate().ifPresent(existingTrip::setArrivalDate);
+        tripRequest.basePrice().ifPresent(existingTrip::setBasePrice);
 
-            Trip savedTrip = tripRepository.save(existingTrip);
-            entityManager.flush();
-            entityManager.refresh(savedTrip);
-            return tripMapper.toTripFullDTO(savedTrip);
+        tripRequest.idBus().ifPresent(idBus -> {
+            Bus bus = new Bus();
+            bus.setId(idBus);
+            existingTrip.setBus(bus);
         });
+        tripRequest.idDriver().ifPresent(idDriver -> {
+            Driver driver = new Driver();
+            driver.setId(idDriver);
+            existingTrip.setDriver(driver);
+        });
+        tripRequest.idLocationOrigin().ifPresent(idLocation -> {
+            Location location = new Location();
+            location.setId(idLocation);
+            existingTrip.setLocationOrigin(location);
+        });
+        tripRequest.idLocationDestination().ifPresent(idLocation -> {
+            Location location = new Location();
+            location.setId(idLocation);
+            existingTrip.setLocationDestination(location);
+        });
+
+        Trip savedTrip = tripRepository.save(existingTrip);
+        entityManager.flush();
+        entityManager.refresh(savedTrip);
+        return tripMapper.toTripFullDTO(savedTrip);
     }
 
     @Override
-    public Optional<TripFullDTO> deleteTrip(int id) {
-        return tripRepository.findById(id).map(existingTrip -> {
-            tripRepository.delete(existingTrip);
-            return tripMapper.toTripFullDTO(existingTrip);
-        });
+    public TripFullDTO deleteTrip(int id) {
+        Trip existingTrip = tripRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", id));
+        tripRepository.delete(existingTrip);
+        return tripMapper.toTripFullDTO(existingTrip);
     }
 
     @Override
@@ -95,22 +94,23 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public Optional<LocationDTO> updateLocation(UpdateLocationDTO locationRequest) {
-        return locationRepository.findById(locationRequest.id()).map(existingLocation -> {
-            locationRequest.cityName().ifPresent(existingLocation::setCityName);
-            locationRequest.state().ifPresent(existingLocation::setState);
-            locationRequest.postalCode().ifPresent(existingLocation::setPostalCode);
+    public LocationDTO updateLocation(UpdateLocationDTO locationRequest) {
+        Location existingLocation = locationRepository.findById(locationRequest.id())
+                .orElseThrow(() -> new ResourceNotFoundException("Location", "id", locationRequest.id()));
 
-            Location savedLocation = locationRepository.save(existingLocation);
-            return locationMapper.toLocationDTO(savedLocation);
-        });
+        locationRequest.cityName().ifPresent(existingLocation::setCityName);
+        locationRequest.state().ifPresent(existingLocation::setState);
+        locationRequest.postalCode().ifPresent(existingLocation::setPostalCode);
+
+        Location savedLocation = locationRepository.save(existingLocation);
+        return locationMapper.toLocationDTO(savedLocation);
     }
 
     @Override
-    public Optional<LocationDTO> deleteLocation(int id) {
-        return locationRepository.findById(id).map(existingLocation -> {
-            locationRepository.delete(existingLocation);
-            return locationMapper.toLocationDTO(existingLocation);
-        });
+    public LocationDTO deleteLocation(int id) {
+        Location existingLocation = locationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Location", "id", id));
+        locationRepository.delete(existingLocation);
+        return locationMapper.toLocationDTO(existingLocation);
     }
 }

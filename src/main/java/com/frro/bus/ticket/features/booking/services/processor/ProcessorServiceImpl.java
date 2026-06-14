@@ -1,9 +1,8 @@
 package com.frro.bus.ticket.features.booking.services.processor;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
@@ -37,41 +36,42 @@ public class ProcessorServiceImpl implements ProcessorService {
 
     @Override
     @Transactional
-    public Optional<TicketFullDTO> updateTicket(UpdateTicketDTO ticketRequest) {
-        return ticketRepository.findById(ticketRequest.id()).map(existingTicket -> {
-            ticketRequest.finalPrice().ifPresent(existingTicket::setFinalPrice);
-            ticketRequest.bookingTime().ifPresent(existingTicket::setBookingTime);
-            ticketRequest.isCancelled().ifPresent(existingTicket::setCancelled);
-            ticketRequest.token().ifPresent(existingTicket::setToken);
+    public TicketFullDTO updateTicket(UpdateTicketDTO ticketRequest) {
+        Ticket existingTicket = ticketRepository.findById(ticketRequest.id())
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", ticketRequest.id()));
 
-            ticketRequest.idUser().ifPresent(idUser -> {
-                User user = new User();
-                user.setId(idUser);
-                existingTicket.setUser(user);
-            });
-            ticketRequest.idTrip().ifPresent(idTrip -> {
-                Trip trip = new Trip();
-                trip.setId(idTrip);
-                existingTicket.setTrip(trip);
-            });
-            ticketRequest.idSeat().ifPresent(idSeat -> {
-                Seat seat = new Seat();
-                seat.setId(idSeat);
-                existingTicket.setSeat(seat);
-            });
+        ticketRequest.finalPrice().ifPresent(existingTicket::setFinalPrice);
+        ticketRequest.bookingTime().ifPresent(existingTicket::setBookingTime);
+        ticketRequest.isCancelled().ifPresent(existingTicket::setCancelled);
+        ticketRequest.token().ifPresent(existingTicket::setToken);
 
-            Ticket savedTicket = ticketRepository.save(existingTicket);
-            entityManager.flush();
-            entityManager.refresh(savedTicket);
-            return ticketMapper.toTicketFullDTO(savedTicket);
+        ticketRequest.idUser().ifPresent(idUser -> {
+            User user = new User();
+            user.setId(idUser);
+            existingTicket.setUser(user);
         });
+        ticketRequest.idTrip().ifPresent(idTrip -> {
+            Trip trip = new Trip();
+            trip.setId(idTrip);
+            existingTicket.setTrip(trip);
+        });
+        ticketRequest.idSeat().ifPresent(idSeat -> {
+            Seat seat = new Seat();
+            seat.setId(idSeat);
+            existingTicket.setSeat(seat);
+        });
+
+        Ticket savedTicket = ticketRepository.save(existingTicket);
+        entityManager.flush();
+        entityManager.refresh(savedTicket);
+        return ticketMapper.toTicketFullDTO(savedTicket);
     }
 
     @Override
-    public Optional<TicketFullDTO> deleteTicket(int id) {
-        return ticketRepository.findById(id).map(ticket -> {
-            ticketRepository.deleteById(id);
-            return ticketMapper.toTicketFullDTO(ticket);
-        });
+    public TicketFullDTO deleteTicket(int id) {
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", id));
+        ticketRepository.deleteById(id);
+        return ticketMapper.toTicketFullDTO(ticket);
     }
 }

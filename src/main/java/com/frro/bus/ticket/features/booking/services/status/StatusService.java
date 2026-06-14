@@ -1,7 +1,5 @@
 package com.frro.bus.ticket.features.booking.services.status;
 
-import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,5 +11,5 @@ public interface StatusService {
 
     Page<TicketFullDTO> searchTickets(SearchTicketDTO searchCriteria, Pageable pageable);
 
-    Optional<TicketFullDTO> findTicketById(int id);
+    TicketFullDTO findTicketById(int id);
 }

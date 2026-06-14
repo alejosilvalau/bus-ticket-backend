@@ -1,8 +1,5 @@
 package com.frro.bus.ticket.features.fleet.services.availability;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,18 +15,17 @@ public interface AvailabilityService {
 
     Page<BusDTO> searchBuses(SearchBusDTO searchCriteria, Pageable pageable);
 
-    Optional<BusDTO> findBusById(int id);
+    BusDTO findBusById(int id);
 
     Page<SeatFullDTO> findAllSeats(Pageable pageable);
 
     Page<SeatFullDTO> searchSeats(SearchSeatDTO searchCriteria, Pageable pageable);
 
-    Optional<SeatFullDTO> findSeatById(int id);
+    SeatFullDTO findSeatById(int id);
 
     Page<SeatTypeDTO> findAllSeatTypes(Pageable pageable);
 
     Page<SeatTypeDTO> searchSeatTypes(SearchSeatTypeDTO searchCriteria, Pageable pageable);
 
-    Optional<SeatTypeDTO> findSeatTypeById(int id);
-
+    SeatTypeDTO findSeatTypeById(int id);
 }
