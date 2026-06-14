@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
+import com.frro.bus.ticket.common.security.endpointhelpers.AdminEndpoint;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
@@ -20,6 +21,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/identity/drivers")
+@AdminEndpoint
 @RequiredArgsConstructor
 public class DriverAdminController {
 
@@ -34,18 +36,21 @@ public class DriverAdminController {
             return ResponseEntity.ok(ApiResponse.success("Drivers retrieved successfully", drivers));
         } catch (Exception e) {
             log.error("Failed to retrieve drivers", e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve drivers. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to retrieve drivers. Please try again later."));
         }
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<Page<DriverDTO>>> search(@Valid @RequestBody SearchDriverDTO searchCriteria, Pageable pageable) {
+    public ResponseEntity<ApiResponse<Page<DriverDTO>>> search(@Valid @RequestBody SearchDriverDTO searchCriteria,
+            Pageable pageable) {
         try {
             Page<DriverDTO> drivers = driverService.search(searchCriteria, pageable);
             return ResponseEntity.ok(ApiResponse.success("Drivers searched successfully", drivers));
         } catch (Exception e) {
             log.error("Failed to search drivers", e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to search drivers. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to search drivers. Please try again later."));
         }
     }
 
@@ -54,10 +59,12 @@ public class DriverAdminController {
         try {
             return driverService.findById(id)
                     .map(driver -> ResponseEntity.ok(ApiResponse.success("Driver retrieved successfully", driver)))
-                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Driver not found with id: " + id)));
+                    .orElseGet(() -> ResponseEntity.status(404)
+                            .body(ApiResponse.error("Driver not found with id: " + id)));
         } catch (Exception e) {
             log.error("Failed to retrieve driver with id: {}", id, e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to retrieve driver. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to retrieve driver. Please try again later."));
         }
     }
 
@@ -68,7 +75,8 @@ public class DriverAdminController {
             return ResponseEntity.ok(ApiResponse.success("Driver created successfully", savedDriver));
         } catch (Exception e) {
             log.error("Failed to create driver", e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create driver. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to create driver. Please try again later."));
         }
     }
 
@@ -77,10 +85,12 @@ public class DriverAdminController {
         try {
             return driverService.update(driverRequest)
                     .map(driver -> ResponseEntity.ok(ApiResponse.success("Driver updated successfully", driver)))
-                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Driver not found with id: " + driverRequest.id())));
+                    .orElseGet(() -> ResponseEntity.status(404)
+                            .body(ApiResponse.error("Driver not found with id: " + driverRequest.id())));
         } catch (Exception e) {
             log.error("Failed to update driver with id: {}", driverRequest.id(), e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update driver. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to update driver. Please try again later."));
         }
     }
 
@@ -89,10 +99,12 @@ public class DriverAdminController {
         try {
             return driverService.delete(id)
                     .map(driver -> ResponseEntity.ok(ApiResponse.success("Driver deleted successfully", driver)))
-                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Driver not found with id: " + id)));
+                    .orElseGet(() -> ResponseEntity.status(404)
+                            .body(ApiResponse.error("Driver not found with id: " + id)));
         } catch (Exception e) {
             log.error("Failed to delete driver with id: {}", id, e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete driver. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to delete driver. Please try again later."));
         }
     }
 }

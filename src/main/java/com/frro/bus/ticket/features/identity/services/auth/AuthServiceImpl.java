@@ -4,7 +4,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.security.JwtUtil;
 import com.frro.bus.ticket.features.identity.dtos.user.ChangePasswordUserDTO;
+import com.frro.bus.ticket.features.identity.dtos.user.LoginResponseDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.LoginUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.entities.User;
@@ -18,16 +20,21 @@ import lombok.RequiredArgsConstructor;
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final JwtUtil jwtUtil;
 
     @Override
-    public Optional<UserDTO> login(LoginUserDTO userRequest) {
+    public Optional<LoginResponseDTO> login(LoginUserDTO userRequest) {
         return userRepository.findByEmailAndPassword(userRequest.email(), userRequest.password())
-                .map(userMapper::toUserDTO);
+                .map(user -> {
+                    UserDTO userDTO = userMapper.toUserDTO(user);
+                    String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.isAdmin());
+                    return new LoginResponseDTO(token, userDTO);
+                });
     }
 
     @Override
     public boolean logout() {
-        // TODO: Implement logout logic, e.g., invalidate session or token
+        // TODO: Implement logout logic, e.g., invalidate token (add to blacklist)
         throw new UnsupportedOperationException("Unimplemented method 'logout'");
     }
 

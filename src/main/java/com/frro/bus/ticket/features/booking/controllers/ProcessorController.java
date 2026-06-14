@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
+import com.frro.bus.ticket.common.security.endpointhelpers.AuthenticatedEndpoint;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/booking/processor")
+@AuthenticatedEndpoint
 @RequiredArgsConstructor
 public class ProcessorController {
 
@@ -36,7 +38,8 @@ public class ProcessorController {
             return ResponseEntity.ok(ApiResponse.success("Ticket created successfully", savedTicket));
         } catch (Exception e) {
             log.error("Failed to create ticket", e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to create ticket. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to create ticket. Please try again later."));
         }
     }
 
@@ -45,10 +48,12 @@ public class ProcessorController {
         try {
             return processorService.updateTicket(ticketRequest)
                     .map(ticket -> ResponseEntity.ok(ApiResponse.success("Ticket updated successfully", ticket)))
-                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Ticket not found with id: " + ticketRequest.id())));
+                    .orElseGet(() -> ResponseEntity.status(404)
+                            .body(ApiResponse.error("Ticket not found with id: " + ticketRequest.id())));
         } catch (Exception e) {
             log.error("Failed to update ticket with id: {}", ticketRequest.id(), e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update ticket. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to update ticket. Please try again later."));
         }
     }
 
@@ -57,10 +62,12 @@ public class ProcessorController {
         try {
             return processorService.deleteTicket(id)
                     .map(ticket -> ResponseEntity.ok(ApiResponse.success("Ticket deleted successfully", ticket)))
-                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("Ticket not found with id: " + id)));
+                    .orElseGet(() -> ResponseEntity.status(404)
+                            .body(ApiResponse.error("Ticket not found with id: " + id)));
         } catch (Exception e) {
             log.error("Failed to delete ticket with id: {}", id, e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete ticket. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to delete ticket. Please try again later."));
         }
     }
 }

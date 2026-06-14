@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
+import com.frro.bus.ticket.common.security.endpointhelpers.AuthenticatedEndpoint;
+import com.frro.bus.ticket.common.security.endpointhelpers.PublicEndpoint;
 import com.frro.bus.ticket.features.identity.dtos.user.ChangePasswordUserDTO;
+import com.frro.bus.ticket.features.identity.dtos.user.LoginResponseDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.LoginUserDTO;
-import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.services.auth.AuthService;
 
 import jakarta.validation.Valid;
@@ -27,18 +29,21 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @PublicEndpoint
     @GetMapping("/login")
-    public ResponseEntity<ApiResponse<UserDTO>> login(@Valid @RequestBody LoginUserDTO userRequest) {
+    public ResponseEntity<ApiResponse<LoginResponseDTO>> login(@Valid @RequestBody LoginUserDTO userRequest) {
         try {
             return authService.login(userRequest)
-                    .map(user -> ResponseEntity.ok(ApiResponse.success("Login successful", user)))
+                    .map(response -> ResponseEntity.ok(ApiResponse.success("Login successful", response)))
                     .orElseGet(() -> ResponseEntity.status(401).body(ApiResponse.error("Invalid email or password")));
         } catch (Exception e) {
             log.error("Login failed", e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Login failed. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Login failed. Please try again later."));
         }
     }
 
+    @AuthenticatedEndpoint
     @GetMapping("/logout")
     public ResponseEntity<ApiResponse<Boolean>> logout() {
         try {
@@ -46,22 +51,27 @@ public class AuthController {
             return ResponseEntity.ok(ApiResponse.success("Logout successful", result));
         } catch (Exception e) {
             log.error("Logout failed", e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Logout failed. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Logout failed. Please try again later."));
         }
     }
 
+    @AuthenticatedEndpoint
     @PatchMapping("/change-password")
-    public ResponseEntity<ApiResponse<Boolean>> changePassword(@Valid @RequestBody ChangePasswordUserDTO changePasswordUser) {
+    public ResponseEntity<ApiResponse<Boolean>> changePassword(
+            @Valid @RequestBody ChangePasswordUserDTO changePasswordUser) {
         try {
             boolean result = authService.changePassword(changePasswordUser);
             if (result) {
                 return ResponseEntity.ok(ApiResponse.success("Password changed successfully", result));
             } else {
-                return ResponseEntity.badRequest().body(ApiResponse.error("Failed to change password: invalid credentials"));
+                return ResponseEntity.badRequest()
+                        .body(ApiResponse.error("Failed to change password: invalid credentials"));
             }
         } catch (Exception e) {
             log.error("Password change failed", e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Password change failed. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Password change failed. Please try again later."));
         }
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
+import com.frro.bus.ticket.common.security.endpointhelpers.AuthenticatedEndpoint;
 import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.services.profile.ProfileService;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/identity/profile")
+@AuthenticatedEndpoint
 @RequiredArgsConstructor
 public class ProfileController {
 
@@ -31,10 +33,12 @@ public class ProfileController {
         try {
             return profileService.update(userRequest)
                     .map(user -> ResponseEntity.ok(ApiResponse.success("Profile updated successfully", user)))
-                    .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("User not found with id: " + userRequest.id())));
+                    .orElseGet(() -> ResponseEntity.status(404)
+                            .body(ApiResponse.error("User not found with id: " + userRequest.id())));
         } catch (Exception e) {
             log.error("Failed to update profile with id: {}", userRequest.id(), e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to update profile. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to update profile. Please try again later."));
         }
     }
 
@@ -46,7 +50,8 @@ public class ProfileController {
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("User not found")));
         } catch (Exception e) {
             log.error("Failed to logically delete user", e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete user. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to delete user. Please try again later."));
         }
     }
 
@@ -58,7 +63,8 @@ public class ProfileController {
                     .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.error("User not found")));
         } catch (Exception e) {
             log.error("Failed to delete user", e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Failed to delete user. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Failed to delete user. Please try again later."));
         }
     }
 }

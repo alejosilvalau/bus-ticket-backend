@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
+import com.frro.bus.ticket.common.security.endpointhelpers.PublicEndpoint;
 import com.frro.bus.ticket.features.identity.dtos.user.CreateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.services.register.RegisterService;
@@ -25,6 +26,7 @@ public class RegisterController {
 
     private final RegisterService registerService;
 
+    @PublicEndpoint
     @PostMapping
     public ResponseEntity<ApiResponse<UserDTO>> create(@Valid @RequestBody CreateUserDTO createUser) {
         try {
@@ -32,7 +34,8 @@ public class RegisterController {
             return ResponseEntity.ok(ApiResponse.success("User registered successfully", savedUser));
         } catch (Exception e) {
             log.error("Registration failed", e);
-            return ResponseEntity.internalServerError().body(ApiResponse.error("Registration failed. Please try again later."));
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Registration failed. Please try again later."));
         }
     }
 }
