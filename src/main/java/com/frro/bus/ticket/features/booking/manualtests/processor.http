@@ -20,7 +20,7 @@ Content-Type: application/json
 
 {
   "id": 5,
-  "finalPrice": 160.00
+  "token": "TICKET-UPDATED-456"
 }
 
 ### Delete ticket by ID

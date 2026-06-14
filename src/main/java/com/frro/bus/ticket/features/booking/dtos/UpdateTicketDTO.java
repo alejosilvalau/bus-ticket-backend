@@ -1,17 +1,13 @@
 package com.frro.bus.ticket.features.booking.dtos;
 
-import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 public record UpdateTicketDTO(
         @Min(value = 1, message = "Ticket ID must be a positive number") int id,
-
-        Optional<@DecimalMin(value = "0", message = "Final price must be zero or positive") BigDecimal> finalPrice,
 
         Optional<ZonedDateTime> bookingTime,
 

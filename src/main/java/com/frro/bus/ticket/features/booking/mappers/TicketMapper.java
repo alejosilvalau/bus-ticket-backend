@@ -35,10 +35,10 @@ public interface TicketMapper {
     @Mapping(target = "user", source = "userId", qualifiedByName = "idToUser")
     Ticket toTicket(CreateTicketDTO createTicketDto);
 
-    @Mapping(target = "finalPrice", source = "finalPrice", qualifiedByName = "unwrapOptionalBigDecimal")
     @Mapping(target = "bookingTime", source = "bookingTime", qualifiedByName = "unwrapOptionalZonedDateTime")
     @Mapping(target = "token", source = "token", qualifiedByName = "unwrapOptionalString")
     @Mapping(target = "cancelled", ignore = true)
+    @Mapping(target = "finalPrice", ignore = true)
     @Mapping(target = "seat", source = "seatId", qualifiedByName = "optionalIdToSeat")
     @Mapping(target = "trip", source = "tripId", qualifiedByName = "optionalIdToTrip")
     @Mapping(target = "user", source = "userId", qualifiedByName = "optionalIdToUser")

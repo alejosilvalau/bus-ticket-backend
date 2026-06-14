@@ -17,6 +17,7 @@ import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
 import com.frro.bus.ticket.features.fleet.repositories.SeatRepository;
 import com.frro.bus.ticket.features.identity.entities.User;
+import com.frro.bus.ticket.features.identity.repositories.UserRepository;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 
@@ -30,6 +31,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     private final TicketRepository ticketRepository;
     private final TripRepository tripRepository;
     private final SeatRepository seatRepository;
+    private final UserRepository userRepository;
     private final TicketMapper ticketMapper;
     private final PriceCalculationService priceCalculationService;
     private final EntityManager entityManager;
@@ -69,25 +71,32 @@ public class ProcessorServiceImpl implements ProcessorService {
         Ticket existingTicket = ticketRepository.findById(ticketRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", ticketRequest.id()));
 
-        ticketRequest.finalPrice().ifPresent(existingTicket::setFinalPrice);
         ticketRequest.bookingTime().ifPresent(existingTicket::setBookingTime);
         ticketRequest.token().ifPresent(existingTicket::setToken);
 
         ticketRequest.userId().ifPresent(userId -> {
-            User user = new User();
-            user.setId(userId);
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
             existingTicket.setUser(user);
         });
-        ticketRequest.tripId().ifPresent(tripId -> {
-            Trip trip = new Trip();
-            trip.setId(tripId);
+
+        Trip trip = existingTicket.getTrip();
+        if (ticketRequest.tripId().isPresent()) {
+            trip = tripRepository.findById(ticketRequest.tripId().get())
+                    .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", ticketRequest.tripId().get()));
             existingTicket.setTrip(trip);
-        });
-        ticketRequest.seatId().ifPresent(seatId -> {
-            Seat seat = new Seat();
-            seat.setId(seatId);
+        }
+
+        Seat seat = existingTicket.getSeat();
+        if (ticketRequest.seatId().isPresent()) {
+            seat = seatRepository.findById(ticketRequest.seatId().get())
+                    .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", ticketRequest.seatId().get()));
             existingTicket.setSeat(seat);
-        });
+        }
+
+        if (ticketRequest.tripId().isPresent() || ticketRequest.seatId().isPresent()) {
+            existingTicket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(trip, seat));
+        }
 
         Ticket savedTicket = ticketRepository.save(existingTicket);
         entityManager.flush();
