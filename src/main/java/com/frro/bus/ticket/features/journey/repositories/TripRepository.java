@@ -73,4 +73,32 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             @Param("locationOriginId") Integer locationOriginId,
             @Param("locationDestinationId") Integer locationDestinationId,
             Pageable pageable);
+
+    @Query("SELECT t FROM Trip t WHERE t.departureDate > :now " +
+            "AND (SELECT COUNT(tk) FROM Ticket tk WHERE tk.trip = t AND tk.isCancelled = false) < t.bus.totalCapacity")
+    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
+    Page<Trip> findAvailableTrips(@Param("now") ZonedDateTime now, Pageable pageable);
+
+    @Query("SELECT t FROM Trip t WHERE t.departureDate > :now " +
+            "AND (SELECT COUNT(tk) FROM Ticket tk WHERE tk.trip = t AND tk.isCancelled = false) < t.bus.totalCapacity " +
+            "AND (:departureDate IS NULL OR t.departureDate >= :departureDate) AND " +
+            "(:arrivalDate IS NULL OR t.arrivalDate <= :arrivalDate) AND " +
+            "(:startBasePrice IS NULL OR t.basePrice >= :startBasePrice) AND " +
+            "(:endBasePrice IS NULL OR t.basePrice <= :endBasePrice) AND " +
+            "(:busId IS NULL OR t.bus.id = :busId) AND " +
+            "(:driverId IS NULL OR t.driver.id = :driverId) AND " +
+            "(:locationOriginId IS NULL OR t.locationOrigin.id = :locationOriginId) AND " +
+            "(:locationDestinationId IS NULL OR t.locationDestination.id = :locationDestinationId)")
+    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
+    Page<Trip> searchAvailableTrips(
+            @Param("now") ZonedDateTime now,
+            @Param("departureDate") ZonedDateTime departureDate,
+            @Param("arrivalDate") ZonedDateTime arrivalDate,
+            @Param("startBasePrice") BigDecimal startBasePrice,
+            @Param("endBasePrice") BigDecimal endBasePrice,
+            @Param("busId") Integer busId,
+            @Param("driverId") Integer driverId,
+            @Param("locationOriginId") Integer locationOriginId,
+            @Param("locationDestinationId") Integer locationDestinationId,
+            Pageable pageable);
 }

@@ -13,6 +13,10 @@ public interface CatalogService {
 
     PageResponse<TripFullDTO> searchTrips(SearchTripDTO searchCriteria, Pageable pageable);
 
+    PageResponse<TripFullDTO> findAllAvailableTrips(Pageable pageable);
+
+    PageResponse<TripFullDTO> searchAvailableTrips(SearchTripDTO searchCriteria, Pageable pageable);
+
     TripFullDTO findTripById(int id);
 
     PageResponse<LocationDTO> findAllLocations(Pageable pageable);

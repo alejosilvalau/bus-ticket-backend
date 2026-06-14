@@ -42,6 +42,19 @@ public class CatalogController {
         return ResponseEntity.ok(ApiResponse.success("Trips searched successfully", trips));
     }
 
+    @GetMapping("/trips/available")
+    public ResponseEntity<ApiResponse<PageResponse<TripFullDTO>>> findAllAvailableTrips(Pageable pageable) {
+        PageResponse<TripFullDTO> trips = catalogService.findAllAvailableTrips(pageable);
+        return ResponseEntity.ok(ApiResponse.success("Available trips retrieved successfully", trips));
+    }
+
+    @PostMapping("/trips/available/search")
+    public ResponseEntity<ApiResponse<PageResponse<TripFullDTO>>> searchAvailableTrips(
+            @Valid @RequestBody SearchTripDTO searchCriteria, Pageable pageable) {
+        PageResponse<TripFullDTO> trips = catalogService.searchAvailableTrips(searchCriteria, pageable);
+        return ResponseEntity.ok(ApiResponse.success("Available trips searched successfully", trips));
+    }
+
     @GetMapping("/trips/{id}")
     public ResponseEntity<ApiResponse<TripFullDTO>> findTripById(@PathVariable int id) {
         TripFullDTO trip = catalogService.findTripById(id);

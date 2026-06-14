@@ -1,5 +1,7 @@
 package com.frro.bus.ticket.features.journey.services.catalog;
 
+import java.time.ZonedDateTime;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -34,6 +36,30 @@ public class CatalogServiceImpl implements CatalogService {
     @Override
     public PageResponse<TripFullDTO> searchTrips(SearchTripDTO searchCriteria, Pageable pageable) {
         Page<TripFullDTO> page = tripRepository.searchTrips(
+                searchCriteria.departureDate().orElse(null),
+                searchCriteria.arrivalDate().orElse(null),
+                searchCriteria.startBasePrice().orElse(null),
+                searchCriteria.endBasePrice().orElse(null),
+                searchCriteria.busId().orElse(null),
+                searchCriteria.driverId().orElse(null),
+                searchCriteria.locationOriginId().orElse(null),
+                searchCriteria.locationDestinationId().orElse(null),
+                pageable)
+                .map(tripMapper::toTripFullDTO);
+        return toPageResponse(page);
+    }
+
+    @Override
+    public PageResponse<TripFullDTO> findAllAvailableTrips(Pageable pageable) {
+        Page<TripFullDTO> page = tripRepository.findAvailableTrips(ZonedDateTime.now(), pageable)
+                .map(tripMapper::toTripFullDTO);
+        return toPageResponse(page);
+    }
+
+    @Override
+    public PageResponse<TripFullDTO> searchAvailableTrips(SearchTripDTO searchCriteria, Pageable pageable) {
+        Page<TripFullDTO> page = tripRepository.searchAvailableTrips(
+                ZonedDateTime.now(),
                 searchCriteria.departureDate().orElse(null),
                 searchCriteria.arrivalDate().orElse(null),
                 searchCriteria.startBasePrice().orElse(null),

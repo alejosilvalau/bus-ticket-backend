@@ -2,6 +2,7 @@ package com.frro.bus.ticket.features.booking.services.processor;
 
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
@@ -13,6 +14,7 @@ import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
 import com.frro.bus.ticket.features.identity.entities.User;
 import com.frro.bus.ticket.features.journey.entities.Trip;
+import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -22,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProcessorServiceImpl implements ProcessorService {
     private final TicketRepository ticketRepository;
+    private final TripRepository tripRepository;
     private final TicketMapper ticketMapper;
     private final EntityManager entityManager;
 
@@ -33,6 +36,14 @@ public class ProcessorServiceImpl implements ProcessorService {
                     throw new DuplicateResourceException("Ticket", "trip+seat combination",
                             "trip=" + ticketRequest.tripId() + ", seat=" + ticketRequest.seatId());
                 });
+
+        Trip trip = tripRepository.findById(ticketRequest.tripId())
+                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", ticketRequest.tripId()));
+
+        long bookedSeats = ticketRepository.countByTripIdAndIsCancelledFalse(ticketRequest.tripId());
+        if (bookedSeats >= trip.getBus().getTotalCapacity()) {
+            throw new BusinessException("Trip is full. No available seats.");
+        }
 
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
         Ticket savedTicket = ticketRepository.save(ticket);
