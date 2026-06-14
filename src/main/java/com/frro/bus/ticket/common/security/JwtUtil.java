@@ -1,6 +1,8 @@
 package com.frro.bus.ticket.common.security;
 
 import java.util.Date;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,7 @@ public class JwtUtil {
 
     private final SecretKey key;
     private final long expirationMs;
+    private final Set<String> blacklistedTokens = ConcurrentHashMap.newKeySet();
 
     public JwtUtil(
             @Value("${app.jwtSecret}") String secret,
@@ -37,11 +40,18 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
+            if (blacklistedTokens.contains(token)) {
+                return false;
+            }
             Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public void blacklistToken(String token) {
+        blacklistedTokens.add(token);
     }
 
     public Claims extractClaims(String token) {
