@@ -3,6 +3,7 @@ package com.frro.bus.ticket.features.identity.services.auth;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.InvalidCredentialsException;
 import com.frro.bus.ticket.common.security.JwtUtil;
 import com.frro.bus.ticket.features.identity.dtos.user.ChangePasswordUserDTO;
@@ -31,6 +32,12 @@ public class AuthServiceImpl implements AuthService {
                 .filter(userFound -> passwordEncoder.matches(userRequest.password(), userFound.getPassword()))
                 .orElseThrow(InvalidCredentialsException::new);
 
+        // If user has disabled it's account but tries to log in, we will reactivate it.
+        if (!user.isActive()) {
+            user.setActive(true);
+            userRepository.save(user);
+        }
+
         UserDTO userDTO = userMapper.toUserDTO(user);
         String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.isAdmin());
         return new LoginResponseDTO(token, userDTO);
@@ -51,6 +58,10 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(userRequest.email())
                 .filter(userFound -> passwordEncoder.matches(userRequest.password(), userFound.getPassword()))
                 .orElseThrow(() -> new InvalidCredentialsException("Invalid current credentials"));
+
+        if (passwordEncoder.matches(userRequest.newPassword(), user.getPassword())) {
+            throw new BusinessException("New password cannot be the same as the current password");
+        }
 
         String hashedPassword = passwordEncoder.encode(userRequest.newPassword());
         user.setPassword(hashedPassword);
