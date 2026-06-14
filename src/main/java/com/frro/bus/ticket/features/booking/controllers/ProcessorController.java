@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
+import com.frro.bus.ticket.common.security.endpointhelpers.AdminEndpoint;
 import com.frro.bus.ticket.common.security.endpointhelpers.AuthenticatedEndpoint;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
@@ -24,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/booking/processor")
-@AuthenticatedEndpoint
 @SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class ProcessorController {
@@ -33,6 +33,7 @@ public class ProcessorController {
 
     private final ProcessorService processorService;
 
+    @AuthenticatedEndpoint
     @PostMapping("/tickets")
     public ResponseEntity<ApiResponse<TicketFullDTO>> createTicket(@Valid @RequestBody CreateTicketDTO ticketRequest) {
         try {
@@ -45,6 +46,7 @@ public class ProcessorController {
         }
     }
 
+    @AuthenticatedEndpoint
     @PatchMapping("/tickets")
     public ResponseEntity<ApiResponse<TicketFullDTO>> updateTicket(@Valid @RequestBody UpdateTicketDTO ticketRequest) {
         try {
@@ -59,6 +61,7 @@ public class ProcessorController {
         }
     }
 
+    @AdminEndpoint
     @DeleteMapping("/tickets/{id}")
     public ResponseEntity<ApiResponse<TicketFullDTO>> deleteTicket(@PathVariable int id) {
         try {
