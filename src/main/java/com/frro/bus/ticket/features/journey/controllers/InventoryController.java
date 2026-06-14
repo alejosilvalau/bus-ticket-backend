@@ -22,11 +22,14 @@ import com.frro.bus.ticket.features.journey.dtos.trip.UpdateTripDTO;
 import com.frro.bus.ticket.features.journey.services.inventory.InventoryService;
 
 import jakarta.validation.Valid;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/journeys/inventory")
 @AdminEndpoint
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class InventoryController {
 

@@ -18,12 +18,14 @@ import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 import com.frro.bus.ticket.features.booking.services.processor.ProcessorService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/booking/processor")
 @AuthenticatedEndpoint
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class ProcessorController {
 

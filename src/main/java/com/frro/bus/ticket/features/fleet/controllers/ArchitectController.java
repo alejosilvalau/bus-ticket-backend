@@ -26,11 +26,13 @@ import com.frro.bus.ticket.features.fleet.services.architect.ArchitectService;
 
 import jakarta.validation.Valid;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/fleet/architect")
 @AdminEndpoint
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class ArchitectController {
 

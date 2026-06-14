@@ -17,11 +17,13 @@ import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.SearchDriverDTO;
 import com.frro.bus.ticket.features.identity.services.driver.DriverService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/identity/drivers")
 @AdminEndpoint
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class DriverAdminController {
 

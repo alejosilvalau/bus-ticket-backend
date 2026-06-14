@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
-import com.frro.bus.ticket.common.security.endpointhelpers.AdminEndpoint;
+import com.frro.bus.ticket.common.security.endpointhelpers.PublicEndpoint;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/journeys/catalog")
-@AdminEndpoint
+@PublicEndpoint
 @RequiredArgsConstructor
 public class CatalogController {
 

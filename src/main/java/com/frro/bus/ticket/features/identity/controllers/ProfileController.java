@@ -15,12 +15,14 @@ import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.services.profile.ProfileService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/identity/profile")
 @AuthenticatedEndpoint
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class ProfileController {
 
