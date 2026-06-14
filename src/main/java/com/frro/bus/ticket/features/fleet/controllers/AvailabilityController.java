@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,7 +47,7 @@ public class AvailabilityController {
         }
     }
 
-    @GetMapping("/buses/search")
+    @PostMapping("/buses/search")
     public ResponseEntity<ApiResponse<Page<BusDTO>>> searchBuses(@Valid @RequestBody SearchBusDTO searchCriteria,
             Pageable pageable) {
         try {
@@ -85,7 +86,7 @@ public class AvailabilityController {
         }
     }
 
-    @GetMapping("/seats/search")
+    @PostMapping("/seats/search")
     public ResponseEntity<ApiResponse<Page<SeatFullDTO>>> searchSeats(@Valid @RequestBody SearchSeatDTO searchCriteria,
             Pageable pageable) {
         try {
@@ -124,7 +125,7 @@ public class AvailabilityController {
         }
     }
 
-    @GetMapping("/seat-types/search")
+    @PostMapping("/seat-types/search")
     public ResponseEntity<ApiResponse<Page<SeatTypeDTO>>> searchSeatTypes(
             @Valid @RequestBody SearchSeatTypeDTO searchCriteria, Pageable pageable) {
         try {

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,7 +45,7 @@ public class CatalogController {
         }
     }
 
-    @GetMapping("/trips/search")
+    @PostMapping("/trips/search")
     public ResponseEntity<ApiResponse<Page<TripFullDTO>>> searchTrips(@Valid @RequestBody SearchTripDTO searchCriteria,
             Pageable pageable) {
         try {
@@ -83,7 +84,7 @@ public class CatalogController {
         }
     }
 
-    @GetMapping("/locations/search")
+    @PostMapping("/locations/search")
     public ResponseEntity<ApiResponse<Page<LocationDTO>>> searchLocations(
             @Valid @RequestBody SearchLocationDTO searchCriteria, Pageable pageable) {
         try {

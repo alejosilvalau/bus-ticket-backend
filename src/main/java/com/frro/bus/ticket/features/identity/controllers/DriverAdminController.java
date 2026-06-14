@@ -43,7 +43,7 @@ public class DriverAdminController {
         }
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseEntity<ApiResponse<Page<DriverDTO>>> search(@Valid @RequestBody SearchDriverDTO searchCriteria,
             Pageable pageable) {
         try {
