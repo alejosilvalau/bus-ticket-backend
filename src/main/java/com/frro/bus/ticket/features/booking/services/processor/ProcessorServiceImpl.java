@@ -72,7 +72,6 @@ public class ProcessorServiceImpl implements ProcessorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", ticketRequest.id()));
 
         ticketRequest.bookingTime().ifPresent(existingTicket::setBookingTime);
-        ticketRequest.token().ifPresent(existingTicket::setToken);
 
         ticketRequest.userId().ifPresent(userId -> {
             User user = userRepository.findById(userId)

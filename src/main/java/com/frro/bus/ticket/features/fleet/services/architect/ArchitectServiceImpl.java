@@ -106,14 +106,14 @@ public class ArchitectServiceImpl implements ArchitectService {
         seatRequest.isActive().ifPresent(existingSeat::setActive);
 
         seatRequest.busId().ifPresent(busId -> {
-            Bus bus = new Bus();
-            bus.setId(busId);
+            Bus bus = busRepository.findById(busId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", busId));
             existingSeat.setBus(bus);
         });
 
         seatRequest.seatTypeId().ifPresent(seatTypeId -> {
-            SeatType seatType = new SeatType();
-            seatType.setId(seatTypeId);
+            SeatType seatType = seatTypeRepository.findById(seatTypeId)
+                    .orElseThrow(() -> new ResourceNotFoundException("SeatType", "id", seatTypeId));
             existingSeat.setSeatType(seatType);
         });
 

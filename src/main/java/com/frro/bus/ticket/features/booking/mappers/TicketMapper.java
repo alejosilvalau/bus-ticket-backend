@@ -36,7 +36,7 @@ public interface TicketMapper {
     Ticket toTicket(CreateTicketDTO createTicketDto);
 
     @Mapping(target = "bookingTime", source = "bookingTime", qualifiedByName = "unwrapOptionalZonedDateTime")
-    @Mapping(target = "token", source = "token", qualifiedByName = "unwrapOptionalString")
+    @Mapping(target = "token", ignore = true)
     @Mapping(target = "cancelled", ignore = true)
     @Mapping(target = "finalPrice", ignore = true)
     @Mapping(target = "seat", source = "seatId", qualifiedByName = "optionalIdToSeat")

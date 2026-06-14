@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.fleet.entities.Bus;
+import com.frro.bus.ticket.features.fleet.repositories.BusRepository;
 import com.frro.bus.ticket.features.identity.entities.Driver;
+import com.frro.bus.ticket.features.identity.repositories.DriverRepository;
 import com.frro.bus.ticket.features.journey.dtos.location.CreateLocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.UpdateLocationDTO;
@@ -28,6 +30,8 @@ import lombok.RequiredArgsConstructor;
 public class InventoryServiceImpl implements InventoryService {
     private final TripRepository tripRepository;
     private final LocationRepository locationRepository;
+    private final BusRepository busRepository;
+    private final DriverRepository driverRepository;
     private final TripMapper tripMapper;
     private final LocationMapper locationMapper;
     private final EntityManager entityManager;
@@ -65,23 +69,23 @@ public class InventoryServiceImpl implements InventoryService {
         tripRequest.basePrice().ifPresent(existingTrip::setBasePrice);
 
         tripRequest.busId().ifPresent(busId -> {
-            Bus bus = new Bus();
-            bus.setId(busId);
+            Bus bus = busRepository.findById(busId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", busId));
             existingTrip.setBus(bus);
         });
         tripRequest.driverId().ifPresent(driverId -> {
-            Driver driver = new Driver();
-            driver.setId(driverId);
+            Driver driver = driverRepository.findById(driverId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Driver", "id", driverId));
             existingTrip.setDriver(driver);
         });
         tripRequest.locationOriginId().ifPresent(locationOriginId -> {
-            Location location = new Location();
-            location.setId(locationOriginId);
+            Location location = locationRepository.findById(locationOriginId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Location", "id", locationOriginId));
             existingTrip.setLocationOrigin(location);
         });
         tripRequest.locationDestinationId().ifPresent(locationDestinationId -> {
-            Location location = new Location();
-            location.setId(locationDestinationId);
+            Location location = locationRepository.findById(locationDestinationId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Location", "id", locationDestinationId));
             existingTrip.setLocationDestination(location);
         });
 
