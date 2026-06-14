@@ -1,17 +1,21 @@
 package com.frro.bus.ticket.features.booking.services.processor;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
+import com.frro.bus.ticket.features.booking.dtos.GetTicketFinalPriceDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 import com.frro.bus.ticket.features.booking.entities.Ticket;
 import com.frro.bus.ticket.features.booking.mappers.TicketMapper;
 import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
+import com.frro.bus.ticket.features.fleet.repositories.SeatRepository;
 import com.frro.bus.ticket.features.identity.entities.User;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 import com.frro.bus.ticket.features.journey.repositories.TripRepository;
@@ -25,7 +29,9 @@ import lombok.RequiredArgsConstructor;
 public class ProcessorServiceImpl implements ProcessorService {
     private final TicketRepository ticketRepository;
     private final TripRepository tripRepository;
+    private final SeatRepository seatRepository;
     private final TicketMapper ticketMapper;
+    private final PriceCalculationService priceCalculationService;
     private final EntityManager entityManager;
 
     @Override
@@ -40,14 +46,17 @@ public class ProcessorServiceImpl implements ProcessorService {
         Trip trip = tripRepository.findById(ticketRequest.tripId())
                 .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", ticketRequest.tripId()));
 
+        Seat seat = seatRepository.findById(ticketRequest.seatId())
+                .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", ticketRequest.seatId()));
+
         long bookedSeats = ticketRepository.countByTripIdAndIsCancelledFalse(ticketRequest.tripId());
         if (bookedSeats >= trip.getBus().getTotalCapacity()) {
             throw new BusinessException("Trip is full. No available seats.");
         }
 
-        // TODO: Calculate final price based on trip and seat information
-
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
+        ticket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(trip, seat));
+
         Ticket savedTicket = ticketRepository.save(ticket);
         entityManager.flush();
         entityManager.refresh(savedTicket);
@@ -109,5 +118,16 @@ public class ProcessorServiceImpl implements ProcessorService {
         entityManager.flush();
         entityManager.refresh(savedTicket);
         return ticketMapper.toTicketFullDTO(savedTicket);
+    }
+
+    @Override
+    public BigDecimal getFinalPrice(GetTicketFinalPriceDTO request) {
+        Trip trip = tripRepository.findById(request.tripId())
+                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", request.tripId()));
+
+        Seat seat = seatRepository.findById(request.seatId())
+                .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", request.seatId()));
+
+        return priceCalculationService.calculateFinalPriceValue(trip, seat);
     }
 }

@@ -2,7 +2,6 @@ package com.frro.bus.ticket.features.booking.repositories;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;

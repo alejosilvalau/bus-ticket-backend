@@ -28,6 +28,7 @@ public interface TicketMapper {
     TicketFullDTO toTicketFullDTO(Ticket ticket);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "finalPrice", ignore = true)
     @Mapping(target = "cancelled", ignore = true)
     @Mapping(target = "seat", source = "seatId", qualifiedByName = "idToSeat")
     @Mapping(target = "trip", source = "tripId", qualifiedByName = "idToTrip")
