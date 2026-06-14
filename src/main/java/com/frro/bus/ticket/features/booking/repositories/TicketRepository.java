@@ -29,6 +29,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     @EntityGraph(attributePaths = { "user", "trip", "seat" })
     Optional<Ticket> findById(Integer id);
 
+    Optional<Ticket> findByTripIdAndSeatId(Integer tripId, Integer seatId);
+
     // @Query("SELECT t FROM Ticket t WHERE " +
     // "(:startFinalPrice IS NULL OR t.finalPrice >= :startFinalPrice) AND " +
     // "(:endFinalPrice IS NULL OR t.finalPrice <= :endFinalPrice) AND " +

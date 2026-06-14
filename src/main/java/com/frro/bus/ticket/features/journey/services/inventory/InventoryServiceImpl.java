@@ -3,6 +3,7 @@ package com.frro.bus.ticket.features.journey.services.inventory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.fleet.entities.Bus;
 import com.frro.bus.ticket.features.identity.entities.Driver;
@@ -34,6 +35,18 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     @Transactional
     public TripFullDTO createTrip(CreateTripDTO tripRequest) {
+        tripRepository.findByBusIdAndDepartureDate(tripRequest.idBus(), tripRequest.departureDate())
+                .ifPresent(trip -> {
+                    throw new DuplicateResourceException("Trip", "bus+departureDate",
+                            "bus=" + tripRequest.idBus() + ", departure=" + tripRequest.departureDate());
+                });
+
+        tripRepository.findByDriverIdAndDepartureDate(tripRequest.idDriver(), tripRequest.departureDate())
+                .ifPresent(trip -> {
+                    throw new DuplicateResourceException("Trip", "driver+departureDate",
+                            "driver=" + tripRequest.idDriver() + ", departure=" + tripRequest.departureDate());
+                });
+
         Trip trip = tripMapper.toTrip(tripRequest);
         Trip saved = tripRepository.save(trip);
         entityManager.flush();
@@ -88,6 +101,13 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public LocationDTO createLocation(CreateLocationDTO locationRequest) {
+        locationRepository.findByCityNameAndStateAndPostalCode(
+                locationRequest.cityName(), locationRequest.state(), locationRequest.postalCode())
+                .ifPresent(location -> {
+                    throw new DuplicateResourceException("Location", "city+state+postalCode",
+                            locationRequest.cityName() + ", " + locationRequest.state() + ", " + locationRequest.postalCode());
+                });
+
         Location location = locationMapper.toLocation(locationRequest);
         Location saved = locationRepository.save(location);
         return locationMapper.toLocationDTO(saved);

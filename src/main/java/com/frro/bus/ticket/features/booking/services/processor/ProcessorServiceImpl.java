@@ -2,6 +2,7 @@ package com.frro.bus.ticket.features.booking.services.processor;
 
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
@@ -27,6 +28,12 @@ public class ProcessorServiceImpl implements ProcessorService {
     @Override
     @Transactional
     public TicketFullDTO createTicket(CreateTicketDTO ticketRequest) {
+        ticketRepository.findByTripIdAndSeatId(ticketRequest.idTrip(), ticketRequest.idSeat())
+                .ifPresent(ticket -> {
+                    throw new DuplicateResourceException("Ticket", "trip+seat combination",
+                            "trip=" + ticketRequest.idTrip() + ", seat=" + ticketRequest.idSeat());
+                });
+
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
         Ticket savedTicket = ticketRepository.save(ticket);
         entityManager.flush();

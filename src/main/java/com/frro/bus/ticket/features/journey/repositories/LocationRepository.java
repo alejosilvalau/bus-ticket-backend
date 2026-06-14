@@ -1,6 +1,7 @@
 package com.frro.bus.ticket.features.journey.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import com.frro.bus.ticket.features.journey.entities.Location;
 
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Integer> {
+    Optional<Location> findByCityNameAndStateAndPostalCode(String cityName, String state, String postalCode);
     @Query("SELECT l FROM Location l WHERE " +
             "(:cityName IS NULL OR LOWER(l.cityName) LIKE LOWER(CONCAT('%', :cityName, '%'))) AND " +
             "(:state IS NULL OR LOWER(l.state) LIKE LOWER(CONCAT('%', :state, '%'))) AND " +

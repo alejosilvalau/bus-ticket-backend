@@ -2,6 +2,7 @@ package com.frro.bus.ticket.features.fleet.services.architect;
 
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.CreateBusDTO;
@@ -39,6 +40,11 @@ public class ArchitectServiceImpl implements ArchitectService {
 
     @Override
     public BusDTO createBus(CreateBusDTO busRequest) {
+        busRepository.findByPlateNumber(busRequest.plateNumber())
+                .ifPresent(bus -> {
+                    throw new DuplicateResourceException("Bus", "plateNumber", busRequest.plateNumber());
+                });
+
         Bus bus = busMapper.toBus(busRequest);
         Bus savedBus = busRepository.save(bus);
         return busMapper.toBusDTO(savedBus);
@@ -48,6 +54,14 @@ public class ArchitectServiceImpl implements ArchitectService {
     public BusDTO updateBus(UpdateBusDTO busRequest) {
         Bus existingBus = busRepository.findById(busRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", busRequest.id()));
+
+        busRequest.plateNumber().ifPresent(newPlate -> {
+            busRepository.findByPlateNumber(newPlate)
+                    .filter(found -> found.getId() != busRequest.id())
+                    .ifPresent(bus -> {
+                        throw new DuplicateResourceException("Bus", "plateNumber", newPlate);
+                    });
+        });
 
         busRequest.plateNumber().ifPresent(existingBus::setPlateNumber);
         busRequest.totalCapacity().ifPresent(existingBus::setTotalCapacity);
@@ -68,6 +82,12 @@ public class ArchitectServiceImpl implements ArchitectService {
     @Override
     @Transactional
     public SeatFullDTO createSeat(CreateSeatDTO seatRequest) {
+        seatRepository.findByBusIdAndLetterAndNumber(seatRequest.idBus(), seatRequest.letter(), seatRequest.number())
+                .ifPresent(seat -> {
+                    throw new DuplicateResourceException("Seat", "bus+letter+number",
+                            "bus=" + seatRequest.idBus() + ", " + seatRequest.letter() + seatRequest.number());
+                });
+
         Seat seat = seatMapper.toSeat(seatRequest);
         Seat savedSeat = seatRepository.save(seat);
         entityManager.flush();
@@ -113,6 +133,11 @@ public class ArchitectServiceImpl implements ArchitectService {
 
     @Override
     public SeatTypeDTO createSeatType(CreateSeatTypeDTO seatTypeRequest) {
+        seatTypeRepository.findByName(seatTypeRequest.name())
+                .ifPresent(seatType -> {
+                    throw new DuplicateResourceException("SeatType", "name", seatTypeRequest.name());
+                });
+
         SeatType seatType = seatTypeMapper.toSeatType(seatTypeRequest);
         SeatType savedSeatType = seatTypeRepository.save(seatType);
         return seatTypeMapper.toSeatTypeDTO(savedSeatType);
@@ -122,6 +147,14 @@ public class ArchitectServiceImpl implements ArchitectService {
     public SeatTypeDTO updateSeatType(UpdateSeatTypeDTO seatTypeRequest) {
         SeatType existingSeatType = seatTypeRepository.findById(seatTypeRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("SeatType", "id", seatTypeRequest.id()));
+
+        seatTypeRequest.name().ifPresent(newName -> {
+            seatTypeRepository.findByName(newName)
+                    .filter(found -> found.getId() != seatTypeRequest.id())
+                    .ifPresent(seatType -> {
+                        throw new DuplicateResourceException("SeatType", "name", newName);
+                    });
+        });
 
         seatTypeRequest.name().ifPresent(existingSeatType::setName);
         seatTypeRequest.upcharge().ifPresent(existingSeatType::setUpcharge);

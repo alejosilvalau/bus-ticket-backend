@@ -27,6 +27,8 @@ public interface SeatRepository extends JpaRepository<Seat, Integer> {
     @EntityGraph(attributePaths = { "bus", "seatType" })
     Optional<Seat> findById(Integer id);
 
+    Optional<Seat> findByBusIdAndLetterAndNumber(Integer busId, Character letter, Integer number);
+
     @Query("SELECT s FROM Seat s WHERE " +
             "(:letter IS NULL OR s.letter = :letter) AND " +
             "(:number IS NULL OR s.number = :number) AND " +

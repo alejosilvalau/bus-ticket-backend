@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
@@ -47,6 +48,11 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public DriverDTO create(CreateDriverDTO driverRequest) {
+        driverRepository.findByLicenseNumber(driverRequest.licenseNumber())
+                .ifPresent(driver -> {
+                    throw new DuplicateResourceException("Driver", "licenseNumber", driverRequest.licenseNumber());
+                });
+
         Driver driver = driverMapper.toDriver(driverRequest);
         Driver saved = driverRepository.save(driver);
         return driverMapper.toDriverDTO(saved);
@@ -56,6 +62,14 @@ public class DriverServiceImpl implements DriverService {
     public DriverDTO update(UpdateDriverDTO driverRequest) {
         Driver existingDriver = driverRepository.findById(driverRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Driver", "id", driverRequest.id()));
+
+        driverRequest.licenseNumber().ifPresent(newLicense -> {
+            driverRepository.findByLicenseNumber(newLicense)
+                    .filter(found -> found.getId() != driverRequest.id())
+                    .ifPresent(driver -> {
+                        throw new DuplicateResourceException("Driver", "licenseNumber", newLicense);
+                    });
+        });
 
         driverRequest.firstName().ifPresent(existingDriver::setFirstName);
         driverRequest.lastName().ifPresent(existingDriver::setLastName);

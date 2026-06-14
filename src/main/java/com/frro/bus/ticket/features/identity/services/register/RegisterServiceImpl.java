@@ -3,6 +3,7 @@ package com.frro.bus.ticket.features.identity.services.register;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.features.identity.dtos.user.CreateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.entities.User;
@@ -20,7 +21,10 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     public UserDTO create(CreateUserDTO userRequest) {
-        // TODO: Check if the user already exists but is inactive
+        userRepository.findByEmail(userRequest.email())
+                .ifPresent(user -> {
+                    throw new DuplicateResourceException("User", "email", userRequest.email());
+                });
 
         User user = userMapper.toUser(userRequest);
         user.setPassword(passwordEncoder.encode(userRequest.password()));

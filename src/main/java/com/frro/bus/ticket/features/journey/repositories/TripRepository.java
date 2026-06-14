@@ -29,6 +29,10 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Optional<Trip> findById(Integer id);
 
+    Optional<Trip> findByBusIdAndDepartureDate(Integer busId, ZonedDateTime departureDate);
+
+    Optional<Trip> findByDriverIdAndDepartureDate(Integer driverId, ZonedDateTime departureDate);
+
     @Query("SELECT t FROM Trip t WHERE " +
             "(:departureDate IS NULL OR t.departureDate >= :departureDate) AND " +
             "(:arrivalDate IS NULL OR t.arrivalDate <= :arrivalDate) AND " +

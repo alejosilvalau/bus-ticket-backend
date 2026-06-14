@@ -1,6 +1,7 @@
 package com.frro.bus.ticket.features.identity.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import com.frro.bus.ticket.features.identity.entities.Driver;
 
 @Repository
 public interface DriverRepository extends JpaRepository<Driver, Integer> {
+    Optional<Driver> findByLicenseNumber(String licenseNumber);
     @Query("SELECT d FROM Driver d WHERE " +
             "(:firstName IS NULL OR LOWER(d.firstName) LIKE LOWER(CONCAT('%', :firstName, '%'))) AND " +
             "(:lastName IS NULL OR LOWER(d.lastName) LIKE LOWER(CONCAT('%', :lastName, '%'))) AND " +

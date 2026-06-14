@@ -2,6 +2,7 @@ package com.frro.bus.ticket.features.identity.services.profile;
 
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
@@ -21,6 +22,14 @@ public class ProfileServiceImpl implements ProfileService {
     public UserDTO update(UpdateUserDTO userRequest) {
         User existingUser = userRepository.findById(userRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userRequest.id()));
+
+        userRequest.email().ifPresent(newEmail -> {
+            userRepository.findByEmail(newEmail)
+                    .filter(found -> found.getId() != userRequest.id())
+                    .ifPresent(user -> {
+                        throw new DuplicateResourceException("User", "email", newEmail);
+                    });
+        });
 
         userRequest.firstName().ifPresent(existingUser::setFirstName);
         userRequest.lastName().ifPresent(existingUser::setLastName);
