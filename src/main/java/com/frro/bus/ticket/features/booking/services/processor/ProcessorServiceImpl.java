@@ -45,6 +45,8 @@ public class ProcessorServiceImpl implements ProcessorService {
             throw new BusinessException("Trip is full. No available seats.");
         }
 
+        // TODO: Calculate final price based on trip and seat information
+
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
         Ticket savedTicket = ticketRepository.save(ticket);
         entityManager.flush();
@@ -90,5 +92,22 @@ public class ProcessorServiceImpl implements ProcessorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", id));
         ticketRepository.deleteById(id);
         return ticketMapper.toTicketFullDTO(ticket);
+    }
+
+    @Override
+    @Transactional
+    public TicketFullDTO cancelTicket(int id) {
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", id));
+
+        if (ticket.isCancelled()) {
+            throw new BusinessException("Ticket is already cancelled.");
+        }
+
+        ticket.setCancelled(true);
+        Ticket savedTicket = ticketRepository.save(ticket);
+        entityManager.flush();
+        entityManager.refresh(savedTicket);
+        return ticketMapper.toTicketFullDTO(savedTicket);
     }
 }

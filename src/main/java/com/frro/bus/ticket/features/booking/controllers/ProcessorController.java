@@ -49,4 +49,11 @@ public class ProcessorController {
         TicketFullDTO ticket = processorService.deleteTicket(id);
         return ResponseEntity.ok(ApiResponse.success("Ticket deleted successfully", ticket));
     }
+
+    @AuthenticatedEndpoint
+    @PatchMapping("/tickets/{id}/cancel")
+    public ResponseEntity<ApiResponse<TicketFullDTO>> cancelTicket(@PathVariable int id) {
+        TicketFullDTO ticket = processorService.cancelTicket(id);
+        return ResponseEntity.ok(ApiResponse.success("Ticket cancelled successfully", ticket));
+    }
 }

@@ -10,4 +10,6 @@ public interface ProcessorService {
     TicketFullDTO updateTicket(UpdateTicketDTO userRequest);
 
     TicketFullDTO deleteTicket(int id);
+
+    TicketFullDTO cancelTicket(int id);
 }
