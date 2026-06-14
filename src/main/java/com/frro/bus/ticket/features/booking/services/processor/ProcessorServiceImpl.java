@@ -1,6 +1,7 @@
 package com.frro.bus.ticket.features.booking.services.processor;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import org.springframework.stereotype.Service;
 
@@ -57,6 +58,7 @@ public class ProcessorServiceImpl implements ProcessorService {
         }
 
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
+        ticket.setBookingTime(ZonedDateTime.now());
         ticket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(trip, seat));
 
         Ticket savedTicket = ticketRepository.save(ticket);
@@ -70,8 +72,6 @@ public class ProcessorServiceImpl implements ProcessorService {
     public TicketFullDTO updateTicket(UpdateTicketDTO ticketRequest) {
         Ticket existingTicket = ticketRepository.findById(ticketRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", ticketRequest.id()));
-
-        ticketRequest.bookingTime().ifPresent(existingTicket::setBookingTime);
 
         ticketRequest.userId().ifPresent(userId -> {
             User user = userRepository.findById(userId)

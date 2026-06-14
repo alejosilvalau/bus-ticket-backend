@@ -1,8 +1,11 @@
 package com.frro.bus.ticket.features.journey.services.inventory;
 
+import java.time.ZonedDateTime;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.fleet.entities.Bus;
@@ -39,6 +42,8 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     @Transactional
     public TripFullDTO createTrip(CreateTripDTO tripRequest) {
+        validateTripDates(tripRequest.departureDate(), tripRequest.arrivalDate());
+
         tripRepository.findByBusIdAndDepartureDate(tripRequest.busId(), tripRequest.departureDate())
                 .ifPresent(trip -> {
                     throw new DuplicateResourceException("Trip", "bus+departureDate",
@@ -89,10 +94,21 @@ public class InventoryServiceImpl implements InventoryService {
             existingTrip.setLocationDestination(location);
         });
 
+        validateTripDates(existingTrip.getDepartureDate(), existingTrip.getArrivalDate());
+
         Trip savedTrip = tripRepository.save(existingTrip);
         entityManager.flush();
         entityManager.refresh(savedTrip);
         return tripMapper.toTripFullDTO(savedTrip);
+    }
+
+    private void validateTripDates(ZonedDateTime departureDate, ZonedDateTime arrivalDate) {
+        if (departureDate.isBefore(ZonedDateTime.now())) {
+            throw new BusinessException("Departure date must be in the future.");
+        }
+        if (arrivalDate.isBefore(departureDate) || arrivalDate.isEqual(departureDate)) {
+            throw new BusinessException("Arrival date must be after departure date.");
+        }
     }
 
     @Override
