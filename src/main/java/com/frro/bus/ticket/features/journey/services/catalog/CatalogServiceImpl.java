@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
@@ -25,13 +26,14 @@ public class CatalogServiceImpl implements CatalogService {
     private final LocationMapper locationMapper;
 
     @Override
-    public Page<TripFullDTO> findAllTrips(Pageable pageable) {
-        return tripRepository.findAll(pageable).map(tripMapper::toTripFullDTO);
+    public PageResponse<TripFullDTO> findAllTrips(Pageable pageable) {
+        Page<TripFullDTO> page = tripRepository.findAll(pageable).map(tripMapper::toTripFullDTO);
+        return toPageResponse(page);
     }
 
     @Override
-    public Page<TripFullDTO> searchTrips(SearchTripDTO searchCriteria, Pageable pageable) {
-        return tripRepository.searchTrips(
+    public PageResponse<TripFullDTO> searchTrips(SearchTripDTO searchCriteria, Pageable pageable) {
+        Page<TripFullDTO> page = tripRepository.searchTrips(
                 searchCriteria.departureDate().orElse(null),
                 searchCriteria.arrivalDate().orElse(null),
                 searchCriteria.startBasePrice().orElse(null),
@@ -42,6 +44,7 @@ public class CatalogServiceImpl implements CatalogService {
                 searchCriteria.locationDestinationId().orElse(null),
                 pageable)
                 .map(tripMapper::toTripFullDTO);
+        return toPageResponse(page);
     }
 
     @Override
@@ -52,18 +55,20 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public Page<LocationDTO> findAllLocations(Pageable pageable) {
-        return locationRepository.findAll(pageable).map(locationMapper::toLocationDTO);
+    public PageResponse<LocationDTO> findAllLocations(Pageable pageable) {
+        Page<LocationDTO> page = locationRepository.findAll(pageable).map(locationMapper::toLocationDTO);
+        return toPageResponse(page);
     }
 
     @Override
-    public Page<LocationDTO> searchLocations(SearchLocationDTO searchCriteria, Pageable pageable) {
-        return locationRepository.searchLocations(
+    public PageResponse<LocationDTO> searchLocations(SearchLocationDTO searchCriteria, Pageable pageable) {
+        Page<LocationDTO> page = locationRepository.searchLocations(
                 searchCriteria.cityName().orElse(null),
                 searchCriteria.state().orElse(null),
                 searchCriteria.postalCode().orElse(null),
                 pageable)
                 .map(locationMapper::toLocationDTO);
+        return toPageResponse(page);
     }
 
     @Override
@@ -71,5 +76,17 @@ public class CatalogServiceImpl implements CatalogService {
         return locationRepository.findById(id)
                 .map(locationMapper::toLocationDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Location", "id", id));
+    }
+
+    private <T> PageResponse<T> toPageResponse(Page<T> page) {
+        return PageResponse.of(
+                page.getContent(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast(),
+                page.isEmpty());
     }
 }

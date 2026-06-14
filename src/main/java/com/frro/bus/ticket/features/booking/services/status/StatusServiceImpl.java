@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.SearchTicketDTO;
@@ -19,13 +20,14 @@ public class StatusServiceImpl implements StatusService {
     private final TicketMapper ticketMapper;
 
     @Override
-    public Page<TicketFullDTO> findAllTickets(Pageable pageable) {
-        return ticketRepository.findAll(pageable).map(ticketMapper::toTicketFullDTO);
+    public PageResponse<TicketFullDTO> findAllTickets(Pageable pageable) {
+        Page<TicketFullDTO> page = ticketRepository.findAll(pageable).map(ticketMapper::toTicketFullDTO);
+        return toPageResponse(page);
     }
 
     @Override
-    public Page<TicketFullDTO> searchTickets(SearchTicketDTO searchCriteria, Pageable pageable) {
-        return ticketRepository.searchTickets(
+    public PageResponse<TicketFullDTO> searchTickets(SearchTicketDTO searchCriteria, Pageable pageable) {
+        Page<TicketFullDTO> page = ticketRepository.searchTickets(
                 searchCriteria.startFinalPrice().orElse(null),
                 searchCriteria.endFinalPrice().orElse(null),
                 searchCriteria.startBookingTime().orElse(null),
@@ -37,6 +39,7 @@ public class StatusServiceImpl implements StatusService {
                 searchCriteria.seatId().orElse(null),
                 pageable)
                 .map(ticketMapper::toTicketFullDTO);
+        return toPageResponse(page);
     }
 
     @Override
@@ -44,5 +47,17 @@ public class StatusServiceImpl implements StatusService {
         return ticketRepository.findById(id)
                 .map(ticketMapper::toTicketFullDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", id));
+    }
+
+    private <T> PageResponse<T> toPageResponse(Page<T> page) {
+        return PageResponse.of(
+                page.getContent(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast(),
+                page.isEmpty());
     }
 }

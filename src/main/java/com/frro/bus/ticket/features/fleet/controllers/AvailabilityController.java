@@ -1,6 +1,5 @@
 package com.frro.bus.ticket.features.fleet.controllers;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
+import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.security.endpointhelpers.PublicEndpoint;
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
@@ -32,15 +32,15 @@ public class AvailabilityController {
     private final AvailabilityService availabilityService;
 
     @GetMapping("/buses")
-    public ResponseEntity<ApiResponse<Page<BusDTO>>> findAllBuses(Pageable pageable) {
-        Page<BusDTO> buses = availabilityService.findAllBuses(pageable);
+    public ResponseEntity<ApiResponse<PageResponse<BusDTO>>> findAllBuses(Pageable pageable) {
+        PageResponse<BusDTO> buses = availabilityService.findAllBuses(pageable);
         return ResponseEntity.ok(ApiResponse.success("Buses retrieved successfully", buses));
     }
 
     @PostMapping("/buses/search")
-    public ResponseEntity<ApiResponse<Page<BusDTO>>> searchBuses(@Valid @RequestBody SearchBusDTO searchCriteria,
+    public ResponseEntity<ApiResponse<PageResponse<BusDTO>>> searchBuses(@Valid @RequestBody SearchBusDTO searchCriteria,
             Pageable pageable) {
-        Page<BusDTO> buses = availabilityService.searchBuses(searchCriteria, pageable);
+        PageResponse<BusDTO> buses = availabilityService.searchBuses(searchCriteria, pageable);
         return ResponseEntity.ok(ApiResponse.success("Buses searched successfully", buses));
     }
 
@@ -51,15 +51,15 @@ public class AvailabilityController {
     }
 
     @GetMapping("/seats")
-    public ResponseEntity<ApiResponse<Page<SeatFullDTO>>> findAllSeats(Pageable pageable) {
-        Page<SeatFullDTO> seats = availabilityService.findAllSeats(pageable);
+    public ResponseEntity<ApiResponse<PageResponse<SeatFullDTO>>> findAllSeats(Pageable pageable) {
+        PageResponse<SeatFullDTO> seats = availabilityService.findAllSeats(pageable);
         return ResponseEntity.ok(ApiResponse.success("Seats retrieved successfully", seats));
     }
 
     @PostMapping("/seats/search")
-    public ResponseEntity<ApiResponse<Page<SeatFullDTO>>> searchSeats(@Valid @RequestBody SearchSeatDTO searchCriteria,
+    public ResponseEntity<ApiResponse<PageResponse<SeatFullDTO>>> searchSeats(@Valid @RequestBody SearchSeatDTO searchCriteria,
             Pageable pageable) {
-        Page<SeatFullDTO> seats = availabilityService.searchSeats(searchCriteria, pageable);
+        PageResponse<SeatFullDTO> seats = availabilityService.searchSeats(searchCriteria, pageable);
         return ResponseEntity.ok(ApiResponse.success("Seats searched successfully", seats));
     }
 
@@ -70,15 +70,15 @@ public class AvailabilityController {
     }
 
     @GetMapping("/seat-types")
-    public ResponseEntity<ApiResponse<Page<SeatTypeDTO>>> findAllSeatTypes(Pageable pageable) {
-        Page<SeatTypeDTO> seatTypes = availabilityService.findAllSeatTypes(pageable);
+    public ResponseEntity<ApiResponse<PageResponse<SeatTypeDTO>>> findAllSeatTypes(Pageable pageable) {
+        PageResponse<SeatTypeDTO> seatTypes = availabilityService.findAllSeatTypes(pageable);
         return ResponseEntity.ok(ApiResponse.success("Seat types retrieved successfully", seatTypes));
     }
 
     @PostMapping("/seat-types/search")
-    public ResponseEntity<ApiResponse<Page<SeatTypeDTO>>> searchSeatTypes(
+    public ResponseEntity<ApiResponse<PageResponse<SeatTypeDTO>>> searchSeatTypes(
             @Valid @RequestBody SearchSeatTypeDTO searchCriteria, Pageable pageable) {
-        Page<SeatTypeDTO> seatTypes = availabilityService.searchSeatTypes(searchCriteria, pageable);
+        PageResponse<SeatTypeDTO> seatTypes = availabilityService.searchSeatTypes(searchCriteria, pageable);
         return ResponseEntity.ok(ApiResponse.success("Seat types searched successfully", seatTypes));
     }
 

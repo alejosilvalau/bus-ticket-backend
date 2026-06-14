@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
@@ -23,13 +24,14 @@ public class DriverServiceImpl implements DriverService {
     private final DriverMapper driverMapper;
 
     @Override
-    public Page<DriverDTO> findAll(Pageable pageable) {
-        return driverRepository.findAll(pageable).map(driverMapper::toDriverDTO);
+    public PageResponse<DriverDTO> findAll(Pageable pageable) {
+        Page<DriverDTO> page = driverRepository.findAll(pageable).map(driverMapper::toDriverDTO);
+        return toPageResponse(page);
     }
 
     @Override
-    public Page<DriverDTO> search(SearchDriverDTO searchCriteria, Pageable pageable) {
-        return driverRepository.searchDrivers(
+    public PageResponse<DriverDTO> search(SearchDriverDTO searchCriteria, Pageable pageable) {
+        Page<DriverDTO> page = driverRepository.searchDrivers(
                 searchCriteria.firstName().orElse(null),
                 searchCriteria.lastName().orElse(null),
                 searchCriteria.isActive().orElse(null),
@@ -37,6 +39,7 @@ public class DriverServiceImpl implements DriverService {
                 searchCriteria.phoneNumber().orElse(null),
                 pageable)
                 .map(driverMapper::toDriverDTO);
+        return toPageResponse(page);
     }
 
     @Override
@@ -96,5 +99,17 @@ public class DriverServiceImpl implements DriverService {
                 .orElseThrow(() -> new ResourceNotFoundException("Driver", "id", id));
         driverRepository.delete(existingDriver);
         return driverMapper.toDriverDTO(existingDriver);
+    }
+
+    private <T> PageResponse<T> toPageResponse(Page<T> page) {
+        return PageResponse.of(
+                page.getContent(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isFirst(),
+                page.isLast(),
+                page.isEmpty());
     }
 }

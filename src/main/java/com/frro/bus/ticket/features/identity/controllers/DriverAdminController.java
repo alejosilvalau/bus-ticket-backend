@@ -2,12 +2,12 @@ package com.frro.bus.ticket.features.identity.controllers;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
+import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.security.endpointhelpers.AdminEndpoint;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
@@ -28,15 +28,15 @@ public class DriverAdminController {
     private final DriverService driverService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<DriverDTO>>> findAll(Pageable pageable) {
-        Page<DriverDTO> drivers = driverService.findAll(pageable);
+    public ResponseEntity<ApiResponse<PageResponse<DriverDTO>>> findAll(Pageable pageable) {
+        PageResponse<DriverDTO> drivers = driverService.findAll(pageable);
         return ResponseEntity.ok(ApiResponse.success("Drivers retrieved successfully", drivers));
     }
 
     @PostMapping("/search")
-    public ResponseEntity<ApiResponse<Page<DriverDTO>>> search(@Valid @RequestBody SearchDriverDTO searchCriteria,
+    public ResponseEntity<ApiResponse<PageResponse<DriverDTO>>> search(@Valid @RequestBody SearchDriverDTO searchCriteria,
             Pageable pageable) {
-        Page<DriverDTO> drivers = driverService.search(searchCriteria, pageable);
+        PageResponse<DriverDTO> drivers = driverService.search(searchCriteria, pageable);
         return ResponseEntity.ok(ApiResponse.success("Drivers searched successfully", drivers));
     }
 
