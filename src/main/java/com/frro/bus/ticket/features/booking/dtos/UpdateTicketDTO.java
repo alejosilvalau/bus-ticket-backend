@@ -9,14 +9,11 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 public record UpdateTicketDTO(
-        @Min(value = 1, message = "Ticket ID must be a positive number")
-        int id,
+        @Min(value = 1, message = "Ticket ID must be a positive number") int id,
 
         Optional<@DecimalMin(value = "0", message = "Final price must be zero or positive") BigDecimal> finalPrice,
 
         Optional<ZonedDateTime> bookingTime,
-
-        Optional<Boolean> isCancelled,
 
         Optional<@Size(min = 1, max = 100, message = "Token must be between 1 and 100 characters") String> token,
 

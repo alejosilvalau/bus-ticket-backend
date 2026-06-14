@@ -28,7 +28,7 @@ public interface TicketMapper {
     TicketFullDTO toTicketFullDTO(Ticket ticket);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "cancelled", source = "isCancelled")
+    @Mapping(target = "cancelled", ignore = true)
     @Mapping(target = "seat", source = "seatId", qualifiedByName = "idToSeat")
     @Mapping(target = "trip", source = "tripId", qualifiedByName = "idToTrip")
     @Mapping(target = "user", source = "userId", qualifiedByName = "idToUser")
@@ -36,8 +36,8 @@ public interface TicketMapper {
 
     @Mapping(target = "finalPrice", source = "finalPrice", qualifiedByName = "unwrapOptionalBigDecimal")
     @Mapping(target = "bookingTime", source = "bookingTime", qualifiedByName = "unwrapOptionalZonedDateTime")
-    @Mapping(target = "cancelled", source = "isCancelled", qualifiedByName = "unwrapOptionalBoolean")
     @Mapping(target = "token", source = "token", qualifiedByName = "unwrapOptionalString")
+    @Mapping(target = "cancelled", ignore = true)
     @Mapping(target = "seat", source = "seatId", qualifiedByName = "optionalIdToSeat")
     @Mapping(target = "trip", source = "tripId", qualifiedByName = "optionalIdToTrip")
     @Mapping(target = "user", source = "userId", qualifiedByName = "optionalIdToUser")

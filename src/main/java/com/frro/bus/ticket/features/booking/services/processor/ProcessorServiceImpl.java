@@ -60,7 +60,6 @@ public class ProcessorServiceImpl implements ProcessorService {
 
         ticketRequest.finalPrice().ifPresent(existingTicket::setFinalPrice);
         ticketRequest.bookingTime().ifPresent(existingTicket::setBookingTime);
-        ticketRequest.isCancelled().ifPresent(existingTicket::setCancelled);
         ticketRequest.token().ifPresent(existingTicket::setToken);
 
         ticketRequest.userId().ifPresent(userId -> {
