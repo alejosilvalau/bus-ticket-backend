@@ -44,6 +44,7 @@ public class CatalogServiceImpl implements CatalogService {
                 searchCriteria.driverId().orElse(null),
                 searchCriteria.locationOriginId().orElse(null),
                 searchCriteria.locationDestinationId().orElse(null),
+                searchCriteria.seatTypeId().orElse(null),
                 pageable)
                 .map(tripMapper::toTripFullDTO);
         return toPageResponse(page);
@@ -68,6 +69,7 @@ public class CatalogServiceImpl implements CatalogService {
                 searchCriteria.driverId().orElse(null),
                 searchCriteria.locationOriginId().orElse(null),
                 searchCriteria.locationDestinationId().orElse(null),
+                searchCriteria.seatTypeId().orElse(null),
                 pageable)
                 .map(tripMapper::toTripFullDTO);
         return toPageResponse(page);

@@ -14,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.frro.bus.ticket.features.journey.entities.Trip;
+import com.frro.bus.ticket.features.fleet.entities.Seat;
 
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Integer> {
@@ -57,7 +58,8 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             "(:busId IS NULL OR t.bus.id = :busId) AND " +
             "(:driverId IS NULL OR t.driver.id = :driverId) AND " +
             "(:locationOriginId IS NULL OR t.locationOrigin.id = :locationOriginId) AND " +
-            "(:locationDestinationId IS NULL OR t.locationDestination.id = :locationDestinationId)")
+            "(:locationDestinationId IS NULL OR t.locationDestination.id = :locationDestinationId) AND " +
+            "(:seatTypeId IS NULL OR EXISTS (SELECT 1 FROM Seat s WHERE s.bus = t.bus AND s.seatType.id = :seatTypeId))")
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     List<Trip> searchTrips(
             @Param("departureDate") ZonedDateTime departureDate,
@@ -67,7 +69,8 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             @Param("busId") Integer busId,
             @Param("driverId") Integer driverId,
             @Param("locationOriginId") Integer locationOriginId,
-            @Param("locationDestinationId") Integer locationDestinationId);
+            @Param("locationDestinationId") Integer locationDestinationId,
+            @Param("seatTypeId") Integer seatTypeId);
 
     @Query("SELECT t FROM Trip t WHERE " +
             "(:departureDate IS NULL OR t.departureDate >= :departureDate) AND " +
@@ -77,7 +80,8 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             "(:busId IS NULL OR t.bus.id = :busId) AND " +
             "(:driverId IS NULL OR t.driver.id = :driverId) AND " +
             "(:locationOriginId IS NULL OR t.locationOrigin.id = :locationOriginId) AND " +
-            "(:locationDestinationId IS NULL OR t.locationDestination.id = :locationDestinationId)")
+            "(:locationDestinationId IS NULL OR t.locationDestination.id = :locationDestinationId) AND " +
+            "(:seatTypeId IS NULL OR EXISTS (SELECT 1 FROM Seat s WHERE s.bus = t.bus AND s.seatType.id = :seatTypeId))")
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Page<Trip> searchTrips(
             @Param("departureDate") ZonedDateTime departureDate,
@@ -88,6 +92,7 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             @Param("driverId") Integer driverId,
             @Param("locationOriginId") Integer locationOriginId,
             @Param("locationDestinationId") Integer locationDestinationId,
+            @Param("seatTypeId") Integer seatTypeId,
             Pageable pageable);
 
     @Query("SELECT t FROM Trip t WHERE t.departureDate > :now " +
@@ -104,7 +109,8 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             "(:busId IS NULL OR t.bus.id = :busId) AND " +
             "(:driverId IS NULL OR t.driver.id = :driverId) AND " +
             "(:locationOriginId IS NULL OR t.locationOrigin.id = :locationOriginId) AND " +
-            "(:locationDestinationId IS NULL OR t.locationDestination.id = :locationDestinationId)")
+            "(:locationDestinationId IS NULL OR t.locationDestination.id = :locationDestinationId) AND " +
+            "(:seatTypeId IS NULL OR EXISTS (SELECT 1 FROM Seat s WHERE s.bus = t.bus AND s.seatType.id = :seatTypeId))")
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Page<Trip> searchAvailableTrips(
             @Param("now") ZonedDateTime now,
@@ -116,5 +122,6 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             @Param("driverId") Integer driverId,
             @Param("locationOriginId") Integer locationOriginId,
             @Param("locationDestinationId") Integer locationDestinationId,
+            @Param("seatTypeId") Integer seatTypeId,
             Pageable pageable);
 }

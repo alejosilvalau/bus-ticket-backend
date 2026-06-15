@@ -15,5 +15,6 @@ public record SearchTripDTO(
         Optional<@Min(value = 1, message = "Bus ID must be a positive number") Integer> busId,
         Optional<@Min(value = 1, message = "Driver ID must be a positive number") Integer> driverId,
         Optional<@Min(value = 1, message = "Origin location ID must be a positive number") Integer> locationOriginId,
-        Optional<@Min(value = 1, message = "Destination location ID must be a positive number") Integer> locationDestinationId) {
+        Optional<@Min(value = 1, message = "Destination location ID must be a positive number") Integer> locationDestinationId,
+        Optional<@Min(value = 1, message = "Seat type ID must be a positive number") Integer> seatTypeId) {
 }
