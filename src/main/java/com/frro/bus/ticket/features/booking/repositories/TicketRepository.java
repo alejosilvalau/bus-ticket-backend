@@ -26,6 +26,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
     Optional<Ticket> findByTripIdAndSeatId(Integer tripId, Integer seatId);
 
+    Optional<Ticket> findByTripIdAndSeatIdAndIsCancelledFalse(Integer tripId, Integer seatId);
+
     long countByTripIdAndIsCancelledFalse(Integer tripId);
 
     @Query("SELECT t FROM Ticket t WHERE " +

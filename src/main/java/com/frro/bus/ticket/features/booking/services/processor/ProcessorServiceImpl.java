@@ -45,17 +45,21 @@ public class ProcessorServiceImpl implements ProcessorService {
     @Override
     @Transactional
     public TicketFullDTO createTicket(CreateTicketDTO ticketRequest) {
-        ticketRepository.findByTripIdAndSeatId(ticketRequest.tripId(), ticketRequest.seatId())
-                .ifPresent(ticket -> {
-                    throw new DuplicateResourceException("Ticket", "trip+seat combination",
-                            "trip=" + ticketRequest.tripId() + ", seat=" + ticketRequest.seatId());
-                });
-
         Trip trip = tripRepository.findById(ticketRequest.tripId())
                 .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", ticketRequest.tripId()));
 
         Seat seat = seatRepository.findById(ticketRequest.seatId())
                 .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", ticketRequest.seatId()));
+
+        if (trip.getDepartureDate().isBefore(ZonedDateTime.now().plusHours(24))) {
+            throw new BusinessException("Cannot book ticket: trip departs in less than 24 hours.");
+        }
+
+        ticketRepository.findByTripIdAndSeatIdAndIsCancelledFalse(ticketRequest.tripId(), ticketRequest.seatId())
+                .ifPresent(ticket -> {
+                    throw new DuplicateResourceException("Ticket", "trip+seat combination",
+                            "trip=" + ticketRequest.tripId() + ", seat=" + ticketRequest.seatId());
+                });
 
         long bookedSeats = ticketRepository.countByTripIdAndIsCancelledFalse(ticketRequest.tripId());
         if (bookedSeats >= trip.getBus().getTotalCapacity()) {
@@ -104,7 +108,21 @@ public class ProcessorServiceImpl implements ProcessorService {
             existingTicket.setSeat(seat);
         }
 
+        if (trip.getDepartureDate().isBefore(ZonedDateTime.now().plusHours(24))) {
+            throw new BusinessException("Cannot update ticket: trip departs in less than 24 hours.");
+        }
+
         if (ticketRequest.tripId().isPresent() || ticketRequest.seatId().isPresent()) {
+            int finalTripId = trip.getId();
+            int finalSeatId = seat.getId();
+            ticketRepository.findByTripIdAndSeatIdAndIsCancelledFalse(finalTripId, finalSeatId)
+                    .ifPresent(ticket -> {
+                        if (ticket.getId() != existingTicket.getId()) {
+                            throw new DuplicateResourceException("Ticket", "trip+seat combination",
+                                    "trip=" + finalTripId + ", seat=" + finalSeatId);
+                        }
+                    });
+
             existingTicket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(trip, seat));
             existingTicket.setToken(generateToken(existingTicket.getId(), existingTicket.getBookingTime(), trip, seat));
         }
