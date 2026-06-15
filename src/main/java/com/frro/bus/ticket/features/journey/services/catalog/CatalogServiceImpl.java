@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,9 +16,7 @@ import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatAvailabilityDTO;
-import com.frro.bus.ticket.features.fleet.dtos.seat.SeatFullDTO;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
-import com.frro.bus.ticket.features.fleet.mappers.SeatMapper;
 import com.frro.bus.ticket.features.fleet.repositories.SeatRepository;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
@@ -40,7 +37,6 @@ public class CatalogServiceImpl implements CatalogService {
     private final TicketRepository ticketRepository;
     private final TripMapper tripMapper;
     private final LocationMapper locationMapper;
-    private final SeatMapper seatMapper;
 
     @Override
     public PageResponse<TripFullDTO> findAllTrips(Pageable pageable) {
@@ -108,15 +104,14 @@ public class CatalogServiceImpl implements CatalogService {
 
         List<SeatAvailabilityDTO> result = new ArrayList<>();
         for (Seat seat : seats) {
-            SeatFullDTO seatFullDTO = seatMapper.toSeatFullDTO(seat);
             boolean isAvailable = !bookedSeatIds.contains(seat.getId());
             result.add(new SeatAvailabilityDTO(
-                    seatFullDTO.id(),
-                    seatFullDTO.letter(),
-                    seatFullDTO.number(),
-                    seatFullDTO.isActive(),
-                    seatFullDTO.bus(),
-                    seatFullDTO.seatType(),
+                    seat.getId(),
+                    seat.getLetter(),
+                    seat.getNumber(),
+                    seat.isActive(),
+                    seat.getSeatType().getName(),
+                    seat.getSeatType().getUpcharge(),
                     isAvailable));
         }
         return result;
