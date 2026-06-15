@@ -2,6 +2,7 @@ package com.frro.bus.ticket.features.booking.repositories;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -29,6 +30,9 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     Optional<Ticket> findByTripIdAndSeatIdAndIsCancelledFalse(Integer tripId, Integer seatId);
 
     long countByTripIdAndIsCancelledFalse(Integer tripId);
+
+    @Query("SELECT t.seat.id FROM Ticket t WHERE t.trip.id = :tripId AND t.isCancelled = false")
+    List<Integer> findSeatIdsByTripIdAndIsCancelledFalse(@Param("tripId") int tripId);
 
     @Query("SELECT t FROM Ticket t WHERE " +
             "(:startFinalPrice IS NULL OR t.finalPrice >= :startFinalPrice) AND " +

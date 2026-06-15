@@ -1,8 +1,11 @@
 package com.frro.bus.ticket.features.journey.services.catalog;
 
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 
 import com.frro.bus.ticket.common.dto.PageResponse;
+import com.frro.bus.ticket.features.fleet.dtos.seat.SeatAvailabilityDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
@@ -18,6 +21,8 @@ public interface CatalogService {
     PageResponse<TripFullDTO> searchAvailableTrips(SearchTripDTO searchCriteria, Pageable pageable);
 
     TripFullDTO findTripById(int id);
+
+    List<SeatAvailabilityDTO> findAvailableSeatsByTripId(int tripId);
 
     PageResponse<LocationDTO> findAllLocations(Pageable pageable);
 

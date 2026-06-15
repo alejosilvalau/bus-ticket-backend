@@ -1,5 +1,7 @@
 package com.frro.bus.ticket.features.journey.controllers;
 
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.frro.bus.ticket.common.dto.ApiResponse;
 import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.security.endpointhelpers.PublicEndpoint;
+import com.frro.bus.ticket.features.fleet.dtos.seat.SeatAvailabilityDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
@@ -59,6 +62,12 @@ public class CatalogController {
     public ResponseEntity<ApiResponse<TripFullDTO>> findTripById(@PathVariable int id) {
         TripFullDTO trip = catalogService.findTripById(id);
         return ResponseEntity.ok(ApiResponse.success("Trip retrieved successfully", trip));
+    }
+
+    @GetMapping("/trips/{id}/seats")
+    public ResponseEntity<ApiResponse<List<SeatAvailabilityDTO>>> findAvailableSeatsByTripId(@PathVariable int id) {
+        List<SeatAvailabilityDTO> seats = catalogService.findAvailableSeatsByTripId(id);
+        return ResponseEntity.ok(ApiResponse.success("Seats retrieved successfully", seats));
     }
 
     @GetMapping("/locations")

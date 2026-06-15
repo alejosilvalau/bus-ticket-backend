@@ -2,6 +2,7 @@ package com.frro.bus.ticket.features.fleet.repositories;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,9 @@ public interface SeatRepository extends JpaRepository<Seat, Integer> {
     Optional<Seat> findById(Integer id);
 
     Optional<Seat> findByBusIdAndLetterAndNumber(Integer busId, Character letter, Integer number);
+
+    @EntityGraph(attributePaths = { "bus", "seatType" })
+    List<Seat> findByBusIdAndIsActiveTrue(int busId);
 
     @Query("SELECT s FROM Seat s WHERE " +
             "(:letter IS NULL OR s.letter = :letter) AND " +
