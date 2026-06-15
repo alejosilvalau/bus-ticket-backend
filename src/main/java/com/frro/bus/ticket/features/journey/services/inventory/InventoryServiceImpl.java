@@ -1,5 +1,6 @@
 package com.frro.bus.ticket.features.journey.services.inventory;
 
+import java.time.Duration;
 import java.time.ZonedDateTime;
 
 import org.springframework.stereotype.Service;
@@ -44,17 +45,22 @@ public class InventoryServiceImpl implements InventoryService {
     public TripFullDTO createTrip(CreateTripDTO tripRequest) {
         validateTripDates(tripRequest.departureDate(), tripRequest.arrivalDate());
 
-        tripRepository.findByBusIdAndDepartureDate(tripRequest.busId(), tripRequest.departureDate())
-                .ifPresent(trip -> {
-                    throw new DuplicateResourceException("Trip", "bus+departureDate",
-                            "bus=" + tripRequest.busId() + ", departure=" + tripRequest.departureDate());
-                });
+        if (tripRequest.locationOriginId() == tripRequest.locationDestinationId()) {
+            throw new BusinessException("Origin and destination locations must be different.");
+        }
 
-        tripRepository.findByDriverIdAndDepartureDate(tripRequest.driverId(), tripRequest.departureDate())
-                .ifPresent(trip -> {
-                    throw new DuplicateResourceException("Trip", "driver+departureDate",
-                            "driver=" + tripRequest.driverId() + ", departure=" + tripRequest.departureDate());
-                });
+        ZonedDateTime depMinusDriverBuffer = tripRequest.departureDate().minus(Duration.ofHours(3));
+        ZonedDateTime arrPlusDriverBuffer = tripRequest.arrivalDate().plus(Duration.ofHours(3));
+        if (tripRepository.existsConflictingDriverTrip(tripRequest.driverId(), 0, depMinusDriverBuffer,
+                arrPlusDriverBuffer)) {
+            throw new BusinessException("Driver is not available: has another trip within 3 hours.");
+        }
+
+        ZonedDateTime depMinusBusBuffer = tripRequest.departureDate().minus(Duration.ofMinutes(30));
+        ZonedDateTime arrPlusBusBuffer = tripRequest.arrivalDate().plus(Duration.ofMinutes(30));
+        if (tripRepository.existsConflictingBusTrip(tripRequest.busId(), 0, depMinusBusBuffer, arrPlusBusBuffer)) {
+            throw new BusinessException("Bus is not available: has another trip within 30 minutes.");
+        }
 
         Trip trip = tripMapper.toTrip(tripRequest);
         Trip saved = tripRepository.save(trip);
@@ -96,6 +102,24 @@ public class InventoryServiceImpl implements InventoryService {
 
         validateTripDates(existingTrip.getDepartureDate(), existingTrip.getArrivalDate());
 
+        if (existingTrip.getLocationOrigin().getId() == existingTrip.getLocationDestination().getId()) {
+            throw new BusinessException("Origin and destination locations must be different.");
+        }
+
+        ZonedDateTime depMinusDriverBuffer = existingTrip.getDepartureDate().minus(Duration.ofHours(3));
+        ZonedDateTime arrPlusDriverBuffer = existingTrip.getArrivalDate().plus(Duration.ofHours(3));
+        if (tripRepository.existsConflictingDriverTrip(existingTrip.getDriver().getId(), existingTrip.getId(),
+                depMinusDriverBuffer, arrPlusDriverBuffer)) {
+            throw new BusinessException("Driver is not available: has another trip within 3 hours.");
+        }
+
+        ZonedDateTime depMinusBusBuffer = existingTrip.getDepartureDate().minus(Duration.ofMinutes(30));
+        ZonedDateTime arrPlusBusBuffer = existingTrip.getArrivalDate().plus(Duration.ofMinutes(30));
+        if (tripRepository.existsConflictingBusTrip(existingTrip.getBus().getId(), existingTrip.getId(),
+                depMinusBusBuffer, arrPlusBusBuffer)) {
+            throw new BusinessException("Bus is not available: has another trip within 30 minutes.");
+        }
+
         Trip savedTrip = tripRepository.save(existingTrip);
         entityManager.flush();
         entityManager.refresh(savedTrip);
@@ -125,7 +149,8 @@ public class InventoryServiceImpl implements InventoryService {
                 locationRequest.cityName(), locationRequest.state(), locationRequest.postalCode())
                 .ifPresent(location -> {
                     throw new DuplicateResourceException("Location", "city+state+postalCode",
-                            locationRequest.cityName() + ", " + locationRequest.state() + ", " + locationRequest.postalCode());
+                            locationRequest.cityName() + ", " + locationRequest.state() + ", "
+                                    + locationRequest.postalCode());
                 });
 
         Location location = locationMapper.toLocation(locationRequest);

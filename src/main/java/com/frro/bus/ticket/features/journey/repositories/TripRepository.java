@@ -33,6 +33,22 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
 
     Optional<Trip> findByDriverIdAndDepartureDate(Integer driverId, ZonedDateTime departureDate);
 
+    @Query("SELECT COUNT(t) > 0 FROM Trip t WHERE t.driver.id = :driverId AND t.id <> :excludeTripId " +
+            "AND t.departureDate < :arrivalDatePlusBuffer AND t.arrivalDate > :departureDateMinusBuffer")
+    boolean existsConflictingDriverTrip(
+            @Param("driverId") int driverId,
+            @Param("excludeTripId") int excludeTripId,
+            @Param("departureDateMinusBuffer") ZonedDateTime departureDateMinusBuffer,
+            @Param("arrivalDatePlusBuffer") ZonedDateTime arrivalDatePlusBuffer);
+
+    @Query("SELECT COUNT(t) > 0 FROM Trip t WHERE t.bus.id = :busId AND t.id <> :excludeTripId " +
+            "AND t.departureDate < :arrivalDatePlusBuffer AND t.arrivalDate > :departureDateMinusBuffer")
+    boolean existsConflictingBusTrip(
+            @Param("busId") int busId,
+            @Param("excludeTripId") int excludeTripId,
+            @Param("departureDateMinusBuffer") ZonedDateTime departureDateMinusBuffer,
+            @Param("arrivalDatePlusBuffer") ZonedDateTime arrivalDatePlusBuffer);
+
     @Query("SELECT t FROM Trip t WHERE " +
             "(:departureDate IS NULL OR t.departureDate >= :departureDate) AND " +
             "(:arrivalDate IS NULL OR t.arrivalDate <= :arrivalDate) AND " +
