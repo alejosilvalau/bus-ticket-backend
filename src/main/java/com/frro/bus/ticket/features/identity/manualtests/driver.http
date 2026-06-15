@@ -1,7 +1,7 @@
 # REST Client file Driver - Admin Management
 
-## Get all drivers
-GET http://localhost:8080/api/v1/identity/drivers
+### Get all drivers
+GET http://localhost:8080/api/v1/identity/drivers?page=0&size=10
 Accept: application/json
 
 ### Get all drivers by fields
