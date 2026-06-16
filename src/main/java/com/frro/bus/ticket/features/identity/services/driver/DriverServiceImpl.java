@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
+import com.frro.bus.ticket.common.utils.PaginationUtils;
 import com.frro.bus.ticket.features.identity.dtos.driver.CreateDriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.DriverDTO;
 import com.frro.bus.ticket.features.identity.dtos.driver.UpdateDriverDTO;
@@ -26,7 +27,7 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public PageResponse<DriverDTO> findAll(Pageable pageable) {
         Page<DriverDTO> page = driverRepository.findAll(pageable).map(driverMapper::toDriverDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class DriverServiceImpl implements DriverService {
                 searchCriteria.phoneNumber().orElse(null),
                 pageable)
                 .map(driverMapper::toDriverDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -101,15 +102,4 @@ public class DriverServiceImpl implements DriverService {
         return driverMapper.toDriverDTO(existingDriver);
     }
 
-    private <T> PageResponse<T> toPageResponse(Page<T> page) {
-        return PageResponse.of(
-                page.getContent(),
-                page.getNumber(),
-                page.getSize(),
-                page.getTotalElements(),
-                page.getTotalPages(),
-                page.isFirst(),
-                page.isLast(),
-                page.isEmpty());
-    }
 }
