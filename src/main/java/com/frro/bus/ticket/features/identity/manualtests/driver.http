@@ -6,8 +6,8 @@ Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE1Njg3NjUsImV4cCI6MTc4MTU3OTU2NX0.Qg4JdxXpKZCzoK327VsL1S4D_Udd7Kyqw_hme13NlBYpo4dUHeZqDO5frYk7hdYw
 
 ### Get all drivers by fields
-POST http://localhost:8080/api/v1/identity/drivers/search
-Accept: application/json
+POST http://localhost:8080/api/v1/identity/drivers/search?page=0&size=10
+Content-Type: application/json
 
 {
   "isActive": true
@@ -16,10 +16,12 @@ Accept: application/json
 ### Get driver by ID
 GET http://localhost:8080/api/v1/identity/drivers/1
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE1Njg3NjUsImV4cCI6MTc4MTU3OTU2NX0.Qg4JdxXpKZCzoK327VsL1S4D_Udd7Kyqw_hme13NlBYpo4dUHeZqDO5frYk7hdYw
 
 ### Create a new driver
 POST http://localhost:8080/api/v1/identity/drivers
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE1Njg3NjUsImV4cCI6MTc4MTU3OTU2NX0.Qg4JdxXpKZCzoK327VsL1S4D_Udd7Kyqw_hme13NlBYpo4dUHeZqDO5frYk7hdYw
 
 {
   "firstName": "Alex",
@@ -32,6 +34,7 @@ Content-Type: application/json
 ### Update driver by ID (optional fields)
 PATCH http://localhost:8080/api/v1/identity/drivers
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE1Njg3NjUsImV4cCI6MTc4MTU3OTU2NX0.Qg4JdxXpKZCzoK327VsL1S4D_Udd7Kyqw_hme13NlBYpo4dUHeZqDO5frYk7hdYw
 
 {
   "id": 5,
@@ -45,3 +48,4 @@ Content-Type: application/json
 ### Delete driver by ID
 DELETE http://localhost:8080/api/v1/identity/drivers/5
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE1Njg3NjUsImV4cCI6MTc4MTU3OTU2NX0.Qg4JdxXpKZCzoK327VsL1S4D_Udd7Kyqw_hme13NlBYpo4dUHeZqDO5frYk7hdYw

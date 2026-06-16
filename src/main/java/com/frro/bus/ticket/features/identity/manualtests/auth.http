@@ -6,19 +6,21 @@ Content-Type: application/json
 
 {
   "email": "john.doe@example.com",
-  "password": "password123"
+  "password": "Password123!"
 }
 
 ### Logout user
 GET http://localhost:8080/api/v1/identity/auth/logout
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE1Njg3NjUsImV4cCI6MTc4MTU3OTU2NX0.Qg4JdxXpKZCzoK327VsL1S4D_Udd7Kyqw_hme13NlBYpo4dUHeZqDO5frYk7hdYw
 
 ### Change password
 PATCH http://localhost:8080/api/v1/identity/auth/change-password
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE1Njg3NjUsImV4cCI6MTc4MTU3OTU2NX0.Qg4JdxXpKZCzoK327VsL1S4D_Udd7Kyqw_hme13NlBYpo4dUHeZqDO5frYk7hdYw
 
 {
   "email": "john.doe@example.com",
-  "password": "newpassword456",
-  "newPassword": "password123"
+  "password": "Password123!",
+  "newPassword": "NewPassword456!"
 }

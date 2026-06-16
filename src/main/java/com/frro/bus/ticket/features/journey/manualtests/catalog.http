@@ -1,11 +1,11 @@
 # REST Client file Catalog
 
 ### Get all trips
-GET http://localhost:8080/api/v1/journeys/catalog/trips
+GET http://localhost:8080/api/v1/journeys/catalog/trips?page=0&size=10
 Accept: application/json
 
 ### Get all trips by fields
-POST http://localhost:8080/api/v1/journeys/catalog/trips/search
+POST http://localhost:8080/api/v1/journeys/catalog/trips/search?page=0&size=10
 Content-Type: application/json
 
 {
@@ -18,11 +18,11 @@ GET http://localhost:8080/api/v1/journeys/catalog/trips/2
 Accept: application/json
 
 ### Get all locations
-GET http://localhost:8080/api/v1/journeys/catalog/locations
+GET http://localhost:8080/api/v1/journeys/catalog/locations?page=0&size=10
 Accept: application/json
 
 ### Get all locations by fields
-POST http://localhost:8080/api/v1/journeys/catalog/locations/search
+POST http://localhost:8080/api/v1/journeys/catalog/locations/search?page=0&size=10
 Content-Type: application/json
 
 {
