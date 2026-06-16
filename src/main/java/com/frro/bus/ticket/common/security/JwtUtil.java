@@ -11,6 +11,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.crypto.SecretKey;
 
 @Component
@@ -38,16 +41,11 @@ public class JwtUtil {
                 .compact();
     }
 
-    public boolean validateToken(String token) {
-        try {
-            if (blacklistedTokens.contains(token)) {
-                return false;
-            }
-            Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
+    public Claims validateAndExtractClaims(String token) {
+        if (blacklistedTokens.contains(token)) {
+            throw new IllegalArgumentException("Token is blacklisted");
         }
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
     }
 
     public void blacklistToken(String token) {
