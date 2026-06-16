@@ -63,7 +63,9 @@ public class JwtUtil {
             log.warn("Could not blacklist token, it may already be invalid: {}", e.getMessage());
             return;
         }
-        blacklistedTokens.add(token);
+        if (!blacklistedTokens.contains(token)) {
+            blacklistedTokens.add(token);
+        }
         long delay = expiry - System.currentTimeMillis();
         if (delay > 0) {
             scheduler.schedule(() -> blacklistedTokens.remove(token), delay, TimeUnit.MILLISECONDS);

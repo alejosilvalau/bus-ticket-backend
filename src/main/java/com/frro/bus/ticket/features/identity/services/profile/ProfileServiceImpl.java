@@ -33,8 +33,8 @@ public class ProfileServiceImpl implements ProfileService {
                     .ifPresent(user -> {
                         throw new DuplicateResourceException("User", "email", newEmail);
                     });
+            existingUser.setEmail(newEmail);
         });
-        userRequest.email().ifPresent(existingUser::setEmail);
 
         userRequest.firstName().ifPresent(existingUser::setFirstName);
         userRequest.lastName().ifPresent(existingUser::setLastName);
