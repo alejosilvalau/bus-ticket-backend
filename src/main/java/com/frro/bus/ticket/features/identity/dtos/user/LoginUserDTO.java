@@ -2,15 +2,9 @@ package com.frro.bus.ticket.features.identity.dtos.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public record LoginUserDTO(
-        @NotBlank(message = "Email is required")
-        @NotNull(message = "Email is required")
-        @Email(message = "Email must be valid")
-        String email,
+        @NotBlank(message = "Email is required") @Email(message = "Email must be valid") String email,
 
-        @NotBlank(message = "Password is required")
-        @NotNull(message = "Password is required")
-        String password) {
+        @NotBlank(message = "Password is required") String password) {
 }
