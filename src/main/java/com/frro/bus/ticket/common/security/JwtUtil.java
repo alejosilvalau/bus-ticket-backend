@@ -3,6 +3,9 @@ package com.frro.bus.ticket.common.security;
 import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -10,11 +13,12 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PreDestroy;
+
+import javax.crypto.SecretKey;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.crypto.SecretKey;
 
 @Component
 public class JwtUtil {
@@ -22,6 +26,8 @@ public class JwtUtil {
     private final SecretKey key;
     private final long expirationMs;
     private final Set<String> blacklistedTokens = ConcurrentHashMap.newKeySet();
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    private static final Logger log = LoggerFactory.getLogger(JwtUtil.class);
 
     public JwtUtil(
             @Value("${app.jwtSecret}") String secret,
@@ -49,7 +55,19 @@ public class JwtUtil {
     }
 
     public void blacklistToken(String token) {
+        long expiry;
+        try {
+            expiry = extractClaims(token).getExpiration().getTime();
+        } catch (Exception e) {
+            // token is already invalid, no need to blacklist
+            log.warn("Could not blacklist token, it may already be invalid: {}", e.getMessage());
+            return;
+        }
         blacklistedTokens.add(token);
+        long delay = expiry - System.currentTimeMillis();
+        if (delay > 0) {
+            scheduler.schedule(() -> blacklistedTokens.remove(token), delay, TimeUnit.MILLISECONDS);
+        }
     }
 
     public Claims extractClaims(String token) {
@@ -70,5 +88,10 @@ public class JwtUtil {
 
     public boolean isTokenExpired(String token) {
         return extractClaims(token).getExpiration().before(new Date());
+    }
+
+    @PreDestroy
+    public void destroy() {
+        scheduler.shutdown();
     }
 }

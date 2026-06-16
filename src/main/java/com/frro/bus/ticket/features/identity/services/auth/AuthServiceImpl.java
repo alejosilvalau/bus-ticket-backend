@@ -49,8 +49,9 @@ public class AuthServiceImpl implements AuthService {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             jwtUtil.blacklistToken(token);
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override
