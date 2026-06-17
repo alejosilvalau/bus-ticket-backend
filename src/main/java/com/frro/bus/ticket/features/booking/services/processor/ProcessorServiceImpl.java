@@ -51,6 +51,9 @@ public class ProcessorServiceImpl implements ProcessorService {
         Seat seat = seatRepository.findById(ticketRequest.seatId())
                 .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", ticketRequest.seatId()));
 
+        User user = userRepository.findById(ticketRequest.userId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", ticketRequest.userId()));
+
         if (trip.getDepartureDate().isBefore(ZonedDateTime.now().plusHours(24))) {
             throw new BusinessException("Cannot book ticket: trip departs in less than 24 hours.");
         }
@@ -67,17 +70,16 @@ public class ProcessorServiceImpl implements ProcessorService {
         }
 
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
+        ticket.setTrip(trip);
+        ticket.setSeat(seat);
+        ticket.setUser(user);
         ticket.setBookingTime(ZonedDateTime.now());
         ticket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(trip, seat));
 
         Ticket savedTicket = ticketRepository.save(ticket);
-        entityManager.flush();
-        entityManager.refresh(savedTicket);
 
         savedTicket.setToken(generateToken(savedTicket.getId(), savedTicket.getBookingTime(), trip, seat));
         ticketRepository.save(savedTicket);
-        entityManager.flush();
-        entityManager.refresh(savedTicket);
 
         return ticketMapper.toTicketFullDTO(savedTicket);
     }
@@ -128,8 +130,6 @@ public class ProcessorServiceImpl implements ProcessorService {
         }
 
         Ticket savedTicket = ticketRepository.save(existingTicket);
-        entityManager.flush();
-        entityManager.refresh(savedTicket);
         return ticketMapper.toTicketFullDTO(savedTicket);
     }
 

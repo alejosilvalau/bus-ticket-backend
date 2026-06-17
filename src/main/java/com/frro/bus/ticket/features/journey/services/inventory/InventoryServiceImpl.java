@@ -26,7 +26,6 @@ import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 import com.frro.bus.ticket.features.journey.repositories.LocationRepository;
 import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -38,11 +37,19 @@ public class InventoryServiceImpl implements InventoryService {
     private final DriverRepository driverRepository;
     private final TripMapper tripMapper;
     private final LocationMapper locationMapper;
-    private final EntityManager entityManager;
 
     @Override
     @Transactional
     public TripFullDTO createTrip(CreateTripDTO tripRequest) {
+        Bus bus = busRepository.findById(tripRequest.busId())
+                .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", tripRequest.busId()));
+        Driver driver = driverRepository.findById(tripRequest.driverId())
+                .orElseThrow(() -> new ResourceNotFoundException("Driver", "id", tripRequest.driverId()));
+        Location locationOrigin = locationRepository.findById(tripRequest.locationOriginId())
+                .orElseThrow(() -> new ResourceNotFoundException("Location", "id", tripRequest.locationOriginId()));
+        Location locationDestination = locationRepository.findById(tripRequest.locationDestinationId())
+                .orElseThrow(() -> new ResourceNotFoundException("Location", "id", tripRequest.locationDestinationId()));
+
         validateTripDates(tripRequest.departureDate(), tripRequest.arrivalDate());
 
         if (tripRequest.locationOriginId() == tripRequest.locationDestinationId()) {
@@ -63,9 +70,11 @@ public class InventoryServiceImpl implements InventoryService {
         }
 
         Trip trip = tripMapper.toTrip(tripRequest);
+        trip.setBus(bus);
+        trip.setDriver(driver);
+        trip.setLocationOrigin(locationOrigin);
+        trip.setLocationDestination(locationDestination);
         Trip saved = tripRepository.save(trip);
-        entityManager.flush();
-        entityManager.refresh(saved);
         return tripMapper.toTripFullDTO(saved);
     }
 
@@ -121,8 +130,6 @@ public class InventoryServiceImpl implements InventoryService {
         }
 
         Trip savedTrip = tripRepository.save(existingTrip);
-        entityManager.flush();
-        entityManager.refresh(savedTrip);
         return tripMapper.toTripFullDTO(savedTrip);
     }
 

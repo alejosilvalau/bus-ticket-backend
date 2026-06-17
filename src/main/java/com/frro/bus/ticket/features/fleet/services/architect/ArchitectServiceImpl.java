@@ -23,7 +23,6 @@ import com.frro.bus.ticket.features.fleet.repositories.BusRepository;
 import com.frro.bus.ticket.features.fleet.repositories.SeatRepository;
 import com.frro.bus.ticket.features.fleet.repositories.SeatTypeRepository;
 
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -36,7 +35,6 @@ public class ArchitectServiceImpl implements ArchitectService {
     private final BusMapper busMapper;
     private final SeatMapper seatMapper;
     private final SeatTypeMapper seatTypeMapper;
-    private final EntityManager entityManager;
 
     @Override
     public BusDTO createBus(CreateBusDTO busRequest) {
@@ -80,8 +78,12 @@ public class ArchitectServiceImpl implements ArchitectService {
     }
 
     @Override
-    @Transactional
     public SeatFullDTO createSeat(CreateSeatDTO seatRequest) {
+        Bus bus = busRepository.findById(seatRequest.busId())
+                .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", seatRequest.busId()));
+        SeatType seatType = seatTypeRepository.findById(seatRequest.seatTypeId())
+                .orElseThrow(() -> new ResourceNotFoundException("SeatType", "id", seatRequest.seatTypeId()));
+
         seatRepository.findByBusIdAndLetterAndNumber(seatRequest.busId(), seatRequest.letter(), seatRequest.number())
                 .ifPresent(seat -> {
                     throw new DuplicateResourceException("Seat", "bus+letter+number",
@@ -89,9 +91,9 @@ public class ArchitectServiceImpl implements ArchitectService {
                 });
 
         Seat seat = seatMapper.toSeat(seatRequest);
+        seat.setBus(bus);
+        seat.setSeatType(seatType);
         Seat savedSeat = seatRepository.save(seat);
-        entityManager.flush();
-        entityManager.refresh(savedSeat);
         return seatMapper.toSeatFullDTO(savedSeat);
     }
 
@@ -118,8 +120,6 @@ public class ArchitectServiceImpl implements ArchitectService {
         });
 
         Seat savedSeat = seatRepository.save(existingSeat);
-        entityManager.flush();
-        entityManager.refresh(savedSeat);
         return seatMapper.toSeatFullDTO(savedSeat);
     }
 
