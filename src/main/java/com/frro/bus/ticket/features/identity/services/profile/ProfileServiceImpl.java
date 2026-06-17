@@ -2,9 +2,9 @@ package com.frro.bus.ticket.features.identity.services.profile;
 
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
-import com.frro.bus.ticket.common.security.JwtUtil;
 import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.entities.User;
@@ -19,11 +19,16 @@ import lombok.RequiredArgsConstructor;
 public class ProfileServiceImpl implements ProfileService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final JwtUtil jwtUtil;
     private final HttpServletRequest request;
 
     @Override
     public UserDTO update(UpdateUserDTO userRequest) {
+        int authenticatedUserId = getAuthenticatedUserId();
+
+        if (userRequest.id() != authenticatedUserId) {
+            throw new BusinessException("You can only update your own profile");
+        }
+
         User existingUser = userRepository.findById(userRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userRequest.id()));
 
@@ -59,10 +64,16 @@ public class ProfileServiceImpl implements ProfileService {
         return userDTO;
     }
 
+    private int getAuthenticatedUserId() {
+        Object userId = request.getAttribute("userId");
+        if (userId == null) {
+            throw new BusinessException("No authenticated user found");
+        }
+        return (int) userId;
+    }
+
     private User getAuthenticatedUser() {
-        String authHeader = request.getHeader("Authorization");
-        String token = authHeader.substring(7);
-        int userId = jwtUtil.extractUserId(token);
+        int userId = getAuthenticatedUserId();
         return userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
     }
