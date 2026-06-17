@@ -42,7 +42,7 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success("Logout successful", result));
     }
 
-    @AuthenticatedEndpoint
+    @PublicEndpoint
     @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/change-password")
     public ResponseEntity<ApiResponse<Boolean>> changePassword(
