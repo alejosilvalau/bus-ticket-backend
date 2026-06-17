@@ -73,12 +73,12 @@ public class DriverServiceImpl implements DriverService {
                     .ifPresent(driver -> {
                         throw new DuplicateResourceException("Driver", "licenseNumber", newLicense);
                     });
+            existingDriver.setLicenseNumber(newLicense);
         });
 
         driverRequest.firstName().ifPresent(existingDriver::setFirstName);
         driverRequest.lastName().ifPresent(existingDriver::setLastName);
         driverRequest.isActive().ifPresent(existingDriver::setActive);
-        driverRequest.licenseNumber().ifPresent(existingDriver::setLicenseNumber);
         driverRequest.phoneNumber().ifPresent(existingDriver::setPhoneNumber);
 
         Driver savedDriver = driverRepository.save(existingDriver);

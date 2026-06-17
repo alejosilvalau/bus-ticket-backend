@@ -2,11 +2,8 @@ package com.frro.bus.ticket.features.fleet.dtos.seattype;
 
 import java.math.BigDecimal;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 public record SeatTypeDTO(
-        @NotBlank int id,
-        @NotBlank @NotNull String name,
-        @NotBlank @NotNull BigDecimal upcharge) {
+        int id,
+        String name,
+        BigDecimal upcharge) {
 }

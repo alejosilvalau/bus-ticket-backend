@@ -61,9 +61,9 @@ public class ArchitectServiceImpl implements ArchitectService {
                     .ifPresent(bus -> {
                         throw new DuplicateResourceException("Bus", "plateNumber", newPlate);
                     });
+            existingBus.setPlateNumber(newPlate);
         });
 
-        busRequest.plateNumber().ifPresent(existingBus::setPlateNumber);
         busRequest.totalCapacity().ifPresent(existingBus::setTotalCapacity);
         busRequest.isActive().ifPresent(existingBus::setActive);
 
