@@ -1,7 +1,6 @@
 package com.frro.bus.ticket.features.fleet.repositories;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,14 +15,6 @@ import com.frro.bus.ticket.features.fleet.entities.SeatType;
 @Repository
 public interface SeatTypeRepository extends JpaRepository<SeatType, Integer> {
     Optional<SeatType> findByName(String name);
-    @Query("SELECT st FROM SeatType st WHERE " +
-            "(:name IS NULL OR LOWER(st.name) LIKE LOWER(CONCAT('%', :name, '%'))) AND " +
-            "(:startUpcharge IS NULL OR st.upcharge >= :startUpcharge) AND " +
-            "(:endUpcharge IS NULL OR st.upcharge <= :endUpcharge)")
-    List<SeatType> searchSeatTypes(
-            @Param("name") String name,
-            @Param("startUpcharge") BigDecimal startUpcharge,
-            @Param("endUpcharge") BigDecimal endUpcharge);
 
     @Query("SELECT st FROM SeatType st WHERE " +
             "(:name IS NULL OR LOWER(st.name) LIKE LOWER(CONCAT('%', :name, '%'))) AND " +

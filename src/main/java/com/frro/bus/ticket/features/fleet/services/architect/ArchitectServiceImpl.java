@@ -23,7 +23,6 @@ import com.frro.bus.ticket.features.fleet.repositories.BusRepository;
 import com.frro.bus.ticket.features.fleet.repositories.SeatRepository;
 import com.frro.bus.ticket.features.fleet.repositories.SeatTypeRepository;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -154,9 +153,9 @@ public class ArchitectServiceImpl implements ArchitectService {
                     .ifPresent(seatType -> {
                         throw new DuplicateResourceException("SeatType", "name", newName);
                     });
+            existingSeatType.setName(newName);
         });
 
-        seatTypeRequest.name().ifPresent(existingSeatType::setName);
         seatTypeRequest.upcharge().ifPresent(existingSeatType::setUpcharge);
 
         SeatType savedSeatType = seatTypeRepository.save(existingSeatType);
