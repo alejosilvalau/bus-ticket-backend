@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
+import com.frro.bus.ticket.common.utils.PaginationUtils;
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatFullDTO;
 import com.frro.bus.ticket.features.fleet.dtos.seattype.SeatTypeDTO;
@@ -34,7 +35,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     @Override
     public PageResponse<BusDTO> findAllBuses(Pageable pageable) {
         Page<BusDTO> page = busRepository.findAll(pageable).map(busMapper::toBusDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -46,7 +47,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                 searchCriteria.isActive().orElse(null),
                 pageable)
                 .map(busMapper::toBusDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     @Override
     public PageResponse<SeatFullDTO> findAllSeats(Pageable pageable) {
         Page<SeatFullDTO> page = seatRepository.findAll(pageable).map(seatMapper::toSeatFullDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -72,7 +73,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                 searchCriteria.seatTypeId().orElse(null),
                 pageable)
                 .map(seatMapper::toSeatFullDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -85,7 +86,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     @Override
     public PageResponse<SeatTypeDTO> findAllSeatTypes(Pageable pageable) {
         Page<SeatTypeDTO> page = seatTypeRepository.findAll(pageable).map(seatTypeMapper::toSeatTypeDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -96,7 +97,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                 searchCriteria.endUpcharge().orElse(null),
                 pageable)
                 .map(seatTypeMapper::toSeatTypeDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -104,17 +105,5 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         return seatTypeRepository.findById(id)
                 .map(seatTypeMapper::toSeatTypeDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("SeatType", "id", id));
-    }
-
-    private <T> PageResponse<T> toPageResponse(Page<T> page) {
-        return PageResponse.of(
-                page.getContent(),
-                page.getNumber(),
-                page.getSize(),
-                page.getTotalElements(),
-                page.getTotalPages(),
-                page.isFirst(),
-                page.isLast(),
-                page.isEmpty());
     }
 }

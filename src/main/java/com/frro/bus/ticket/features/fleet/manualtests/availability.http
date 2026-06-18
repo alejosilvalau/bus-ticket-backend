@@ -1,7 +1,7 @@
 # REST Client file Availability
 
 ### Get all buses
-GET http://localhost:8080/api/v1/fleet/availability/buses?page=0&size=10
+GET http://localhost:8080/api/v1/fleet/availability/buses?page=0&size=3
 Accept: application/json
 
 ### Get all buses by fields
@@ -9,8 +9,7 @@ POST http://localhost:8080/api/v1/fleet/availability/buses/search?page=0&size=10
 Content-Type: application/json
 
 {
-  "startTotalCapacity": 20,
-  "endTotalCapacity": 40
+  "plateNumber": "ABC"
 }
 
 ### Get bus by ID
