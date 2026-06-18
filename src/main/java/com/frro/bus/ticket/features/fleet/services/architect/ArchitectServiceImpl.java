@@ -91,33 +91,33 @@ public class ArchitectServiceImpl implements ArchitectService {
                 });
 
         Seat seat = seatMapper.toSeat(seatRequest);
+
         seat.setBus(bus);
         seat.setSeatType(seatType);
         Seat savedSeat = seatRepository.save(seat);
+
         return seatMapper.toSeatFullDTO(savedSeat);
     }
 
     @Override
-    @Transactional
     public SeatFullDTO updateSeat(UpdateSeatDTO seatRequest) {
         Seat existingSeat = seatRepository.findById(seatRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", seatRequest.id()));
-
-        seatRequest.letter().ifPresent(existingSeat::setLetter);
-        seatRequest.number().ifPresent(existingSeat::setNumber);
-        seatRequest.isActive().ifPresent(existingSeat::setActive);
 
         seatRequest.busId().ifPresent(busId -> {
             Bus bus = busRepository.findById(busId)
                     .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", busId));
             existingSeat.setBus(bus);
         });
-
         seatRequest.seatTypeId().ifPresent(seatTypeId -> {
             SeatType seatType = seatTypeRepository.findById(seatTypeId)
                     .orElseThrow(() -> new ResourceNotFoundException("SeatType", "id", seatTypeId));
             existingSeat.setSeatType(seatType);
         });
+
+        seatRequest.letter().ifPresent(existingSeat::setLetter);
+        seatRequest.number().ifPresent(existingSeat::setNumber);
+        seatRequest.isActive().ifPresent(existingSeat::setActive);
 
         Seat savedSeat = seatRepository.save(existingSeat);
         return seatMapper.toSeatFullDTO(savedSeat);
