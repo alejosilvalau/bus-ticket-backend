@@ -41,39 +41,22 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     @Transactional
     public TripFullDTO createTrip(CreateTripDTO tripRequest) {
-        Bus bus = busRepository.findById(tripRequest.busId())
-                .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", tripRequest.busId()));
-        Driver driver = driverRepository.findById(tripRequest.driverId())
-                .orElseThrow(() -> new ResourceNotFoundException("Driver", "id", tripRequest.driverId()));
-        Location locationOrigin = locationRepository.findById(tripRequest.locationOriginId())
-                .orElseThrow(() -> new ResourceNotFoundException("Location", "id", tripRequest.locationOriginId()));
-        Location locationDestination = locationRepository.findById(tripRequest.locationDestinationId())
-                .orElseThrow(() -> new ResourceNotFoundException("Location", "id", tripRequest.locationDestinationId()));
-
-        validateTripDates(tripRequest.departureDate(), tripRequest.arrivalDate());
-
-        if (tripRequest.locationOriginId() == tripRequest.locationDestinationId()) {
-            throw new BusinessException("Origin and destination locations must be different.");
-        }
-
-        ZonedDateTime depMinusDriverBuffer = tripRequest.departureDate().minus(Duration.ofHours(3));
-        ZonedDateTime arrPlusDriverBuffer = tripRequest.arrivalDate().plus(Duration.ofHours(3));
-        if (tripRepository.existsConflictingDriverTrip(tripRequest.driverId(), 0, depMinusDriverBuffer,
-                arrPlusDriverBuffer)) {
-            throw new BusinessException("Driver is not available: has another trip within 3 hours.");
-        }
-
-        ZonedDateTime depMinusBusBuffer = tripRequest.departureDate().minus(Duration.ofMinutes(30));
-        ZonedDateTime arrPlusBusBuffer = tripRequest.arrivalDate().plus(Duration.ofMinutes(30));
-        if (tripRepository.existsConflictingBusTrip(tripRequest.busId(), 0, depMinusBusBuffer, arrPlusBusBuffer)) {
-            throw new BusinessException("Bus is not available: has another trip within 30 minutes.");
-        }
-
         Trip trip = tripMapper.toTrip(tripRequest);
-        trip.setBus(bus);
-        trip.setDriver(driver);
-        trip.setLocationOrigin(locationOrigin);
-        trip.setLocationDestination(locationDestination);
+
+        trip.setBus(validateBusRelationship(tripRequest.busId()));
+        trip.setDriver(validateDriverRelationship(tripRequest.driverId()));
+        trip.setLocationOrigin(validateLocationRelationship(tripRequest.locationOriginId()));
+        trip.setLocationDestination(validateLocationRelationship(tripRequest.locationDestinationId()));
+
+        validateTripDates(trip.getDepartureDate(), trip.getArrivalDate());
+        validateTripLocations(trip.getLocationOrigin().getId(), trip.getLocationDestination().getId());
+
+        int excludeTripId = 0; // 0 means we are creating a new trip, so no existing trip to exclude
+        validateDriverAvailability(tripRequest.driverId(), excludeTripId, tripRequest.departureDate(),
+                tripRequest.arrivalDate());
+        validateBusAvailability(tripRequest.busId(), excludeTripId, tripRequest.departureDate(),
+                tripRequest.arrivalDate());
+
         Trip saved = tripRepository.save(trip);
         return tripMapper.toTripFullDTO(saved);
     }
@@ -89,48 +72,44 @@ public class InventoryServiceImpl implements InventoryService {
         tripRequest.basePrice().ifPresent(existingTrip::setBasePrice);
 
         tripRequest.busId().ifPresent(busId -> {
-            Bus bus = busRepository.findById(busId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", busId));
-            existingTrip.setBus(bus);
+            existingTrip.setBus(validateBusRelationship(busId));
         });
         tripRequest.driverId().ifPresent(driverId -> {
-            Driver driver = driverRepository.findById(driverId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Driver", "id", driverId));
-            existingTrip.setDriver(driver);
+            existingTrip.setDriver(validateDriverRelationship(driverId));
         });
         tripRequest.locationOriginId().ifPresent(locationOriginId -> {
-            Location location = locationRepository.findById(locationOriginId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Location", "id", locationOriginId));
-            existingTrip.setLocationOrigin(location);
+            existingTrip.setLocationOrigin(validateLocationRelationship(locationOriginId));
         });
         tripRequest.locationDestinationId().ifPresent(locationDestinationId -> {
-            Location location = locationRepository.findById(locationDestinationId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Location", "id", locationDestinationId));
-            existingTrip.setLocationDestination(location);
+            existingTrip.setLocationDestination(validateLocationRelationship(locationDestinationId));
         });
 
         validateTripDates(existingTrip.getDepartureDate(), existingTrip.getArrivalDate());
 
-        if (existingTrip.getLocationOrigin().getId() == existingTrip.getLocationDestination().getId()) {
-            throw new BusinessException("Origin and destination locations must be different.");
-        }
+        validateTripLocations(existingTrip.getLocationOrigin().getId(), existingTrip.getLocationDestination().getId());
 
-        ZonedDateTime depMinusDriverBuffer = existingTrip.getDepartureDate().minus(Duration.ofHours(3));
-        ZonedDateTime arrPlusDriverBuffer = existingTrip.getArrivalDate().plus(Duration.ofHours(3));
-        if (tripRepository.existsConflictingDriverTrip(existingTrip.getDriver().getId(), existingTrip.getId(),
-                depMinusDriverBuffer, arrPlusDriverBuffer)) {
-            throw new BusinessException("Driver is not available: has another trip within 3 hours.");
-        }
-
-        ZonedDateTime depMinusBusBuffer = existingTrip.getDepartureDate().minus(Duration.ofMinutes(30));
-        ZonedDateTime arrPlusBusBuffer = existingTrip.getArrivalDate().plus(Duration.ofMinutes(30));
-        if (tripRepository.existsConflictingBusTrip(existingTrip.getBus().getId(), existingTrip.getId(),
-                depMinusBusBuffer, arrPlusBusBuffer)) {
-            throw new BusinessException("Bus is not available: has another trip within 30 minutes.");
-        }
+        validateDriverAvailability(existingTrip.getDriver().getId(), existingTrip.getId(),
+                existingTrip.getDepartureDate(), existingTrip.getArrivalDate());
+        validateBusAvailability(existingTrip.getBus().getId(), existingTrip.getId(), existingTrip.getDepartureDate(),
+                existingTrip.getArrivalDate());
 
         Trip savedTrip = tripRepository.save(existingTrip);
         return tripMapper.toTripFullDTO(savedTrip);
+    }
+
+    private Bus validateBusRelationship(int busId) {
+        return busRepository.findById(busId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", busId));
+    }
+
+    private Driver validateDriverRelationship(int driverId) {
+        return driverRepository.findById(driverId)
+                .orElseThrow(() -> new ResourceNotFoundException("Driver", "id", driverId));
+    }
+
+    private Location validateLocationRelationship(int locationId) {
+        return locationRepository.findById(locationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Location", "id", locationId));
     }
 
     private void validateTripDates(ZonedDateTime departureDate, ZonedDateTime arrivalDate) {
@@ -139,6 +118,35 @@ public class InventoryServiceImpl implements InventoryService {
         }
         if (arrivalDate.isBefore(departureDate) || arrivalDate.isEqual(departureDate)) {
             throw new BusinessException("Arrival date must be after departure date.");
+        }
+    }
+
+    private void validateTripLocations(int locationOriginId, int locationDestinationId) {
+        if (locationOriginId == locationDestinationId) {
+            throw new BusinessException("Origin and destination locations must be different.");
+        }
+    }
+
+    private void validateDriverAvailability(int driverId, int excludeTripId, ZonedDateTime departureDate,
+            ZonedDateTime arrivalDate) {
+        long hoursBetweenDriverTrips = 3;
+        ZonedDateTime departureMinusBuffer = departureDate.minus(Duration.ofHours(hoursBetweenDriverTrips));
+        ZonedDateTime arrivalPlusBuffer = arrivalDate.plus(Duration.ofHours(hoursBetweenDriverTrips));
+        if (tripRepository.existsConflictingDriverTrip(driverId, excludeTripId, departureMinusBuffer,
+                arrivalPlusBuffer)) {
+            throw new BusinessException(String.format("Driver is not available: has another trip within %d hours.",
+                    hoursBetweenDriverTrips));
+        }
+    }
+
+    private void validateBusAvailability(int busId, int excludeTripId, ZonedDateTime departureDate,
+            ZonedDateTime arrivalDate) {
+        long minutesBetweenBusTrips = 30;
+        ZonedDateTime departureMinusBuffer = departureDate.minus(Duration.ofMinutes(minutesBetweenBusTrips));
+        ZonedDateTime arrivalPlusBuffer = arrivalDate.plus(Duration.ofMinutes(minutesBetweenBusTrips));
+        if (tripRepository.existsConflictingBusTrip(busId, excludeTripId, departureMinusBuffer, arrivalPlusBuffer)) {
+            throw new BusinessException(String.format("Bus is not available: has another trip within %d minutes.",
+                    minutesBetweenBusTrips));
         }
     }
 

@@ -29,13 +29,13 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZ
 ### Create a new seat
 POST http://localhost:8080/api/v1/fleet/architect/seats
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE3NDM4MjYsImV4cCI6MTc4MTc1NDYyNn0.461KOYZn0kNjttn5uxDBF06_NEEdb_wqp-KGYhZPEJPDZoqp1vZ50JhkNeAZFE-k
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE3NzYyNTAsImV4cCI6MTc4MTc4NzA1MH0.VS2gKHUwxo6ZGuS3G5UeqJNlReHSJKIa0gP-2iLoK6XE1nxrdwP76RH9p0tEo0Ff
 
 {
   "letter": "A",
-  "number": 1,
+  "number": 3,
   "isActive": true,
-  "busId": 2,
+  "busId": 6,
   "seatTypeId": 3
 }
 
