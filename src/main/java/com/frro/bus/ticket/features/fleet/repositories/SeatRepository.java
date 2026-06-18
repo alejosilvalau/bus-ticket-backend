@@ -2,7 +2,6 @@ package com.frro.bus.ticket.features.fleet.repositories;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,10 +16,6 @@ import com.frro.bus.ticket.features.fleet.entities.Seat;
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Integer> {
 
-    @Override
-    @EntityGraph(attributePaths = { "bus", "seatType" })
-    List<Seat> findAll();
-
     @EntityGraph(attributePaths = { "bus", "seatType" })
     Page<Seat> findAll(Pageable pageable);
 
@@ -32,20 +27,6 @@ public interface SeatRepository extends JpaRepository<Seat, Integer> {
 
     @EntityGraph(attributePaths = { "bus", "seatType" })
     List<Seat> findByBusIdAndIsActiveTrue(int busId);
-
-    @Query("SELECT s FROM Seat s WHERE " +
-            "(:letter IS NULL OR s.letter = :letter) AND " +
-            "(:number IS NULL OR s.number = :number) AND " +
-            "(:isActive IS NULL OR s.isActive = :isActive) AND " +
-            "(:busId IS NULL OR s.bus.id = :busId) AND " +
-            "(:seatTypeId IS NULL OR s.seatType.id = :seatTypeId)")
-    @EntityGraph(attributePaths = { "bus", "seatType" })
-    List<Seat> searchSeats(
-            @Param("letter") Character letter,
-            @Param("number") Integer number,
-            @Param("isActive") Boolean isActive,
-            @Param("busId") Integer busId,
-            @Param("seatTypeId") Integer seatTypeId);
 
     @Query("SELECT s FROM Seat s WHERE " +
             "(:letter IS NULL OR s.letter = :letter) AND " +
