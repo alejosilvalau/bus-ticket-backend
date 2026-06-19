@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Min;
 
 public record SearchSeatDTO(
         Optional<Character> letter,
-        Optional<@Min(value = 1, message = "Seat number must be at least 1") Integer> number,
+        Optional<@Min(1) Integer> number,
         Optional<Boolean> isActive,
-        Optional<@Min(value = 1, message = "Bus ID must be a positive number") Integer> busId,
-        Optional<@Min(value = 1, message = "Seat type ID must be a positive number") Integer> seatTypeId) {
+        Optional<@Min(1) Integer> busId,
+        Optional<@Min(1) Integer> seatTypeId) {
 }

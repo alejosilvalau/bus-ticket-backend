@@ -7,11 +7,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record CreateUserDTO(
-        @NotBlank(message = "First name is required") @Size(min = 1, max = 100, message = "First name must be between 1 and 100 characters") String firstName,
+        @NotBlank @Size(min = 1, max = 100) String firstName,
 
-        @NotBlank(message = "Last name is required") @Size(min = 1, max = 100, message = "Last name must be between 1 and 100 characters") String lastName,
+        @NotBlank @Size(min = 1, max = 100) String lastName,
 
-        @NotBlank(message = "Email is required") @Email(message = "Email must be valid") String email,
+        @NotBlank @Email String email,
 
-        @NotBlank(message = "Password is required") @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters") @StrongPassword String password) {
+        @NotBlank @Size(min = 8, max = 100) @StrongPassword String password) {
 }

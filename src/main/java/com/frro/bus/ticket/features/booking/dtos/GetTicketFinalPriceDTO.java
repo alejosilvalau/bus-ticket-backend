@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 public record GetTicketFinalPriceDTO(
-        @NotNull(message = "Trip ID is required") @Min(value = 1, message = "Trip ID must be a positive number") Integer tripId,
+        @NotNull @Min(1) Integer tripId,
 
-        @NotNull(message = "Seat ID is required") @Min(value = 1, message = "Seat ID must be a positive number") Integer seatId) {
+        @NotNull @Min(1) Integer seatId) {
 }

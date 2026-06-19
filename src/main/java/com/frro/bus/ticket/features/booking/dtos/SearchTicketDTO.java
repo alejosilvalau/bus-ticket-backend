@@ -9,13 +9,13 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 public record SearchTicketDTO(
-        Optional<@DecimalMin(value = "0", message = "Start final price must be zero or positive") BigDecimal> startFinalPrice,
-        Optional<@DecimalMin(value = "0", message = "End final price must be zero or positive") BigDecimal> endFinalPrice,
+        Optional<@DecimalMin("0") BigDecimal> startFinalPrice,
+        Optional<@DecimalMin("0") BigDecimal> endFinalPrice,
         Optional<ZonedDateTime> startBookingTime,
         Optional<ZonedDateTime> endBookingTime,
         Optional<Boolean> isCancelled,
-        Optional<@Size(min = 1, max = 100, message = "Token must be between 1 and 100 characters") String> token,
-        Optional<@Min(value = 1, message = "User ID must be a positive number") Integer> userId,
-        Optional<@Min(value = 1, message = "Trip ID must be a positive number") Integer> tripId,
-        Optional<@Min(value = 1, message = "Seat ID must be a positive number") Integer> seatId) {
+        Optional<@Size(min = 1, max = 100) String> token,
+        Optional<@Min(1) Integer> userId,
+        Optional<@Min(1) Integer> tripId,
+        Optional<@Min(1) Integer> seatId) {
 }

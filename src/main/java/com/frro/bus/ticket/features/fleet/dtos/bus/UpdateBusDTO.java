@@ -7,11 +7,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record UpdateBusDTO(
-        @NotNull(message = "Bus ID is required") @Min(value = 1, message = "Bus ID must be a positive number") Integer id,
+        @NotNull @Min(1) Integer id,
 
-        Optional<@Size(min = 1, max = 20, message = "Plate number must be between 1 and 20 characters") String> plateNumber,
+        Optional<@Size(min = 1, max = 20) String> plateNumber,
 
-        Optional<@Min(value = 1, message = "Total capacity must be at least 1") Integer> totalCapacity,
+        Optional<@Min(1) Integer> totalCapacity,
 
         Optional<Boolean> isActive) {
 }

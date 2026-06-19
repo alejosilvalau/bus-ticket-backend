@@ -4,14 +4,13 @@ import java.util.Optional;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 public record UpdateLocationDTO(
-        @NotNull(message = "Location ID is required") @Min(value = 1, message = "Location ID must be a positive number") Integer id,
+        @NotNull @Min(1) Integer id,
 
-        Optional<@Size(min = 1, max = 100, message = "City name must be between 1 and 100 characters") String> cityName,
+        Optional<String> cityName,
 
-        Optional<@Size(min = 1, max = 100, message = "State must be between 1 and 100 characters") String> state,
+        Optional<String> state,
 
-        Optional<@Size(min = 1, max = 20, message = "Postal code must be between 1 and 20 characters") String> postalCode) {
+        Optional<String> postalCode) {
 }

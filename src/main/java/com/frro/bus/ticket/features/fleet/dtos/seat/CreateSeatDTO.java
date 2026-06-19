@@ -4,21 +4,13 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 public record CreateSeatDTO(
-        @NotNull(message = "Seat letter is required")
-        Character letter,
+        @NotNull Character letter,
 
-        @NotNull(message = "Seat number is required")
-        @Min(value = 1, message = "Seat number must be at least 1")
-        Integer number,
+        @NotNull @Min(1) Integer number,
 
-        @NotNull(message = "Active status is required")
-        Boolean isActive,
+        @NotNull Boolean isActive,
 
-        @NotNull(message = "Bus ID is required")
-        @Min(value = 1, message = "Bus ID must be a positive number")
-        Integer busId,
+        @NotNull @Min(1) Integer busId,
 
-        @NotNull(message = "Seat type ID is required")
-        @Min(value = 1, message = "Seat type ID must be a positive number")
-        Integer seatTypeId) {
+        @NotNull @Min(1) Integer seatTypeId) {
 }

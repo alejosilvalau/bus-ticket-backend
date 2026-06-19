@@ -6,14 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record CreateBusDTO(
-        @NotBlank(message = "Plate number is required")
-        @Size(min = 1, max = 20, message = "Plate number must be between 1 and 20 characters")
-        String plateNumber,
+        @NotBlank @Size(min = 1, max = 20) String plateNumber,
 
-        @NotNull(message = "Total capacity is required")
-        @Min(value = 1, message = "Total capacity must be at least 1")
-        Integer totalCapacity,
+        @NotNull @Min(1) Integer totalCapacity,
 
-        @NotNull(message = "Active status is required")
-        Boolean isActive) {
+        @NotNull Boolean isActive) {
 }
