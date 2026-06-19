@@ -12,7 +12,8 @@ public record CreateBusDTO(
 
         @NotNull(message = "Total capacity is required")
         @Min(value = 1, message = "Total capacity must be at least 1")
-        int totalCapacity,
+        Integer totalCapacity,
 
-        boolean isActive) {
+        @NotNull(message = "Active status is required")
+        Boolean isActive) {
 }

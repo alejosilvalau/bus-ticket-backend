@@ -5,11 +5,11 @@ import java.util.Optional;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record UpdateSeatTypeDTO(
-        @Min(value = 1, message = "Seat type ID must be a positive number")
-        int id,
+        @NotNull(message = "Seat type ID is required") @Min(value = 1, message = "Seat type ID must be a positive number") Integer id,
 
         Optional<@Size(min = 1, max = 50, message = "Seat type name must be between 1 and 50 characters") String> name,
 

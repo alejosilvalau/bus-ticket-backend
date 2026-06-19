@@ -1,7 +1,9 @@
 package com.frro.bus.ticket.features.identity.dtos.driver;
 
+import com.frro.bus.ticket.common.validations.ValidPhoneNumber;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record CreateDriverDTO(
@@ -13,13 +15,14 @@ public record CreateDriverDTO(
         @Size(min = 1, max = 100, message = "Last name must be between 1 and 100 characters")
         String lastName,
 
-        boolean isActive,
+        @NotNull(message = "Active status is required")
+        Boolean isActive,
 
         @NotBlank(message = "License number is required")
         @Size(min = 1, max = 50, message = "License number must be between 1 and 50 characters")
         String licenseNumber,
 
         @NotBlank(message = "Phone number is required")
-        @Pattern(regexp = "^\\+?[0-9\\s\\-]{7,20}$", message = "Phone number must be valid (e.g. +541112345678)")
+        @ValidPhoneNumber
         String phoneNumber) {
 }

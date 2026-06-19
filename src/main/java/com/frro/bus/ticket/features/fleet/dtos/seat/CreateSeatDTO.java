@@ -9,15 +9,16 @@ public record CreateSeatDTO(
 
         @NotNull(message = "Seat number is required")
         @Min(value = 1, message = "Seat number must be at least 1")
-        int number,
+        Integer number,
 
-        boolean isActive,
+        @NotNull(message = "Active status is required")
+        Boolean isActive,
 
         @NotNull(message = "Bus ID is required")
         @Min(value = 1, message = "Bus ID must be a positive number")
-        int busId,
+        Integer busId,
 
         @NotNull(message = "Seat type ID is required")
         @Min(value = 1, message = "Seat type ID must be a positive number")
-        int seatTypeId) {
+        Integer seatTypeId) {
 }

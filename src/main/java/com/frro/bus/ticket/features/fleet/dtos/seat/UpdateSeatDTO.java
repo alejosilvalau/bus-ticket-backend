@@ -3,10 +3,10 @@ package com.frro.bus.ticket.features.fleet.dtos.seat;
 import java.util.Optional;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public record UpdateSeatDTO(
-        @Min(value = 1, message = "Seat ID must be a positive number")
-        int id,
+        @NotNull(message = "Seat ID is required") @Min(value = 1, message = "Seat ID must be a positive number") Integer id,
 
         Optional<Character> letter,
 
