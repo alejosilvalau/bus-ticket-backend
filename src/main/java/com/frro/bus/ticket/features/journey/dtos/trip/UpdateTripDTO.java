@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 public record UpdateTripDTO(
-        @Min(value = 1, message = "Trip ID must be a positive number")
-        int id,
+        @NotBlank(message = "ID is required") @Min(value = 1, message = "Trip ID must be a positive number") Integer id,
 
         Optional<ZonedDateTime> departureDate,
 

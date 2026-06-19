@@ -14,7 +14,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.frro.bus.ticket.features.journey.entities.Trip;
-import com.frro.bus.ticket.features.fleet.entities.Seat;
 
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Integer> {
@@ -61,28 +60,6 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             "(:locationDestinationId IS NULL OR t.locationDestination.id = :locationDestinationId) AND " +
             "(:seatTypeId IS NULL OR EXISTS (SELECT 1 FROM Seat s WHERE s.bus = t.bus AND s.seatType.id = :seatTypeId))")
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
-    List<Trip> searchTrips(
-            @Param("departureDate") ZonedDateTime departureDate,
-            @Param("arrivalDate") ZonedDateTime arrivalDate,
-            @Param("startBasePrice") BigDecimal startBasePrice,
-            @Param("endBasePrice") BigDecimal endBasePrice,
-            @Param("busId") Integer busId,
-            @Param("driverId") Integer driverId,
-            @Param("locationOriginId") Integer locationOriginId,
-            @Param("locationDestinationId") Integer locationDestinationId,
-            @Param("seatTypeId") Integer seatTypeId);
-
-    @Query("SELECT t FROM Trip t WHERE " +
-            "(:departureDate IS NULL OR t.departureDate >= :departureDate) AND " +
-            "(:arrivalDate IS NULL OR t.arrivalDate <= :arrivalDate) AND " +
-            "(:startBasePrice IS NULL OR t.basePrice >= :startBasePrice) AND " +
-            "(:endBasePrice IS NULL OR t.basePrice <= :endBasePrice) AND " +
-            "(:busId IS NULL OR t.bus.id = :busId) AND " +
-            "(:driverId IS NULL OR t.driver.id = :driverId) AND " +
-            "(:locationOriginId IS NULL OR t.locationOrigin.id = :locationOriginId) AND " +
-            "(:locationDestinationId IS NULL OR t.locationDestination.id = :locationDestinationId) AND " +
-            "(:seatTypeId IS NULL OR EXISTS (SELECT 1 FROM Seat s WHERE s.bus = t.bus AND s.seatType.id = :seatTypeId))")
-    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Page<Trip> searchTrips(
             @Param("departureDate") ZonedDateTime departureDate,
             @Param("arrivalDate") ZonedDateTime arrivalDate,
@@ -101,7 +78,8 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
     Page<Trip> findAvailableTrips(@Param("now") ZonedDateTime now, Pageable pageable);
 
     @Query("SELECT t FROM Trip t WHERE t.departureDate > :now " +
-            "AND (SELECT COUNT(tk) FROM Ticket tk WHERE tk.trip = t AND tk.isCancelled = false) < t.bus.totalCapacity " +
+            "AND (SELECT COUNT(tk) FROM Ticket tk WHERE tk.trip = t AND tk.isCancelled = false) < t.bus.totalCapacity "
+            +
             "AND (:departureDate IS NULL OR t.departureDate >= :departureDate) AND " +
             "(:arrivalDate IS NULL OR t.arrivalDate <= :arrivalDate) AND " +
             "(:startBasePrice IS NULL OR t.basePrice >= :startBasePrice) AND " +

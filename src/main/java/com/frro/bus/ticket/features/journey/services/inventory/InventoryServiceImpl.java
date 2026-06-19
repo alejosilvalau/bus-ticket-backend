@@ -39,7 +39,6 @@ public class InventoryServiceImpl implements InventoryService {
     private final LocationMapper locationMapper;
 
     @Override
-    @Transactional
     public TripFullDTO createTrip(CreateTripDTO tripRequest) {
         Trip trip = tripMapper.toTrip(tripRequest);
 
@@ -49,6 +48,7 @@ public class InventoryServiceImpl implements InventoryService {
         trip.setLocationDestination(validateLocationRelationship(tripRequest.locationDestinationId()));
 
         validateTripDates(trip.getDepartureDate(), trip.getArrivalDate());
+
         validateTripLocations(trip.getLocationOrigin().getId(), trip.getLocationDestination().getId());
 
         int excludeTripId = 0; // 0 means we are creating a new trip, so no existing trip to exclude
@@ -62,14 +62,9 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    @Transactional
     public TripFullDTO updateTrip(UpdateTripDTO tripRequest) {
         Trip existingTrip = tripRepository.findById(tripRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", tripRequest.id()));
-
-        tripRequest.departureDate().ifPresent(existingTrip::setDepartureDate);
-        tripRequest.arrivalDate().ifPresent(existingTrip::setArrivalDate);
-        tripRequest.basePrice().ifPresent(existingTrip::setBasePrice);
 
         tripRequest.busId().ifPresent(busId -> {
             existingTrip.setBus(validateBusRelationship(busId));
@@ -83,6 +78,10 @@ public class InventoryServiceImpl implements InventoryService {
         tripRequest.locationDestinationId().ifPresent(locationDestinationId -> {
             existingTrip.setLocationDestination(validateLocationRelationship(locationDestinationId));
         });
+
+        tripRequest.departureDate().ifPresent(existingTrip::setDepartureDate);
+        tripRequest.arrivalDate().ifPresent(existingTrip::setArrivalDate);
+        tripRequest.basePrice().ifPresent(existingTrip::setBasePrice);
 
         validateTripDates(existingTrip.getDepartureDate(), existingTrip.getArrivalDate());
 

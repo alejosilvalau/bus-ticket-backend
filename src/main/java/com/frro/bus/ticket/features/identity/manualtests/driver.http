@@ -3,7 +3,7 @@
 ### Get all drivers
 GET http://localhost:8080/api/v1/identity/drivers?page=0&size=10
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE2NDE3MjgsImV4cCI6MTc4MTY1MjUyOH0.owSyuuAabW6v1sIO7S5CLD0iUE3ds7fAKpvtE_UdKxbfRxxIAV5Jq3kQPFlxUmH_
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE4ODI2NzgsImV4cCI6MTc4MTg5MzQ3OH0.By3_9FdCdxZzaOwOdKKa175E0IaXkxE5g0NdIdIQN8zgrKaNmknlbHiOU1OYES7G
 
 ### Get all drivers by fields
 POST http://localhost:8080/api/v1/identity/drivers/search?page=0&size=10
