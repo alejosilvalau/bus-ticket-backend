@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.ZonedDateTime;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;

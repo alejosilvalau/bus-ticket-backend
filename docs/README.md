@@ -39,7 +39,7 @@ Incorpora perfiles de usuario y administrador, manejo de errores con mensajes cl
 | Custom exceptions | Excepciones personalizadas mediante subclases, validando las reglas de negocio|
 
 ### Ruta de Listado Simple
-- GET `/api/v1/journeys/catalog/trips/{id}/seats`
+- GET `/api/v1/journeys/catalog/trips/{id}/available/seats`
 
 ### Ruta de Listado Complejo
 - GET `/api/v1/journeys/catalog/trips/available/search`
