@@ -12,6 +12,7 @@ import com.frro.bus.ticket.common.dto.ApiResponse;
 import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.InvalidCredentialsException;
+import com.frro.bus.ticket.common.exceptions.InvalidDateFormatException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 
 @RestControllerAdvice
@@ -60,6 +61,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ApiResponse.error(message));
+    }
+
+    @ExceptionHandler(InvalidDateFormatException.class)
+    public ResponseEntity<ApiResponse<Void>> handleInvalidDateFormatException(InvalidDateFormatException ex) {
+        log.warn("Invalid date format: {}", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(ex.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

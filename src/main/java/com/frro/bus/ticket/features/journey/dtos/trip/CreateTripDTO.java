@@ -8,29 +8,17 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 public record CreateTripDTO(
-        @NotNull(message = "Departure date is required")
-        ZonedDateTime departureDate,
+        @NotNull(message = "Departure date is required") ZonedDateTime departureDate,
 
-        @NotNull(message = "Arrival date is required")
-        ZonedDateTime arrivalDate,
+        @NotNull(message = "Arrival date is required") ZonedDateTime arrivalDate,
 
-        @NotNull(message = "Base price is required")
-        @DecimalMin(value = "0", message = "Base price must be zero or positive")
-        BigDecimal basePrice,
+        @NotNull(message = "Base price is required") @DecimalMin(value = "0", message = "Base price must be zero or positive") BigDecimal basePrice,
 
-        @NotNull(message = "Bus ID is required")
-        @Min(value = 1, message = "Bus ID must be a positive number")
-        Integer busId,
+        @NotNull(message = "Bus ID is required") @Min(value = 1, message = "Bus ID must be a positive number") Integer busId,
 
-        @NotNull(message = "Driver ID is required")
-        @Min(value = 1, message = "Driver ID must be a positive number")
-        Integer driverId,
+        @NotNull(message = "Driver ID is required") @Min(value = 1, message = "Driver ID must be a positive number") Integer driverId,
 
-        @NotNull(message = "Origin location ID is required")
-        @Min(value = 1, message = "Origin location ID must be a positive number")
-        Integer locationOriginId,
+        @NotNull(message = "Origin location ID is required") @Min(value = 1, message = "Origin location ID must be a positive number") Integer locationOriginId,
 
-        @NotNull(message = "Destination location ID is required")
-        @Min(value = 1, message = "Destination location ID must be a positive number")
-        Integer locationDestinationId) {
+        @NotNull(message = "Destination location ID is required") @Min(value = 1, message = "Destination location ID must be a positive number") Integer locationDestinationId) {
 }
