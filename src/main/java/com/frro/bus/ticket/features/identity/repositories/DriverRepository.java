@@ -1,6 +1,5 @@
 package com.frro.bus.ticket.features.identity.repositories;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -20,8 +19,8 @@ public interface DriverRepository extends JpaRepository<Driver, Integer> {
             "(:firstName IS NULL OR LOWER(d.firstName) LIKE LOWER(CONCAT('%', :firstName, '%'))) AND " +
             "(:lastName IS NULL OR LOWER(d.lastName) LIKE LOWER(CONCAT('%', :lastName, '%'))) AND " +
             "(:isActive IS NULL OR d.isActive = :isActive) AND " +
-            "(:licenseNumber IS NULL OR d.licenseNumber = :licenseNumber) AND " +
-            "(:phoneNumber IS NULL OR d.phoneNumber = :phoneNumber)")
+            "(:licenseNumber IS NULL OR LOWER(d.licenseNumber) LIKE LOWER(CONCAT('%', :licenseNumber, '%'))) AND " +
+            "(:phoneNumber IS NULL OR LOWER(d.phoneNumber) LIKE LOWER(CONCAT('%', :phoneNumber, '%')))")
     Page<Driver> searchDrivers(
             @Param("firstName") String firstName,
             @Param("lastName") String lastName,

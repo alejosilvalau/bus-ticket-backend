@@ -22,13 +22,13 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZ
 ### Create a new driver
 POST http://localhost:8080/api/v1/identity/drivers
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE2MzA4NTksImV4cCI6MTc4MTY0MTY1OX0.3ZbDmOgrz9bQTCtIC9JEnO-oKYelIUC9ynoonEGft8PzWmGmBoSgDAAIAq9bfnCH
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE4OTQxNjMsImV4cCI6MTc4MTkwNDk2M30.W8X2qspANoLSCskodXbNTUrqAyoxdDhDPG1uPu6rXgXl8q-mvz43uHL0pRGq8_4Y
 
 {
   "firstName": "John",
-  "lastName": "Conor",
-  "isActive": true,
-  "licenseNumber": "DR12345X",
+  "lastName": "Kennedy",
+  "isActive": false,
+  "licenseNumber": "YY123456",
   "phoneNumber": "+549987654321"
 }
 
