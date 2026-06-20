@@ -39,6 +39,18 @@ public class InventoryController {
         return ResponseEntity.ok(ApiResponse.success("Trip created successfully", savedTrip));
     }
 
+    @PatchMapping("/trips")
+    public ResponseEntity<ApiResponse<TripFullDTO>> updateTrip(@Valid @RequestBody UpdateTripDTO tripRequest) {
+        TripFullDTO trip = inventoryService.updateTrip(tripRequest);
+        return ResponseEntity.ok(ApiResponse.success("Trip updated successfully", trip));
+    }
+
+    @DeleteMapping("/trips/{id}")
+    public ResponseEntity<ApiResponse<TripFullDTO>> deleteTrip(@PathVariable int id) {
+        TripFullDTO trip = inventoryService.deleteTrip(id);
+        return ResponseEntity.ok(ApiResponse.success("Trip deleted successfully", trip));
+    }
+
     @PostMapping("/locations")
     public ResponseEntity<ApiResponse<LocationDTO>> createLocation(
             @Valid @RequestBody CreateLocationDTO locationRequest) {
@@ -46,23 +58,11 @@ public class InventoryController {
         return ResponseEntity.ok(ApiResponse.success("Location created successfully", savedLocation));
     }
 
-    @PatchMapping("/trips")
-    public ResponseEntity<ApiResponse<TripFullDTO>> updateTrip(@Valid @RequestBody UpdateTripDTO tripRequest) {
-        TripFullDTO trip = inventoryService.updateTrip(tripRequest);
-        return ResponseEntity.ok(ApiResponse.success("Trip updated successfully", trip));
-    }
-
     @PatchMapping("/locations")
     public ResponseEntity<ApiResponse<LocationDTO>> updateLocation(
             @Valid @RequestBody UpdateLocationDTO locationRequest) {
         LocationDTO location = inventoryService.updateLocation(locationRequest);
         return ResponseEntity.ok(ApiResponse.success("Location updated successfully", location));
-    }
-
-    @DeleteMapping("/trips/{id}")
-    public ResponseEntity<ApiResponse<TripFullDTO>> deleteTrip(@PathVariable int id) {
-        TripFullDTO trip = inventoryService.deleteTrip(id);
-        return ResponseEntity.ok(ApiResponse.success("Trip deleted successfully", trip));
     }
 
     @DeleteMapping("/locations/{id}")
