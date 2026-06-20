@@ -8,8 +8,10 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 
 public record SearchTripDTO(
-        Optional<ZonedDateTime> departureDate,
-        Optional<ZonedDateTime> arrivalDate,
+        Optional<ZonedDateTime> startDepartureDate,
+        Optional<ZonedDateTime> endDepartureDate,
+        Optional<ZonedDateTime> startArrivalDate,
+        Optional<ZonedDateTime> endArrivalDate,
         Optional<@DecimalMin("0") BigDecimal> startBasePrice,
         Optional<@DecimalMin("0") BigDecimal> endBasePrice,
         Optional<@Min(1) Integer> busId,

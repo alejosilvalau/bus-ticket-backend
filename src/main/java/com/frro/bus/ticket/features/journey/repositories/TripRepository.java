@@ -45,8 +45,10 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             @Param("arrivalDatePlusBuffer") ZonedDateTime arrivalDatePlusBuffer);
 
     @Query("SELECT t FROM Trip t WHERE " +
-            "(:departureDate IS NULL OR t.departureDate >= :departureDate) AND " +
-            "(:arrivalDate IS NULL OR t.arrivalDate <= :arrivalDate) AND " +
+            "(:startDepartureDate IS NULL OR t.departureDate >= :startDepartureDate) AND " +
+            "(:endDepartureDate IS NULL OR t.departureDate <= :endDepartureDate) AND " +
+            "(:startArrivalDate IS NULL OR t.arrivalDate >= :startArrivalDate) AND " +
+            "(:endArrivalDate IS NULL OR t.arrivalDate <= :endArrivalDate) AND " +
             "(:startBasePrice IS NULL OR t.basePrice >= :startBasePrice) AND " +
             "(:endBasePrice IS NULL OR t.basePrice <= :endBasePrice) AND " +
             "(:busId IS NULL OR t.bus.id = :busId) AND " +
@@ -56,8 +58,10 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             "(:seatTypeId IS NULL OR EXISTS (SELECT 1 FROM Seat s WHERE s.bus = t.bus AND s.seatType.id = :seatTypeId))")
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Page<Trip> searchTrips(
-            @Param("departureDate") ZonedDateTime departureDate,
-            @Param("arrivalDate") ZonedDateTime arrivalDate,
+            @Param("startDepartureDate") ZonedDateTime startDepartureDate,
+            @Param("endDepartureDate") ZonedDateTime endDepartureDate,
+            @Param("startArrivalDate") ZonedDateTime startArrivalDate,
+            @Param("endArrivalDate") ZonedDateTime endArrivalDate,
             @Param("startBasePrice") BigDecimal startBasePrice,
             @Param("endBasePrice") BigDecimal endBasePrice,
             @Param("busId") Integer busId,
@@ -72,11 +76,13 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Page<Trip> findAvailableTrips(@Param("timeBuffer") ZonedDateTime timeBuffer, Pageable pageable);
 
-    @Query("SELECT t FROM Trip t WHERE t.departureDate > :timeBuffer " +
-            "AND (SELECT COUNT(tk) FROM Ticket tk WHERE tk.trip = t AND tk.isCancelled = false) < t.bus.totalCapacity "
+    @Query("SELECT t FROM Trip t WHERE t.departureDate > :timeBuffer AND " +
+            "(SELECT COUNT(tk) FROM Ticket tk WHERE tk.trip = t AND tk.isCancelled = false) < t.bus.totalCapacity AND "
             +
-            "AND (:departureDate IS NULL OR t.departureDate >= :departureDate) AND " +
-            "(:arrivalDate IS NULL OR t.arrivalDate <= :arrivalDate) AND " +
+            "(:startDepartureDate IS NULL OR t.departureDate >= :startDepartureDate) AND " +
+            "(:endDepartureDate IS NULL OR t.departureDate <= :endDepartureDate) AND " +
+            "(:startArrivalDate IS NULL OR t.arrivalDate >= :startArrivalDate) AND " +
+            "(:endArrivalDate IS NULL OR t.arrivalDate <= :endArrivalDate) AND " +
             "(:startBasePrice IS NULL OR t.basePrice >= :startBasePrice) AND " +
             "(:endBasePrice IS NULL OR t.basePrice <= :endBasePrice) AND " +
             "(:busId IS NULL OR t.bus.id = :busId) AND " +
@@ -87,8 +93,10 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Page<Trip> searchAvailableTrips(
             @Param("timeBuffer") ZonedDateTime timeBuffer,
-            @Param("departureDate") ZonedDateTime departureDate,
-            @Param("arrivalDate") ZonedDateTime arrivalDate,
+            @Param("startDepartureDate") ZonedDateTime startDepartureDate,
+            @Param("endDepartureDate") ZonedDateTime endDepartureDate,
+            @Param("startArrivalDate") ZonedDateTime startArrivalDate,
+            @Param("endArrivalDate") ZonedDateTime endArrivalDate,
             @Param("startBasePrice") BigDecimal startBasePrice,
             @Param("endBasePrice") BigDecimal endBasePrice,
             @Param("busId") Integer busId,

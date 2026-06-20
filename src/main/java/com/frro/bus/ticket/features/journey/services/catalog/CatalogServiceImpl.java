@@ -49,8 +49,10 @@ public class CatalogServiceImpl implements CatalogService {
     @Override
     public PageResponse<TripFullDTO> searchTrips(SearchTripDTO searchCriteria, Pageable pageable) {
         Page<TripFullDTO> page = tripRepository.searchTrips(
-                searchCriteria.departureDate().orElse(null),
-                searchCriteria.arrivalDate().orElse(null),
+                searchCriteria.startDepartureDate().orElse(null),
+                searchCriteria.endDepartureDate().orElse(null),
+                searchCriteria.startArrivalDate().orElse(null),
+                searchCriteria.endArrivalDate().orElse(null),
                 searchCriteria.startBasePrice().orElse(null),
                 searchCriteria.endBasePrice().orElse(null),
                 searchCriteria.busId().orElse(null),
@@ -76,8 +78,10 @@ public class CatalogServiceImpl implements CatalogService {
         ZonedDateTime timeBuffer = currentTimeBuffer();
         Page<TripFullDTO> page = tripRepository.searchAvailableTrips(
                 timeBuffer,
-                searchCriteria.departureDate().orElse(null),
-                searchCriteria.arrivalDate().orElse(null),
+                searchCriteria.startDepartureDate().orElse(null),
+                searchCriteria.endDepartureDate().orElse(null),
+                searchCriteria.startArrivalDate().orElse(null),
+                searchCriteria.endArrivalDate().orElse(null),
                 searchCriteria.startBasePrice().orElse(null),
                 searchCriteria.endBasePrice().orElse(null),
                 searchCriteria.busId().orElse(null),
