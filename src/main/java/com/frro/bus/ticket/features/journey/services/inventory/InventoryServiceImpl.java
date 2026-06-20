@@ -158,13 +158,9 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public LocationDTO createLocation(CreateLocationDTO locationRequest) {
-        locationRepository.findByCityNameAndStateAndPostalCode(
-                locationRequest.cityName(), locationRequest.state(), locationRequest.postalCode())
-                .ifPresent(location -> {
-                    throw new DuplicateResourceException("Location", "city+state+postalCode",
-                            locationRequest.cityName() + ", " + locationRequest.state() + ", "
-                                    + locationRequest.postalCode());
-                });
+        int excludeId = 0; // 0 means we are creating a new location, so no existing location to exclude
+        validateLocationUniqueness(locationRequest.cityName(), locationRequest.state(), locationRequest.postalCode(),
+                excludeId);
 
         Location location = locationMapper.toLocation(locationRequest);
         Location saved = locationRepository.save(location);
@@ -180,8 +176,21 @@ public class InventoryServiceImpl implements InventoryService {
         locationRequest.state().ifPresent(existingLocation::setState);
         locationRequest.postalCode().ifPresent(existingLocation::setPostalCode);
 
+        validateLocationUniqueness(existingLocation.getCityName(), existingLocation.getState(),
+                existingLocation.getPostalCode(), existingLocation.getId());
+
         Location savedLocation = locationRepository.save(existingLocation);
         return locationMapper.toLocationDTO(savedLocation);
+    }
+
+    private void validateLocationUniqueness(String cityName, String state, String postalCode, int excludeId) {
+        locationRepository.findByCityNameAndStateAndPostalCode(cityName, state, postalCode)
+                .ifPresent(location -> {
+                    if (location.getId() != excludeId) {
+                        throw new DuplicateResourceException("Location", "city+state+postalCode",
+                                cityName + ", " + state + ", " + postalCode);
+                    }
+                });
     }
 
     @Override
