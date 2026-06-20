@@ -59,16 +59,16 @@ public class CatalogController {
         return ResponseEntity.ok(ApiResponse.success("Available trips searched successfully", trips));
     }
 
-    @GetMapping("/trips/{id}")
-    public ResponseEntity<ApiResponse<TripFullDTO>> findTripById(@PathVariable int id) {
-        TripFullDTO trip = catalogService.findTripById(id);
-        return ResponseEntity.ok(ApiResponse.success("Trip retrieved successfully", trip));
-    }
-
     @GetMapping("/trips/{id}/available/seats")
     public ResponseEntity<ApiResponse<List<SeatAvailabilityDTO>>> findAvailableSeatsByTripId(@PathVariable int id) {
         List<SeatAvailabilityDTO> seats = catalogService.findAvailableSeatsByTripId(id);
         return ResponseEntity.ok(ApiResponse.success("Seats retrieved successfully", seats));
+    }
+
+    @GetMapping("/trips/{id}")
+    public ResponseEntity<ApiResponse<TripFullDTO>> findTripById(@PathVariable int id) {
+        TripFullDTO trip = catalogService.findTripById(id);
+        return ResponseEntity.ok(ApiResponse.success("Trip retrieved successfully", trip));
     }
 
     @GetMapping("/locations")

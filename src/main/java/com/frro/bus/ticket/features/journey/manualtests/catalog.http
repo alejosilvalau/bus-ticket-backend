@@ -9,7 +9,7 @@ POST http://localhost:8080/api/v1/journeys/catalog/trips/search?page=0&size=10
 Content-Type: application/json
 
 {
-  "busId": 3
+  "startDepartureDate": "2026-06-20T12:00:00Z"
 }
 
 ### Get all available trips
@@ -25,11 +25,11 @@ Content-Type: application/json
 }
 
 ### Get available seats for trip
-GET http://localhost:8080/api/v1/journeys/catalog/trips/1/available/seats
+GET http://localhost:8080/api/v1/journeys/catalog/trips/3/available/seats
 Accept: application/json
 
 ### Get trip by ID
-GET http://localhost:8080/api/v1/journeys/catalog/trips/2
+GET http://localhost:8080/api/v1/journeys/catalog/trips/3
 Accept: application/json
 
 ### Get all locations

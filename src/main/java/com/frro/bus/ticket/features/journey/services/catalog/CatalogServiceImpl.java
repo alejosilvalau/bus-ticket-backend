@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
+import com.frro.bus.ticket.common.utils.PaginationUtils;
 import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatAvailabilityDTO;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
@@ -43,7 +44,7 @@ public class CatalogServiceImpl implements CatalogService {
     @Override
     public PageResponse<TripFullDTO> findAllTrips(Pageable pageable) {
         Page<TripFullDTO> page = tripRepository.findAll(pageable).map(tripMapper::toTripFullDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class CatalogServiceImpl implements CatalogService {
                 searchCriteria.seatTypeId().orElse(null),
                 pageable)
                 .map(tripMapper::toTripFullDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class CatalogServiceImpl implements CatalogService {
         ZonedDateTime timeBuffer = currentTimeBuffer();
         Page<TripFullDTO> page = tripRepository.findAvailableTrips(timeBuffer, pageable)
                 .map(tripMapper::toTripFullDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -91,7 +92,7 @@ public class CatalogServiceImpl implements CatalogService {
                 searchCriteria.seatTypeId().orElse(null),
                 pageable)
                 .map(tripMapper::toTripFullDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     private ZonedDateTime currentTimeBuffer() {
@@ -132,7 +133,7 @@ public class CatalogServiceImpl implements CatalogService {
     @Override
     public PageResponse<LocationDTO> findAllLocations(Pageable pageable) {
         Page<LocationDTO> page = locationRepository.findAll(pageable).map(locationMapper::toLocationDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -143,7 +144,7 @@ public class CatalogServiceImpl implements CatalogService {
                 searchCriteria.postalCode().orElse(null),
                 pageable)
                 .map(locationMapper::toLocationDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -151,17 +152,5 @@ public class CatalogServiceImpl implements CatalogService {
         return locationRepository.findById(id)
                 .map(locationMapper::toLocationDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Location", "id", id));
-    }
-
-    private <T> PageResponse<T> toPageResponse(Page<T> page) {
-        return PageResponse.of(
-                page.getContent(),
-                page.getNumber(),
-                page.getSize(),
-                page.getTotalElements(),
-                page.getTotalPages(),
-                page.isFirst(),
-                page.isLast(),
-                page.isEmpty());
     }
 }
