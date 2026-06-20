@@ -9,17 +9,8 @@ POST http://localhost:8080/api/v1/journeys/catalog/trips/search?page=0&size=10
 Content-Type: application/json
 
 {
-  "startBasePrice": 150,
-  "endBasePrice": 210
+  "busId": 3
 }
-
-### Get trip by ID
-GET http://localhost:8080/api/v1/journeys/catalog/trips/2
-Accept: application/json
-
-### Get available seats for trip
-GET http://localhost:8080/api/v1/journeys/catalog/trips/1/available/seats
-Accept: application/json
 
 ### Get all available trips
 GET http://localhost:8080/api/v1/journeys/catalog/trips/available?page=0&size=10
@@ -32,6 +23,14 @@ Content-Type: application/json
 {
   "departureDate": "2039-12-01T09:00:00Z"
 }
+
+### Get available seats for trip
+GET http://localhost:8080/api/v1/journeys/catalog/trips/1/available/seats
+Accept: application/json
+
+### Get trip by ID
+GET http://localhost:8080/api/v1/journeys/catalog/trips/2
+Accept: application/json
 
 ### Get all locations
 GET http://localhost:8080/api/v1/journeys/catalog/locations?page=0&size=10

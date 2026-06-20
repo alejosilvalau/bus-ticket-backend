@@ -67,12 +67,12 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             @Param("seatTypeId") Integer seatTypeId,
             Pageable pageable);
 
-    @Query("SELECT t FROM Trip t WHERE t.departureDate > :now " +
+    @Query("SELECT t FROM Trip t WHERE t.departureDate > :timeBuffer " +
             "AND (SELECT COUNT(tk) FROM Ticket tk WHERE tk.trip = t AND tk.isCancelled = false) < t.bus.totalCapacity")
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
-    Page<Trip> findAvailableTrips(@Param("now") ZonedDateTime now, Pageable pageable);
+    Page<Trip> findAvailableTrips(@Param("timeBuffer") ZonedDateTime timeBuffer, Pageable pageable);
 
-    @Query("SELECT t FROM Trip t WHERE t.departureDate > :now " +
+    @Query("SELECT t FROM Trip t WHERE t.departureDate > :timeBuffer " +
             "AND (SELECT COUNT(tk) FROM Ticket tk WHERE tk.trip = t AND tk.isCancelled = false) < t.bus.totalCapacity "
             +
             "AND (:departureDate IS NULL OR t.departureDate >= :departureDate) AND " +
@@ -86,7 +86,7 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
             "(:seatTypeId IS NULL OR EXISTS (SELECT 1 FROM Seat s WHERE s.bus = t.bus AND s.seatType.id = :seatTypeId))")
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Page<Trip> searchAvailableTrips(
-            @Param("now") ZonedDateTime now,
+            @Param("timeBuffer") ZonedDateTime timeBuffer,
             @Param("departureDate") ZonedDateTime departureDate,
             @Param("arrivalDate") ZonedDateTime arrivalDate,
             @Param("startBasePrice") BigDecimal startBasePrice,

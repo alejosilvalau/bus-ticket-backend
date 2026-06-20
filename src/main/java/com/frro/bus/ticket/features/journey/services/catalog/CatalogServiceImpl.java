@@ -37,6 +37,7 @@ public class CatalogServiceImpl implements CatalogService {
     private final TicketRepository ticketRepository;
     private final TripMapper tripMapper;
     private final LocationMapper locationMapper;
+    private static final long TRIP_TIME_BUFFER_HOURS = 24;
 
     @Override
     public PageResponse<TripFullDTO> findAllTrips(Pageable pageable) {
@@ -63,15 +64,17 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public PageResponse<TripFullDTO> findAllAvailableTrips(Pageable pageable) {
-        Page<TripFullDTO> page = tripRepository.findAvailableTrips(ZonedDateTime.now(), pageable)
+        ZonedDateTime timeBuffer = currentTimeBuffer();
+        Page<TripFullDTO> page = tripRepository.findAvailableTrips(timeBuffer, pageable)
                 .map(tripMapper::toTripFullDTO);
         return toPageResponse(page);
     }
 
     @Override
     public PageResponse<TripFullDTO> searchAvailableTrips(SearchTripDTO searchCriteria, Pageable pageable) {
+        ZonedDateTime timeBuffer = currentTimeBuffer();
         Page<TripFullDTO> page = tripRepository.searchAvailableTrips(
-                ZonedDateTime.now(),
+                timeBuffer,
                 searchCriteria.departureDate().orElse(null),
                 searchCriteria.arrivalDate().orElse(null),
                 searchCriteria.startBasePrice().orElse(null),
@@ -84,6 +87,10 @@ public class CatalogServiceImpl implements CatalogService {
                 pageable)
                 .map(tripMapper::toTripFullDTO);
         return toPageResponse(page);
+    }
+
+    private ZonedDateTime currentTimeBuffer() {
+        return ZonedDateTime.now().plusHours(TRIP_TIME_BUFFER_HOURS);
     }
 
     @Override

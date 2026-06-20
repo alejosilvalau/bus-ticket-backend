@@ -3,16 +3,16 @@
 ### Create a new trip
 POST http://localhost:8080/api/v1/journeys/inventory/trips
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE4ODQ4ODcsImV4cCI6MTc4MTg5NTY4N30.1U0zGRV0dFgcjpAMgbnKCnFp0fIadVGBBki28EcKhCxIWOJEZrkwpLmLPx0rGqXg
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE5NTU4ODEsImV4cCI6MTc4MTk2NjY4MX0.BK2TIXIDlUFElI7LQ-2sD31wmFl6brwnEWu8b9sfHk0mgltvRb423TMMxu2Bi9hM
 
 {
-  "departureDate": "2039-12-01T08:00:00Z",
-  "arrivalDate": "2039-12-01T14:00:00Z",
+  "departureDate": "2026-06-20T11:00:00Z",
+  "arrivalDate": "2026-06-20T20:00:00Z",
   "basePrice": 150.00,
   "busId": 2,
   "driverId": 3,
-  "locationOriginId": 1,
-  "locationDestinationId": 2
+  "locationOriginId": 2,
+  "locationDestinationId": 1
 }
 
 ### Update trip by ID
