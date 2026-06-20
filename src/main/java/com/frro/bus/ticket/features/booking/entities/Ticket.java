@@ -2,6 +2,7 @@ package com.frro.bus.ticket.features.booking.entities;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import com.frro.bus.ticket.common.utils.entities.EntityWithId;
@@ -30,7 +31,7 @@ public class Ticket implements EntityWithId {
     private BigDecimal finalPrice = BigDecimal.ZERO;
 
     @Column(nullable = false)
-    private ZonedDateTime bookingTime = ZonedDateTime.now();
+    private ZonedDateTime bookingTime = ZonedDateTime.now(ZoneOffset.UTC);
 
     @Column(nullable = false)
     private boolean isCancelled = false;

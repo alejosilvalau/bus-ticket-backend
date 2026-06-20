@@ -1,6 +1,7 @@
 package com.frro.bus.ticket.features.booking.services.processor;
 
 import java.math.BigDecimal;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -54,7 +55,7 @@ public class ProcessorServiceImpl implements ProcessorService {
         User user = userRepository.findById(ticketRequest.userId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", ticketRequest.userId()));
 
-        if (trip.getDepartureDate().isBefore(ZonedDateTime.now().plusHours(24))) {
+        if (trip.getDepartureDate().isBefore(ZonedDateTime.now(ZoneOffset.UTC).plusHours(24))) {
             throw new BusinessException("Cannot book ticket: trip departs in less than 24 hours.");
         }
 
@@ -73,7 +74,7 @@ public class ProcessorServiceImpl implements ProcessorService {
         ticket.setTrip(trip);
         ticket.setSeat(seat);
         ticket.setUser(user);
-        ticket.setBookingTime(ZonedDateTime.now());
+        ticket.setBookingTime(ZonedDateTime.now(ZoneOffset.UTC));
         ticket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(trip, seat));
 
         Ticket savedTicket = ticketRepository.save(ticket);
@@ -110,7 +111,7 @@ public class ProcessorServiceImpl implements ProcessorService {
             existingTicket.setSeat(seat);
         }
 
-        if (trip.getDepartureDate().isBefore(ZonedDateTime.now().plusHours(24))) {
+        if (trip.getDepartureDate().isBefore(ZonedDateTime.now(ZoneOffset.UTC).plusHours(24))) {
             throw new BusinessException("Cannot update ticket: trip departs in less than 24 hours.");
         }
 

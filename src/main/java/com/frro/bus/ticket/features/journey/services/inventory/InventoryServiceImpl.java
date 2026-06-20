@@ -1,6 +1,7 @@
 package com.frro.bus.ticket.features.journey.services.inventory;
 
 import java.time.Duration;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import org.springframework.stereotype.Service;
@@ -111,7 +112,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     private void validateTripDates(ZonedDateTime departureDate, ZonedDateTime arrivalDate) {
-        if (departureDate.isBefore(ZonedDateTime.now())) {
+        if (departureDate.isBefore(ZonedDateTime.now(ZoneOffset.UTC))) {
             throw new BusinessException("Departure date must be in the future.");
         }
         if (arrivalDate.isBefore(departureDate) || arrivalDate.isEqual(departureDate)) {

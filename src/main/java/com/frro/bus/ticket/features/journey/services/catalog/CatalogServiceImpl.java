@@ -1,5 +1,6 @@
 package com.frro.bus.ticket.features.journey.services.catalog;
 
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -90,7 +91,7 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     private ZonedDateTime currentTimeBuffer() {
-        return ZonedDateTime.now().plusHours(TRIP_TIME_BUFFER_HOURS);
+        return ZonedDateTime.now(ZoneOffset.UTC).plusHours(TRIP_TIME_BUFFER_HOURS);
     }
 
     @Override
