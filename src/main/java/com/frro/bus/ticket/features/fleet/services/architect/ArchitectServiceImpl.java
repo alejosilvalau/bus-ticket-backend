@@ -83,11 +83,8 @@ public class ArchitectServiceImpl implements ArchitectService {
         SeatType seatType = seatTypeRepository.findById(seatRequest.seatTypeId())
                 .orElseThrow(() -> new ResourceNotFoundException("SeatType", "id", seatRequest.seatTypeId()));
 
-        seatRepository.findByBusIdAndLetterAndNumber(seatRequest.busId(), seatRequest.letter(), seatRequest.number())
-                .ifPresent(seat -> {
-                    throw new DuplicateResourceException("Seat", "bus+letter+number",
-                            "bus=" + seatRequest.busId() + ", " + seatRequest.letter() + seatRequest.number());
-                });
+        int excludeSeatId = 0; // New seat, so no ID to exclude
+        validateSeatUniqueness(bus.getId(), seatRequest.letter(), seatRequest.number(), excludeSeatId);
 
         Seat seat = seatMapper.toSeat(seatRequest);
 
@@ -118,8 +115,20 @@ public class ArchitectServiceImpl implements ArchitectService {
         seatRequest.number().ifPresent(existingSeat::setNumber);
         seatRequest.isActive().ifPresent(existingSeat::setActive);
 
+        validateSeatUniqueness(existingSeat.getBus().getId(), existingSeat.getLetter(), existingSeat.getNumber(),
+                existingSeat.getId());
+
         Seat savedSeat = seatRepository.save(existingSeat);
         return seatMapper.toSeatFullDTO(savedSeat);
+    }
+
+    private void validateSeatUniqueness(int busId, char letter, int number, int excludeSeatId) {
+        seatRepository.findByBusIdAndLetterAndNumber(busId, letter, number)
+                .filter(seat -> seat.getId() != excludeSeatId)
+                .ifPresent(seat -> {
+                    throw new DuplicateResourceException("Seat", "bus+letter+number",
+                            "bus=" + busId + ", " + letter + number);
+                });
     }
 
     @Override

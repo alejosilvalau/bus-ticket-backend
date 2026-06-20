@@ -29,11 +29,11 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZ
 ### Create a new seat
 POST http://localhost:8080/api/v1/fleet/architect/seats
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE3NzYyNTAsImV4cCI6MTc4MTc4NzA1MH0.VS2gKHUwxo6ZGuS3G5UeqJNlReHSJKIa0gP-2iLoK6XE1nxrdwP76RH9p0tEo0Ff
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE5MjA3NzUsImV4cCI6MTc4MTkzMTU3NX0.lJ8hBCxy1F6REn4XdZQLkl6fitecnz1EwoesouQpq7ae0en0ZrCYZsoB0gWo0flW
 
 {
   "letter": "A",
-  "number": 3,
+  "number": 4,
   "isActive": true,
   "busId": 6,
   "seatTypeId": 3
@@ -42,12 +42,13 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZ
 ### Update seat by ID
 PATCH http://localhost:8080/api/v1/fleet/architect/seats
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE3MzI2MzMsImV4cCI6MTc4MTc0MzQzM30.FpbmukBaGlaB83bUQHapdPws4S6vlbbvCPIA36aERVh2wCMgK8U8huIN24e4w5do
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE5MjA3NzUsImV4cCI6MTc4MTkzMTU3NX0.lJ8hBCxy1F6REn4XdZQLkl6fitecnz1EwoesouQpq7ae0en0ZrCYZsoB0gWo0flW
 
 {
-  "id": 3,
-  "isActive": false,
-  "letter": "B"
+  "id": 8,
+  "letter": "A",
+  "number": 1,
+  "busId": 2
 }
 
 ### Delete seat by ID
