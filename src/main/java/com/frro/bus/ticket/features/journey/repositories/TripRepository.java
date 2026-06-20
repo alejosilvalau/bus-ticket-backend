@@ -2,7 +2,6 @@ package com.frro.bus.ticket.features.journey.repositories;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -17,10 +16,6 @@ import com.frro.bus.ticket.features.journey.entities.Trip;
 
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Integer> {
-
-    @Override
-    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
-    List<Trip> findAll();
 
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Page<Trip> findAll(Pageable pageable);
