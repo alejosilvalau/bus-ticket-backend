@@ -35,7 +35,7 @@ public class Ticket implements EntityWithId {
     @Column(nullable = false)
     private boolean isCancelled = false;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 512)
     private String token;
 
     @ManyToOne(fetch = FetchType.EAGER)

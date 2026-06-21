@@ -5,7 +5,6 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,6 @@ import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
-import com.frro.bus.ticket.features.booking.dtos.GetTicketFinalPriceDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 import com.frro.bus.ticket.features.booking.entities.Ticket;
@@ -38,7 +36,6 @@ public class ProcessorServiceImpl implements ProcessorService {
     private final SeatRepository seatRepository;
     private final UserRepository userRepository;
     private final TicketMapper ticketMapper;
-    private final PriceCalculationService priceCalculationService;
     private final ObjectMapper objectMapper = JsonMapper.builder().build();
 
     @Override
@@ -56,7 +53,7 @@ public class ProcessorServiceImpl implements ProcessorService {
         validateSeatAvailability(ticket.getTrip());
 
         ticket.setBookingTime(ZonedDateTime.now(ZoneOffset.UTC));
-        ticket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(ticket.getTrip(), ticket.getSeat()));
+        ticket.setFinalPrice(calculateFinalPriceValue(ticket.getTrip(), ticket.getSeat()));
 
         ticket.setToken(generateToken(ticket));
 
@@ -91,7 +88,7 @@ public class ProcessorServiceImpl implements ProcessorService {
             validateTripAndSeatUniqueness(existingTicket.getTrip().getId(), existingTicket.getSeat().getId(),
                     existingTicket.getId());
 
-            existingTicket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(existingTicket.getTrip(),
+            existingTicket.setFinalPrice(calculateFinalPriceValue(existingTicket.getTrip(),
                     existingTicket.getSeat()));
         }
         existingTicket.setToken(generateToken(existingTicket));
@@ -139,6 +136,12 @@ public class ProcessorServiceImpl implements ProcessorService {
         }
     }
 
+    private BigDecimal calculateFinalPriceValue(Trip trip, Seat seat) {
+        BigDecimal basePrice = trip.getBasePrice();
+        BigDecimal seatUpcharge = seat.getSeatType().getUpcharge();
+        return basePrice.add(seatUpcharge);
+    }
+
     @Override
     public TicketFullDTO deleteTicket(int id) {
         Ticket ticket = ticketRepository.findById(id)
@@ -159,17 +162,6 @@ public class ProcessorServiceImpl implements ProcessorService {
         ticket.setCancelled(true);
         Ticket savedTicket = ticketRepository.save(ticket);
         return ticketMapper.toTicketFullDTO(savedTicket);
-    }
-
-    @Override
-    public BigDecimal getFinalPrice(GetTicketFinalPriceDTO request) {
-        Trip trip = tripRepository.findById(request.tripId())
-                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", request.tripId()));
-
-        Seat seat = seatRepository.findById(request.seatId())
-                .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", request.seatId()));
-
-        return priceCalculationService.calculateFinalPriceValue(trip, seat);
     }
 
     private String generateToken(Ticket ticket) {
