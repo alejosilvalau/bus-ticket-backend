@@ -97,8 +97,12 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     private Bus validateBusRelationship(int busId) {
-        return busRepository.findById(busId)
+        Bus bus = busRepository.findById(busId)
                 .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", busId));
+        if (!bus.isActive()) {
+            throw new BusinessException("Bus is not active.");
+        }
+        return bus;
     }
 
     private Driver validateDriverRelationship(int driverId) {
