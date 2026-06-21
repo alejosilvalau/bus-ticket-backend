@@ -26,9 +26,9 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZ
 }
 
 ### Delete trip by ID
-DELETE http://localhost:8080/api/v1/journeys/inventory/trips/1
+DELETE http://localhost:8080/api/v1/journeys/inventory/trips/4
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE4ODQ4ODcsImV4cCI6MTc4MTg5NTY4N30.1U0zGRV0dFgcjpAMgbnKCnFp0fIadVGBBki28EcKhCxIWOJEZrkwpLmLPx0rGqXg
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODIwNDcyNDQsImV4cCI6MTc4MjA1ODA0NH0.carSle-qcDI1w7JC388uNqgSrPzYhh4VaMS-6gJRbadN9i3P6gPaXQsw6mWb3quJ
 
 ### Create a new location
 POST http://localhost:8080/api/v1/journeys/inventory/locations

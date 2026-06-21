@@ -25,8 +25,6 @@ import com.frro.bus.ticket.features.identity.repositories.UserRepository;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
@@ -40,35 +38,21 @@ public class ProcessorServiceImpl implements ProcessorService {
     private final UserRepository userRepository;
     private final TicketMapper ticketMapper;
     private final PriceCalculationService priceCalculationService;
-    private final EntityManager entityManager;
     private final ObjectMapper objectMapper = JsonMapper.builder().build();
 
     @Override
-    @Transactional
     public TicketFullDTO createTicket(CreateTicketDTO ticketRequest) {
-        Trip trip = tripRepository.findById(ticketRequest.tripId())
-                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", ticketRequest.tripId()));
+        Trip trip = validateTripRelationship(ticketRequest.tripId());
 
-        Seat seat = seatRepository.findById(ticketRequest.seatId())
-                .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", ticketRequest.seatId()));
+        Seat seat = validateSeatRelationship(ticketRequest.seatId());
 
-        User user = userRepository.findById(ticketRequest.userId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", ticketRequest.userId()));
+        User user = validateUserRelationship(ticketRequest.userId());
 
-        if (trip.getDepartureDate().isBefore(ZonedDateTime.now(ZoneOffset.UTC).plusHours(24))) {
-            throw new BusinessException("Cannot book ticket: trip departs in less than 24 hours.");
-        }
+        validateTripDepartureTime(trip);
 
-        ticketRepository.findByTripIdAndSeatIdAndIsCancelledFalse(ticketRequest.tripId(), ticketRequest.seatId())
-                .ifPresent(ticket -> {
-                    throw new DuplicateResourceException("Ticket", "trip+seat combination",
-                            "trip=" + ticketRequest.tripId() + ", seat=" + ticketRequest.seatId());
-                });
+        validateTripAndSeatUniqueness(trip.getId(), seat.getId());
 
-        long bookedSeats = ticketRepository.countByTripIdAndIsCancelledFalse(ticketRequest.tripId());
-        if (bookedSeats >= trip.getBus().getTotalCapacity()) {
-            throw new BusinessException("Trip is full. No available seats.");
-        }
+        validateSeatAvailability(trip);
 
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
         ticket.setTrip(trip);
@@ -86,7 +70,6 @@ public class ProcessorServiceImpl implements ProcessorService {
     }
 
     @Override
-    @Transactional
     public TicketFullDTO updateTicket(UpdateTicketDTO ticketRequest) {
         Ticket existingTicket = ticketRepository.findById(ticketRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", ticketRequest.id()));
@@ -134,6 +117,43 @@ public class ProcessorServiceImpl implements ProcessorService {
         return ticketMapper.toTicketFullDTO(savedTicket);
     }
 
+    private Seat validateSeatRelationship(int seatId) {
+        return seatRepository.findById(seatId)
+                .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", seatId));
+    }
+
+    private Trip validateTripRelationship(int tripId) {
+        return tripRepository.findById(tripId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", tripId));
+    }
+
+    private User validateUserRelationship(int userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+    }
+
+    private void validateTripDepartureTime(Trip trip) {
+        long departureTimeBufferHours = 24;
+        if (trip.getDepartureDate().isBefore(ZonedDateTime.now(ZoneOffset.UTC).plusHours(departureTimeBufferHours))) {
+            throw new BusinessException("Cannot book or update ticket: trip departs in less than 24 hours.");
+        }
+    }
+
+    private void validateTripAndSeatUniqueness(int tripId, int seatId) {
+        ticketRepository.findByTripIdAndSeatIdAndIsCancelledFalse(tripId, seatId)
+                .ifPresent(ticket -> {
+                    throw new DuplicateResourceException("Ticket", "trip+seat",
+                            "trip=" + tripId + ", seat=" + seatId);
+                });
+    }
+
+    private void validateSeatAvailability(Trip trip) {
+        long bookedSeats = ticketRepository.countByTripIdAndIsCancelledFalse(trip.getId());
+        if (bookedSeats >= trip.getBus().getTotalCapacity()) {
+            throw new BusinessException("Trip is full. No available seats.");
+        }
+    }
+
     @Override
     public TicketFullDTO deleteTicket(int id) {
         Ticket ticket = ticketRepository.findById(id)
@@ -143,7 +163,6 @@ public class ProcessorServiceImpl implements ProcessorService {
     }
 
     @Override
-    @Transactional
     public TicketFullDTO cancelTicket(int id) {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", id));
@@ -154,8 +173,6 @@ public class ProcessorServiceImpl implements ProcessorService {
 
         ticket.setCancelled(true);
         Ticket savedTicket = ticketRepository.save(ticket);
-        entityManager.flush();
-        entityManager.refresh(savedTicket);
         return ticketMapper.toTicketFullDTO(savedTicket);
     }
 

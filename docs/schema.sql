@@ -76,6 +76,14 @@ create table ticket (
   token varchar(64) not null unique,
   constraint fk_ticket_user foreign key (user_id) references person (id) on delete restrict on update cascade,
   constraint fk_ticket_trip foreign key (trip_id) references trip (id) on delete restrict on update cascade,
-  constraint fk_ticket_seat foreign key (seat_id) references seat (id) on delete restrict on update cascade,
-  constraint uk_trip_seat unique (trip_id, seat_id)
+  constraint fk_ticket_seat foreign key (seat_id) references seat (id) on delete restrict on update cascade
+);
+
+CREATE UNIQUE INDEX uk_trip_seat_active ON ticket (
+  (
+    CASE
+      WHEN is_cancelled = 0 THEN CONCAT (trip_id, '-', seat_id)
+      ELSE NULL
+    END
+  )
 );

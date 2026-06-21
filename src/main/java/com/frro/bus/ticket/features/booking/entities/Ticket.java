@@ -20,8 +20,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ticket", uniqueConstraints = @UniqueConstraint(name = "uk_trip_seat", columnNames = { "trip_id",
-        "seat_id" }))
+@Table(name = "ticket")
 public class Ticket implements EntityWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
