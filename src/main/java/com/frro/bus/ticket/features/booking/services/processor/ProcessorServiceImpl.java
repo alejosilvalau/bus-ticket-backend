@@ -14,6 +14,7 @@ import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
+import com.frro.bus.ticket.features.booking.dtos.GetTicketFinalPriceDTO;
 import com.frro.bus.ticket.features.booking.entities.Ticket;
 import com.frro.bus.ticket.features.booking.mappers.TicketMapper;
 import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
@@ -97,21 +98,6 @@ public class ProcessorServiceImpl implements ProcessorService {
         return ticketMapper.toTicketFullDTO(savedTicket);
     }
 
-    private Seat validateSeatRelationship(int seatId) {
-        return seatRepository.findById(seatId)
-                .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", seatId));
-    }
-
-    private Trip validateTripRelationship(int tripId) {
-        return tripRepository.findById(tripId)
-                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", tripId));
-    }
-
-    private User validateUserRelationship(int userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-    }
-
     private void validateTripDepartureTime(Trip trip) {
         long departureTimeBufferHours = 24;
         if (trip.getDepartureDate().isBefore(ZonedDateTime.now(ZoneOffset.UTC).plusHours(departureTimeBufferHours))) {
@@ -134,12 +120,6 @@ public class ProcessorServiceImpl implements ProcessorService {
         if (bookedSeats >= trip.getBus().getTotalCapacity()) {
             throw new BusinessException("Trip is full. No available seats.");
         }
-    }
-
-    private BigDecimal calculateFinalPriceValue(Trip trip, Seat seat) {
-        BigDecimal basePrice = trip.getBasePrice();
-        BigDecimal seatUpcharge = seat.getSeatType().getUpcharge();
-        return basePrice.add(seatUpcharge);
     }
 
     @Override
@@ -186,5 +166,35 @@ public class ProcessorServiceImpl implements ProcessorService {
         } catch (Exception e) {
             throw new BusinessException("Failed to generate token");
         }
+    }
+
+    @Override
+    public BigDecimal getTicketFinalPrice(GetTicketFinalPriceDTO ticketRequest) {
+        Trip trip = validateTripRelationship(ticketRequest.tripId());
+
+        Seat seat = validateSeatRelationship(ticketRequest.seatId());
+
+        return calculateFinalPriceValue(trip, seat);
+    }
+
+    private Seat validateSeatRelationship(int seatId) {
+        return seatRepository.findById(seatId)
+                .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", seatId));
+    }
+
+    private Trip validateTripRelationship(int tripId) {
+        return tripRepository.findById(tripId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", tripId));
+    }
+
+    private User validateUserRelationship(int userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+    }
+
+    private BigDecimal calculateFinalPriceValue(Trip trip, Seat seat) {
+        BigDecimal basePrice = trip.getBasePrice();
+        BigDecimal seatUpcharge = seat.getSeatType().getUpcharge();
+        return basePrice.add(seatUpcharge);
     }
 }

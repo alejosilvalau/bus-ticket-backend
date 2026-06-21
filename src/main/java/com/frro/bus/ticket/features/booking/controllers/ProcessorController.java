@@ -15,6 +15,7 @@ import com.frro.bus.ticket.common.dto.ApiResponse;
 import com.frro.bus.ticket.common.security.endpointhelpers.AdminEndpoint;
 import com.frro.bus.ticket.common.security.endpointhelpers.AuthenticatedEndpoint;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
+import com.frro.bus.ticket.features.booking.dtos.GetTicketFinalPriceDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 import com.frro.bus.ticket.features.booking.services.processor.ProcessorService;
@@ -57,5 +58,13 @@ public class ProcessorController {
     public ResponseEntity<ApiResponse<TicketFullDTO>> cancelTicket(@PathVariable int id) {
         TicketFullDTO ticket = processorService.cancelTicket(id);
         return ResponseEntity.ok(ApiResponse.success("Ticket cancelled successfully", ticket));
+    }
+
+    @AuthenticatedEndpoint
+    @PostMapping("/tickets/final-price")
+    public ResponseEntity<ApiResponse<BigDecimal>> getFinalPrice(
+            @Valid @RequestBody GetTicketFinalPriceDTO ticketRequest) {
+        BigDecimal finalPrice = processorService.getTicketFinalPrice(ticketRequest);
+        return ResponseEntity.ok(ApiResponse.success("Final price calculated successfully", finalPrice));
     }
 }

@@ -1,6 +1,9 @@
 package com.frro.bus.ticket.features.booking.services.processor;
 
+import java.math.BigDecimal;
+
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
+import com.frro.bus.ticket.features.booking.dtos.GetTicketFinalPriceDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 
@@ -12,4 +15,6 @@ public interface ProcessorService {
     TicketFullDTO deleteTicket(int id);
 
     TicketFullDTO cancelTicket(int id);
+
+    BigDecimal getTicketFinalPrice(GetTicketFinalPriceDTO request);
 }
