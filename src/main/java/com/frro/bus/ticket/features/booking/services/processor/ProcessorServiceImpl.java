@@ -178,8 +178,12 @@ public class ProcessorServiceImpl implements ProcessorService {
     }
 
     private Seat validateSeatRelationship(int seatId) {
-        return seatRepository.findById(seatId)
+        Seat seat = seatRepository.findById(seatId)
                 .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", seatId));
+        if (!seat.isActive()) {
+            throw new BusinessException("Seat is not active.");
+        }
+        return seat;
     }
 
     private Trip validateTripRelationship(int tripId) {
