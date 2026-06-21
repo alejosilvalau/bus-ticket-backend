@@ -26,7 +26,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZ
 }
 
 ### Delete trip by ID
-DELETE http://localhost:8080/api/v1/journeys/inventory/trips/4
+DELETE http://localhost:8080/api/v1/journeys/inventory/trips/6
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODIwNDcyNDQsImV4cCI6MTc4MjA1ODA0NH0.carSle-qcDI1w7JC388uNqgSrPzYhh4VaMS-6gJRbadN9i3P6gPaXQsw6mWb3quJ
 

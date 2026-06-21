@@ -5,6 +5,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -42,30 +43,23 @@ public class ProcessorServiceImpl implements ProcessorService {
 
     @Override
     public TicketFullDTO createTicket(CreateTicketDTO ticketRequest) {
-        Trip trip = validateTripRelationship(ticketRequest.tripId());
-
-        Seat seat = validateSeatRelationship(ticketRequest.seatId());
-
-        User user = validateUserRelationship(ticketRequest.userId());
-
-        validateTripDepartureTime(trip);
-
-        validateTripAndSeatUniqueness(trip.getId(), seat.getId());
-
-        validateSeatAvailability(trip);
-
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
-        ticket.setTrip(trip);
-        ticket.setSeat(seat);
-        ticket.setUser(user);
+        ticket.setTrip(validateTripRelationship(ticketRequest.tripId()));
+        ticket.setSeat(validateSeatRelationship(ticketRequest.seatId()));
+        ticket.setUser(validateUserRelationship(ticketRequest.userId()));
+
+        validateTripDepartureTime(ticket.getTrip());
+
+        validateTripAndSeatUniqueness(ticket.getTrip().getId(), ticket.getSeat().getId());
+
+        validateSeatAvailability(ticket.getTrip());
+
         ticket.setBookingTime(ZonedDateTime.now(ZoneOffset.UTC));
-        ticket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(trip, seat));
+        ticket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(ticket.getTrip(), ticket.getSeat()));
+
+        ticket.setToken(generateToken(ticket));
 
         Ticket savedTicket = ticketRepository.save(ticket);
-
-        savedTicket.setToken(generateToken(savedTicket.getId(), savedTicket.getBookingTime(), trip, seat));
-        ticketRepository.save(savedTicket);
-
         return ticketMapper.toTicketFullDTO(savedTicket);
     }
 
@@ -74,44 +68,31 @@ public class ProcessorServiceImpl implements ProcessorService {
         Ticket existingTicket = ticketRepository.findById(ticketRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", ticketRequest.id()));
 
-        ticketRequest.userId().ifPresent(userId -> {
-            User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-            existingTicket.setUser(user);
+        ticketRequest.tripId().ifPresent(tripId -> {
+            existingTicket.setTrip(validateTripRelationship(tripId));
         });
 
-        Trip trip = existingTicket.getTrip();
+        ticketRequest.seatId().ifPresent(seatId -> {
+            existingTicket.setSeat(validateSeatRelationship(seatId));
+        });
+
+        ticketRequest.userId().ifPresent(userId -> {
+            existingTicket.setUser(validateUserRelationship(userId));
+        });
+
+        validateTripDepartureTime(existingTicket.getTrip());
+
         if (ticketRequest.tripId().isPresent()) {
-            trip = tripRepository.findById(ticketRequest.tripId().get())
-                    .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", ticketRequest.tripId().get()));
-            existingTicket.setTrip(trip);
-        }
-
-        Seat seat = existingTicket.getSeat();
-        if (ticketRequest.seatId().isPresent()) {
-            seat = seatRepository.findById(ticketRequest.seatId().get())
-                    .orElseThrow(() -> new ResourceNotFoundException("Seat", "id", ticketRequest.seatId().get()));
-            existingTicket.setSeat(seat);
-        }
-
-        if (trip.getDepartureDate().isBefore(ZonedDateTime.now(ZoneOffset.UTC).plusHours(24))) {
-            throw new BusinessException("Cannot update ticket: trip departs in less than 24 hours.");
+            validateSeatAvailability(existingTicket.getTrip());
         }
 
         if (ticketRequest.tripId().isPresent() || ticketRequest.seatId().isPresent()) {
-            int finalTripId = trip.getId();
-            int finalSeatId = seat.getId();
-            ticketRepository.findByTripIdAndSeatIdAndIsCancelledFalse(finalTripId, finalSeatId)
-                    .ifPresent(ticket -> {
-                        if (ticket.getId() != existingTicket.getId()) {
-                            throw new DuplicateResourceException("Ticket", "trip+seat combination",
-                                    "trip=" + finalTripId + ", seat=" + finalSeatId);
-                        }
-                    });
+            validateTripAndSeatUniqueness(existingTicket.getTrip().getId(), existingTicket.getSeat().getId());
 
-            existingTicket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(trip, seat));
-            existingTicket.setToken(generateToken(existingTicket.getId(), existingTicket.getBookingTime(), trip, seat));
+            existingTicket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(existingTicket.getTrip(),
+                    existingTicket.getSeat()));
         }
+        existingTicket.setToken(generateToken(existingTicket));
 
         Ticket savedTicket = ticketRepository.save(existingTicket);
         return ticketMapper.toTicketFullDTO(savedTicket);
@@ -142,7 +123,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     private void validateTripAndSeatUniqueness(int tripId, int seatId) {
         ticketRepository.findByTripIdAndSeatIdAndIsCancelledFalse(tripId, seatId)
                 .ifPresent(ticket -> {
-                    throw new DuplicateResourceException("Ticket", "trip+seat",
+                    throw new DuplicateResourceException("Ticket", "trip+seat+isCancelledFalse",
                             "trip=" + tripId + ", seat=" + seatId);
                 });
     }
@@ -187,21 +168,25 @@ public class ProcessorServiceImpl implements ProcessorService {
         return priceCalculationService.calculateFinalPriceValue(trip, seat);
     }
 
-    private String generateToken(int ticketId, ZonedDateTime bookingTime, Trip trip, Seat seat) {
+    private String generateToken(Ticket ticket) {
+        Trip trip = ticket.getTrip();
+        Seat seat = ticket.getSeat();
         Map<String, Object> data = new LinkedHashMap<>();
-        data.put("ticketId", ticketId);
-        data.put("bookingTime", bookingTime.toString());
-        data.put("seat", Map.of(
-                "letter", String.valueOf(seat.getLetter()),
-                "number", seat.getNumber(),
-                "seatType", seat.getSeatType().getName()));
-        data.put("trip", Map.of(
-                "departureDate", trip.getDepartureDate().toString(),
-                "arrivalDate", trip.getArrivalDate().toString()));
-        data.put("bus", Map.of(
-                "plateNumber", trip.getBus().getPlateNumber()));
-
         try {
+            data.put("ticketId", ticket.getId());
+            data.put("BusPlateNumber", trip.getBus().getPlateNumber());
+            data.put("driverName", trip.getDriver().getFirstName());
+            data.put("originCityName", trip.getLocationOrigin().getCityName());
+            data.put("destinationCityName", trip.getLocationDestination().getCityName());
+            data.put("trip", Map.of(
+                    "departureDate", trip.getDepartureDate().toString(),
+                    "arrivalDate", trip.getArrivalDate().toString()));
+            data.put("seat", Map.of(
+                    "letter", String.valueOf(seat.getLetter()),
+                    "number", seat.getNumber(),
+                    "seatTypeName", seat.getSeatType().getName()));
+            data.put("bookingTime", ticket.getBookingTime().toString());
+
             return objectMapper.writeValueAsString(data);
         } catch (Exception e) {
             throw new BusinessException("Failed to generate token");
