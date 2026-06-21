@@ -50,7 +50,8 @@ public class ProcessorServiceImpl implements ProcessorService {
 
         validateTripDepartureTime(ticket.getTrip());
 
-        validateTripAndSeatUniqueness(ticket.getTrip().getId(), ticket.getSeat().getId());
+        int excludeTicketId = 0; // No existing ticket to exclude during creation
+        validateTripAndSeatUniqueness(ticket.getTrip().getId(), ticket.getSeat().getId(), excludeTicketId);
 
         validateSeatAvailability(ticket.getTrip());
 
@@ -87,7 +88,8 @@ public class ProcessorServiceImpl implements ProcessorService {
         }
 
         if (ticketRequest.tripId().isPresent() || ticketRequest.seatId().isPresent()) {
-            validateTripAndSeatUniqueness(existingTicket.getTrip().getId(), existingTicket.getSeat().getId());
+            validateTripAndSeatUniqueness(existingTicket.getTrip().getId(), existingTicket.getSeat().getId(),
+                    existingTicket.getId());
 
             existingTicket.setFinalPrice(priceCalculationService.calculateFinalPriceValue(existingTicket.getTrip(),
                     existingTicket.getSeat()));
@@ -120,11 +122,13 @@ public class ProcessorServiceImpl implements ProcessorService {
         }
     }
 
-    private void validateTripAndSeatUniqueness(int tripId, int seatId) {
+    private void validateTripAndSeatUniqueness(int tripId, int seatId, int excludeTicketId) {
         ticketRepository.findByTripIdAndSeatIdAndIsCancelledFalse(tripId, seatId)
                 .ifPresent(ticket -> {
-                    throw new DuplicateResourceException("Ticket", "trip+seat+isCancelledFalse",
-                            "trip=" + tripId + ", seat=" + seatId);
+                    if (ticket.getId() != excludeTicketId) {
+                        throw new DuplicateResourceException("Ticket", "trip+seat+isCancelledFalse",
+                                "trip=" + tripId + ", seat=" + seatId);
+                    }
                 });
     }
 
@@ -173,7 +177,6 @@ public class ProcessorServiceImpl implements ProcessorService {
         Seat seat = ticket.getSeat();
         Map<String, Object> data = new LinkedHashMap<>();
         try {
-            data.put("ticketId", ticket.getId());
             data.put("BusPlateNumber", trip.getBus().getPlateNumber());
             data.put("driverName", trip.getDriver().getFirstName());
             data.put("originCityName", trip.getLocationOrigin().getCityName());
