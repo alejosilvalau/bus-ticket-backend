@@ -21,7 +21,7 @@ public class StringNormalizationModule extends SimpleModule {
                 }
 
                 if (fieldName != null && fieldName.toLowerCase().contains("password")) {
-                    return value;
+                    return value.trim();
                 }
 
                 return value.trim().toLowerCase();
