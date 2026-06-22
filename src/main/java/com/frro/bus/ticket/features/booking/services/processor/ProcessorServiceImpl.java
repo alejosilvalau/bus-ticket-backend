@@ -18,6 +18,7 @@ import com.frro.bus.ticket.features.booking.dtos.GetTicketFinalPriceDTO;
 import com.frro.bus.ticket.features.booking.entities.Ticket;
 import com.frro.bus.ticket.features.booking.mappers.TicketMapper;
 import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
+import com.frro.bus.ticket.features.fleet.entities.Bus;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
 import com.frro.bus.ticket.features.fleet.repositories.SeatRepository;
 import com.frro.bus.ticket.features.identity.entities.User;
@@ -47,6 +48,8 @@ public class ProcessorServiceImpl implements ProcessorService {
         ticket.setUser(validateUserRelationship(ticketRequest.userId()));
 
         validateTripDepartureTime(ticket.getTrip());
+
+        validateBusRelationship(ticket.getTrip().getBus());
 
         validateSeatBelongsToTrip(ticket.getSeat(), ticket.getTrip());
 
@@ -82,6 +85,8 @@ public class ProcessorServiceImpl implements ProcessorService {
         });
 
         validateTripDepartureTime(existingTicket.getTrip());
+
+        validateBusRelationship(existingTicket.getTrip().getBus());
 
         if (ticketRequest.tripId().isPresent()) {
             validateSeatAvailability(existingTicket.getTrip());
@@ -185,14 +190,22 @@ public class ProcessorServiceImpl implements ProcessorService {
 
         validateTripDepartureTime(trip);
 
+        validateBusRelationship(trip.getBus());
+
         validateSeatBelongsToTrip(seat, trip);
 
-        int excludeTicketId = 0; // No existing ticket to exclude during creation
+        int excludeTicketId = 0; // No existing ticket to exclude during price check
         validateTripAndSeatUniqueness(trip.getId(), seat.getId(), excludeTicketId);
 
         validateSeatAvailability(trip);
 
         return calculateFinalPriceValue(trip, seat);
+    }
+
+    private void validateBusRelationship(Bus bus) {
+        if (!bus.isActive()) {
+            throw new BusinessException("Bus is not active.");
+        }
     }
 
     private Seat validateSeatRelationship(int seatId) {
