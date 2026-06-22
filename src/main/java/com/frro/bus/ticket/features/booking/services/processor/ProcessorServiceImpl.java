@@ -48,6 +48,8 @@ public class ProcessorServiceImpl implements ProcessorService {
 
         validateTripDepartureTime(ticket.getTrip());
 
+        validateSeatBelongsToTrip(ticket.getSeat(), ticket.getTrip());
+
         int excludeTicketId = 0; // No existing ticket to exclude during creation
         validateTripAndSeatUniqueness(ticket.getTrip().getId(), ticket.getSeat().getId(), excludeTicketId);
 
@@ -86,6 +88,8 @@ public class ProcessorServiceImpl implements ProcessorService {
         }
 
         if (ticketRequest.tripId().isPresent() || ticketRequest.seatId().isPresent()) {
+            validateSeatBelongsToTrip(existingTicket.getSeat(), existingTicket.getTrip());
+
             validateTripAndSeatUniqueness(existingTicket.getTrip().getId(), existingTicket.getSeat().getId(),
                     existingTicket.getId());
 
@@ -119,6 +123,12 @@ public class ProcessorServiceImpl implements ProcessorService {
         long bookedSeats = ticketRepository.countByTripIdAndIsCancelledFalse(trip.getId());
         if (bookedSeats >= trip.getBus().getTotalCapacity()) {
             throw new BusinessException("Trip is full. No available seats.");
+        }
+    }
+
+    private void validateSeatBelongsToTrip(Seat seat, Trip trip) {
+        if (seat.getBus().getId() != trip.getBus().getId()) {
+            throw new BusinessException("Seat does not belong to the trip's bus.");
         }
     }
 
@@ -171,8 +181,16 @@ public class ProcessorServiceImpl implements ProcessorService {
     @Override
     public BigDecimal getTicketFinalPrice(GetTicketFinalPriceDTO ticketRequest) {
         Trip trip = validateTripRelationship(ticketRequest.tripId());
-
         Seat seat = validateSeatRelationship(ticketRequest.seatId());
+
+        validateTripDepartureTime(trip);
+
+        validateSeatBelongsToTrip(seat, trip);
+
+        int excludeTicketId = 0; // No existing ticket to exclude during creation
+        validateTripAndSeatUniqueness(trip.getId(), seat.getId(), excludeTicketId);
+
+        validateSeatAvailability(trip);
 
         return calculateFinalPriceValue(trip, seat);
     }
