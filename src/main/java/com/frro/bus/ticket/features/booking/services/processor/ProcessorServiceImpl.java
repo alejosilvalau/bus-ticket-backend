@@ -67,6 +67,10 @@ public class ProcessorServiceImpl implements ProcessorService {
         Ticket existingTicket = ticketRepository.findById(ticketRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", ticketRequest.id()));
 
+        if (existingTicket.isCancelled()) {
+            throw new BusinessException("Cannot update a cancelled ticket.");
+        }
+
         ticketRequest.tripId().ifPresent(tripId -> {
             existingTicket.setTrip(validateTripRelationship(tripId));
         });

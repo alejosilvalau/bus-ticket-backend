@@ -3,7 +3,7 @@
 ### Create a new ticket
 POST http://localhost:8080/api/v1/booking/processor/tickets
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODIwODU5OTQsImV4cCI6MTc4MjA5Njc5NH0.X_tcuf46IP6lHfa2C-YvoNJEW9yQDjsfFFeq1Qo2DAms5ArngAV2SqjVh6j26MoE
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODIxNDYxNDksImV4cCI6MTc4MjE1Njk0OX0.xdVqh-_L8D9_A781INUhKz-6EEBaC7QMhdF-6VYYXVn54bmV4tjtjt3Mid9h5pf6
 
 {
   "userId": 1,
@@ -33,7 +33,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZ
 ### Get final price for ticket
 POST http://localhost:8080/api/v1/booking/processor/tickets/final-price
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODIwODU3OTUsImV4cCI6MTc4MjA5NjU5NX0.Bzvz3mWYjP4jShM-UJUBOEdzCz_1ipWNOUDZoINElmlqRNOpa2bqOcqQwQMhf4Y9
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODIxNDYxNDksImV4cCI6MTc4MjE1Njk0OX0.xdVqh-_L8D9_A781INUhKz-6EEBaC7QMhdF-6VYYXVn54bmV4tjtjt3Mid9h5pf6
 
 {
   "tripId": 2,
