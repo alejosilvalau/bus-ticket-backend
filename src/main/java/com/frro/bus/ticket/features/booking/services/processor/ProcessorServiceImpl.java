@@ -3,6 +3,8 @@ package com.frro.bus.ticket.features.booking.services.processor;
 import java.math.BigDecimal;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -173,18 +175,22 @@ public class ProcessorServiceImpl implements ProcessorService {
             data.put("originCityName", trip.getLocationOrigin().getCityName());
             data.put("destinationCityName", trip.getLocationDestination().getCityName());
             data.put("trip", Map.of(
-                    "departureDate", trip.getDepartureDate().toString(),
-                    "arrivalDate", trip.getArrivalDate().toString()));
+                    "departureDate", formatDateTime(trip.getDepartureDate()),
+                    "arrivalDate", formatDateTime(trip.getArrivalDate())));
             data.put("seat", Map.of(
                     "letter", String.valueOf(seat.getLetter()),
                     "number", seat.getNumber(),
                     "seatTypeName", seat.getSeatType().getName()));
-            data.put("bookingTime", ticket.getBookingTime().toString());
+            data.put("bookingTime", formatDateTime(ticket.getBookingTime()));
 
             return objectMapper.writeValueAsString(data);
         } catch (Exception e) {
             throw new BusinessException("Failed to generate token");
         }
+    }
+
+    private String formatDateTime(ZonedDateTime dateTime) {
+        return dateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_INSTANT);
     }
 
     @Override

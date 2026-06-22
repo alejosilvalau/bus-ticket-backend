@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -55,7 +56,7 @@ public class ZonedDateTimeModule extends SimpleModule {
         addSerializer(ZonedDateTime.class, new StdSerializer<ZonedDateTime>(ZonedDateTime.class) {
             @Override
             public void serialize(ZonedDateTime value, JsonGenerator gen, SerializationContext provider) {
-                gen.writeString(value.format(DateTimeFormatter.ISO_INSTANT));
+                gen.writeString(value.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_INSTANT));
             }
         });
     }
