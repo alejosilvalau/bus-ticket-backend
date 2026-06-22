@@ -1,9 +1,5 @@
 package com.frro.bus.ticket.features.booking.services.status;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,10 +7,10 @@ import org.springframework.stereotype.Service;
 import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.common.utils.PaginationUtils;
+import com.frro.bus.ticket.features.booking.dtos.SearchTicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.TokenDTO;
 import com.frro.bus.ticket.features.booking.entities.Ticket;
-import com.frro.bus.ticket.features.booking.dtos.SearchTicketDTO;
 import com.frro.bus.ticket.features.booking.mappers.TicketMapper;
 import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
@@ -77,9 +73,4 @@ public class StatusServiceImpl implements StatusService {
                 seat.getSeatType().getName(),
                 ticket.getBookingTime());
     }
-
-    // private String formatDateTime(ZonedDateTime dateTime) {
-    // return
-    // dateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_INSTANT);
-    // }
 }

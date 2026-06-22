@@ -13,8 +13,18 @@ public class StringNormalizationModule extends SimpleModule {
         addDeserializer(String.class, new StdDeserializer<String>(String.class) {
             @Override
             public String deserialize(JsonParser p, DeserializationContext ctxt) {
+                String fieldName = p.currentName();
                 String value = p.getValueAsString();
-                return value != null ? value.trim().toLowerCase() : null;
+
+                if (value == null) {
+                    return null;
+                }
+
+                if (fieldName != null && fieldName.toLowerCase().contains("password")) {
+                    return value;
+                }
+
+                return value.trim().toLowerCase();
             }
         });
     }
