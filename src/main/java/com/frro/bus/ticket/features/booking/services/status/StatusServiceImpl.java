@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
+import com.frro.bus.ticket.common.utils.PaginationUtils;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.SearchTicketDTO;
 import com.frro.bus.ticket.features.booking.mappers.TicketMapper;
@@ -22,7 +23,7 @@ public class StatusServiceImpl implements StatusService {
     @Override
     public PageResponse<TicketFullDTO> findAllTickets(Pageable pageable) {
         Page<TicketFullDTO> page = ticketRepository.findAll(pageable).map(ticketMapper::toTicketFullDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class StatusServiceImpl implements StatusService {
                 searchCriteria.seatId().orElse(null),
                 pageable)
                 .map(ticketMapper::toTicketFullDTO);
-        return toPageResponse(page);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
@@ -47,17 +48,5 @@ public class StatusServiceImpl implements StatusService {
         return ticketRepository.findById(id)
                 .map(ticketMapper::toTicketFullDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", id));
-    }
-
-    private <T> PageResponse<T> toPageResponse(Page<T> page) {
-        return PageResponse.of(
-                page.getContent(),
-                page.getNumber(),
-                page.getSize(),
-                page.getTotalElements(),
-                page.getTotalPages(),
-                page.isFirst(),
-                page.isLast(),
-                page.isEmpty());
     }
 }

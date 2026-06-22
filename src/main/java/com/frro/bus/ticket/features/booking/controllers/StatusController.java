@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
 import com.frro.bus.ticket.common.dto.PageResponse;
+import com.frro.bus.ticket.common.security.endpointhelpers.AdminEndpoint;
 import com.frro.bus.ticket.common.security.endpointhelpers.AuthenticatedEndpoint;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.SearchTicketDTO;
@@ -22,19 +23,20 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/booking/status")
-@AuthenticatedEndpoint
 @SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class StatusController {
 
     private final StatusService statusService;
 
+    @AdminEndpoint
     @GetMapping("/tickets")
     public ResponseEntity<ApiResponse<PageResponse<TicketFullDTO>>> findAllTickets(Pageable pageable) {
         PageResponse<TicketFullDTO> tickets = statusService.findAllTickets(pageable);
         return ResponseEntity.ok(ApiResponse.success("Tickets retrieved successfully", tickets));
     }
 
+    @AuthenticatedEndpoint
     @PostMapping("/tickets/search")
     public ResponseEntity<ApiResponse<PageResponse<TicketFullDTO>>> searchTickets(
             @Valid @RequestBody SearchTicketDTO searchCriteria, Pageable pageable) {
@@ -42,6 +44,7 @@ public class StatusController {
         return ResponseEntity.ok(ApiResponse.success("Tickets searched successfully", tickets));
     }
 
+    @AuthenticatedEndpoint
     @GetMapping("/tickets/{id}")
     public ResponseEntity<ApiResponse<TicketFullDTO>> findTicketById(@PathVariable int id) {
         TicketFullDTO ticket = statusService.findTicketById(id);

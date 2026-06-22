@@ -37,5 +37,5 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZ
 
 {
   "tripId": 2,
-  "seatId": 2
+  "seatId": 5
 }
