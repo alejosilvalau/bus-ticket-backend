@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Size;
 
 public record SearchTicketDTO(
         Optional<@DecimalMin("0") BigDecimal> startFinalPrice,
@@ -14,7 +13,6 @@ public record SearchTicketDTO(
         Optional<ZonedDateTime> startBookingTime,
         Optional<ZonedDateTime> endBookingTime,
         Optional<Boolean> isCancelled,
-        Optional<@Size(min = 1, max = 100) String> token,
         Optional<@Min(1) Integer> userId,
         Optional<@Min(1) Integer> tripId,
         Optional<@Min(1) Integer> seatId) {

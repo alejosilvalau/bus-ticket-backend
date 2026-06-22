@@ -3,11 +3,6 @@ package com.frro.bus.ticket.features.booking.services.processor;
 import java.math.BigDecimal;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.springframework.stereotype.Service;
 
 import com.frro.bus.ticket.common.exceptions.BusinessException;
@@ -30,7 +25,6 @@ import com.frro.bus.ticket.features.journey.entities.Trip;
 import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 
 import lombok.RequiredArgsConstructor;
-import tools.jackson.databind.ObjectMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +34,6 @@ public class ProcessorServiceImpl implements ProcessorService {
     private final SeatRepository seatRepository;
     private final UserRepository userRepository;
     private final TicketMapper ticketMapper;
-    private final ObjectMapper objectMapper;
 
     @Override
     public TicketFullDTO createTicket(CreateTicketDTO ticketRequest) {
@@ -64,8 +57,6 @@ public class ProcessorServiceImpl implements ProcessorService {
 
         ticket.setBookingTime(ZonedDateTime.now(ZoneOffset.UTC));
         ticket.setFinalPrice(calculateFinalPriceValue(ticket.getTrip(), ticket.getSeat()));
-
-        ticket.setToken(generateToken(ticket));
 
         Ticket savedTicket = ticketRepository.save(ticket);
         return ticketMapper.toTicketFullDTO(savedTicket);
@@ -107,7 +98,6 @@ public class ProcessorServiceImpl implements ProcessorService {
             existingTicket.setFinalPrice(calculateFinalPriceValue(existingTicket.getTrip(),
                     existingTicket.getSeat()));
         }
-        existingTicket.setToken(generateToken(existingTicket));
 
         Ticket savedTicket = ticketRepository.save(existingTicket);
         return ticketMapper.toTicketFullDTO(savedTicket);
@@ -163,34 +153,6 @@ public class ProcessorServiceImpl implements ProcessorService {
         ticket.setCancelled(true);
         Ticket savedTicket = ticketRepository.save(ticket);
         return ticketMapper.toTicketFullDTO(savedTicket);
-    }
-
-    private String generateToken(Ticket ticket) {
-        Trip trip = ticket.getTrip();
-        Seat seat = ticket.getSeat();
-        Map<String, Object> data = new LinkedHashMap<>();
-        try {
-            data.put("BusPlateNumber", trip.getBus().getPlateNumber());
-            data.put("driverName", trip.getDriver().getFirstName());
-            data.put("originCityName", trip.getLocationOrigin().getCityName());
-            data.put("destinationCityName", trip.getLocationDestination().getCityName());
-            data.put("trip", Map.of(
-                    "departureDate", formatDateTime(trip.getDepartureDate()),
-                    "arrivalDate", formatDateTime(trip.getArrivalDate())));
-            data.put("seat", Map.of(
-                    "letter", String.valueOf(seat.getLetter()),
-                    "number", seat.getNumber(),
-                    "seatTypeName", seat.getSeatType().getName()));
-            data.put("bookingTime", formatDateTime(ticket.getBookingTime()));
-
-            return objectMapper.writeValueAsString(data);
-        } catch (Exception e) {
-            throw new BusinessException("Failed to generate token");
-        }
-    }
-
-    private String formatDateTime(ZonedDateTime dateTime) {
-        return dateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_INSTANT);
     }
 
     @Override

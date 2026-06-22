@@ -31,14 +31,12 @@ public interface TicketMapper {
     @Mapping(target = "finalPrice", ignore = true)
     @Mapping(target = "cancelled", ignore = true)
     @Mapping(target = "bookingTime", ignore = true)
-    @Mapping(target = "token", ignore = true)
     @Mapping(target = "seat", source = "seatId", qualifiedByName = "idToSeat")
     @Mapping(target = "trip", source = "tripId", qualifiedByName = "idToTrip")
     @Mapping(target = "user", source = "userId", qualifiedByName = "idToUser")
     Ticket toTicket(CreateTicketDTO createTicketDto);
 
     @Mapping(target = "bookingTime", ignore = true)
-    @Mapping(target = "token", ignore = true)
     @Mapping(target = "cancelled", ignore = true)
     @Mapping(target = "finalPrice", ignore = true)
     @Mapping(target = "seat", source = "seatId", qualifiedByName = "optionalIdToSeat")

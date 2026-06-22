@@ -7,6 +7,5 @@ public record TicketDTO(
         int id,
         BigDecimal finalPrice,
         ZonedDateTime bookingTime,
-        boolean isCancelled,
-        String token) {
+        boolean isCancelled) {
 }

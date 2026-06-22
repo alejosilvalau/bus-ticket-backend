@@ -5,8 +5,8 @@ POST http://localhost:8080/api/v1/identity/register
 Content-Type: application/json
 
 {
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john.doe@email.com",
+  "firstName": "John2",
+  "lastName": "Doe2",
+  "email": "john.doe2@email.com",
   "password": "Test1234$$%"
 }

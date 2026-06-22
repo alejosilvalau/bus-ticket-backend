@@ -40,7 +40,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             "(:startBookingTime IS NULL OR t.bookingTime >= :startBookingTime) AND " +
             "(:endBookingTime IS NULL OR t.bookingTime <= :endBookingTime) AND " +
             "(:isCancelled IS NULL OR t.isCancelled = :isCancelled) AND " +
-            "(:token IS NULL OR LOWER(t.token) LIKE LOWER(CONCAT('%', :token, '%'))) AND " +
             "(:userId IS NULL OR t.user.id = :userId) AND " +
             "(:tripId IS NULL OR t.trip.id = :tripId) AND " +
             "(:seatId IS NULL OR t.seat.id = :seatId)")
@@ -51,7 +50,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             @Param("startBookingTime") ZonedDateTime startBookingTime,
             @Param("endBookingTime") ZonedDateTime endBookingTime,
             @Param("isCancelled") Boolean isCancelled,
-            @Param("token") String token,
             @Param("userId") Integer userId,
             @Param("tripId") Integer tripId,
             @Param("seatId") Integer seatId,

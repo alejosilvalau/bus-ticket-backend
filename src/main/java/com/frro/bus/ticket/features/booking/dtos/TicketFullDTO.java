@@ -12,7 +12,6 @@ public record TicketFullDTO(
         BigDecimal finalPrice,
         ZonedDateTime bookingTime,
         boolean isCancelled,
-        String token,
         UserDTO user,
         TripDTO trip,
         SeatDTO seat) {

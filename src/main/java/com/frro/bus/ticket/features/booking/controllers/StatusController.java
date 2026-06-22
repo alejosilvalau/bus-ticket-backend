@@ -14,6 +14,7 @@ import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.security.endpointhelpers.AdminEndpoint;
 import com.frro.bus.ticket.common.security.endpointhelpers.AuthenticatedEndpoint;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
+import com.frro.bus.ticket.features.booking.dtos.TokenDTO;
 import com.frro.bus.ticket.features.booking.dtos.SearchTicketDTO;
 import com.frro.bus.ticket.features.booking.services.status.StatusService;
 
@@ -49,5 +50,12 @@ public class StatusController {
     public ResponseEntity<ApiResponse<TicketFullDTO>> findTicketById(@PathVariable int id) {
         TicketFullDTO ticket = statusService.findTicketById(id);
         return ResponseEntity.ok(ApiResponse.success("Ticket retrieved successfully", ticket));
+    }
+
+    @AuthenticatedEndpoint
+    @GetMapping("/tickets/{id}/token")
+    public ResponseEntity<ApiResponse<TokenDTO>> getToken(@PathVariable int id) {
+        TokenDTO token = statusService.getToken(id);
+        return ResponseEntity.ok(ApiResponse.success("Token retrieved successfully", token));
     }
 }
