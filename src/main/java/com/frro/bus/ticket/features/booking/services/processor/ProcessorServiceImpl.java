@@ -20,6 +20,7 @@ import com.frro.bus.ticket.features.booking.mappers.TicketMapper;
 import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
 import com.frro.bus.ticket.features.fleet.entities.Bus;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
+import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.fleet.repositories.SeatRepository;
 import com.frro.bus.ticket.features.identity.entities.User;
 import com.frro.bus.ticket.features.identity.repositories.UserRepository;
@@ -50,6 +51,8 @@ public class ProcessorServiceImpl implements ProcessorService {
         validateTripDepartureTime(ticket.getTrip());
 
         validateBusRelationship(ticket.getTrip().getBus());
+
+        validateDriverRelationship(ticket.getTrip().getDriver());
 
         validateSeatBelongsToTrip(ticket.getSeat(), ticket.getTrip());
 
@@ -87,6 +90,8 @@ public class ProcessorServiceImpl implements ProcessorService {
         validateTripDepartureTime(existingTicket.getTrip());
 
         validateBusRelationship(existingTicket.getTrip().getBus());
+
+        validateDriverRelationship(existingTicket.getTrip().getDriver());
 
         if (ticketRequest.tripId().isPresent()) {
             validateSeatAvailability(existingTicket.getTrip());
@@ -192,6 +197,8 @@ public class ProcessorServiceImpl implements ProcessorService {
 
         validateBusRelationship(trip.getBus());
 
+        validateDriverRelationship(trip.getDriver());
+
         validateSeatBelongsToTrip(seat, trip);
 
         int excludeTicketId = 0; // No existing ticket to exclude during price check
@@ -205,6 +212,12 @@ public class ProcessorServiceImpl implements ProcessorService {
     private void validateBusRelationship(Bus bus) {
         if (!bus.isActive()) {
             throw new BusinessException("Bus is not active.");
+        }
+    }
+
+    private void validateDriverRelationship(Driver driver) {
+        if (!driver.isActive()) {
+            throw new BusinessException("Driver is not active.");
         }
     }
 

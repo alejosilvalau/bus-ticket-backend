@@ -106,8 +106,12 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     private Driver validateDriverRelationship(int driverId) {
-        return driverRepository.findById(driverId)
+        Driver driver = driverRepository.findById(driverId)
                 .orElseThrow(() -> new ResourceNotFoundException("Driver", "id", driverId));
+        if (!driver.isActive()) {
+            throw new BusinessException("Driver is not active.");
+        }
+        return driver;
     }
 
     private Location validateLocationRelationship(int locationId) {
