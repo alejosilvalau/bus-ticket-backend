@@ -29,7 +29,6 @@ import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 
 import lombok.RequiredArgsConstructor;
 import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.json.JsonMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +38,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     private final SeatRepository seatRepository;
     private final UserRepository userRepository;
     private final TicketMapper ticketMapper;
-    private final ObjectMapper objectMapper = JsonMapper.builder().build();
+    private final ObjectMapper objectMapper;
 
     @Override
     public TicketFullDTO createTicket(CreateTicketDTO ticketRequest) {

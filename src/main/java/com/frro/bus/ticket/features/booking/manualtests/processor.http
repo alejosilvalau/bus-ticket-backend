@@ -3,12 +3,12 @@
 ### Create a new ticket
 POST http://localhost:8080/api/v1/booking/processor/tickets
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE1Njg3NjUsImV4cCI6MTc4MTU3OTU2NX0.Qg4JdxXpKZCzoK327VsL1S4D_Udd7Kyqw_hme13NlBYpo4dUHeZqDO5frYk7hdYw
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODIwODU5OTQsImV4cCI6MTc4MjA5Njc5NH0.X_tcuf46IP6lHfa2C-YvoNJEW9yQDjsfFFeq1Qo2DAms5ArngAV2SqjVh6j26MoE
 
 {
   "userId": 1,
   "tripId": 2,
-  "seatId": 1
+  "seatId": 4
 }
 
 ### Update ticket by ID
@@ -21,9 +21,9 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZ
 }
 
 ### Delete ticket by ID
-DELETE http://localhost:8080/api/v1/booking/processor/tickets/1
+DELETE http://localhost:8080/api/v1/booking/processor/tickets/11
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE1Njg3NjUsImV4cCI6MTc4MTU3OTU2NX0.Qg4JdxXpKZCzoK327VsL1S4D_Udd7Kyqw_hme13NlBYpo4dUHeZqDO5frYk7hdYw
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODIwODU5OTQsImV4cCI6MTc4MjA5Njc5NH0.X_tcuf46IP6lHfa2C-YvoNJEW9yQDjsfFFeq1Qo2DAms5ArngAV2SqjVh6j26MoE
 
 ### Cancel ticket by ID
 PATCH http://localhost:8080/api/v1/booking/processor/tickets/1/cancel

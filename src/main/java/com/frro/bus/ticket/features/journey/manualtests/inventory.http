@@ -3,11 +3,11 @@
 ### Create a new trip
 POST http://localhost:8080/api/v1/journeys/inventory/trips
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE5NTU4ODEsImV4cCI6MTc4MTk2NjY4MX0.BK2TIXIDlUFElI7LQ-2sD31wmFl6brwnEWu8b9sfHk0mgltvRb423TMMxu2Bi9hM
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODIwODU5OTQsImV4cCI6MTc4MjA5Njc5NH0.X_tcuf46IP6lHfa2C-YvoNJEW9yQDjsfFFeq1Qo2DAms5ArngAV2SqjVh6j26MoE
 
 {
-  "departureDate": "2026-06-22T12:00:00Z",
-  "arrivalDate": "2026-06-22T20:00:00Z",
+  "departureDate": "2026-06-25T12:00:00",
+  "arrivalDate": "2026-06-26T20:00:00-03:00",
   "basePrice": 150.00,
   "busId": 2,
   "driverId": 3,
@@ -33,13 +33,12 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZ
 ### Create a new location
 POST http://localhost:8080/api/v1/journeys/inventory/locations
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE5MTcyMjQsImV4cCI6MTc4MTkyODAyNH0.YslcQfvFFLgcyDAtmkwNJXakRQUdf7ShrIb0Vwtvovlu0ohcmDlCdGC3VkGPBYPX
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODIwODU5OTQsImV4cCI6MTc4MjA5Njc5NH0.X_tcuf46IP6lHfa2C-YvoNJEW9yQDjsfFFeq1Qo2DAms5ArngAV2SqjVh6j26MoE
 
 {
-  "id": 1,
-  "cityName": "Buenos Aires",
-  "state": "BAS",
-  "postalCode": "1000"
+  "cityName": "Salta",
+  "state": "Salta",
+  "postalCode": "4400"
 }
 
 ### Update location by ID
