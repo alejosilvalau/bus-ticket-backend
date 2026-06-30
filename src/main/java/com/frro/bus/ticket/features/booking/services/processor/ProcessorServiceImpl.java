@@ -26,6 +26,8 @@ import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Service
 @RequiredArgsConstructor
 public class ProcessorServiceImpl implements ProcessorService {
@@ -34,13 +36,19 @@ public class ProcessorServiceImpl implements ProcessorService {
     private final SeatRepository seatRepository;
     private final UserRepository userRepository;
     private final TicketMapper ticketMapper;
+    private final HttpServletRequest request;
 
     @Override
     public TicketFullDTO createTicket(CreateTicketDTO ticketRequest) {
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
         ticket.setTrip(validateTripRelationship(ticketRequest.tripId()));
         ticket.setSeat(validateSeatRelationship(ticketRequest.seatId()));
-        ticket.setUser(validateUserRelationship(ticketRequest.userId()));
+
+        int authenticatedUserId = getAuthenticatedUserId();
+        if (!isAdmin() && ticketRequest.userId() != authenticatedUserId) {
+            throw new BusinessException("You can only buy tickets for your own user");
+        }
+        ticket.setUser(validateUserRelationship(isAdmin() ? ticketRequest.userId() : authenticatedUserId));
 
         validateTripDepartureTime(ticket.getTrip());
 
@@ -150,6 +158,8 @@ public class ProcessorServiceImpl implements ProcessorService {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", id));
 
+        ensureCanAccessTicket(ticket);
+
         if (ticket.isCancelled()) {
             throw new BusinessException("Ticket is already cancelled.");
         }
@@ -215,5 +225,29 @@ public class ProcessorServiceImpl implements ProcessorService {
         BigDecimal basePrice = trip.getBasePrice();
         BigDecimal seatUpcharge = seat.getSeatType().getUpcharge();
         return basePrice.add(seatUpcharge);
+    }
+
+    private int getAuthenticatedUserId() {
+        Object userId = request.getAttribute("userId");
+        if (userId == null) {
+            throw new BusinessException("No authenticated user found");
+        }
+        return (int) userId;
+    }
+
+    private boolean isAdmin() {
+        Object isAdmin = request.getAttribute("isAdmin");
+        return isAdmin instanceof Boolean && (Boolean) isAdmin;
+    }
+
+    private void ensureCanAccessTicket(Ticket ticket) {
+        if (isAdmin()) {
+            return;
+        }
+
+        int authenticatedUserId = getAuthenticatedUserId();
+        if (ticket.getUser() == null || ticket.getUser().getId() != authenticatedUserId) {
+            throw new BusinessException("You can only access your own tickets");
+        }
     }
 }
