@@ -62,6 +62,24 @@ public final class TripSpecification {
         };
     }
 
+    public static Specification<Trip> conflictingDriver(int driverId, int excludeTripId,
+            ZonedDateTime departureDateMinusBuffer, ZonedDateTime arrivalDatePlusBuffer) {
+        return (root, query, cb) -> cb.and(
+                cb.equal(root.get("driver").get("id"), driverId),
+                cb.notEqual(root.get("id"), excludeTripId),
+                cb.lessThan(root.get("departureDate"), arrivalDatePlusBuffer),
+                cb.greaterThan(root.get("arrivalDate"), departureDateMinusBuffer));
+    }
+
+    public static Specification<Trip> conflictingBus(int busId, int excludeTripId,
+            ZonedDateTime departureDateMinusBuffer, ZonedDateTime arrivalDatePlusBuffer) {
+        return (root, query, cb) -> cb.and(
+                cb.equal(root.get("bus").get("id"), busId),
+                cb.notEqual(root.get("id"), excludeTripId),
+                cb.lessThan(root.get("departureDate"), arrivalDatePlusBuffer),
+                cb.greaterThan(root.get("arrivalDate"), departureDateMinusBuffer));
+    }
+
     private static Predicate hasSeatType(Root<Trip> root, CriteriaQuery<?> query, CriteriaBuilder cb, int seatTypeId) {
         Subquery<Long> sub = query.subquery(Long.class);
         Root<Seat> seat = sub.from(Seat.class);

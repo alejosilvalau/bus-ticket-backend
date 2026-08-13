@@ -25,6 +25,7 @@ import com.frro.bus.ticket.features.journey.mappers.LocationMapper;
 import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 import com.frro.bus.ticket.features.journey.repositories.LocationRepository;
 import com.frro.bus.ticket.features.journey.repositories.TripRepository;
+import com.frro.bus.ticket.features.journey.specifications.TripSpecification;
 
 import lombok.RequiredArgsConstructor;
 
@@ -139,8 +140,8 @@ public class InventoryServiceImpl implements InventoryService {
         long hoursBetweenDriverTrips = 3;
         ZonedDateTime departureMinusBuffer = departureDate.minus(Duration.ofHours(hoursBetweenDriverTrips));
         ZonedDateTime arrivalPlusBuffer = arrivalDate.plus(Duration.ofHours(hoursBetweenDriverTrips));
-        if (tripRepository.existsConflictingDriverTrip(driverId, excludeTripId, departureMinusBuffer,
-                arrivalPlusBuffer)) {
+        if (tripRepository.exists(TripSpecification.conflictingDriver(driverId, excludeTripId, departureMinusBuffer,
+                arrivalPlusBuffer))) {
             throw new BusinessException(String.format("Driver is not available: has another trip within %d hours.",
                     hoursBetweenDriverTrips));
         }
@@ -151,7 +152,8 @@ public class InventoryServiceImpl implements InventoryService {
         long minutesBetweenBusTrips = 30;
         ZonedDateTime departureMinusBuffer = departureDate.minus(Duration.ofMinutes(minutesBetweenBusTrips));
         ZonedDateTime arrivalPlusBuffer = arrivalDate.plus(Duration.ofMinutes(minutesBetweenBusTrips));
-        if (tripRepository.existsConflictingBusTrip(busId, excludeTripId, departureMinusBuffer, arrivalPlusBuffer)) {
+        if (tripRepository.exists(TripSpecification.conflictingBus(busId, excludeTripId, departureMinusBuffer,
+                arrivalPlusBuffer))) {
             throw new BusinessException(String.format("Bus is not available: has another trip within %d minutes.",
                     minutesBetweenBusTrips));
         }
