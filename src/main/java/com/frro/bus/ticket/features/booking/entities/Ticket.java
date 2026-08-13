@@ -2,6 +2,7 @@ package com.frro.bus.ticket.features.booking.entities;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import com.frro.bus.ticket.common.utils.entities.EntityWithId;
@@ -19,8 +20,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ticket", uniqueConstraints = @UniqueConstraint(name = "uk_trip_seat", columnNames = { "id_trip",
-        "id_seat" }))
+@Table(name = "ticket")
 public class Ticket implements EntityWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,23 +30,20 @@ public class Ticket implements EntityWithId {
     private BigDecimal finalPrice = BigDecimal.ZERO;
 
     @Column(nullable = false)
-    private ZonedDateTime bookingTime = ZonedDateTime.now();
+    private ZonedDateTime bookingTime = ZonedDateTime.now(ZoneOffset.UTC);
 
     @Column(nullable = false)
     private boolean isCancelled = false;
 
-    @Column(nullable = false, unique = true)
-    private String token;
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_user", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_trip", nullable = false)
+    @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_seat", nullable = false)
+    @JoinColumn(name = "seat_id", nullable = false)
     private Seat seat;
 }

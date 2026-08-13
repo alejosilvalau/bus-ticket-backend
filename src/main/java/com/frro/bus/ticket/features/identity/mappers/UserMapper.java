@@ -16,9 +16,9 @@ public interface UserMapper {
     UserDTO toUserDTO(User user);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "active", source = "isActive")
     @Mapping(target = "admin", ignore = true)
     @Mapping(target = "tickets", ignore = true)
+    @Mapping(target = "active", ignore = true)
     User toUser(CreateUserDTO createUserDto);
 
     @Mapping(target = "firstName", source = "firstName", qualifiedByName = "unwrapOptionalString")

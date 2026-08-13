@@ -11,8 +11,14 @@ El sistema permite gestionar integralmente la compra, reserva y administración 
 
 Incorpora perfiles de usuario y administrador, manejo de errores con mensajes claros en la interfaz, y excepciones personalizadas, asegurando eficiencia, accesibilidad y control para pasajeros, empresas y entes reguladores.
 
+## Video Demo de Proyecto:
+![Video Demo](https://www.youtube.com/)   
+
 ## Diagrama de Clases
-![Diagrama de Clases](./diagrama-de-clases-v8.png)
+![Diagrama de Clases](./diagrama-de-clases-v9.png)
+
+## Modelo de Datos
+![Modelo de Datos](./modelo-de-datos.png)  
 
 ## Casos de Uso para la REGULARIDAD
 | Requerimiento | Detalle/Listado de casos incluidos |
@@ -20,7 +26,7 @@ Incorpora perfiles de usuario y administrador, manejo de errores con mensajes cl
 | ABMC Simple | Bus, Location |
 | ABMC Dependiente | Seat |
 | CU NO-ABMC | Creación de viaje |
-| Listado Simple | Listado de asientos disponibles en cada colectivo |
+| Listado Simple | Listado de asientos disponibles en cada viaje |
 | Listado Complejo | Listado de viajes disponibles, pudiendose filtrar por atributos como destino, punto de partida, precio, tipo de asiento, fecha y hora de salida |
 
 ## Casos de Uso para la AP DIRECTA
@@ -37,4 +43,10 @@ Incorpora perfiles de usuario y administrador, manejo de errores con mensajes cl
 | Requerimiento | Detalle/Listado de casos incluidos |
 | --- | --- |
 | Custom exceptions | Excepciones personalizadas mediante subclases, validando las reglas de negocio|
+
+### Ruta de Listado Simple
+- GET `/api/v1/journeys/catalog/trips/{id}/available/seats`
+
+### Ruta de Listado Complejo
+- GET `/api/v1/journeys/catalog/trips/available/search`
 

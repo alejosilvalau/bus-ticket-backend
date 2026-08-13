@@ -1,7 +1,7 @@
 package com.frro.bus.ticket.features.booking.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.math.BigDecimal;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,6 +15,7 @@ import com.frro.bus.ticket.common.dto.ApiResponse;
 import com.frro.bus.ticket.common.security.endpointhelpers.AdminEndpoint;
 import com.frro.bus.ticket.common.security.endpointhelpers.AuthenticatedEndpoint;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
+import com.frro.bus.ticket.features.booking.dtos.GetTicketFinalPriceDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
 import com.frro.bus.ticket.features.booking.services.processor.ProcessorService;
@@ -29,50 +30,42 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProcessorController {
 
-    private static final Logger log = LoggerFactory.getLogger(ProcessorController.class);
-
     private final ProcessorService processorService;
 
     @AuthenticatedEndpoint
     @PostMapping("/tickets")
     public ResponseEntity<ApiResponse<TicketFullDTO>> createTicket(@Valid @RequestBody CreateTicketDTO ticketRequest) {
-        try {
-            TicketFullDTO savedTicket = processorService.createTicket(ticketRequest);
-            return ResponseEntity.ok(ApiResponse.success("Ticket created successfully", savedTicket));
-        } catch (Exception e) {
-            log.error("Failed to create ticket", e);
-            return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Failed to create ticket. Please try again later."));
-        }
+        TicketFullDTO savedTicket = processorService.createTicket(ticketRequest);
+        return ResponseEntity.ok(ApiResponse.success("Ticket created successfully", savedTicket));
+    }
+
+    @AdminEndpoint
+    @PatchMapping("/tickets")
+    public ResponseEntity<ApiResponse<TicketFullDTO>> updateTicket(@Valid @RequestBody UpdateTicketDTO ticketRequest) {
+        TicketFullDTO ticket = processorService.updateTicket(ticketRequest);
+        return ResponseEntity.ok(ApiResponse.success("Ticket updated successfully", ticket));
     }
 
     @AuthenticatedEndpoint
-    @PatchMapping("/tickets")
-    public ResponseEntity<ApiResponse<TicketFullDTO>> updateTicket(@Valid @RequestBody UpdateTicketDTO ticketRequest) {
-        try {
-            return processorService.updateTicket(ticketRequest)
-                    .map(ticket -> ResponseEntity.ok(ApiResponse.success("Ticket updated successfully", ticket)))
-                    .orElseGet(() -> ResponseEntity.status(404)
-                            .body(ApiResponse.error("Ticket not found with id: " + ticketRequest.id())));
-        } catch (Exception e) {
-            log.error("Failed to update ticket with id: {}", ticketRequest.id(), e);
-            return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Failed to update ticket. Please try again later."));
-        }
+    @PostMapping("/tickets/final-price")
+    public ResponseEntity<ApiResponse<BigDecimal>> getFinalPrice(
+            @Valid @RequestBody GetTicketFinalPriceDTO ticketRequest) {
+        BigDecimal finalPrice = processorService.getTicketFinalPrice(ticketRequest);
+        return ResponseEntity.ok(ApiResponse.success("Final price calculated successfully", finalPrice));
     }
 
     @AdminEndpoint
     @DeleteMapping("/tickets/{id}")
     public ResponseEntity<ApiResponse<TicketFullDTO>> deleteTicket(@PathVariable int id) {
-        try {
-            return processorService.deleteTicket(id)
-                    .map(ticket -> ResponseEntity.ok(ApiResponse.success("Ticket deleted successfully", ticket)))
-                    .orElseGet(() -> ResponseEntity.status(404)
-                            .body(ApiResponse.error("Ticket not found with id: " + id)));
-        } catch (Exception e) {
-            log.error("Failed to delete ticket with id: {}", id, e);
-            return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Failed to delete ticket. Please try again later."));
-        }
+        TicketFullDTO ticket = processorService.deleteTicket(id);
+        return ResponseEntity.ok(ApiResponse.success("Ticket deleted successfully", ticket));
     }
+
+    @AuthenticatedEndpoint
+    @PatchMapping("/tickets/{id}/cancel")
+    public ResponseEntity<ApiResponse<TicketFullDTO>> cancelTicket(@PathVariable int id) {
+        TicketFullDTO ticket = processorService.cancelTicket(id);
+        return ResponseEntity.ok(ApiResponse.success("Ticket cancelled successfully", ticket));
+    }
+
 }

@@ -8,29 +8,17 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 public record CreateTripDTO(
-        @NotNull(message = "Departure date is required")
-        ZonedDateTime departureDate,
+        @NotNull ZonedDateTime departureDate,
 
-        @NotNull(message = "Arrival date is required")
-        ZonedDateTime arrivalDate,
+        @NotNull ZonedDateTime arrivalDate,
 
-        @NotNull(message = "Base price is required")
-        @DecimalMin(value = "0", message = "Base price must be zero or positive")
-        BigDecimal basePrice,
+        @NotNull @DecimalMin("0") BigDecimal basePrice,
 
-        @NotNull(message = "Bus ID is required")
-        @Min(value = 1, message = "Bus ID must be a positive number")
-        int idBus,
+        @NotNull @Min(1) Integer busId,
 
-        @NotNull(message = "Driver ID is required")
-        @Min(value = 1, message = "Driver ID must be a positive number")
-        int idDriver,
+        @NotNull @Min(1) Integer driverId,
 
-        @NotNull(message = "Origin location ID is required")
-        @Min(value = 1, message = "Origin location ID must be a positive number")
-        int idLocationOrigin,
+        @NotNull @Min(1) Integer locationOriginId,
 
-        @NotNull(message = "Destination location ID is required")
-        @Min(value = 1, message = "Destination location ID must be a positive number")
-        int idLocationDestination) {
+        @NotNull @Min(1) Integer locationDestinationId) {
 }

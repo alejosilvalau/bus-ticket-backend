@@ -3,10 +3,10 @@ package com.frro.bus.ticket.features.journey.dtos.location;
 import java.util.Optional;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public record UpdateLocationDTO(
-        @Min(value = 1, message = "Location ID must be a positive number")
-        int id,
+        @NotNull @Min(1) Integer id,
 
         Optional<String> cityName,
 

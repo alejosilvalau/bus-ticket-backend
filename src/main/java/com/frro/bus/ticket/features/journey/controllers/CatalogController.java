@@ -1,18 +1,19 @@
 package com.frro.bus.ticket.features.journey.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.frro.bus.ticket.common.dto.ApiResponse;
+import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.security.endpointhelpers.PublicEndpoint;
+import com.frro.bus.ticket.features.fleet.dtos.seat.SeatAvailabilityDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
@@ -28,86 +29,63 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CatalogController {
 
-    private static final Logger log = LoggerFactory.getLogger(CatalogController.class);
-
     private final CatalogService catalogService;
 
     @GetMapping("/trips")
-    public ResponseEntity<ApiResponse<Page<TripFullDTO>>> findAllTrips(Pageable pageable) {
-        try {
-            Page<TripFullDTO> trips = catalogService.findAllTrips(pageable);
-            return ResponseEntity.ok(ApiResponse.success("Trips retrieved successfully", trips));
-        } catch (Exception e) {
-            log.error("Failed to retrieve trips", e);
-            return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Failed to retrieve trips. Please try again later."));
-        }
+    public ResponseEntity<ApiResponse<PageResponse<TripFullDTO>>> findAllTrips(Pageable pageable) {
+        PageResponse<TripFullDTO> trips = catalogService.findAllTrips(pageable);
+        return ResponseEntity.ok(ApiResponse.success("Trips retrieved successfully", trips));
     }
 
     @GetMapping("/trips/search")
-    public ResponseEntity<ApiResponse<Page<TripFullDTO>>> searchTrips(@Valid @RequestBody SearchTripDTO searchCriteria,
+    public ResponseEntity<ApiResponse<PageResponse<TripFullDTO>>> searchTrips(
+            @Valid @ModelAttribute SearchTripDTO searchCriteria,
             Pageable pageable) {
-        try {
-            Page<TripFullDTO> trips = catalogService.searchTrips(searchCriteria, pageable);
-            return ResponseEntity.ok(ApiResponse.success("Trips searched successfully", trips));
-        } catch (Exception e) {
-            log.error("Failed to search trips", e);
-            return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Failed to search trips. Please try again later."));
-        }
+        PageResponse<TripFullDTO> trips = catalogService.searchTrips(searchCriteria, pageable);
+        return ResponseEntity.ok(ApiResponse.success("Trips searched successfully", trips));
+    }
+
+    @GetMapping("/trips/available")
+    public ResponseEntity<ApiResponse<PageResponse<TripFullDTO>>> findAllAvailableTrips(Pageable pageable) {
+        PageResponse<TripFullDTO> trips = catalogService.findAllAvailableTrips(pageable);
+        return ResponseEntity.ok(ApiResponse.success("Available trips retrieved successfully", trips));
+    }
+
+    @GetMapping("/trips/available/search")
+    public ResponseEntity<ApiResponse<PageResponse<TripFullDTO>>> searchAvailableTrips(
+            @Valid @ModelAttribute SearchTripDTO searchCriteria, Pageable pageable) {
+        PageResponse<TripFullDTO> trips = catalogService.searchAvailableTrips(searchCriteria, pageable);
+        return ResponseEntity.ok(ApiResponse.success("Available trips searched successfully", trips));
+    }
+
+    @GetMapping("/trips/{id}/available/seats")
+    public ResponseEntity<ApiResponse<List<SeatAvailabilityDTO>>> findAvailableSeatsByTripId(@PathVariable int id) {
+        List<SeatAvailabilityDTO> seats = catalogService.findAvailableSeatsByTripId(id);
+        return ResponseEntity.ok(ApiResponse.success("Seats retrieved successfully", seats));
     }
 
     @GetMapping("/trips/{id}")
     public ResponseEntity<ApiResponse<TripFullDTO>> findTripById(@PathVariable int id) {
-        try {
-            return catalogService.findTripById(id)
-                    .map(trip -> ResponseEntity.ok(ApiResponse.success("Trip retrieved successfully", trip)))
-                    .orElseGet(
-                            () -> ResponseEntity.status(404).body(ApiResponse.error("Trip not found with id: " + id)));
-        } catch (Exception e) {
-            log.error("Failed to retrieve trip with id: {}", id, e);
-            return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Failed to retrieve trip. Please try again later."));
-        }
+        TripFullDTO trip = catalogService.findTripById(id);
+        return ResponseEntity.ok(ApiResponse.success("Trip retrieved successfully", trip));
     }
 
     @GetMapping("/locations")
-    public ResponseEntity<ApiResponse<Page<LocationDTO>>> findAllLocations(Pageable pageable) {
-        try {
-            Page<LocationDTO> locations = catalogService.findAllLocations(pageable);
-            return ResponseEntity.ok(ApiResponse.success("Locations retrieved successfully", locations));
-        } catch (Exception e) {
-            log.error("Failed to retrieve locations", e);
-            return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Failed to retrieve locations. Please try again later."));
-        }
+    public ResponseEntity<ApiResponse<PageResponse<LocationDTO>>> findAllLocations(Pageable pageable) {
+        PageResponse<LocationDTO> locations = catalogService.findAllLocations(pageable);
+        return ResponseEntity.ok(ApiResponse.success("Locations retrieved successfully", locations));
     }
 
     @GetMapping("/locations/search")
-    public ResponseEntity<ApiResponse<Page<LocationDTO>>> searchLocations(
-            @Valid @RequestBody SearchLocationDTO searchCriteria, Pageable pageable) {
-        try {
-            Page<LocationDTO> locations = catalogService.searchLocations(searchCriteria, pageable);
-            return ResponseEntity.ok(ApiResponse.success("Locations searched successfully", locations));
-        } catch (Exception e) {
-            log.error("Failed to search locations", e);
-            return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Failed to search locations. Please try again later."));
-        }
+    public ResponseEntity<ApiResponse<PageResponse<LocationDTO>>> searchLocations(
+            @Valid @ModelAttribute SearchLocationDTO searchCriteria, Pageable pageable) {
+        PageResponse<LocationDTO> locations = catalogService.searchLocations(searchCriteria, pageable);
+        return ResponseEntity.ok(ApiResponse.success("Locations searched successfully", locations));
     }
 
     @GetMapping("/locations/{id}")
     public ResponseEntity<ApiResponse<LocationDTO>> findLocationById(@PathVariable int id) {
-        try {
-            return catalogService.findLocationById(id)
-                    .map(location -> ResponseEntity
-                            .ok(ApiResponse.success("Location retrieved successfully", location)))
-                    .orElseGet(() -> ResponseEntity.status(404)
-                            .body(ApiResponse.error("Location not found with id: " + id)));
-        } catch (Exception e) {
-            log.error("Failed to retrieve location with id: {}", id, e);
-            return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Failed to retrieve location. Please try again later."));
-        }
+        LocationDTO location = catalogService.findLocationById(id);
+        return ResponseEntity.ok(ApiResponse.success("Location retrieved successfully", location));
     }
 }

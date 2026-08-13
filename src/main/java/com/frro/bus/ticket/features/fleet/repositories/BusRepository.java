@@ -1,6 +1,6 @@
 package com.frro.bus.ticket.features.fleet.repositories;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,16 +13,7 @@ import com.frro.bus.ticket.features.fleet.entities.Bus;
 
 @Repository
 public interface BusRepository extends JpaRepository<Bus, Integer> {
-    @Query("SELECT b FROM Bus b WHERE " +
-            "(:plateNumber IS NULL OR LOWER(b.plateNumber) LIKE LOWER(CONCAT('%', :plateNumber, '%'))) AND " +
-            "(:startTotalCapacity IS NULL OR b.totalCapacity >= :startTotalCapacity) AND " +
-            "(:endTotalCapacity IS NULL OR b.totalCapacity <= :endTotalCapacity) AND " +
-            "(:isActive IS NULL OR b.isActive = :isActive)")
-    List<Bus> searchBuses(
-            @Param("plateNumber") String plateNumber,
-            @Param("startTotalCapacity") Integer startTotalCapacity,
-            @Param("endTotalCapacity") Integer endTotalCapacity,
-            @Param("isActive") Boolean isActive);
+    Optional<Bus> findByPlateNumber(String plateNumber);
 
     @Query("SELECT b FROM Bus b WHERE " +
             "(:plateNumber IS NULL OR LOWER(b.plateNumber) LIKE LOWER(CONCAT('%', :plateNumber, '%'))) AND " +

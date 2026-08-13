@@ -1,46 +1,45 @@
 # REST Client file Driver - Admin Management
 
-## Get all drivers
-GET http://localhost:8080/api/v1/identity/drivers
+### Get all drivers
+GET http://localhost:8080/api/v1/identity/drivers?page=0&size=10
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE4ODI2NzgsImV4cCI6MTc4MTg5MzQ3OH0.By3_9FdCdxZzaOwOdKKa175E0IaXkxE5g0NdIdIQN8zgrKaNmknlbHiOU1OYES7G
 
 ### Get all drivers by fields
-GET http://localhost:8080/api/v1/identity/drivers/search
+GET http://localhost:8080/api/v1/identity/drivers/search?isActive=true&page=0&size=10
 Accept: application/json
-
-{
-  "isActive": true
-}
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE4OTg2ODgsImV4cCI6MTc4MTkwOTQ4OH0.tafumx20JFOO9XqE8rsPXDsq-WMA51fiDiKxt8nh0RK8-qrwltghiM0YMEb7NY6t
 
 ### Get driver by ID
-GET http://localhost:8080/api/v1/identity/drivers/1
+GET http://localhost:8080/api/v1/identity/drivers/2
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE2MzA4NTksImV4cCI6MTc4MTY0MTY1OX0.3ZbDmOgrz9bQTCtIC9JEnO-oKYelIUC9ynoonEGft8PzWmGmBoSgDAAIAq9bfnCH
 
 ### Create a new driver
 POST http://localhost:8080/api/v1/identity/drivers
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE4OTQxNjMsImV4cCI6MTc4MTkwNDk2M30.W8X2qspANoLSCskodXbNTUrqAyoxdDhDPG1uPu6rXgXl8q-mvz43uHL0pRGq8_4Y
 
 {
-  "firstName": "Alex",
-  "lastName": "Stewards",
+  "firstName": "John",
+  "lastName": "Kennedy",
   "isActive": false,
-  "licenseNumber": "RTR12345X",
-  "phoneNumber": "+549998765432"
+  "licenseNumber": "YY123456",
+  "phoneNumber": "+549987654321"
 }
 
 ### Update driver by ID (optional fields)
 PATCH http://localhost:8080/api/v1/identity/drivers
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE2NDE3MjgsImV4cCI6MTc4MTY1MjUyOH0.owSyuuAabW6v1sIO7S5CLD0iUE3ds7fAKpvtE_UdKxbfRxxIAV5Jq3kQPFlxUmH_
 
 {
-  "id": 5,
-  "firstName": "John",
-  "lastName": "Smith",
+  "id": 2,
   "isActive": true,
-  "licenseNumber": "DR54321Y",
-  "phoneNumber": "+541199876543"
+  "firstName": "John"
 }
 
 ### Delete driver by ID
-DELETE http://localhost:8080/api/v1/identity/drivers/5
+DELETE http://localhost:8080/api/v1/identity/drivers/2
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE2NDE3MjgsImV4cCI6MTc4MTY1MjUyOH0.owSyuuAabW6v1sIO7S5CLD0iUE3ds7fAKpvtE_UdKxbfRxxIAV5Jq3kQPFlxUmH_

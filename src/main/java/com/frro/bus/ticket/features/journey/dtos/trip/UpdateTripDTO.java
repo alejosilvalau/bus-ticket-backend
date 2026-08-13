@@ -6,22 +6,22 @@ import java.util.Optional;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public record UpdateTripDTO(
-        @Min(value = 1, message = "Trip ID must be a positive number")
-        int id,
+        @NotNull @Min(1) Integer id,
 
         Optional<ZonedDateTime> departureDate,
 
         Optional<ZonedDateTime> arrivalDate,
 
-        Optional<@DecimalMin(value = "0", message = "Base price must be zero or positive") BigDecimal> basePrice,
+        Optional<@DecimalMin("0") BigDecimal> basePrice,
 
-        Optional<@Min(value = 1, message = "Bus ID must be a positive number") Integer> idBus,
+        Optional<@Min(1) Integer> busId,
 
-        Optional<@Min(value = 1, message = "Driver ID must be a positive number") Integer> idDriver,
+        Optional<@Min(1) Integer> driverId,
 
-        Optional<@Min(value = 1, message = "Origin location ID must be a positive number") Integer> idLocationOrigin,
+        Optional<@Min(1) Integer> locationOriginId,
 
-        Optional<@Min(value = 1, message = "Destination location ID must be a positive number") Integer> idLocationDestination) {
+        Optional<@Min(1) Integer> locationDestinationId) {
 }

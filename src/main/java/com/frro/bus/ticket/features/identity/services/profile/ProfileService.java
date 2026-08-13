@@ -1,14 +1,12 @@
 package com.frro.bus.ticket.features.identity.services.profile;
 
-import java.util.Optional;
-
 import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 
 public interface ProfileService {
-    Optional<UserDTO> update(UpdateUserDTO userRequest);
+    UserDTO update(UpdateUserDTO userRequest);
 
-    Optional<UserDTO> logicalDelete();
+    UserDTO logicalDelete();
 
-    Optional<UserDTO> delete();
+    UserDTO delete();
 }

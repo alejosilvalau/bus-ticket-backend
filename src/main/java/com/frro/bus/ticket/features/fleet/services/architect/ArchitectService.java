@@ -1,7 +1,5 @@
 package com.frro.bus.ticket.features.fleet.services.architect;
 
-import java.util.Optional;
-
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.CreateBusDTO;
 import com.frro.bus.ticket.features.fleet.dtos.bus.UpdateBusDTO;
@@ -15,19 +13,19 @@ import com.frro.bus.ticket.features.fleet.dtos.seattype.UpdateSeatTypeDTO;
 public interface ArchitectService {
     BusDTO createBus(CreateBusDTO userRequest);
 
-    Optional<BusDTO> updateBus(UpdateBusDTO userRequest);
+    BusDTO updateBus(UpdateBusDTO userRequest);
 
-    Optional<BusDTO> deleteBus(int id);
+    BusDTO deleteBus(int id);
 
     SeatFullDTO createSeat(CreateSeatDTO userRequest);
 
-    Optional<SeatFullDTO> updateSeat(UpdateSeatDTO userRequest);
+    SeatFullDTO updateSeat(UpdateSeatDTO userRequest);
 
-    Optional<SeatFullDTO> deleteSeat(int id);
+    SeatFullDTO deleteSeat(int id);
 
     SeatTypeDTO createSeatType(CreateSeatTypeDTO userRequest);
 
-    Optional<SeatTypeDTO> updateSeatType(UpdateSeatTypeDTO userRequest);
+    SeatTypeDTO updateSeatType(UpdateSeatTypeDTO userRequest);
 
-    Optional<SeatTypeDTO> deleteSeatType(int id);
+    SeatTypeDTO deleteSeatType(int id);
 }

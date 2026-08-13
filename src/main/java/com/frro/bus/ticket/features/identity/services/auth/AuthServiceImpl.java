@@ -1,10 +1,10 @@
 package com.frro.bus.ticket.features.identity.services.auth;
 
-import java.util.Optional;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.BusinessException;
+import com.frro.bus.ticket.common.exceptions.InvalidCredentialsException;
 import com.frro.bus.ticket.common.security.JwtUtil;
 import com.frro.bus.ticket.features.identity.dtos.user.ChangePasswordUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.LoginResponseDTO;
@@ -27,14 +27,20 @@ public class AuthServiceImpl implements AuthService {
     private final HttpServletRequest request;
 
     @Override
-    public Optional<LoginResponseDTO> login(LoginUserDTO userRequest) {
-        return userRepository.findByEmail(userRequest.email())
-                .filter(user -> passwordEncoder.matches(userRequest.password(), user.getPassword()))
-                .map(user -> {
-                    UserDTO userDTO = userMapper.toUserDTO(user);
-                    String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.isAdmin());
-                    return new LoginResponseDTO(token, userDTO);
-                });
+    public LoginResponseDTO login(LoginUserDTO userRequest) {
+        User user = userRepository.findByEmail(userRequest.email())
+                .filter(userFound -> passwordEncoder.matches(userRequest.password(), userFound.getPassword()))
+                .orElseThrow(InvalidCredentialsException::new);
+
+        // If user has disabled it's account but tries to log in, we will reactivate it.
+        if (!user.isActive()) {
+            user.setActive(true);
+            userRepository.save(user);
+        }
+
+        UserDTO userDTO = userMapper.toUserDTO(user);
+        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.isAdmin());
+        return new LoginResponseDTO(token, userDTO);
     }
 
     @Override
@@ -43,22 +49,24 @@ public class AuthServiceImpl implements AuthService {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             jwtUtil.blacklistToken(token);
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override
     public boolean changePassword(ChangePasswordUserDTO userRequest) {
-        Optional<User> userFound = userRepository.findByEmail(userRequest.email())
-                .filter(user -> passwordEncoder.matches(userRequest.password(), user.getPassword()));
+        User user = userRepository.findByEmail(userRequest.email())
+                .filter(userFound -> passwordEncoder.matches(userRequest.password(), userFound.getPassword()))
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid current credentials"));
 
-        if (userFound.isPresent()) {
-            User userToUpdate = userFound.get();
-            String hashedPassword = passwordEncoder.encode(userRequest.newPassword());
-            userToUpdate.setPassword(hashedPassword);
-            userRepository.save(userToUpdate);
-            return true;
+        if (passwordEncoder.matches(userRequest.newPassword(), user.getPassword())) {
+            throw new BusinessException("New password cannot be the same as the current password");
         }
-        return false;
+
+        String hashedPassword = passwordEncoder.encode(userRequest.newPassword());
+        user.setPassword(hashedPassword);
+        userRepository.save(user);
+        return true;
     }
 }

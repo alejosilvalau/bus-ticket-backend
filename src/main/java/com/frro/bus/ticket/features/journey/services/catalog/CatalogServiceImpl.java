@@ -1,72 +1,156 @@
 package com.frro.bus.ticket.features.journey.services.catalog;
 
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.dto.PageResponse;
+import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
+import com.frro.bus.ticket.common.utils.PaginationUtils;
+import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
+import com.frro.bus.ticket.features.fleet.dtos.seat.SeatAvailabilityDTO;
+import com.frro.bus.ticket.features.fleet.entities.Seat;
+import com.frro.bus.ticket.features.fleet.repositories.SeatRepository;
 import com.frro.bus.ticket.features.journey.dtos.trip.SearchTripDTO;
 import com.frro.bus.ticket.features.journey.dtos.trip.TripFullDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.LocationDTO;
 import com.frro.bus.ticket.features.journey.dtos.location.SearchLocationDTO;
+import com.frro.bus.ticket.features.journey.entities.Trip;
 import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 import com.frro.bus.ticket.features.journey.mappers.LocationMapper;
 import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 import com.frro.bus.ticket.features.journey.repositories.LocationRepository;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CatalogServiceImpl implements CatalogService {
     private final TripRepository tripRepository;
     private final LocationRepository locationRepository;
+    private final SeatRepository seatRepository;
+    private final TicketRepository ticketRepository;
     private final TripMapper tripMapper;
     private final LocationMapper locationMapper;
+    private static final long TRIP_TIME_BUFFER_HOURS = 24;
 
     @Override
-    public Page<TripFullDTO> findAllTrips(Pageable pageable) {
-        return tripRepository.findAll(pageable).map(tripMapper::toTripFullDTO);
+    public PageResponse<TripFullDTO> findAllTrips(Pageable pageable) {
+        Page<TripFullDTO> page = tripRepository.findAll(pageable).map(tripMapper::toTripFullDTO);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
-    public Page<TripFullDTO> searchTrips(SearchTripDTO searchCriteria, Pageable pageable) {
-        return tripRepository.searchTrips(
-                searchCriteria.departureDate().orElse(null),
-                searchCriteria.arrivalDate().orElse(null),
+    public PageResponse<TripFullDTO> searchTrips(SearchTripDTO searchCriteria, Pageable pageable) {
+        Page<TripFullDTO> page = tripRepository.searchTrips(
+                searchCriteria.startDepartureDate().orElse(null),
+                searchCriteria.endDepartureDate().orElse(null),
+                searchCriteria.startArrivalDate().orElse(null),
+                searchCriteria.endArrivalDate().orElse(null),
                 searchCriteria.startBasePrice().orElse(null),
                 searchCriteria.endBasePrice().orElse(null),
-                searchCriteria.idBus().orElse(null),
-                searchCriteria.idDriver().orElse(null),
-                searchCriteria.idLocationOrigin().orElse(null),
-                searchCriteria.idLocationDestination().orElse(null),
+                searchCriteria.busId().orElse(null),
+                searchCriteria.driverId().orElse(null),
+                searchCriteria.locationOriginId().orElse(null),
+                searchCriteria.locationDestinationId().orElse(null),
+                searchCriteria.seatTypeId().orElse(null),
                 pageable)
                 .map(tripMapper::toTripFullDTO);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
-    public Optional<TripFullDTO> findTripById(int id) {
-        return tripRepository.findById(id).map(tripMapper::toTripFullDTO);
+    public PageResponse<TripFullDTO> findAllAvailableTrips(Pageable pageable) {
+        ZonedDateTime timeBuffer = currentTimeBuffer();
+        Page<TripFullDTO> page = tripRepository.findAvailableTrips(timeBuffer, pageable)
+                .map(tripMapper::toTripFullDTO);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
-    public Page<LocationDTO> findAllLocations(Pageable pageable) {
-        return locationRepository.findAll(pageable).map(locationMapper::toLocationDTO);
+    public PageResponse<TripFullDTO> searchAvailableTrips(SearchTripDTO searchCriteria, Pageable pageable) {
+        ZonedDateTime timeBuffer = currentTimeBuffer();
+        Page<TripFullDTO> page = tripRepository.searchAvailableTrips(
+                timeBuffer,
+                searchCriteria.startDepartureDate().orElse(null),
+                searchCriteria.endDepartureDate().orElse(null),
+                searchCriteria.startArrivalDate().orElse(null),
+                searchCriteria.endArrivalDate().orElse(null),
+                searchCriteria.startBasePrice().orElse(null),
+                searchCriteria.endBasePrice().orElse(null),
+                searchCriteria.busId().orElse(null),
+                searchCriteria.driverId().orElse(null),
+                searchCriteria.locationOriginId().orElse(null),
+                searchCriteria.locationDestinationId().orElse(null),
+                searchCriteria.seatTypeId().orElse(null),
+                pageable)
+                .map(tripMapper::toTripFullDTO);
+        return PaginationUtils.toPageResponse(page);
+    }
+
+    private ZonedDateTime currentTimeBuffer() {
+        return ZonedDateTime.now(ZoneOffset.UTC).plusHours(TRIP_TIME_BUFFER_HOURS);
     }
 
     @Override
-    public Page<LocationDTO> searchLocations(SearchLocationDTO searchCriteria, Pageable pageable) {
-        return locationRepository.searchLocations(
+    public TripFullDTO findTripById(int id) {
+        return tripRepository.findById(id)
+                .map(tripMapper::toTripFullDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", id));
+    }
+
+    @Override
+    public List<SeatAvailabilityDTO> findAvailableSeatsByTripId(int tripId) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", tripId));
+
+        List<Seat> seats = seatRepository.findByBusIdAndIsActiveTrue(trip.getBus().getId());
+        Set<Integer> bookedSeatIds = new HashSet<>(
+                ticketRepository.findSeatIdsByTripIdAndIsCancelledFalse(tripId));
+
+        List<SeatAvailabilityDTO> result = new ArrayList<>();
+        for (Seat seat : seats) {
+            boolean isAvailable = !bookedSeatIds.contains(seat.getId());
+            result.add(new SeatAvailabilityDTO(
+                    seat.getId(),
+                    seat.getLetter(),
+                    seat.getNumber(),
+                    seat.isActive(),
+                    seat.getSeatType().getName(),
+                    seat.getSeatType().getUpcharge(),
+                    isAvailable));
+        }
+        return result;
+    }
+
+    @Override
+    public PageResponse<LocationDTO> findAllLocations(Pageable pageable) {
+        Page<LocationDTO> page = locationRepository.findAll(pageable).map(locationMapper::toLocationDTO);
+        return PaginationUtils.toPageResponse(page);
+    }
+
+    @Override
+    public PageResponse<LocationDTO> searchLocations(SearchLocationDTO searchCriteria, Pageable pageable) {
+        Page<LocationDTO> page = locationRepository.searchLocations(
                 searchCriteria.cityName().orElse(null),
                 searchCriteria.state().orElse(null),
                 searchCriteria.postalCode().orElse(null),
                 pageable)
                 .map(locationMapper::toLocationDTO);
+        return PaginationUtils.toPageResponse(page);
     }
 
     @Override
-    public Optional<LocationDTO> findLocationById(int id) {
-        return locationRepository.findById(id).map(locationMapper::toLocationDTO);
+    public LocationDTO findLocationById(int id) {
+        return locationRepository.findById(id)
+                .map(locationMapper::toLocationDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Location", "id", id));
     }
 }

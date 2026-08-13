@@ -3,16 +3,19 @@
 ### Update user profile
 PATCH http://localhost:8080/api/v1/identity/profile
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE2NDE3MjgsImV4cCI6MTc4MTY1MjUyOH0.owSyuuAabW6v1sIO7S5CLD0iUE3ds7fAKpvtE_UdKxbfRxxIAV5Jq3kQPFlxUmH_
 
 {
   "id": 4,
-  "isActive": true
+  "firstName": "Esteban"
 }
 
 ### Logical delete user profile
 PATCH http://localhost:8080/api/v1/identity/profile/logical-delete
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE3MTIyOTIsImV4cCI6MTc4MTcyMzA5Mn0.YaCHE3PAHOYHcM-MN3TaCZqa1lNyle-lUwjBsrZ8sCSK2dpKJdn78gBzS6eMqe_I
 
 ### Delete user profile
 DELETE http://localhost:8080/api/v1/identity/profile
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI0IiwiZW1haWwiOiJlc3RlYmFuLnF1aXRvQGdtYWlsLmNvbSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE3ODE3MTI1MzksImV4cCI6MTc4MTcyMzMzOX0.eJTFfUyUQVxOv4o8Aclz1AbR8kPCkbvI5yV-G8-85NMPRObP7Vu2ewPhmeMNK12Y

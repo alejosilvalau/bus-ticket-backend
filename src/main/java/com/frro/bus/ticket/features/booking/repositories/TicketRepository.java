@@ -18,10 +18,6 @@ import com.frro.bus.ticket.features.booking.entities.Ticket;
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
-    // @Override
-    // @EntityGraph(attributePaths = { "user", "trip", "seat" })
-    // List<Ticket> findAll();
-
     @EntityGraph(attributePaths = { "user", "trip", "seat" })
     Page<Ticket> findAll(Pageable pageable);
 
@@ -29,28 +25,14 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     @EntityGraph(attributePaths = { "user", "trip", "seat" })
     Optional<Ticket> findById(Integer id);
 
-    // @Query("SELECT t FROM Ticket t WHERE " +
-    // "(:startFinalPrice IS NULL OR t.finalPrice >= :startFinalPrice) AND " +
-    // "(:endFinalPrice IS NULL OR t.finalPrice <= :endFinalPrice) AND " +
-    // "(:startBookingTime IS NULL OR t.bookingTime >= :startBookingTime) AND " +
-    // "(:endBookingTime IS NULL OR t.bookingTime <= :endBookingTime) AND " +
-    // "(:isCancelled IS NULL OR t.isCancelled = :isCancelled) AND " +
-    // "(:token IS NULL OR LOWER(t.token) LIKE LOWER(CONCAT('%', :token, '%'))) AND
-    // " +
-    // "(:idUser IS NULL OR t.user.id = :idUser) AND " +
-    // "(:idTrip IS NULL OR t.trip.id = :idTrip) AND " +
-    // "(:idSeat IS NULL OR t.seat.id = :idSeat)")
-    // @EntityGraph(attributePaths = { "user", "trip", "seat" })
-    // List<Ticket> searchTickets(
-    // @Param("startFinalPrice") BigDecimal startFinalPrice,
-    // @Param("endFinalPrice") BigDecimal endFinalPrice,
-    // @Param("startBookingTime") ZonedDateTime startBookingTime,
-    // @Param("endBookingTime") ZonedDateTime endBookingTime,
-    // @Param("isCancelled") Boolean isCancelled,
-    // @Param("token") String token,
-    // @Param("idUser") Integer idUser,
-    // @Param("idTrip") Integer idTrip,
-    // @Param("idSeat") Integer idSeat);
+    Optional<Ticket> findByTripIdAndSeatId(Integer tripId, Integer seatId);
+
+    Optional<Ticket> findByTripIdAndSeatIdAndIsCancelledFalse(Integer tripId, Integer seatId);
+
+    long countByTripIdAndIsCancelledFalse(Integer tripId);
+
+    @Query("SELECT t.seat.id FROM Ticket t WHERE t.trip.id = :tripId AND t.isCancelled = false")
+    List<Integer> findSeatIdsByTripIdAndIsCancelledFalse(@Param("tripId") int tripId);
 
     @Query("SELECT t FROM Ticket t WHERE " +
             "(:startFinalPrice IS NULL OR t.finalPrice >= :startFinalPrice) AND " +
@@ -58,10 +40,9 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             "(:startBookingTime IS NULL OR t.bookingTime >= :startBookingTime) AND " +
             "(:endBookingTime IS NULL OR t.bookingTime <= :endBookingTime) AND " +
             "(:isCancelled IS NULL OR t.isCancelled = :isCancelled) AND " +
-            "(:token IS NULL OR LOWER(t.token) LIKE LOWER(CONCAT('%', :token, '%'))) AND " +
-            "(:idUser IS NULL OR t.user.id = :idUser) AND " +
-            "(:idTrip IS NULL OR t.trip.id = :idTrip) AND " +
-            "(:idSeat IS NULL OR t.seat.id = :idSeat)")
+            "(:userId IS NULL OR t.user.id = :userId) AND " +
+            "(:tripId IS NULL OR t.trip.id = :tripId) AND " +
+            "(:seatId IS NULL OR t.seat.id = :seatId)")
     @EntityGraph(attributePaths = { "user", "trip", "seat" })
     Page<Ticket> searchTickets(
             @Param("startFinalPrice") BigDecimal startFinalPrice,
@@ -69,9 +50,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
             @Param("startBookingTime") ZonedDateTime startBookingTime,
             @Param("endBookingTime") ZonedDateTime endBookingTime,
             @Param("isCancelled") Boolean isCancelled,
-            @Param("token") String token,
-            @Param("idUser") Integer idUser,
-            @Param("idTrip") Integer idTrip,
-            @Param("idSeat") Integer idSeat,
+            @Param("userId") Integer userId,
+            @Param("tripId") Integer tripId,
+            @Param("seatId") Integer seatId,
             Pageable pageable);
 }

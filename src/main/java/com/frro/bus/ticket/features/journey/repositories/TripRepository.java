@@ -2,7 +2,6 @@ package com.frro.bus.ticket.features.journey.repositories;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -18,10 +17,6 @@ import com.frro.bus.ticket.features.journey.entities.Trip;
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Integer> {
 
-    @Override
-    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
-    List<Trip> findAll();
-
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Page<Trip> findAll(Pageable pageable);
 
@@ -29,44 +24,85 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Optional<Trip> findById(Integer id);
 
-    @Query("SELECT t FROM Trip t WHERE " +
-            "(:departureDate IS NULL OR t.departureDate >= :departureDate) AND " +
-            "(:arrivalDate IS NULL OR t.arrivalDate <= :arrivalDate) AND " +
-            "(:startBasePrice IS NULL OR t.basePrice >= :startBasePrice) AND " +
-            "(:endBasePrice IS NULL OR t.basePrice <= :endBasePrice) AND " +
-            "(:idBus IS NULL OR t.bus.id = :idBus) AND " +
-            "(:idDriver IS NULL OR t.driver.id = :idDriver) AND " +
-            "(:idLocationOrigin IS NULL OR t.locationOrigin.id = :idLocationOrigin) AND " +
-            "(:idLocationDestination IS NULL OR t.locationDestination.id = :idLocationDestination)")
-    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
-    List<Trip> searchTrips(
-            @Param("departureDate") ZonedDateTime departureDate,
-            @Param("arrivalDate") ZonedDateTime arrivalDate,
-            @Param("startBasePrice") BigDecimal startBasePrice,
-            @Param("endBasePrice") BigDecimal endBasePrice,
-            @Param("idBus") Integer idBus,
-            @Param("idDriver") Integer idDriver,
-            @Param("idLocationOrigin") Integer idLocationOrigin,
-            @Param("idLocationDestination") Integer idLocationDestination);
+    Optional<Trip> findByBusIdAndDepartureDate(Integer busId, ZonedDateTime departureDate);
+
+    Optional<Trip> findByDriverIdAndDepartureDate(Integer driverId, ZonedDateTime departureDate);
+
+    @Query("SELECT COUNT(t) > 0 FROM Trip t WHERE t.driver.id = :driverId AND t.id <> :excludeTripId " +
+            "AND t.departureDate < :arrivalDatePlusBuffer AND t.arrivalDate > :departureDateMinusBuffer")
+    boolean existsConflictingDriverTrip(
+            @Param("driverId") int driverId,
+            @Param("excludeTripId") int excludeTripId,
+            @Param("departureDateMinusBuffer") ZonedDateTime departureDateMinusBuffer,
+            @Param("arrivalDatePlusBuffer") ZonedDateTime arrivalDatePlusBuffer);
+
+    @Query("SELECT COUNT(t) > 0 FROM Trip t WHERE t.bus.id = :busId AND t.id <> :excludeTripId " +
+            "AND t.departureDate < :arrivalDatePlusBuffer AND t.arrivalDate > :departureDateMinusBuffer")
+    boolean existsConflictingBusTrip(
+            @Param("busId") int busId,
+            @Param("excludeTripId") int excludeTripId,
+            @Param("departureDateMinusBuffer") ZonedDateTime departureDateMinusBuffer,
+            @Param("arrivalDatePlusBuffer") ZonedDateTime arrivalDatePlusBuffer);
 
     @Query("SELECT t FROM Trip t WHERE " +
-            "(:departureDate IS NULL OR t.departureDate >= :departureDate) AND " +
-            "(:arrivalDate IS NULL OR t.arrivalDate <= :arrivalDate) AND " +
+            "(:startDepartureDate IS NULL OR t.departureDate >= :startDepartureDate) AND " +
+            "(:endDepartureDate IS NULL OR t.departureDate <= :endDepartureDate) AND " +
+            "(:startArrivalDate IS NULL OR t.arrivalDate >= :startArrivalDate) AND " +
+            "(:endArrivalDate IS NULL OR t.arrivalDate <= :endArrivalDate) AND " +
             "(:startBasePrice IS NULL OR t.basePrice >= :startBasePrice) AND " +
             "(:endBasePrice IS NULL OR t.basePrice <= :endBasePrice) AND " +
-            "(:idBus IS NULL OR t.bus.id = :idBus) AND " +
-            "(:idDriver IS NULL OR t.driver.id = :idDriver) AND " +
-            "(:idLocationOrigin IS NULL OR t.locationOrigin.id = :idLocationOrigin) AND " +
-            "(:idLocationDestination IS NULL OR t.locationDestination.id = :idLocationDestination)")
+            "(:busId IS NULL OR t.bus.id = :busId) AND " +
+            "(:driverId IS NULL OR t.driver.id = :driverId) AND " +
+            "(:locationOriginId IS NULL OR t.locationOrigin.id = :locationOriginId) AND " +
+            "(:locationDestinationId IS NULL OR t.locationDestination.id = :locationDestinationId) AND " +
+            "(:seatTypeId IS NULL OR EXISTS (SELECT 1 FROM Seat s WHERE s.bus = t.bus AND s.seatType.id = :seatTypeId))")
     @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Page<Trip> searchTrips(
-            @Param("departureDate") ZonedDateTime departureDate,
-            @Param("arrivalDate") ZonedDateTime arrivalDate,
+            @Param("startDepartureDate") ZonedDateTime startDepartureDate,
+            @Param("endDepartureDate") ZonedDateTime endDepartureDate,
+            @Param("startArrivalDate") ZonedDateTime startArrivalDate,
+            @Param("endArrivalDate") ZonedDateTime endArrivalDate,
             @Param("startBasePrice") BigDecimal startBasePrice,
             @Param("endBasePrice") BigDecimal endBasePrice,
-            @Param("idBus") Integer idBus,
-            @Param("idDriver") Integer idDriver,
-            @Param("idLocationOrigin") Integer idLocationOrigin,
-            @Param("idLocationDestination") Integer idLocationDestination,
+            @Param("busId") Integer busId,
+            @Param("driverId") Integer driverId,
+            @Param("locationOriginId") Integer locationOriginId,
+            @Param("locationDestinationId") Integer locationDestinationId,
+            @Param("seatTypeId") Integer seatTypeId,
+            Pageable pageable);
+
+    @Query("SELECT t FROM Trip t WHERE t.departureDate > :timeBuffer " +
+            "AND (SELECT COUNT(tk) FROM Ticket tk WHERE tk.trip = t AND tk.isCancelled = false) < t.bus.totalCapacity")
+    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
+    Page<Trip> findAvailableTrips(@Param("timeBuffer") ZonedDateTime timeBuffer, Pageable pageable);
+
+    @Query("SELECT t FROM Trip t WHERE t.departureDate > :timeBuffer AND " +
+            "(SELECT COUNT(tk) FROM Ticket tk WHERE tk.trip = t AND tk.isCancelled = false) < t.bus.totalCapacity AND "
+            +
+            "(:startDepartureDate IS NULL OR t.departureDate >= :startDepartureDate) AND " +
+            "(:endDepartureDate IS NULL OR t.departureDate <= :endDepartureDate) AND " +
+            "(:startArrivalDate IS NULL OR t.arrivalDate >= :startArrivalDate) AND " +
+            "(:endArrivalDate IS NULL OR t.arrivalDate <= :endArrivalDate) AND " +
+            "(:startBasePrice IS NULL OR t.basePrice >= :startBasePrice) AND " +
+            "(:endBasePrice IS NULL OR t.basePrice <= :endBasePrice) AND " +
+            "(:busId IS NULL OR t.bus.id = :busId) AND " +
+            "(:driverId IS NULL OR t.driver.id = :driverId) AND " +
+            "(:locationOriginId IS NULL OR t.locationOrigin.id = :locationOriginId) AND " +
+            "(:locationDestinationId IS NULL OR t.locationDestination.id = :locationDestinationId) AND " +
+            "(:seatTypeId IS NULL OR EXISTS (SELECT 1 FROM Seat s WHERE s.bus = t.bus AND s.seatType.id = :seatTypeId))")
+    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
+    Page<Trip> searchAvailableTrips(
+            @Param("timeBuffer") ZonedDateTime timeBuffer,
+            @Param("startDepartureDate") ZonedDateTime startDepartureDate,
+            @Param("endDepartureDate") ZonedDateTime endDepartureDate,
+            @Param("startArrivalDate") ZonedDateTime startArrivalDate,
+            @Param("endArrivalDate") ZonedDateTime endArrivalDate,
+            @Param("startBasePrice") BigDecimal startBasePrice,
+            @Param("endBasePrice") BigDecimal endBasePrice,
+            @Param("busId") Integer busId,
+            @Param("driverId") Integer driverId,
+            @Param("locationOriginId") Integer locationOriginId,
+            @Param("locationDestinationId") Integer locationDestinationId,
+            @Param("seatTypeId") Integer seatTypeId,
             Pageable pageable);
 }

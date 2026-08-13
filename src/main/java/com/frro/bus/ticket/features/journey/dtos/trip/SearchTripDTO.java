@@ -8,12 +8,15 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 
 public record SearchTripDTO(
-        Optional<ZonedDateTime> departureDate,
-        Optional<ZonedDateTime> arrivalDate,
-        Optional<@DecimalMin(value = "0", message = "Start base price must be zero or positive") BigDecimal> startBasePrice,
-        Optional<@DecimalMin(value = "0", message = "End base price must be zero or positive") BigDecimal> endBasePrice,
-        Optional<@Min(value = 1, message = "Bus ID must be a positive number") Integer> idBus,
-        Optional<@Min(value = 1, message = "Driver ID must be a positive number") Integer> idDriver,
-        Optional<@Min(value = 1, message = "Origin location ID must be a positive number") Integer> idLocationOrigin,
-        Optional<@Min(value = 1, message = "Destination location ID must be a positive number") Integer> idLocationDestination) {
+        Optional<ZonedDateTime> startDepartureDate,
+        Optional<ZonedDateTime> endDepartureDate,
+        Optional<ZonedDateTime> startArrivalDate,
+        Optional<ZonedDateTime> endArrivalDate,
+        Optional<@DecimalMin("0") BigDecimal> startBasePrice,
+        Optional<@DecimalMin("0") BigDecimal> endBasePrice,
+        Optional<@Min(1) Integer> busId,
+        Optional<@Min(1) Integer> driverId,
+        Optional<@Min(1) Integer> locationOriginId,
+        Optional<@Min(1) Integer> locationDestinationId,
+        Optional<@Min(1) Integer> seatTypeId) {
 }
