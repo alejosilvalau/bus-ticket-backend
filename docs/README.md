@@ -12,7 +12,7 @@ El sistema permite gestionar integralmente la compra, reserva y administración 
 Incorpora perfiles de usuario y administrador, manejo de errores con mensajes claros en la interfaz, y excepciones personalizadas, asegurando eficiencia, accesibilidad y control para pasajeros, empresas y entes reguladores.
 
 ## Video Demo de Proyecto:
-![Video Demo](https://www.youtube.com/)   
+[Video Demo](https://www.youtube.com/)   
 
 ## Diagrama de Clases
 ![Diagrama de Clases](./diagrama-de-clases-v9.png)
