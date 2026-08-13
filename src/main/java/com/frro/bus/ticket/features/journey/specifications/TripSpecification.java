@@ -49,7 +49,7 @@ public final class TripSpecification {
             criteria.seatTypeId().ifPresent(value ->
                     predicates.add(hasSeatType(root, query, cb, value)));
 
-            return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(new Predicate[0]));
+            return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
 
@@ -58,7 +58,7 @@ public final class TripSpecification {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(cb.greaterThan(root.get("departureDate"), timeBuffer));
             predicates.add(hasFreeSeats(root, query, cb));
-            return cb.and(predicates.toArray(new Predicate[0]));
+            return cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
 

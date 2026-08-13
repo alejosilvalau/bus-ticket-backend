@@ -28,7 +28,7 @@ public final class BusSpecification {
             criteria.isActive().ifPresent(value ->
                     predicates.add(cb.equal(root.get("isActive"), value)));
 
-            return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(new Predicate[0]));
+            return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
 

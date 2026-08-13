@@ -30,7 +30,7 @@ public final class SeatSpecification {
             criteria.seatTypeId().ifPresent(value ->
                     predicates.add(cb.equal(root.get("seatType").get("id"), value)));
 
-            return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(new Predicate[0]));
+            return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
 }

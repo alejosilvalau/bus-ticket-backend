@@ -30,7 +30,7 @@ public final class DriverSpecification {
             criteria.phoneNumber().ifPresent(value ->
                     predicates.add(cb.like(cb.lower(root.get("phoneNumber")), likePattern(value))));
 
-            return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(new Predicate[0]));
+            return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
 

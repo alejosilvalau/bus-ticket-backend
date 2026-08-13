@@ -26,7 +26,7 @@ public final class SeatTypeSpecification {
             criteria.endUpcharge().ifPresent(value ->
                     predicates.add(cb.lessThanOrEqualTo(root.get("upcharge"), value)));
 
-            return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(new Predicate[0]));
+            return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
 
