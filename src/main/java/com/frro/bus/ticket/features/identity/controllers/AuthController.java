@@ -43,7 +43,6 @@ public class AuthController {
     }
 
     @PublicEndpoint
-    @SecurityRequirement(name = "bearerAuth")
     @PatchMapping("/change-password")
     public ResponseEntity<ApiResponse<Boolean>> changePassword(
             @Valid @RequestBody ChangePasswordUserDTO changePasswordUser) {
