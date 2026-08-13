@@ -5,9 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,9 +37,9 @@ public class CatalogController {
         return ResponseEntity.ok(ApiResponse.success("Trips retrieved successfully", trips));
     }
 
-    @PostMapping("/trips/search")
+    @GetMapping("/trips/search")
     public ResponseEntity<ApiResponse<PageResponse<TripFullDTO>>> searchTrips(
-            @Valid @RequestBody SearchTripDTO searchCriteria,
+            @Valid @ModelAttribute SearchTripDTO searchCriteria,
             Pageable pageable) {
         PageResponse<TripFullDTO> trips = catalogService.searchTrips(searchCriteria, pageable);
         return ResponseEntity.ok(ApiResponse.success("Trips searched successfully", trips));
@@ -52,9 +51,9 @@ public class CatalogController {
         return ResponseEntity.ok(ApiResponse.success("Available trips retrieved successfully", trips));
     }
 
-    @PostMapping("/trips/available/search")
+    @GetMapping("/trips/available/search")
     public ResponseEntity<ApiResponse<PageResponse<TripFullDTO>>> searchAvailableTrips(
-            @Valid @RequestBody SearchTripDTO searchCriteria, Pageable pageable) {
+            @Valid @ModelAttribute SearchTripDTO searchCriteria, Pageable pageable) {
         PageResponse<TripFullDTO> trips = catalogService.searchAvailableTrips(searchCriteria, pageable);
         return ResponseEntity.ok(ApiResponse.success("Available trips searched successfully", trips));
     }
@@ -77,9 +76,9 @@ public class CatalogController {
         return ResponseEntity.ok(ApiResponse.success("Locations retrieved successfully", locations));
     }
 
-    @PostMapping("/locations/search")
+    @GetMapping("/locations/search")
     public ResponseEntity<ApiResponse<PageResponse<LocationDTO>>> searchLocations(
-            @Valid @RequestBody SearchLocationDTO searchCriteria, Pageable pageable) {
+            @Valid @ModelAttribute SearchLocationDTO searchCriteria, Pageable pageable) {
         PageResponse<LocationDTO> locations = catalogService.searchLocations(searchCriteria, pageable);
         return ResponseEntity.ok(ApiResponse.success("Locations searched successfully", locations));
     }

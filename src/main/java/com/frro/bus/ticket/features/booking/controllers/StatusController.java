@@ -3,9 +3,8 @@ package com.frro.bus.ticket.features.booking.controllers;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,9 +37,9 @@ public class StatusController {
     }
 
     @AuthenticatedEndpoint
-    @PostMapping("/tickets/search")
+    @GetMapping("/tickets/search")
     public ResponseEntity<ApiResponse<PageResponse<TicketFullDTO>>> searchTickets(
-            @Valid @RequestBody SearchTicketDTO searchCriteria, Pageable pageable) {
+            @Valid @ModelAttribute SearchTicketDTO searchCriteria, Pageable pageable) {
         PageResponse<TicketFullDTO> tickets = statusService.searchTickets(searchCriteria, pageable);
         return ResponseEntity.ok(ApiResponse.success("Tickets searched successfully", tickets));
     }
