@@ -39,4 +39,10 @@ public final class TicketSpecification {
             return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
+
+    public static Specification<Ticket> bookedSeatsForTrip(int tripId) {
+        return (root, query, cb) -> cb.and(
+                cb.equal(root.get("trip").get("id"), tripId),
+                cb.isFalse(root.get("isCancelled")));
+    }
 }

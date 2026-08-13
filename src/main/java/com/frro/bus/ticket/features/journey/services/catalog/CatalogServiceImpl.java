@@ -3,9 +3,9 @@ package com.frro.bus.ticket.features.journey.services.catalog;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +17,7 @@ import com.frro.bus.ticket.common.dto.PageResponse;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.common.utils.PaginationUtils;
 import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
+import com.frro.bus.ticket.features.booking.specifications.TicketSpecification;
 import com.frro.bus.ticket.features.fleet.dtos.seat.SeatAvailabilityDTO;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
 import com.frro.bus.ticket.features.fleet.repositories.SeatRepository;
@@ -91,8 +92,9 @@ public class CatalogServiceImpl implements CatalogService {
                 .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", tripId));
 
         List<Seat> seats = seatRepository.findByBusIdAndIsActiveTrue(trip.getBus().getId());
-        Set<Integer> bookedSeatIds = new HashSet<>(
-                ticketRepository.findSeatIdsByTripIdAndIsCancelledFalse(tripId));
+        Set<Integer> bookedSeatIds = ticketRepository.findAll(TicketSpecification.bookedSeatsForTrip(tripId)).stream()
+                .map(ticket -> ticket.getSeat().getId())
+                .collect(Collectors.toSet());
 
         List<SeatAvailabilityDTO> result = new ArrayList<>();
         for (Seat seat : seats) {
