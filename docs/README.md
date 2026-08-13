@@ -99,3 +99,7 @@ logging.level.org.springframework.web=DEBUG
 
 ### Problemas con Puerto por Defecto
 - Si el puerto 8080, puede matar el proceso con `lsof -ti :PORT | xargs kill -9` en una terminal de Bash
+
+### Link de Prueba de API
+Una vez ejecutado el proyecto, se puede probar la API con Swagger mediante:
+`http://localhost:8080/swagger-ui/index.html`
