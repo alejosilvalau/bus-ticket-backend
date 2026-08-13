@@ -3,11 +3,15 @@ package com.frro.bus.ticket.features.booking.services.processor;
 import java.math.BigDecimal;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+
 import org.springframework.stereotype.Service;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
+import com.frro.bus.ticket.common.security.CurrentUserUtils;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
 import com.frro.bus.ticket.features.booking.dtos.TicketFullDTO;
 import com.frro.bus.ticket.features.booking.dtos.UpdateTicketDTO;
@@ -34,9 +38,15 @@ public class ProcessorServiceImpl implements ProcessorService {
     private final SeatRepository seatRepository;
     private final UserRepository userRepository;
     private final TicketMapper ticketMapper;
+    private final HttpServletRequest request;
 
     @Override
     public TicketFullDTO createTicket(CreateTicketDTO ticketRequest) {
+        if (!CurrentUserUtils.isAdmin(request)
+                && ticketRequest.userId() != CurrentUserUtils.getAuthenticatedUserId(request)) {
+            throw new BusinessException("You can only create tickets for yourself");
+        }
+
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
         ticket.setTrip(validateTripRelationship(ticketRequest.tripId()));
         ticket.setSeat(validateSeatRelationship(ticketRequest.seatId()));
@@ -149,6 +159,11 @@ public class ProcessorServiceImpl implements ProcessorService {
     public TicketFullDTO cancelTicket(int id) {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", id));
+
+        if (!CurrentUserUtils.isAdmin(request)
+                && ticket.getUser().getId() != CurrentUserUtils.getAuthenticatedUserId(request)) {
+            throw new BusinessException("You can only modify your own tickets");
+        }
 
         if (ticket.isCancelled()) {
             throw new BusinessException("Ticket is already cancelled.");
