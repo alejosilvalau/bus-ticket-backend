@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
+import com.frro.bus.ticket.common.security.CurrentUserUtils;
 import com.frro.bus.ticket.features.identity.dtos.user.UpdateUserDTO;
 import com.frro.bus.ticket.features.identity.dtos.user.UserDTO;
 import com.frro.bus.ticket.features.identity.entities.User;
@@ -23,7 +24,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public UserDTO update(UpdateUserDTO userRequest) {
-        int authenticatedUserId = getAuthenticatedUserId();
+        int authenticatedUserId = CurrentUserUtils.getAuthenticatedUserId(request);
 
         if (userRequest.id() != authenticatedUserId) {
             throw new BusinessException("You can only update your own profile");
@@ -64,16 +65,8 @@ public class ProfileServiceImpl implements ProfileService {
         return userDTO;
     }
 
-    private int getAuthenticatedUserId() {
-        Object userId = request.getAttribute("userId");
-        if (userId == null) {
-            throw new BusinessException("No authenticated user found");
-        }
-        return (int) userId;
-    }
-
     private User getAuthenticatedUser() {
-        int userId = getAuthenticatedUserId();
+        int userId = CurrentUserUtils.getAuthenticatedUserId(request);
         return userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
     }

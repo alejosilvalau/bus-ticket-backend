@@ -5,24 +5,16 @@ GET http://localhost:8080/api/v1/journeys/catalog/trips?page=0&size=10
 Accept: application/json
 
 ### Get all trips by fields
-POST http://localhost:8080/api/v1/journeys/catalog/trips/search?page=0&size=10
-Content-Type: application/json
-
-{
-  "startDepartureDate": "2026-06-20T12:00:00Z"
-}
+GET http://localhost:8080/api/v1/journeys/catalog/trips/search?startDepartureDate=2026-06-20T12:00:00Z&page=0&size=10
+Accept: application/json
 
 ### Get all available trips
 GET http://localhost:8080/api/v1/journeys/catalog/trips/available?page=0&size=10
 Accept: application/json
 
 ### Get all available trips by fields
-POST http://localhost:8080/api/v1/journeys/catalog/trips/available/search?page=0&size=10
-Content-Type: application/json
-
-{
-  "startDepartureDate": "2026-06-20T12:00:00Z"
-}
+GET http://localhost:8080/api/v1/journeys/catalog/trips/available/search?startDepartureDate=2026-06-20T12:00:00Z&page=0&size=10
+Accept: application/json
 
 ### Get available seats for trip
 GET http://localhost:8080/api/v1/journeys/catalog/trips/3/available/seats
@@ -37,12 +29,8 @@ GET http://localhost:8080/api/v1/journeys/catalog/locations?page=0&size=10
 Accept: application/json
 
 ### Get all locations by fields
-POST http://localhost:8080/api/v1/journeys/catalog/locations/search?page=0&size=10
-Content-Type: application/json
-
-{
-  "state": "ba"
-}
+GET http://localhost:8080/api/v1/journeys/catalog/locations/search?state=ba&page=0&size=10
+Accept: application/json
 
 ### Get location by ID
 GET http://localhost:8080/api/v1/journeys/catalog/locations/1

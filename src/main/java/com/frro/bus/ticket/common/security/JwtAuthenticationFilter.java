@@ -91,7 +91,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (handlerMethod != null) {
                 if (handlerMethod.hasMethodAnnotation(AdminEndpoint.class)
                         || handlerMethod.getBeanType().isAnnotationPresent(AdminEndpoint.class)) {
-                    if (!isAdmin(request)) {
+                    if (!CurrentUserUtils.isAdmin(request)) {
                         sendError(response, HttpServletResponse.SC_FORBIDDEN, "Admin access required");
                         return;
                     }
@@ -139,11 +139,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean hasToken(String authHeader) {
         return authHeader != null && authHeader.startsWith("Bearer ");
-    }
-
-    private boolean isAdmin(HttpServletRequest request) {
-        Object isAdmin = request.getAttribute("isAdmin");
-        return isAdmin instanceof Boolean && (Boolean) isAdmin;
     }
 
     private void sendError(HttpServletResponse response, int status, String message) throws IOException {

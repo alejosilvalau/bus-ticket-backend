@@ -3,11 +3,11 @@
 ### Update user profile
 PATCH http://localhost:8080/api/v1/identity/profile
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODE2NDE3MjgsImV4cCI6MTc4MTY1MjUyOH0.owSyuuAabW6v1sIO7S5CLD0iUE3ds7fAKpvtE_UdKxbfRxxIAV5Jq3kQPFlxUmH_
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODY2NDk2OTcsImV4cCI6MTc4NjY2MDQ5N30.YZ0yJitIf5FWguQ7siqXmN25Upw0DJppu4fhihpEOiS-NokjSS0tviR5BG2Zoz_T
 
 {
-  "id": 4,
-  "firstName": "Esteban"
+  "id": 2,
+  "firstName": "Doe"
 }
 
 ### Logical delete user profile
