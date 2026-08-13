@@ -19,6 +19,9 @@ import com.frro.bus.ticket.features.fleet.mappers.SeatTypeMapper;
 import com.frro.bus.ticket.features.fleet.repositories.BusRepository;
 import com.frro.bus.ticket.features.fleet.repositories.SeatRepository;
 import com.frro.bus.ticket.features.fleet.repositories.SeatTypeRepository;
+import com.frro.bus.ticket.features.fleet.specifications.BusSpecification;
+import com.frro.bus.ticket.features.fleet.specifications.SeatSpecification;
+import com.frro.bus.ticket.features.fleet.specifications.SeatTypeSpecification;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,12 +43,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
     @Override
     public PageResponse<BusDTO> searchBuses(SearchBusDTO searchCriteria, Pageable pageable) {
-        Page<BusDTO> page = busRepository.searchBuses(
-                searchCriteria.plateNumber().orElse(null),
-                searchCriteria.startTotalCapacity().orElse(null),
-                searchCriteria.endTotalCapacity().orElse(null),
-                searchCriteria.isActive().orElse(null),
-                pageable)
+        Page<BusDTO> page = busRepository.findAll(BusSpecification.build(searchCriteria), pageable)
                 .map(busMapper::toBusDTO);
         return PaginationUtils.toPageResponse(page);
     }
@@ -65,13 +63,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
     @Override
     public PageResponse<SeatFullDTO> searchSeats(SearchSeatDTO searchCriteria, Pageable pageable) {
-        Page<SeatFullDTO> page = seatRepository.searchSeats(
-                searchCriteria.letter().orElse(null),
-                searchCriteria.number().orElse(null),
-                searchCriteria.isActive().orElse(null),
-                searchCriteria.busId().orElse(null),
-                searchCriteria.seatTypeId().orElse(null),
-                pageable)
+        Page<SeatFullDTO> page = seatRepository.findAll(SeatSpecification.build(searchCriteria), pageable)
                 .map(seatMapper::toSeatFullDTO);
         return PaginationUtils.toPageResponse(page);
     }
@@ -91,11 +83,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
     @Override
     public PageResponse<SeatTypeDTO> searchSeatTypes(SearchSeatTypeDTO searchCriteria, Pageable pageable) {
-        Page<SeatTypeDTO> page = seatTypeRepository.searchSeatTypes(
-                searchCriteria.name().orElse(null),
-                searchCriteria.startUpcharge().orElse(null),
-                searchCriteria.endUpcharge().orElse(null),
-                pageable)
+        Page<SeatTypeDTO> page = seatTypeRepository.findAll(SeatTypeSpecification.build(searchCriteria), pageable)
                 .map(seatTypeMapper::toSeatTypeDTO);
         return PaginationUtils.toPageResponse(page);
     }
