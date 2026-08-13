@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -18,14 +17,11 @@ import com.frro.bus.ticket.features.journey.entities.Trip;
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Integer>, JpaSpecificationExecutor<Trip> {
 
-    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Page<Trip> findAll(Pageable pageable);
 
-    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Page<Trip> findAll(Specification<Trip> spec, Pageable pageable);
 
     @Override
-    @EntityGraph(attributePaths = { "bus", "driver", "locationOrigin", "locationDestination" })
     Optional<Trip> findById(Integer id);
 
     Optional<Trip> findByBusIdAndDepartureDate(Integer busId, ZonedDateTime departureDate);
