@@ -6,13 +6,9 @@ Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODIwODU5OTQsImV4cCI6MTc4MjA5Njc5NH0.X_tcuf46IP6lHfa2C-YvoNJEW9yQDjsfFFeq1Qo2DAms5ArngAV2SqjVh6j26MoE
 
 ### Get all tickets by fields
-POST http://localhost:8080/api/v1/booking/status/tickets/search?page=0&size=10
-Content-Type: application/json
+GET http://localhost:8080/api/v1/booking/status/tickets/search?userId=1&page=0&size=10
+Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3ODIwODU5OTQsImV4cCI6MTc4MjA5Njc5NH0.X_tcuf46IP6lHfa2C-YvoNJEW9yQDjsfFFeq1Qo2DAms5ArngAV2SqjVh6j26MoE
-
-{
-  "userId": 1
-}
 
 ### Get ticket by ID
 GET http://localhost:8080/api/v1/booking/status/tickets/5
