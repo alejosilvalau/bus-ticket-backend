@@ -45,7 +45,6 @@ public class AuthController {
     }
 
     @AuthenticatedEndpoint
-    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/logout")
     public ResponseEntity<ApiResponse<Boolean>> logout() {
         try {
