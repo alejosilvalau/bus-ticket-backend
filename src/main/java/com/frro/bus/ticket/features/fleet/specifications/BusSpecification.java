@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.frro.bus.ticket.common.utils.StringSearchUtils;
 import com.frro.bus.ticket.features.fleet.dtos.bus.SearchBusDTO;
 import com.frro.bus.ticket.features.fleet.entities.Bus;
 
@@ -20,7 +21,7 @@ public final class BusSpecification {
             List<Predicate> predicates = new ArrayList<>();
 
             criteria.plateNumber().ifPresent(value ->
-                    predicates.add(cb.like(cb.lower(root.get("plateNumber")), likePattern(value))));
+                    predicates.add(cb.like(cb.lower(root.get("plateNumber")), StringSearchUtils.likePattern(value))));
             criteria.startTotalCapacity().ifPresent(value ->
                     predicates.add(cb.greaterThanOrEqualTo(root.get("totalCapacity"), value)));
             criteria.endTotalCapacity().ifPresent(value ->
@@ -30,9 +31,5 @@ public final class BusSpecification {
 
             return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
-    }
-
-    private static String likePattern(String value) {
-        return "%" + value.toLowerCase() + "%";
     }
 }
