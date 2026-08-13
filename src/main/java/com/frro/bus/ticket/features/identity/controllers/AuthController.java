@@ -17,6 +17,7 @@ import com.frro.bus.ticket.features.identity.dtos.user.LoginUserDTO;
 import com.frro.bus.ticket.features.identity.services.auth.AuthService;
 
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -34,6 +35,7 @@ public class AuthController {
     }
 
     @AuthenticatedEndpoint
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/logout")
     public ResponseEntity<ApiResponse<Boolean>> logout() {
         boolean result = authService.logout();
