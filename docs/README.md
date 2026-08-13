@@ -39,7 +39,7 @@ Incorpora perfiles de usuario y administrador, manejo de errores con mensajes cl
 |Manejo de errores| Mensajes en la UI de retorno en API |
 | publicar el sitio | No obligatorio, hacerlo con AWS si entra en tier gratis |
 
-### Requerimientos extra - AD
+### Requerimientos Extra - AD
 | Requerimiento | Detalle/Listado de casos incluidos |
 | --- | --- |
 | Custom exceptions | Excepciones personalizadas mediante subclases, validando las reglas de negocio|
@@ -50,3 +50,52 @@ Incorpora perfiles de usuario y administrador, manejo de errores con mensajes cl
 ### Ruta de Listado Complejo
 - GET `/api/v1/journeys/catalog/trips/available/search`
 
+## Pasos para Ejecutar el Proyecto
+
+### Comandos del Package Manager Maven
+- `./mvnw install`
+- `./mvnw clean compile`
+- `./mvnw spring-boot:run`
+
+### Crear archivo `application.properties` en `src/main/resources` con el siguiente contenido:
+```properties
+spring.application.name=bus-ticket
+
+# Database Configuration
+spring.datasource.url=jdbc:mysql://localhost:PUERTO/bus_ticket?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+spring.datasource.username=USUARIO
+spring.datasource.password=CONTRASEÑA
+# spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# JPA and Hibernate Configuration
+# spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.jdbc.time_zone=UTC
+
+# Jackson Configuration - Output UTC times
+spring.jackson.time-zone=UTC
+spring.jackson.deserialization.fail-on-unknown-properties=true
+
+# Pageable Configuration
+spring.data.web.pageable.default-page-size=20
+spring.data.web.pageable.page-parameter=page
+spring.data.web.pageable.size-parameter=size
+spring.data.web.pageable.max-page-size=100
+
+# CORS Configuration
+app.cors.allowed-origins=http://localhost:3000,http://localhost:5173,http://localhost:5174
+
+# JWT Configuration
+app.jwtSecret=SECRETO
+app.jwtExpirationMs=10800000
+
+# Logging Configuration
+logging.level.com.example.demo=INFO
+logging.level.org.springframework.security=DEBUG
+logging.level.org.springframework.web=DEBUG
+```
+
+### Problemas con Puerto por Defecto
+- Si el puerto 8080, puede matar el proceso con `lsof -ti :PORT | xargs kill -9` en una terminal de Bash
