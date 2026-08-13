@@ -17,6 +17,7 @@ import com.frro.bus.ticket.features.identity.dtos.driver.SearchDriverDTO;
 import com.frro.bus.ticket.features.identity.entities.Driver;
 import com.frro.bus.ticket.features.identity.mappers.DriverMapper;
 import com.frro.bus.ticket.features.identity.repositories.DriverRepository;
+import com.frro.bus.ticket.features.identity.specifications.DriverSpecification;
 
 @Service
 @RequiredArgsConstructor
@@ -32,13 +33,7 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public PageResponse<DriverDTO> search(SearchDriverDTO searchCriteria, Pageable pageable) {
-        Page<DriverDTO> page = driverRepository.searchDrivers(
-                searchCriteria.firstName().orElse(null),
-                searchCriteria.lastName().orElse(null),
-                searchCriteria.isActive().orElse(null),
-                searchCriteria.licenseNumber().orElse(null),
-                searchCriteria.phoneNumber().orElse(null),
-                pageable)
+        Page<DriverDTO> page = driverRepository.findAll(DriverSpecification.build(searchCriteria), pageable)
                 .map(driverMapper::toDriverDTO);
         return PaginationUtils.toPageResponse(page);
     }

@@ -13,6 +13,7 @@ import com.frro.bus.ticket.features.booking.dtos.TokenDTO;
 import com.frro.bus.ticket.features.booking.entities.Ticket;
 import com.frro.bus.ticket.features.booking.mappers.TicketMapper;
 import com.frro.bus.ticket.features.booking.repositories.TicketRepository;
+import com.frro.bus.ticket.features.booking.specifications.TicketSpecification;
 import com.frro.bus.ticket.features.fleet.entities.Seat;
 import com.frro.bus.ticket.features.journey.entities.Trip;
 
@@ -32,16 +33,7 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public PageResponse<TicketFullDTO> searchTickets(SearchTicketDTO searchCriteria, Pageable pageable) {
-        Page<TicketFullDTO> page = ticketRepository.searchTickets(
-                searchCriteria.startFinalPrice().orElse(null),
-                searchCriteria.endFinalPrice().orElse(null),
-                searchCriteria.startBookingTime().orElse(null),
-                searchCriteria.endBookingTime().orElse(null),
-                searchCriteria.isCancelled().orElse(null),
-                searchCriteria.userId().orElse(null),
-                searchCriteria.tripId().orElse(null),
-                searchCriteria.seatId().orElse(null),
-                pageable)
+        Page<TicketFullDTO> page = ticketRepository.findAll(TicketSpecification.build(searchCriteria), pageable)
                 .map(ticketMapper::toTicketFullDTO);
         return PaginationUtils.toPageResponse(page);
     }

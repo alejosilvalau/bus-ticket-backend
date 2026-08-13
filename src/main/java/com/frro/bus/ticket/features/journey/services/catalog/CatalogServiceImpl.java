@@ -29,6 +29,8 @@ import com.frro.bus.ticket.features.journey.mappers.TripMapper;
 import com.frro.bus.ticket.features.journey.mappers.LocationMapper;
 import com.frro.bus.ticket.features.journey.repositories.TripRepository;
 import com.frro.bus.ticket.features.journey.repositories.LocationRepository;
+import com.frro.bus.ticket.features.journey.specifications.LocationSpecification;
+import com.frro.bus.ticket.features.journey.specifications.TripSpecification;
 
 @Service
 @RequiredArgsConstructor
@@ -49,19 +51,7 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public PageResponse<TripFullDTO> searchTrips(SearchTripDTO searchCriteria, Pageable pageable) {
-        Page<TripFullDTO> page = tripRepository.searchTrips(
-                searchCriteria.startDepartureDate().orElse(null),
-                searchCriteria.endDepartureDate().orElse(null),
-                searchCriteria.startArrivalDate().orElse(null),
-                searchCriteria.endArrivalDate().orElse(null),
-                searchCriteria.startBasePrice().orElse(null),
-                searchCriteria.endBasePrice().orElse(null),
-                searchCriteria.busId().orElse(null),
-                searchCriteria.driverId().orElse(null),
-                searchCriteria.locationOriginId().orElse(null),
-                searchCriteria.locationDestinationId().orElse(null),
-                searchCriteria.seatTypeId().orElse(null),
-                pageable)
+        Page<TripFullDTO> page = tripRepository.findAll(TripSpecification.build(searchCriteria), pageable)
                 .map(tripMapper::toTripFullDTO);
         return PaginationUtils.toPageResponse(page);
     }
@@ -69,7 +59,7 @@ public class CatalogServiceImpl implements CatalogService {
     @Override
     public PageResponse<TripFullDTO> findAllAvailableTrips(Pageable pageable) {
         ZonedDateTime timeBuffer = currentTimeBuffer();
-        Page<TripFullDTO> page = tripRepository.findAvailableTrips(timeBuffer, pageable)
+        Page<TripFullDTO> page = tripRepository.findAll(TripSpecification.available(timeBuffer), pageable)
                 .map(tripMapper::toTripFullDTO);
         return PaginationUtils.toPageResponse(page);
     }
@@ -77,19 +67,8 @@ public class CatalogServiceImpl implements CatalogService {
     @Override
     public PageResponse<TripFullDTO> searchAvailableTrips(SearchTripDTO searchCriteria, Pageable pageable) {
         ZonedDateTime timeBuffer = currentTimeBuffer();
-        Page<TripFullDTO> page = tripRepository.searchAvailableTrips(
-                timeBuffer,
-                searchCriteria.startDepartureDate().orElse(null),
-                searchCriteria.endDepartureDate().orElse(null),
-                searchCriteria.startArrivalDate().orElse(null),
-                searchCriteria.endArrivalDate().orElse(null),
-                searchCriteria.startBasePrice().orElse(null),
-                searchCriteria.endBasePrice().orElse(null),
-                searchCriteria.busId().orElse(null),
-                searchCriteria.driverId().orElse(null),
-                searchCriteria.locationOriginId().orElse(null),
-                searchCriteria.locationDestinationId().orElse(null),
-                searchCriteria.seatTypeId().orElse(null),
+        Page<TripFullDTO> page = tripRepository.findAll(
+                TripSpecification.build(searchCriteria).and(TripSpecification.available(timeBuffer)),
                 pageable)
                 .map(tripMapper::toTripFullDTO);
         return PaginationUtils.toPageResponse(page);
@@ -138,11 +117,7 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public PageResponse<LocationDTO> searchLocations(SearchLocationDTO searchCriteria, Pageable pageable) {
-        Page<LocationDTO> page = locationRepository.searchLocations(
-                searchCriteria.cityName().orElse(null),
-                searchCriteria.state().orElse(null),
-                searchCriteria.postalCode().orElse(null),
-                pageable)
+        Page<LocationDTO> page = locationRepository.findAll(LocationSpecification.build(searchCriteria), pageable)
                 .map(locationMapper::toLocationDTO);
         return PaginationUtils.toPageResponse(page);
     }
