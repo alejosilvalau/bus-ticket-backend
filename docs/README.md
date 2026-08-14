@@ -18,7 +18,7 @@ Incorpora perfiles de usuario y administrador, manejo de errores con mensajes cl
 ![Diagrama de Clases](./diagrama-de-clases-v9.png)
 
 ## Modelo de Datos
-![Modelo de Datos](./modelo-de-datos.png)  
+![Modelo de Datos](./modelo-de-datos-v3.png)  
 
 ## Casos de Uso para la REGULARIDAD
 | Requerimiento | Detalle/Listado de casos incluidos |
