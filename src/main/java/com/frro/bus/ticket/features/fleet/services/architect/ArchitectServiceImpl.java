@@ -2,6 +2,7 @@ package com.frro.bus.ticket.features.fleet.services.architect;
 
 import org.springframework.stereotype.Service;
 
+import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.features.fleet.dtos.bus.BusDTO;
@@ -61,7 +62,12 @@ public class ArchitectServiceImpl implements ArchitectService {
             existingBus.setPlateNumber(newPlate);
         });
 
-        busRequest.totalCapacity().ifPresent(existingBus::setTotalCapacity);
+        busRequest.totalCapacity().ifPresent(newCapacity -> {
+            if (newCapacity < seatRepository.countByBusId(existingBus.getId())) {
+                throw new BusinessException("Bus capacity cannot be lower than the number of seats");
+            }
+            existingBus.setTotalCapacity(newCapacity);
+        });
         busRequest.isActive().ifPresent(existingBus::setActive);
 
         Bus savedBus = busRepository.save(existingBus);
@@ -83,6 +89,10 @@ public class ArchitectServiceImpl implements ArchitectService {
         SeatType seatType = seatTypeRepository.findById(seatRequest.seatTypeId())
                 .orElseThrow(() -> new ResourceNotFoundException("SeatType", "id", seatRequest.seatTypeId()));
 
+        if (seatRepository.countByBusId(bus.getId()) >= bus.getTotalCapacity()) {
+            throw new BusinessException("Bus capacity exceeded");
+        }
+
         int excludeSeatId = 0; // New seat, so no ID to exclude
         validateSeatUniqueness(bus.getId(), seatRequest.letter(), seatRequest.number(), excludeSeatId);
 
@@ -103,6 +113,11 @@ public class ArchitectServiceImpl implements ArchitectService {
         seatRequest.busId().ifPresent(busId -> {
             Bus bus = busRepository.findById(busId)
                     .orElseThrow(() -> new ResourceNotFoundException("Bus", "id", busId));
+            int occupied = (int) seatRepository.countByBusId(bus.getId())
+                    - (existingSeat.isActive() && existingSeat.getBus().getId() == bus.getId() ? 1 : 0);
+            if (occupied >= bus.getTotalCapacity()) {
+                throw new BusinessException("Bus capacity exceeded");
+            }
             existingSeat.setBus(bus);
         });
         seatRequest.seatTypeId().ifPresent(seatTypeId -> {

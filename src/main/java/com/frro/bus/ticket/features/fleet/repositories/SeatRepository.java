@@ -25,4 +25,6 @@ public interface SeatRepository extends JpaRepository<Seat, Integer>, JpaSpecifi
     Optional<Seat> findByBusIdAndLetterAndNumber(Integer busId, Character letter, Integer number);
 
     List<Seat> findByBusIdAndIsActiveTrue(int busId);
+
+    long countByBusId(int busId);
 }

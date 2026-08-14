@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
+import com.frro.bus.ticket.common.exceptions.InsufficientSeatsException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.common.security.CurrentUserUtils;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
@@ -137,7 +138,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     private void validateSeatAvailability(Trip trip) {
         long bookedSeats = ticketRepository.countByTripIdAndIsCancelledFalse(trip.getId());
         if (bookedSeats >= trip.getBus().getTotalCapacity()) {
-            throw new BusinessException("Trip is full. No available seats.");
+            throw new InsufficientSeatsException("Trip is full. No available seats.");
         }
     }
 

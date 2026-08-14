@@ -91,12 +91,20 @@ public final class TripSpecification {
     }
 
     private static Predicate hasFreeSeats(Root<Trip> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-        Subquery<Long> sub = query.subquery(Long.class);
-        Root<Ticket> ticket = sub.from(Ticket.class);
-        sub.select(cb.count(ticket))
+        Subquery<Long> booked = query.subquery(Long.class);
+        Root<Ticket> ticket = booked.from(Ticket.class);
+        booked.select(cb.count(ticket))
                 .where(
                         cb.equal(ticket.get("trip"), root),
                         cb.isFalse(ticket.get("isCancelled")));
-        return cb.lessThan(sub, root.get("bus").get("totalCapacity").as(Long.class));
+
+        Subquery<Long> activeSeats = query.subquery(Long.class);
+        Root<Seat> seat = activeSeats.from(Seat.class);
+        activeSeats.select(cb.count(seat))
+                .where(
+                        cb.equal(seat.get("bus"), root.get("bus")),
+                        cb.isTrue(seat.get("isActive")));
+
+        return cb.lessThan(booked, activeSeats);
     }
 }
