@@ -5,11 +5,13 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 import com.frro.bus.ticket.common.exceptions.BusinessException;
 import com.frro.bus.ticket.common.exceptions.DuplicateResourceException;
+import com.frro.bus.ticket.common.exceptions.InsufficientSeatsException;
 import com.frro.bus.ticket.common.exceptions.ResourceNotFoundException;
 import com.frro.bus.ticket.common.security.CurrentUserUtils;
 import com.frro.bus.ticket.features.booking.dtos.CreateTicketDTO;
@@ -41,6 +43,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     private final HttpServletRequest request;
 
     @Override
+    @Transactional
     public TicketFullDTO createTicket(CreateTicketDTO ticketRequest) {
         if (!CurrentUserUtils.isAdmin(request)
                 && ticketRequest.userId() != CurrentUserUtils.getAuthenticatedUserId(request)) {
@@ -48,7 +51,7 @@ public class ProcessorServiceImpl implements ProcessorService {
         }
 
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
-        ticket.setTrip(validateTripRelationship(ticketRequest.tripId()));
+        ticket.setTrip(validateTripRelationshipWithLock(ticketRequest.tripId()));
         ticket.setSeat(validateSeatRelationship(ticketRequest.seatId()));
         ticket.setUser(validateUserRelationship(ticketRequest.userId()));
 
@@ -73,6 +76,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     }
 
     @Override
+    @Transactional
     public TicketFullDTO updateTicket(UpdateTicketDTO ticketRequest) {
         Ticket existingTicket = ticketRepository.findById(ticketRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", ticketRequest.id()));
@@ -82,7 +86,7 @@ public class ProcessorServiceImpl implements ProcessorService {
         }
 
         ticketRequest.tripId().ifPresent(tripId -> {
-            existingTicket.setTrip(validateTripRelationship(tripId));
+            existingTicket.setTrip(validateTripRelationshipWithLock(tripId));
         });
 
         ticketRequest.seatId().ifPresent(seatId -> {
@@ -137,7 +141,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     private void validateSeatAvailability(Trip trip) {
         long bookedSeats = ticketRepository.countByTripIdAndIsCancelledFalse(trip.getId());
         if (bookedSeats >= trip.getBus().getTotalCapacity()) {
-            throw new BusinessException("Trip is full. No available seats.");
+            throw new InsufficientSeatsException("Trip is full. No available seats.");
         }
     }
 
@@ -218,6 +222,11 @@ public class ProcessorServiceImpl implements ProcessorService {
 
     private Trip validateTripRelationship(int tripId) {
         return tripRepository.findById(tripId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", tripId));
+    }
+
+    private Trip validateTripRelationshipWithLock(int tripId) {
+        return tripRepository.findWithLockingById(tripId)
                 .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", tripId));
     }
 
