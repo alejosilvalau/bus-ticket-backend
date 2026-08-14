@@ -3,10 +3,15 @@ package com.frro.bus.ticket.features.fleet.dtos.bus;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+
+import com.frro.bus.ticket.common.config.PlateNumberDeserializer;
+import com.frro.bus.ticket.common.validations.ValidPlateNumber;
+
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 public record CreateBusDTO(
-        @NotBlank @Size(min = 1, max = 20) String plateNumber,
+        @JsonDeserialize(using = PlateNumberDeserializer.class)
+        @NotBlank @ValidPlateNumber String plateNumber,
 
         @NotNull @Min(1) Integer totalCapacity,
 
