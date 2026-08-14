@@ -40,10 +40,10 @@ insert into bus (plate_number, total_capacity, is_active) values
 ('cd234ef', 40, 1);
 
 insert into person (is_user, first_name, last_name, is_active, email, password, is_admin, license_number, phone_number) values
-(0, 'carlos', 'ramírez', 1, NULL, NULL, NULL, 'lic-2021-0001', '+5491155550101'),
-(0, 'martín', 'gutiérrez', 1, NULL, NULL, NULL, 'lic-2019-0002', '+5493415550102'),
-(0, 'jorge', 'herrera', 1, NULL, NULL, NULL, 'lic-2020-0003', '+5492235550103'),
-(0, 'pablo', 'sosa', 1, NULL, NULL, NULL, 'lic-2018-0004', '+5492615550104'),
+(0, 'carlos', 'ramírez', 1, NULL, NULL, NULL, '30123456', '+5491155550101'),
+(0, 'martín', 'gutiérrez', 1, NULL, NULL, NULL, '28456789', '+5493415550102'),
+(0, 'jorge', 'herrera', 1, NULL, NULL, NULL, '29654321', '+5492235550103'),
+(0, 'pablo', 'sosa', 1, NULL, NULL, NULL, '27123456', '+5492615550104'),
 (1, 'valentina', 'herrera', 1, 'admin@bus.com', '$2y$10$VDA/YalLwiedfzFiiksx/e0NNiGS.Auug0IOTpgN7ieVnMy8/e7w6', 1, NULL, NULL),
 (1, 'juan', 'pérez', 1, 'juan.perez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
 (1, 'maría', 'gómez', 1, 'maria.gomez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
@@ -53,10 +53,10 @@ insert into person (is_user, first_name, last_name, is_active, email, password, 
 (1, 'pedro', 'rodríguez', 1, 'pedro.rodriguez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
 (1, 'sofía', 'díaz', 1, 'sofia.diaz@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
 (1, 'diego', 'sánchez', 1, 'diego.sanchez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
-(0, 'nicolás', 'acosta', 1, NULL, NULL, NULL, 'lic-2022-0005', '+5491155550105'),
-(0, 'gustavo', 'molina', 1, NULL, NULL, NULL, 'lic-2017-0006', '+5492235550106'),
-(0, 'ricardo', 'vega', 1, NULL, NULL, NULL, 'lic-2023-0007', '+5493415550107'),
-(0, 'ariel', 'bustos', 1, NULL, NULL, NULL, 'lic-2016-0008', '+5493515550108');
+(0, 'nicolás', 'acosta', 1, NULL, NULL, NULL, '31234567', '+5491155550105'),
+(0, 'gustavo', 'molina', 1, NULL, NULL, NULL, '26543210', '+5492235550106'),
+(0, 'ricardo', 'vega', 1, NULL, NULL, NULL, '32567890', '+5493415550107'),
+(0, 'ariel', 'bustos', 1, NULL, NULL, NULL, '25432109', '+5493515550108');
 
 insert into seat (bus_id, seat_type_id, letter, `number`, is_active)
 select

@@ -4,9 +4,9 @@ import tools.jackson.core.JsonParser;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.deser.std.StdDeserializer;
 
-public class PlateNumberDeserializer extends StdDeserializer<String> {
+public class LicenseNumberDeserializer extends StdDeserializer<String> {
 
-    public PlateNumberDeserializer() {
+    public LicenseNumberDeserializer() {
         super(String.class);
     }
 
@@ -16,6 +16,6 @@ public class PlateNumberDeserializer extends StdDeserializer<String> {
         if (value == null) {
             return null;
         }
-        return value.trim().toLowerCase().replaceAll("[\\s.-]", "");
+        return value.trim().replaceAll("[\\s.-]", "");
     }
 }
