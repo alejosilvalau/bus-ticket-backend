@@ -5,6 +5,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -42,6 +43,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     private final HttpServletRequest request;
 
     @Override
+    @Transactional
     public TicketFullDTO createTicket(CreateTicketDTO ticketRequest) {
         if (!CurrentUserUtils.isAdmin(request)
                 && ticketRequest.userId() != CurrentUserUtils.getAuthenticatedUserId(request)) {
@@ -49,7 +51,7 @@ public class ProcessorServiceImpl implements ProcessorService {
         }
 
         Ticket ticket = ticketMapper.toTicket(ticketRequest);
-        ticket.setTrip(validateTripRelationship(ticketRequest.tripId()));
+        ticket.setTrip(validateTripRelationshipWithLock(ticketRequest.tripId()));
         ticket.setSeat(validateSeatRelationship(ticketRequest.seatId()));
         ticket.setUser(validateUserRelationship(ticketRequest.userId()));
 
@@ -74,6 +76,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     }
 
     @Override
+    @Transactional
     public TicketFullDTO updateTicket(UpdateTicketDTO ticketRequest) {
         Ticket existingTicket = ticketRepository.findById(ticketRequest.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", ticketRequest.id()));
@@ -83,7 +86,7 @@ public class ProcessorServiceImpl implements ProcessorService {
         }
 
         ticketRequest.tripId().ifPresent(tripId -> {
-            existingTicket.setTrip(validateTripRelationship(tripId));
+            existingTicket.setTrip(validateTripRelationshipWithLock(tripId));
         });
 
         ticketRequest.seatId().ifPresent(seatId -> {
@@ -219,6 +222,11 @@ public class ProcessorServiceImpl implements ProcessorService {
 
     private Trip validateTripRelationship(int tripId) {
         return tripRepository.findById(tripId)
+                .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", tripId));
+    }
+
+    private Trip validateTripRelationshipWithLock(int tripId) {
+        return tripRepository.findWithLockingById(tripId)
                 .orElseThrow(() -> new ResourceNotFoundException("Trip", "id", tripId));
     }
 

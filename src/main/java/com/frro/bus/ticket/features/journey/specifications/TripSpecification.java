@@ -57,6 +57,7 @@ public final class TripSpecification {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(cb.greaterThan(root.get("departureDate"), timeBuffer));
+            predicates.add(cb.isTrue(root.get("bus").get("isActive")));
             predicates.add(hasFreeSeats(root, query, cb));
             return cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
