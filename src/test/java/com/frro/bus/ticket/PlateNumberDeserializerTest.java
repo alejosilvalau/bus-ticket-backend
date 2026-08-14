@@ -46,6 +46,28 @@ class PlateNumberDeserializerTest {
     }
 
     @Test
+    void createBusDTO_stripsHyphensAndDots() throws Exception {
+        String json = """
+                {"plateNumber":"AB-123-CD","totalCapacity":40,"isActive":true}
+                """;
+
+        CreateBusDTO dto = objectMapper.readValue(json, CreateBusDTO.class);
+
+        assertThat(dto.plateNumber()).isEqualTo("ab123cd");
+    }
+
+    @Test
+    void createBusDTO_stripsDots() throws Exception {
+        String json = """
+                {"plateNumber":"AB.123.CD","totalCapacity":40,"isActive":true}
+                """;
+
+        CreateBusDTO dto = objectMapper.readValue(json, CreateBusDTO.class);
+
+        assertThat(dto.plateNumber()).isEqualTo("ab123cd");
+    }
+
+    @Test
     void updateBusDTO_normalizesPlateNumberInsideOptional() throws Exception {
         String json = """
                 {"id":1,"plateNumber":"AB 123 CD"}
