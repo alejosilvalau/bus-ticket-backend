@@ -11,60 +11,60 @@ truncate table person;
 set foreign_key_checks = 1;
 
 insert into location (city_name, state, postal_code) values
-('Buenos Aires', 'Ciudad Autónoma de Buenos Aires', 'C1043'),
-('La Plata', 'Buenos Aires', 'B1900'),
-('Mar del Plata', 'Buenos Aires', 'B7600'),
-('Tandil', 'Buenos Aires', 'B7000'),
-('Rosario', 'Santa Fe', 'S2000'),
-('Santa Fe', 'Santa Fe', 'S3000'),
-('Córdoba', 'Córdoba', 'X5000'),
-('Mendoza', 'Mendoza', 'M5500'),
-('Salta', 'Salta', 'A4400'),
-('Neuquén', 'Neuquén', 'Q8300'),
-('Bariloche', 'Río Negro', 'R8400'),
-('Posadas', 'Misiones', 'N3300');
+('buenos aires', 'ciudad autónoma de buenos aires', 'C1043'),
+('la plata', 'buenos aires', 'B1900'),
+('mar del plata', 'buenos aires', 'B7600'),
+('tandil', 'buenos aires', 'B7000'),
+('rosario', 'santa fe', 'S2000'),
+('santa fe', 'santa fe', 'S3000'),
+('córdoba', 'córdoba', 'X5000'),
+('mendoza', 'mendoza', 'M5500'),
+('salta', 'salta', 'A4400'),
+('neuquén', 'neuquén', 'Q8300'),
+('bariloche', 'río negro', 'R8400'),
+('posadas', 'misiones', 'N3300');
 
 insert into seat_type (name, upcharge) values
-('Estándar', 0.00),
-('Semicama', 30.00),
-('Cama', 80.00);
+('estándar', 0.00),
+('semicama', 30.00),
+('cama', 80.00);
 
 insert into bus (plate_number, total_capacity, is_active) values
-('AB 123 CD', 40, 1),
-('EF 456 GH', 40, 1),
-('IJ 789 KL', 40, 1),
-('MN 012 OP', 40, 1),
-('QR 345 ST', 40, 1),
-('UV 678 WX', 40, 1),
-('YZ 901 AB', 40, 1),
-('CD 234 EF', 40, 1);
+('ab123cd', 40, 1),
+('ef456gh', 40, 1),
+('ij789kl', 40, 1),
+('mn012op', 40, 1),
+('qr345st', 40, 1),
+('uv678wx', 40, 1),
+('yz901ab', 40, 1),
+('cd234ef', 40, 1);
 
 insert into person (is_user, first_name, last_name, is_active, email, password, is_admin, license_number, phone_number) values
-(0, 'Carlos', 'Ramírez', 1, NULL, NULL, NULL, 'LIC-2021-0001', '+54 9 11 5555-0101'),
-(0, 'Martín', 'Gutiérrez', 1, NULL, NULL, NULL, 'LIC-2019-0002', '+54 9 341 555-0102'),
-(0, 'Jorge', 'Herrera', 1, NULL, NULL, NULL, 'LIC-2020-0003', '+54 9 223 555-0103'),
-(0, 'Pablo', 'Sosa', 1, NULL, NULL, NULL, 'LIC-2018-0004', '+54 9 261 555-0104'),
-(1, 'Valentina', 'Herrera', 1, 'admin@bus.com', '$2y$10$VDA/YalLwiedfzFiiksx/e0NNiGS.Auug0IOTpgN7ieVnMy8/e7w6', 1, NULL, NULL),
-(1, 'Juan', 'Pérez', 1, 'juan.perez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
-(1, 'María', 'Gómez', 1, 'maria.gomez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
-(1, 'Carlos', 'López', 1, 'carlos.lopez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
-(1, 'Ana', 'Martínez', 1, 'ana.martinez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
-(1, 'Lucía', 'Fernández', 1, 'lucia.fernandez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
-(1, 'Pedro', 'Rodríguez', 1, 'pedro.rodriguez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
-(1, 'Sofía', 'Díaz', 1, 'sofia.diaz@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
-(1, 'Diego', 'Sánchez', 1, 'diego.sanchez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
-(0, 'Nicolás', 'Acosta', 1, NULL, NULL, NULL, 'LIC-2022-0005', '+54 9 11 5555-0105'),
-(0, 'Gustavo', 'Molina', 1, NULL, NULL, NULL, 'LIC-2017-0006', '+54 9 223 555-0106'),
-(0, 'Ricardo', 'Vega', 1, NULL, NULL, NULL, 'LIC-2023-0007', '+54 9 341 555-0107'),
-(0, 'Ariel', 'Bustos', 1, NULL, NULL, NULL, 'LIC-2016-0008', '+54 9 351 555-0108');
+(0, 'carlos', 'ramírez', 1, NULL, NULL, NULL, 'lic-2021-0001', '+5491155550101'),
+(0, 'martín', 'gutiérrez', 1, NULL, NULL, NULL, 'lic-2019-0002', '+5493415550102'),
+(0, 'jorge', 'herrera', 1, NULL, NULL, NULL, 'lic-2020-0003', '+5492235550103'),
+(0, 'pablo', 'sosa', 1, NULL, NULL, NULL, 'lic-2018-0004', '+5492615550104'),
+(1, 'valentina', 'herrera', 1, 'admin@bus.com', '$2y$10$VDA/YalLwiedfzFiiksx/e0NNiGS.Auug0IOTpgN7ieVnMy8/e7w6', 1, NULL, NULL),
+(1, 'juan', 'pérez', 1, 'juan.perez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
+(1, 'maría', 'gómez', 1, 'maria.gomez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
+(1, 'carlos', 'lópez', 1, 'carlos.lopez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
+(1, 'ana', 'martínez', 1, 'ana.martinez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
+(1, 'lucía', 'fernández', 1, 'lucia.fernandez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
+(1, 'pedro', 'rodríguez', 1, 'pedro.rodriguez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
+(1, 'sofía', 'díaz', 1, 'sofia.diaz@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
+(1, 'diego', 'sánchez', 1, 'diego.sanchez@mail.com', '$2y$10$PLF/XK6p7jmtxvhYq/axN.iNBiRKvxiiqxwrczuxtljREm2wgxwri', 0, NULL, NULL),
+(0, 'nicolás', 'acosta', 1, NULL, NULL, NULL, 'lic-2022-0005', '+5491155550105'),
+(0, 'gustavo', 'molina', 1, NULL, NULL, NULL, 'lic-2017-0006', '+5492235550106'),
+(0, 'ricardo', 'vega', 1, NULL, NULL, NULL, 'lic-2023-0007', '+5493415550107'),
+(0, 'ariel', 'bustos', 1, NULL, NULL, NULL, 'lic-2016-0008', '+5493515550108');
 
 insert into seat (bus_id, seat_type_id, letter, `number`, is_active)
 select
   b.id,
   case
-    when nums.n between 1 and 7 then (select id from seat_type where name = 'Estándar')
-    when nums.n between 8 and 9 then (select id from seat_type where name = 'Semicama')
-    else (select id from seat_type where name = 'Cama')
+    when nums.n between 1 and 7 then (select id from seat_type where name = 'estándar')
+    when nums.n between 8 and 9 then (select id from seat_type where name = 'semicama')
+    else (select id from seat_type where name = 'cama')
   end,
   l.letter,
   nums.n,
