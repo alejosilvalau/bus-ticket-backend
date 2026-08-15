@@ -21,11 +21,11 @@ Password usuarios (no admin): `User123!`
 
 | Nombre | Apellido | Licencia | Teléfono |
 |---|---|---|---|
-| Carlos | Ramírez | LIC-2021-0001 | +54 9 11 5555-0101 |
-| Martín | Gutiérrez | LIC-2019-0002 | +54 9 341 555-0102 |
-| Jorge | Herrera | LIC-2020-0003 | +54 9 223 555-0103 |
-| Pablo | Sosa | LIC-2018-0004 | +54 9 261 555-0104 |
-| Nicolás | Acosta | LIC-2022-0005 | +54 9 11 5555-0105 |
-| Gustavo | Molina | LIC-2017-0006 | +54 9 223 555-0106 |
-| Ricardo | Vega | LIC-2023-0007 | +54 9 341 555-0107 |
-| Ariel | Bustos | LIC-2016-0008 | +54 9 351 555-0108 |
+| Carlos | Ramírez | 30123456 | +5491155550101 |
+| Martín | Gutiérrez | 28456789 | +5493415550102 |
+| Jorge | Herrera | 29654321 | +5492235550103 |
+| Pablo | Sosa | 27123456 | +5492615550104 |
+| Nicolás | Acosta | 31234567 | +5491155550105 |
+| Gustavo | Molina | 26543210 | +5492235550106 |
+| Ricardo | Vega | 32567890 | +5493415550107 |
+| Ariel | Bustos | 25432109 | +5493515550108 |
