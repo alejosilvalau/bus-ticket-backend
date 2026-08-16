@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.frro.bus.ticket.common.config.LicenseNumberDeserializer;
 import com.frro.bus.ticket.common.validations.ValidLicenseNumber;
+import com.frro.bus.ticket.common.validations.ValidName;
 import com.frro.bus.ticket.common.validations.ValidPhoneNumber;
 
 import jakarta.validation.constraints.Min;
@@ -15,9 +16,9 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 public record UpdateDriverDTO(
         @NotNull @Min(1) Integer id,
 
-        Optional<@Size(min = 1, max = 100) String> firstName,
+        Optional<@Size(min = 1, max = 100) @ValidName String> firstName,
 
-        Optional<@Size(min = 1, max = 100) String> lastName,
+        Optional<@Size(min = 1, max = 100) @ValidName String> lastName,
 
         Optional<Boolean> isActive,
 

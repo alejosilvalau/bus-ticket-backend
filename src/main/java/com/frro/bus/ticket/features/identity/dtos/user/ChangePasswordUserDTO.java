@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 public record ChangePasswordUserDTO(
         @NotBlank @Email String email,
 
-        @NotBlank String password,
+        @NotBlank @Size(min = 8, max = 100) @StrongPassword String password,
 
         @NotBlank @Size(min = 8, max = 100) @StrongPassword String newPassword) {
 }
