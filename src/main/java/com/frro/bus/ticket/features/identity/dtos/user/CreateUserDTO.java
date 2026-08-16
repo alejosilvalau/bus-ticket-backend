@@ -1,6 +1,7 @@
 package com.frro.bus.ticket.features.identity.dtos.user;
 
 import com.frro.bus.ticket.common.validations.StrongPassword;
+import com.frro.bus.ticket.common.validations.ValidEmailProvider;
 import com.frro.bus.ticket.common.validations.ValidName;
 
 import jakarta.validation.constraints.Email;
@@ -12,7 +13,7 @@ public record CreateUserDTO(
 
         @NotBlank @Size(min = 1, max = 100) @ValidName String lastName,
 
-        @NotBlank @Email String email,
+        @NotBlank @Email @ValidEmailProvider String email,
 
         @NotBlank @Size(min = 8, max = 100) @StrongPassword String password) {
 }

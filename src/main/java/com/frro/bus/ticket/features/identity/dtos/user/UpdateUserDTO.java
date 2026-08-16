@@ -2,6 +2,7 @@ package com.frro.bus.ticket.features.identity.dtos.user;
 
 import java.util.Optional;
 
+import com.frro.bus.ticket.common.validations.ValidEmailProvider;
 import com.frro.bus.ticket.common.validations.ValidName;
 
 import jakarta.validation.constraints.Email;
@@ -16,5 +17,5 @@ public record UpdateUserDTO(
 
         Optional<@Size(min = 1, max = 100) @ValidName String> lastName,
 
-        Optional<@Email String> email) {
+        Optional<@Email @ValidEmailProvider String> email) {
 }
