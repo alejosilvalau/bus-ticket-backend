@@ -7,15 +7,15 @@ Password usuarios (no admin): `User123!`
 
 | Nombre | Apellido | Email | Password | Rol | Tickets |
 |---|---|---|---|---|---|
-| Valentina | Herrera | admin@bus.com | `Admin123!` | admin | 3 |
-| Juan | Pérez | juan.perez@mail.com | `User123!` | usuario | 6 |
-| María | Gómez | maria.gomez@mail.com | `User123!` | usuario | 4 |
-| Carlos | López | carlos.lopez@mail.com | `User123!` | usuario | 4 |
-| Ana | Martínez | ana.martinez@mail.com | `User123!` | usuario | 4 |
-| Lucía | Fernández | lucia.fernandez@mail.com | `User123!` | usuario | 4 |
-| Pedro | Rodríguez | pedro.rodriguez@mail.com | `User123!` | usuario | 3 |
-| Sofía | Díaz | sofia.diaz@mail.com | `User123!` | usuario | 3 |
-| Diego | Sánchez | diego.sanchez@mail.com | `User123!` | usuario | 3 |
+| Valentina | Herrera | admin@gmail.com | `Admin123!` | admin | 3 |
+| Juan | Pérez | juan.perez@gmail.com | `User123!` | usuario | 6 |
+| María | Gómez | maria.gomez@outlook.com | `User123!` | usuario | 4 |
+| Carlos | López | carlos.lopez@hotmail.com | `User123!` | usuario | 4 |
+| Ana | Martínez | ana.martinez@gmail.com | `User123!` | usuario | 4 |
+| Lucía | Fernández | lucia.fernandez@yahoo.com.ar | `User123!` | usuario | 4 |
+| Pedro | Rodríguez | pedro.rodriguez@hotmail.com | `User123!` | usuario | 3 |
+| Sofía | Díaz | sofia.diaz@icloud.com | `User123!` | usuario | 3 |
+| Diego | Sánchez | diego.sanchez@uol.com.ar | `User123!` | usuario | 3 |
 
 ## Conductores
 
